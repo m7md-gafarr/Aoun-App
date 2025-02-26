@@ -1,5 +1,6 @@
 import 'package:aoun_app/data/model/auth_model/auth_model.dart';
-import 'package:aoun_app/data/repositories/remote/Api.dart';
+import 'package:aoun_app/data/repositories/remote/api_helper.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AuthenticationRepository {
@@ -17,24 +18,31 @@ class AuthenticationRepository {
           "Content-Type": "application/json",
         },
       );
-
       return response;
-      // if (response.containsKey('success') && response['success'] == false) {
-      //   return {
-      //     'success': false,
-      //     'message': response['error'],
-      //   };
-      // }
-
-      // return {
-      //   'success': true,
-      //   'message': "Registration completed successfully.",
-      //   'data': response,
-      // };
-    } catch (e) {
+    } on DioException catch (e) {
       return {
         'success': false,
-        'message': "Unexpected error: $e",
+        'error': ["Unexpected error: ${e.message}"],
+      };
+    }
+  }
+
+  Future<Map<String, dynamic>> loginFun({
+    required AuthModel user,
+  }) async {
+    try {
+      Map<String, dynamic> response = await ApiHelper().post(
+        url: '$_apiUrl/Login',
+        body: user.toJson(),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      );
+      return response;
+    } on DioException catch (e) {
+      return {
+        'success': false,
+        'error': ["Unexpected error: ${e.message}"],
       };
     }
   }

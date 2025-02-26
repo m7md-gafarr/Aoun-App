@@ -1,4 +1,5 @@
 import 'package:aoun_app/core/router/app_route.dart';
+import 'package:aoun_app/data/repositories/local/shared_pref.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
@@ -12,15 +13,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
   await ScreenUtil.ensureScreenSize();
-  // runApp(
-  //   DevicePreview(
-  //     enabled: !kReleaseMode,
-  //     builder: (context) => AounApp(
-  //       appRouter: AppRouter(),
-  //     ),
-  //   ),
-  // );
-
+  SharedPreferencesService().init();
   runApp(
     AounApp(
       appRouter: AppRouter(),
@@ -35,8 +28,6 @@ class AounApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       builder: (_, child) => MaterialApp(
-        locale: DevicePreview.locale(context),
-        builder: DevicePreview.appBuilder,
         localizationsDelegates: const [
           S.delegate,
           GlobalMaterialLocalizations.delegate,

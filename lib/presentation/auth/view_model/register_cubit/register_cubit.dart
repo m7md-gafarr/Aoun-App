@@ -19,11 +19,11 @@ class RegisterCubit extends Cubit<RegisterState> {
       if (response['success'] == true) {
         emit(RegisterSuccess(response['message']));
       } else {
-        emit(RegisterFailure(response['error']));
+        emit(RegisterFailure(response['error'][0]));
       }
     } on DioException catch (e) {
       if (e.response?.statusCode == 500) {
-        emit(RegisterFailure("Unexpected error: $e"));
+        emit(RegisterFailure("Unexpected error: ${e.message}"));
       }
     }
   }

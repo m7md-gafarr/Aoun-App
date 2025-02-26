@@ -1,6 +1,7 @@
 import 'package:aoun_app/core/app_color/app_color_light.dart';
 import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/data/model/introducation_model.dart';
+import 'package:aoun_app/data/repositories/local/shared_pref.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -172,9 +173,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                       );
 
                       // Save introduction completion status in SharedPreferences
-                      SharedPreferences pref =
-                          await SharedPreferences.getInstance();
-                      pref.setBool("introductionPref", true);
+                      SharedPreferencesService().saveIntroductionStatus(true);
                     } else {
                       // Move to the next page in both text and image carousels
                       _controllerText.nextPage(

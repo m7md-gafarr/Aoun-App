@@ -1,9 +1,8 @@
 import 'package:aoun_app/core/app_images/app_images.dart';
-import 'package:aoun_app/core/constant/constant.dart';
 import 'package:aoun_app/core/router/route_name.dart';
+import 'package:aoun_app/data/repositories/local/shared_pref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -23,8 +22,7 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Future<void> _loadIntroductionPref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    _seen = prefs.getBool(introductionPref) ?? false;
+    _seen = await SharedPreferencesService().getIntroductionStatus();
 
     Future.delayed(const Duration(milliseconds: 500), () {
       if (mounted) {
