@@ -1,5 +1,4 @@
 import 'package:aoun_app/core/router/route_name.dart';
-import 'package:aoun_app/core/utils/check_connection.dart';
 import 'package:aoun_app/presentation/auth/views/confirm_password_screen.dart';
 import 'package:aoun_app/presentation/auth/views/register_screen.dart';
 import 'package:aoun_app/presentation/auth/views/reset_password_screen.dart';
@@ -117,9 +116,9 @@ class AppRouter {
             builder: (context) => const ConfirmPasswordScreen());
 
       // check Connection
-      case AppRoutesName.checkConnectionScreenRoute:
-        return MaterialPageRoute(
-            builder: (context) => const CheckConnectionScreen());
+      // case AppRoutesName.checkConnectionScreenRoute:
+      //   return MaterialPageRoute(
+      //       builder: (context) => const CheckConnectionScreen());
 
       default:
         return MaterialPageRoute(

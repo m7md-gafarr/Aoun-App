@@ -4,7 +4,6 @@ import 'package:aoun_app/generated/l10n.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:iconsax/iconsax.dart';
 
 class RegisterScreen extends StatefulWidget {

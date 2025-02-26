@@ -1,9 +1,8 @@
-import 'package:aoun_app/core/Theme/app_theme_dark.dart';
 import 'package:aoun_app/core/router/app_route.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:device_preview/device_preview.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'core/Theme/app_theme_light.dart';
@@ -11,6 +10,7 @@ import 'core/router/route_name.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   await ScreenUtil.ensureScreenSize();
   // runApp(
   //   DevicePreview(

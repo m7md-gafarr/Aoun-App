@@ -1,22 +1,25 @@
 // ignore_for_file: prefer_single_quotes
 class Assets {
   Assets._();
-  
+
   /// Assets for imageFlags
   /// assets/image/Flags.png
   static const String imageFlags = "assets/image/Flags.png";
 
   /// Assets for imageIntroductionIntro1
   /// assets/image/introduction/intro_1.svg
-  static const String imageIntroductionIntro1 = "assets/image/introduction/intro_1.svg";
+  static const String imageIntroductionIntro1 =
+      "assets/image/introduction/intro_1.svg";
 
   /// Assets for imageIntroductionIntro2
   /// assets/image/introduction/intro_2.svg
-  static const String imageIntroductionIntro2 = "assets/image/introduction/intro_2.svg";
+  static const String imageIntroductionIntro2 =
+      "assets/image/introduction/intro_2.svg";
 
   /// Assets for imageIntroductionIntro3
   /// assets/image/introduction/intro_3.svg
-  static const String imageIntroductionIntro3 = "assets/image/introduction/intro_3.svg";
+  static const String imageIntroductionIntro3 =
+      "assets/image/introduction/intro_3.svg";
 
   /// Assets for imageLine
   /// assets/image/line.svg
@@ -32,14 +35,16 @@ class Assets {
 
   /// Assets for imageServiceService1
   /// assets/image/service/service_1.svg
-  static const String imageServiceService1 = "assets/image/service/service_1.svg";
+  static const String imageServiceService1 =
+      "assets/image/service/service_1.svg";
 
   /// Assets for imageServiceService2
   /// assets/image/service/service_2.svg
-  static const String imageServiceService2 = "assets/image/service/service_2.svg";
+  static const String imageServiceService2 =
+      "assets/image/service/service_2.svg";
 
   /// Assets for imageServiceService3
   /// assets/image/service/service_3.svg
-  static const String imageServiceService3 = "assets/image/service/service_3.svg";
+  static const String imageServiceService3 =
+      "assets/image/service/service_3.svg";
 }
-
