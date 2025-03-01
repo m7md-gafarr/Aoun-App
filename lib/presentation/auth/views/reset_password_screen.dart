@@ -1,7 +1,11 @@
 import 'package:aoun_app/core/constant/constant.dart';
 import 'package:aoun_app/core/router/route_name.dart';
+import 'package:aoun_app/data/model/auth_model/auth_model.dart';
 import 'package:aoun_app/generated/l10n.dart';
+import 'package:aoun_app/presentation/auth/view_model/login_cubit/login_cubit.dart';
+import 'package:aoun_app/presentation/auth/view_model/sendOTPForPasswordReset_cubit/send_otp_for_password_reset_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -13,13 +17,13 @@ class ResetPasswordScreen extends StatefulWidget {
 }
 
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
-  late final TextEditingController pinController;
   late final FocusNode focusNode;
   final formKey = GlobalKey<FormState>();
+  late TextEditingController _emailController;
 
   @override
   void initState() {
-    pinController = TextEditingController();
+    _emailController = TextEditingController();
     focusNode = FocusNode();
     focusNode.requestFocus();
     super.initState();
@@ -28,7 +32,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   @override
   void dispose() {
     focusNode.dispose();
-    pinController.dispose();
+    _emailController.dispose();
     super.dispose();
   }
 
@@ -77,23 +81,81 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     style: Theme.of(context).textTheme.labelMedium,
                   ),
                   SizedBox(height: 50.h),
-
                   TextFormField(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter an email';
+                      } else if (!RegExp(
+                              r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+                          .hasMatch(value)) {
+                        return 'Please enter a valid email';
+                      }
+                      return null;
+                    },
                     cursorColor: Theme.of(context).primaryColor,
                     decoration: InputDecoration(
                       prefixIcon: const Icon(Iconsax.send_1),
                       hintText: S.of(context).email,
                     ),
                     focusNode: focusNode,
-                    controller: pinController,
                   ),
                   SizedBox(height: 40.h),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(
-                          context, AppRoutesName.oTPScreenRoute);
+                      if (formKey.currentState!.validate()) {
+                        formKey.currentState!.save();
+                        context.read<SendOtpForPasswordResetCubit>().sendOtp(
+                              AuthModel(
+                                email: _emailController.text,
+                              ),
+                            );
+                      }
                     },
-                    child: Text(S.of(context).intro_next_button),
+                    child: BlocConsumer<SendOtpForPasswordResetCubit,
+                        SendOtpForPasswordResetState>(
+                      listener: (context, state) {
+                        if (state is SendOtpForPasswordResetFailure) {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text(
+                                "Warning",
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                              content: Text(state.errorMessage),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text("Cancel"),
+                                ),
+                              ],
+                            ),
+                          );
+                        } else if (state is SendOtpForPasswordResetSuccess) {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutesName.oTPScreenRoute,
+                            arguments: {'email': _emailController.text},
+                          );
+                        }
+                      },
+                      builder: (context, state) {
+                        if (state is SendOtpForPasswordResetLoading) {
+                          return SizedBox(
+                            height: 30,
+                            width: 30,
+                            child: CircularProgressIndicator(
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                            ),
+                          );
+                        } else {
+                          return Text(S.of(context).intro_next_button);
+                        }
+                      },
+                    ),
                   )
                 ],
               ),

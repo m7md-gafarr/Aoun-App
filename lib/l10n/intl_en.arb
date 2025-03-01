@@ -54,7 +54,7 @@
 
   
   "verification_title": "Verification Code",
-  "verification_instruction": "You need to enter 4-digit code we send to your Email",
+  "verification_instruction": "You need to enter 6-digit code we send to your Email",
   "did_not_receive_code": "Didn't receive the code?",
   "resend_code": "Resend Code",
   "verify": "Verify",

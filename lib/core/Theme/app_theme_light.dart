@@ -41,7 +41,7 @@ ThemeData getThemeColorLight(BuildContext context) => ThemeData(
             TextStyle(
               letterSpacing: .7,
               fontFamily: isRTL(context) ? fontArabic : fontEnglish,
-              fontSize: 18 * ScaleSize.textScaleFactor(context),
+              fontSize: 18.sp,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -53,12 +53,44 @@ ThemeData getThemeColorLight(BuildContext context) => ThemeData(
         ),
       ),
 
+      //outlinedButton
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: ButtonStyle(
+          fixedSize: const WidgetStatePropertyAll(Size(double.maxFinite, 47)),
+          shape: const WidgetStatePropertyAll(
+            ContinuousRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(27)),
+            ),
+          ),
+          textStyle: WidgetStatePropertyAll(
+            TextStyle(
+              letterSpacing: .7,
+              fontFamily: isRTL(context) ? fontArabic : fontEnglish,
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          elevation: const WidgetStatePropertyAll(0),
+          side: WidgetStatePropertyAll(
+            BorderSide(color: AppColorLight.primaryColor, width: 1.2),
+          ),
+          foregroundColor: WidgetStateProperty.all(AppColorLight.primaryColor),
+          backgroundColor: WidgetStateProperty.all(Colors.transparent),
+        ),
+      ),
+
       //Icon
       iconTheme: IconThemeData(
         color: AppColorLight.iconPrimaryColor,
         size: 27,
       ),
 
+      //Radio
+      radioTheme: RadioThemeData(
+        fillColor: WidgetStatePropertyAll(
+          AppColorLight.primaryColor,
+        ),
+      ),
       // Text,
       textTheme: TextTheme(
         // Headline - Large Titles (Used for Page Titles or Important Headlines)
@@ -108,7 +140,14 @@ ThemeData getThemeColorLight(BuildContext context) => ThemeData(
           borderSide: BorderSide.none,
         ),
         errorBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AppColorLight.errorColor),
+          borderSide: BorderSide(
+            color: AppColorLight.errorColor.withOpacity(.5),
+          ),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: AppColorLight.errorColor,
+          ),
         ),
         prefixIconColor: AppColorLight.primaryColor,
         labelStyle: TextStyle(
@@ -119,6 +158,10 @@ ThemeData getThemeColorLight(BuildContext context) => ThemeData(
           color: AppColorLight.textTertiary,
           fontSize: 17.sp,
           fontWeight: FontWeight.normal,
+          fontFamily: isRTL(context) ? fontArabic : fontEnglish,
+        ),
+        errorStyle: TextStyle(
+          color: AppColorLight.errorColor,
           fontFamily: isRTL(context) ? fontArabic : fontEnglish,
         ),
       ),

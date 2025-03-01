@@ -17,6 +17,7 @@ class CompletDataUseEmailWidget extends StatefulWidget {
 class _CompletDataUseEmailWidgetState extends State<CompletDataUseEmailWidget> {
   TextEditingController? _controllerName;
   TextEditingController? _controllerEmail;
+  TextEditingController? _Phone;
   AutovalidateMode? autovalidateMode = AutovalidateMode.disabled;
   GlobalKey<FormState> formKey = GlobalKey();
 
@@ -112,6 +113,7 @@ class _CompletDataUseEmailWidgetState extends State<CompletDataUseEmailWidget> {
               ),
               SizedBox(height: 15.w),
               PhoneTextfieldWidget(
+                controller: _Phone,
                 autovalidateMode: autovalidateMode!,
               ),
               SizedBox(height: 30.w),

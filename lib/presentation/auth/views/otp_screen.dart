@@ -1,8 +1,14 @@
+import 'dart:async';
+
 import 'package:aoun_app/core/app_color/app_color_light.dart';
 import 'package:aoun_app/core/constant/constant.dart';
 import 'package:aoun_app/core/router/route_name.dart';
+import 'package:aoun_app/data/model/auth_model/auth_model.dart';
+import 'package:aoun_app/presentation/auth/view_model/sendOTPForPasswordReset_cubit/send_otp_for_password_reset_cubit.dart';
+import 'package:aoun_app/presentation/auth/view_model/verifyOTP_cubit/verify_otp_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:pinput/pinput.dart';
@@ -16,6 +22,9 @@ class OTPScreen extends StatefulWidget {
 }
 
 class _OTPScreenState extends State<OTPScreen> {
+  int _secondsRemaining = 60;
+  Timer? _timer;
+  bool _isButtonDisabled = true;
   late final TextEditingController pinController;
   late final FocusNode focusNode;
   final formKey = GlobalKey<FormState>();
@@ -23,9 +32,9 @@ class _OTPScreenState extends State<OTPScreen> {
   @override
   void initState() {
     pinController = TextEditingController();
-
     focusNode = FocusNode();
     focusNode.requestFocus();
+    _startTimer();
     super.initState();
   }
 
@@ -33,22 +42,44 @@ class _OTPScreenState extends State<OTPScreen> {
   void dispose() {
     focusNode.dispose();
     pinController.dispose();
+    _timer?.cancel();
     super.dispose();
+  }
+
+  void _startTimer() {
+    _isButtonDisabled = true;
+    _secondsRemaining = 60;
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (_secondsRemaining > 0) {
+        setState(() {
+          _secondsRemaining--;
+        });
+      } else {
+        setState(() {
+          _isButtonDisabled = false;
+        });
+        _timer?.cancel();
+      }
+    });
+  }
+
+  String get formattedTime {
+    int minutes = _secondsRemaining ~/ 60;
+    int seconds = _secondsRemaining % 60;
+    return "$minutes:${seconds.toString().padLeft(2, '0')}"; // عرض الوقت بشكل 0:30
   }
 
   @override
   Widget build(BuildContext context) {
-    final bool isDarkMode = Theme.of(context).brightness == Brightness.light;
-
     PinTheme defaultPinTheme = PinTheme(
-      width: 55,
-      height: 55,
+      width: 55.w,
+      height: 55.h,
       textStyle: Theme.of(context).textTheme.titleLarge,
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
             color: Theme.of(context).primaryColor,
-            width: 2,
+            width: 2.w,
           ),
         ),
       ),
@@ -74,9 +105,10 @@ class _OTPScreenState extends State<OTPScreen> {
         ),
       ),
     );
-    // final args = ModalRoute.of(context)!.settings.arguments as Map;
-    // final dialCode = args['dialCode'] ?? "Unknown Dial Code";
-    // final phoneNumber = args['phoneNumber'] ?? "Unknown Phone Number";
+
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final email = args?['email'] ?? "Unknown Email";
 
     return Scaffold(
       appBar: AppBar(
@@ -106,91 +138,110 @@ class _OTPScreenState extends State<OTPScreen> {
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(height: 70.h),
-                  Text(
-                    S.of(context).verification_title,
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    S.of(context).verification_instruction,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 20),
-                  Directionality(
-                    textDirection: TextDirection.ltr,
-                    child: Text(
-                      // "$dialCode $phoneNumber",
-                      "Email@gmail.com",
-                      style: Theme.of(context).textTheme.titleSmall,
+              padding: const EdgeInsets.all(13.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 70.h),
+                    Text(
+                      S.of(context).verification_title,
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  Pinput(
-                    focusNode: focusNode,
-                    controller: pinController,
-                    length: 4,
-                    closeKeyboardWhenCompleted: true,
-                    defaultPinTheme: defaultPinTheme,
-                    focusedPinTheme: focusedPinTheme,
-                    submittedPinTheme: submittedPinTheme,
-                    showCursor: true,
-                    cursor: Container(
-                      width: 2,
-                      height: 20,
-                      color: Theme.of(context).secondaryHeaderColor,
+                    SizedBox(height: 20.h),
+                    Text(
+                      S.of(context).verification_instruction,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      textAlign: TextAlign.center,
                     ),
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
-                    onCompleted: (pin) async {
-                      Navigator.pushNamed(
-                        context,
-                        AppRoutesName.ConfirmPasswordScreenRoute,
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 60),
-                  Text(
-                    S.of(context).did_not_receive_code,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  Theme(
-                    data: Theme.of(context).copyWith(
-                      textButtonTheme: TextButtonThemeData(
-                        style: ButtonStyle(
-                          foregroundColor: WidgetStatePropertyAll(
-                            isDarkMode
-                                ? AppColorLight.primaryColor
-                                : AppColorLight.primaryColor,
-                          ),
-                          textStyle: WidgetStatePropertyAll(
-                            TextStyle(
-                              fontSize: 18,
-                              decoration: TextDecoration.underline,
-                              decorationColor: isDarkMode
-                                  ? AppColorLight.primaryColor
-                                  : AppColorLight.primaryColor,
-                              decorationThickness: 1,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    child: TextButton(
-                      onPressed: () {},
+                    SizedBox(height: 20.h),
+                    Directionality(
+                      textDirection: TextDirection.ltr,
                       child: Text(
-                        S.of(context).resend_code,
+                        email.toString(),
+                        style: Theme.of(context).textTheme.titleSmall,
                       ),
                     ),
-                  ),
-                  const Spacer(flex: 1),
-                ],
+                    SizedBox(height: 20.h),
+                    BlocListener<VerifyOtpCubit, VerifyOtpState>(
+                      listener: (context, state) {
+                        if (state is VerifyOtpFailure) {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text(
+                                "Warning",
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                              content: Text(state.errorMessage),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text("Cancel"),
+                                ),
+                              ],
+                            ),
+                          );
+                        } else if (state is VerifyOtpSuccess) {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutesName.ConfirmPasswordScreenRoute,
+                            arguments: {'email': email},
+                          );
+                        }
+                      },
+                      child: Pinput(
+                        focusNode: focusNode,
+                        controller: pinController,
+                        length: 6,
+                        closeKeyboardWhenCompleted: true,
+                        defaultPinTheme: defaultPinTheme,
+                        focusedPinTheme: focusedPinTheme,
+                        submittedPinTheme: submittedPinTheme,
+                        showCursor: true,
+                        cursor: Container(
+                          width: 2.w,
+                          height: 20.h,
+                          color: Theme.of(context).secondaryHeaderColor,
+                        ),
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                        onCompleted: (pin) async {
+                          context.read<VerifyOtpCubit>().verfiyOtp(
+                                AuthModel(
+                                  email: email,
+                                ),
+                                pinController.text,
+                              );
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 60.h),
+                    Text(
+                      S.of(context).did_not_receive_code,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    TextButton(
+                      onPressed: _isButtonDisabled
+                          ? null
+                          : () {
+                              _startTimer();
+                              context
+                                  .read<SendOtpForPasswordResetCubit>()
+                                  .sendOtp(AuthModel(email: email));
+                            },
+                      child: Text(
+                        "${S.of(context).resend_code} ( $formattedTime )",
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              color: _isButtonDisabled
+                                  ? Theme.of(context).colorScheme.outline
+                                  : Theme.of(context).primaryColor,
+                            ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

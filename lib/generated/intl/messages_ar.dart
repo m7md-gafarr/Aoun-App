@@ -122,7 +122,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "validation_success":
             MessageLookupByLibrary.simpleMessage("التحقق ناجح."),
         "verification_instruction": MessageLookupByLibrary.simpleMessage(
-            "يجب عليك إدخال الرمز المكون من 4 أرقام الذي أرسلناه إلى بريدك الإلكتروني."),
+            "يجب عليك إدخال الرمز المكون من 6 أرقام الذي أرسلناه إلى بريدك الإلكتروني."),
         "verification_title":
             MessageLookupByLibrary.simpleMessage("رمز التحقق"),
         "verify": MessageLookupByLibrary.simpleMessage("تحقق"),

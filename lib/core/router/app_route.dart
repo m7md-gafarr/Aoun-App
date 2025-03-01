@@ -96,6 +96,7 @@ class AppRouter {
       // OTP
       case AppRoutesName.oTPScreenRoute:
         return PageRouteBuilder(
+          settings: settings,
           pageBuilder: (context, animation, secondaryAnimation) =>
               const OTPScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -112,8 +113,21 @@ class AppRouter {
 
       //Confirm Password Screen
       case AppRoutesName.ConfirmPasswordScreenRoute:
-        return MaterialPageRoute(
-            builder: (context) => const ConfirmPasswordScreen());
+        return PageRouteBuilder(
+          settings: settings,
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              const ConfirmPasswordScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            // Using SharedAxisPageRoute transition for OTP screen
+            return SharedAxisTransition(
+              animation: animation,
+              secondaryAnimation: secondaryAnimation,
+              transitionType: SharedAxisTransitionType.horizontal,
+              fillColor: Theme.of(context).scaffoldBackgroundColor,
+              child: child,
+            );
+          },
+        );
 
       // check Connection
       // case AppRoutesName.checkConnectionScreenRoute:

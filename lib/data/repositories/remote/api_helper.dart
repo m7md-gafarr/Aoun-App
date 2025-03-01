@@ -23,6 +23,23 @@ class ApiHelper {
     required Map<String, dynamic> body,
     required Map<String, String> headers,
   }) async {
+    dio.interceptors.add(InterceptorsWrapper(
+      onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
+        print("Request: ${options.method} ${options.path}");
+        print("Headers: ${options.headers}");
+        print("Body: ${options.data}");
+        return handler.next(options);
+      },
+      onResponse: (Response response, ResponseInterceptorHandler handler) {
+        print("Response: ${response.statusCode} ${response.statusMessage}");
+        print("Data: ${response.data}");
+        return handler.next(response);
+      },
+      onError: (DioException e, ErrorInterceptorHandler handler) {
+        print("Error: ${e.message}");
+        return handler.next(e);
+      },
+    ));
     try {
       Response response = await dio.post(
         url,
@@ -30,15 +47,20 @@ class ApiHelper {
         options: Options(headers: headers),
       );
 
-      if (response.statusCode == 200) {
-        return response.data as Map<String, dynamic>;
-      } else {
-        return response.data as Map<String, dynamic>;
-      }
+      return response.data as Map<String, dynamic>;
     } on DioException catch (e) {
+      if (e.response!.statusCode == 400 || e.response!.statusCode == 401) {
+        return e.response!.data as Map<String, dynamic>;
+      } else {
+        return {
+          'successed': false,
+          'errors': ["Network error: ${e.response?.data}"],
+        };
+      }
+    } catch (e) {
       return {
-        'success': false,
-        'error': ["Unexpected error: ${e.message}"],
+        'successed': false,
+        'errors': ["Unexpected error post: $e"],
       };
     }
   }
@@ -62,8 +84,8 @@ class ApiHelper {
       }
     } on DioException catch (e) {
       return {
-        'success': false,
-        'error': ["Unexpected error: ${e.message}"],
+        'successed': false,
+        'errors': ["Unexpected error: ${e.message}"],
       };
     }
   }

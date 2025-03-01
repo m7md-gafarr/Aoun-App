@@ -51,7 +51,7 @@
   "validation_invalid_number": "رقم غير صالح لهذه الدولة.",
   "ok_AlertDialogt": "حسنا",
   "verification_title": "رمز التحقق",
-  "verification_instruction": "يجب عليك إدخال الرمز المكون من 4 أرقام الذي أرسلناه إلى بريدك الإلكتروني.",
+  "verification_instruction": "يجب عليك إدخال الرمز المكون من 6 أرقام الذي أرسلناه إلى بريدك الإلكتروني.",
   "did_not_receive_code": "لم تستلم الكود؟",
   "resend_code": "إعادة إرسال الكود",
   "verify": "تحقق",

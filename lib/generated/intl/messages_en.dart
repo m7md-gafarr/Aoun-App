@@ -121,7 +121,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "validation_success":
             MessageLookupByLibrary.simpleMessage("Validation successful."),
         "verification_instruction": MessageLookupByLibrary.simpleMessage(
-            "You need to enter 4-digit code we send to your Email"),
+            "You need to enter 6-digit code we send to your Email"),
         "verification_title":
             MessageLookupByLibrary.simpleMessage("Verification Code"),
         "verify": MessageLookupByLibrary.simpleMessage("Verify"),

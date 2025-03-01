@@ -5,7 +5,15 @@ class SharedPreferencesService {
   static const String INTRODUCTION_COMPLETED = "introduction_completed";
   static const String IS_LOGGED_IN = "is_logged_in";
 
+  static final SharedPreferencesService _instance =
+      SharedPreferencesService._internal();
   late SharedPreferences _prefs;
+
+  factory SharedPreferencesService() {
+    return _instance;
+  }
+
+  SharedPreferencesService._internal();
 
   Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();

@@ -1,4 +1,4 @@
-import 'package:aoun_app/core/utils/validator.dart';
+import 'package:aoun_app/core/utils/validation_utils.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:flag/flag_widget.dart';
 import 'package:flutter/material.dart';
@@ -9,9 +9,10 @@ import 'package:iconsax/iconsax.dart';
 import '../../data/model/country_model.dart';
 
 class PhoneTextfieldWidget extends StatefulWidget {
-  const PhoneTextfieldWidget({super.key, required this.autovalidateMode});
+  const PhoneTextfieldWidget(
+      {super.key, required this.autovalidateMode, required this.controller});
   final AutovalidateMode autovalidateMode;
-
+  final TextEditingController? controller;
   @override
   State<PhoneTextfieldWidget> createState() => _PhoneTextfieldWidgetState();
 }
@@ -76,6 +77,7 @@ class _PhoneTextfieldWidgetState extends State<PhoneTextfieldWidget> {
             ),
             Expanded(
               child: TextFormField(
+                controller: widget.controller,
                 style: TextStyle(
                   fontSize: 20.sp,
                   height: 1,
@@ -94,6 +96,7 @@ class _PhoneTextfieldWidgetState extends State<PhoneTextfieldWidget> {
                   FilteringTextInputFormatter.digitsOnly,
                 ],
                 decoration: InputDecoration(
+                  errorMaxLines: 2,
                   prefixIcon: Padding(
                     padding: const EdgeInsets.all(11.0),
                     child: Text(

@@ -16,6 +16,7 @@ class CompletUserDataScreen extends StatefulWidget {
 class _CompletUserDataScreenState extends State<CompletUserDataScreen> {
   TextEditingController? _controllerName;
   TextEditingController? _controllerEmail;
+  TextEditingController? _phone;
   AutovalidateMode? autovalidateMode = AutovalidateMode.disabled;
   GlobalKey<FormState> formKey = GlobalKey();
 
@@ -99,10 +100,11 @@ class _CompletUserDataScreenState extends State<CompletUserDataScreen> {
                 SizedBox(height: 30.h),
                 TextField(
                   controller: _controllerEmail,
-                  enabled: false,
+                  readOnly: true,
                 ),
                 SizedBox(height: 15.h),
                 PhoneTextfieldWidget(
+                  controller: _phone,
                   autovalidateMode: autovalidateMode!,
                 ),
                 SizedBox(height: 30.h),

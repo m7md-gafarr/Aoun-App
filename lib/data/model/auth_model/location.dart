@@ -1,16 +1,16 @@
-class Location {
+class LocationModel {
   String? city;
   String? country;
-  int? latitude;
-  int? longitude;
+  double? latitude;
+  double? longitude;
 
-  Location({this.city, this.country, this.latitude, this.longitude});
+  LocationModel({this.city, this.country, this.latitude, this.longitude});
 
-  factory Location.fromJson(Map<String, dynamic> json) => Location(
+  factory LocationModel.fromJson(Map<String, dynamic> json) => LocationModel(
         city: json['city'] as String?,
         country: json['country'] as String?,
-        latitude: json['latitude'] as int?,
-        longitude: json['longitude'] as int?,
+        latitude: json['latitude'] as double?,
+        longitude: json['longitude'] as double?,
       );
 
   Map<String, dynamic> toJson() => {

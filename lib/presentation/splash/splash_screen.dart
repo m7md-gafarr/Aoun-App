@@ -13,8 +13,6 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
-  bool? _seen;
-
   @override
   void initState() {
     super.initState();
@@ -22,14 +20,19 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Future<void> _loadIntroductionPref() async {
-    _seen = await SharedPreferencesService().getIntroductionStatus();
+    bool? seen = await SharedPreferencesService().getIntroductionStatus();
+    bool? loggedIn = await SharedPreferencesService().isUserLoggedIn();
+
+    if (!mounted) return;
 
     Future.delayed(const Duration(milliseconds: 500), () {
       if (mounted) {
         Navigator.pushNamedAndRemoveUntil(
           context,
-          _seen!
-              ? AppRoutesName.loginScreenRoute
+          seen
+              ? (loggedIn
+                  ? AppRoutesName.homeScreenRoute
+                  : AppRoutesName.loginScreenRoute)
               : AppRoutesName.introductionScreenRoute,
           (Route<dynamic> route) => false,
         );

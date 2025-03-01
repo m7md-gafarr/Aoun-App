@@ -2,7 +2,7 @@ import 'location.dart';
 import 'vehicleinfo.dart';
 
 class AuthModel {
-  String? userName;
+  String? fullName;
   String? email;
   String? password;
   String? confirmedPassword;
@@ -15,11 +15,11 @@ class AuthModel {
   String? phoneNumber;
   DateTime? registrationDate;
   String? drivingLicense;
-  List<Vehicleinfo>? vehicleinfo;
-  List<Location>? locations;
+  List<VehicleinfoModel>? vehicleinfo;
+  List<LocationModel>? locations;
 
   AuthModel({
-    this.userName,
+    this.fullName,
     this.email,
     this.password,
     this.confirmedPassword,
@@ -37,7 +37,7 @@ class AuthModel {
   });
 
   factory AuthModel.fromJson(Map<String, dynamic> json) => AuthModel(
-        userName: json['userName'] as String?,
+        fullName: json['userName'] as String?,
         email: json['email'] as String?,
         password: json['password'] as String?,
         confirmedPassword: json['confirmedPassword'] as String?,
@@ -53,15 +53,15 @@ class AuthModel {
             : DateTime.parse(json['registrationDate'] as String),
         drivingLicense: json['drivingLicense'] as String?,
         vehicleinfo: (json['vehicleinfo'] as List<dynamic>?)
-            ?.map((e) => Vehicleinfo.fromJson(e as Map<String, dynamic>))
+            ?.map((e) => VehicleinfoModel.fromJson(e as Map<String, dynamic>))
             .toList(),
         locations: (json['locations'] as List<dynamic>?)
-            ?.map((e) => Location.fromJson(e as Map<String, dynamic>))
+            ?.map((e) => LocationModel.fromJson(e as Map<String, dynamic>))
             .toList(),
       );
 
   Map<String, dynamic> toJson() => {
-        'userName': userName,
+        'userName': fullName,
         'email': email,
         'password': password,
         'confirmedPassword': confirmedPassword,

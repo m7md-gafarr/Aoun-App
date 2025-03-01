@@ -1,11 +1,12 @@
-class Vehicleinfo {
+class VehicleinfoModel {
   String? vehicleType;
   String? licensePlate;
   int? seatingCapacity;
 
-  Vehicleinfo({this.vehicleType, this.licensePlate, this.seatingCapacity});
+  VehicleinfoModel({this.vehicleType, this.licensePlate, this.seatingCapacity});
 
-  factory Vehicleinfo.fromJson(Map<String, dynamic> json) => Vehicleinfo(
+  factory VehicleinfoModel.fromJson(Map<String, dynamic> json) =>
+      VehicleinfoModel(
         vehicleType: json['vehicleType'] as String?,
         licensePlate: json['licensePlate'] as String?,
         seatingCapacity: json['seatingCapacity'] as int?,

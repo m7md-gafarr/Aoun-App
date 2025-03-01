@@ -560,10 +560,10 @@ class S {
     );
   }
 
-  /// `You need to enter 4-digit code we send to your Email`
+  /// `You need to enter 6-digit code we send to your Email`
   String get verification_instruction {
     return Intl.message(
-      'You need to enter 4-digit code we send to your Email',
+      'You need to enter 6-digit code we send to your Email',
       name: 'verification_instruction',
       desc: '',
       args: [],

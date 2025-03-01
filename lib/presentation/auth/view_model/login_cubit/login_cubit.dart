@@ -1,3 +1,4 @@
+import 'package:aoun_app/core/utils/check_connection/check_connection_cubit.dart';
 import 'package:aoun_app/data/model/auth_model/auth_model.dart';
 import 'package:aoun_app/data/repositories/local/shared_pref.dart';
 import 'package:aoun_app/data/repositories/remote/auth_repository.dart';
@@ -8,25 +9,33 @@ import 'package:meta/meta.dart';
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  LoginCubit() : super(LoginInitial());
+  final CheckConnectionCubit connectionCubit;
 
-  Future<void> registerUser(AuthModel user) async {
+  LoginCubit(this.connectionCubit) : super(LoginInitial());
+
+  Future<void> loginUser(AuthModel user) async {
     emit(LoginLoading());
 
+    if (connectionCubit.state is CheckConnectionNoInternet) {
+      emit(LoginFailure("No internet connection"));
+      return;
+    }
     try {
       Map<String, dynamic> response =
-          await AuthenticationRepository().loginFun(user: user);
+          await AuthenticationRepository().login(user: user);
 
-      if (response['success'] == true) {
-        SharedPreferencesService().saveLoginState(response['token']);
+      if (response['successed'] == true) {
+        await SharedPreferencesService().saveLoginState(response['token']);
         emit(LoginSuccess(response['message']));
       } else {
-        emit(LoginFailure(response['error'][0]));
+        emit(LoginFailure(response['errors'][0]));
       }
     } on DioException catch (e) {
       if (e.response?.statusCode == 500) {
-        emit(LoginFailure("Unexpected error: ${e.message}"));
+        emit(LoginFailure("Network error: ${e.message}"));
       }
+    } catch (e) {
+      emit(LoginFailure("Unexpected error login: $e"));
     }
   }
 }

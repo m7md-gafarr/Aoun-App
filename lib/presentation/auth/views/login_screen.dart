@@ -1,9 +1,15 @@
 import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/core/constant/constant.dart';
 import 'package:aoun_app/core/router/route_name.dart';
+
+import 'package:aoun_app/core/utils/location_utils.dart';
+import 'package:aoun_app/data/model/auth_model/auth_model.dart';
+
 import 'package:aoun_app/generated/l10n.dart';
+import 'package:aoun_app/presentation/auth/view_model/login_cubit/login_cubit.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconsax/iconsax.dart';
@@ -16,15 +22,32 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  // Auto-validation mode for the form
-  AutovalidateMode? autovalidateMode = AutovalidateMode.disabled;
-  // Form key for validation
   GlobalKey<FormState> formKey = GlobalKey();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   bool obscureText = true;
   _obscureText_fun() {
     setState(() {
       obscureText = !obscureText;
     });
+  }
+
+  _checkPermissionsLocation() async {
+    await LocationService.checkPermissions();
+  }
+
+  @override
+  void initState() {
+    _checkPermissionsLocation();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -61,7 +84,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   SizedBox(height: 30.h),
                   // Email or phone number input field
-                  TextField(
+                  TextFormField(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter an email';
+                      } else if (!RegExp(
+                              r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+                          .hasMatch(value)) {
+                        return 'Please enter a valid email';
+                      }
+                      return null;
+                    },
                     cursorColor: Theme.of(context).primaryColor,
                     decoration: InputDecoration(
                       prefixIcon: const Icon(Iconsax.send_1),
@@ -70,10 +106,26 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   SizedBox(height: 15.h),
                   // Password input field
-                  TextField(
+                  TextFormField(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    controller: _passwordController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a password';
+                      } else if (value.length < 6) {
+                        return 'Password must be at least 6 characters long';
+                      }
+                      //else if (!RegExp(
+                      //         r'^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$')
+                      //     .hasMatch(value)) {
+                      //   return 'Password must contain at least one uppercase letter, one number, and one special character';
+                      // }
+                      return null;
+                    },
                     obscureText: obscureText,
                     cursorColor: Theme.of(context).primaryColor,
                     decoration: InputDecoration(
+                      errorMaxLines: 2,
                       prefixIcon: const Icon(Iconsax.password_check),
                       hintText: S.of(context).password,
                       suffixIcon: IconButton(
@@ -109,29 +161,57 @@ class _LoginScreenState extends State<LoginScreen> {
                   // Login button
                   ElevatedButton(
                     onPressed: () {
-                      setState(() {
-                        autovalidateMode = AutovalidateMode.always;
-                      });
                       if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
-
-                        // Navigate to OTP verification screen
-                        Navigator.pushNamed(
-                          context,
-                          AppRoutesName.oTPScreenRoute,
-                        );
-                        setState(() {
-                          autovalidateMode = AutovalidateMode.disabled;
-                        });
-                      } else {
-                        setState(
-                          () {
-                            autovalidateMode = AutovalidateMode.always;
-                          },
-                        );
+                        context.read<LoginCubit>().loginUser(
+                              AuthModel(
+                                email: _emailController.text.trim(),
+                                password: _passwordController.text.trim(),
+                              ),
+                            );
                       }
                     },
-                    child: Text(S.of(context).sign_in),
+                    child: BlocConsumer<LoginCubit, LoginState>(
+                      listener: (context, state) {
+                        if (state is LoginFailure) {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text(
+                                "Warning",
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                              content: Text(state.errorMessage),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text("Cancel"),
+                                ),
+                              ],
+                            ),
+                          );
+                        } else if (state is LoginSuccess) {
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            AppRoutesName.homeScreenRoute,
+                            (route) => false,
+                          );
+                        }
+                      },
+                      builder: (context, state) {
+                        if (state is LoginLoading) {
+                          return SizedBox(
+                            height: 30,
+                            width: 30,
+                            child: CircularProgressIndicator(
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                            ),
+                          );
+                        } else {
+                          return Text(S.of(context).sign_in);
+                        }
+                      },
+                    ),
                   ),
                   SizedBox(height: 30.h),
                   // Divider with "or continue with" text
@@ -163,6 +243,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                 color: Theme.of(context).colorScheme.outline),
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(15))),
+                        child: Center(
+                          child: SvgPicture.asset(
+                            Assets.imageFacebook,
+                            height: 30.h,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
                       ),
                       Container(
                         height: 50.w,

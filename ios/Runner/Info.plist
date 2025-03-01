@@ -47,8 +47,18 @@
 	<true/>
 
 
-	<key>NSLocationWhenInUseUsageDescription</key>
-<string>We need your location to provide better services.</string>
+<key>NSLocationWhenInUseUsageDescription</key>
+<string>We need your location to provide better services</string>
+
+<key>NSLocationAlwaysUsageDescription</key>
+<string>We need your location for background tracking</string>
+
+<key>NSAppTransportSecurity</key>
+<dict>
+    <key>NSAllowsArbitraryLoads</key>
+    <true/>
+</dict>
 
 </dict>
+
 </plist>
