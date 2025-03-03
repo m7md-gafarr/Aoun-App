@@ -1,0 +1,2 @@
+E:/UMSSTHA/Mobile Application/aoun_app/android/app/.cxx/RelWithDebInfo/1a65i05o/arm64-v8a/CMakeFiles/edit_cache.dir
+E:/UMSSTHA/Mobile Application/aoun_app/android/app/.cxx/RelWithDebInfo/1a65i05o/arm64-v8a/CMakeFiles/rebuild_cache.dir

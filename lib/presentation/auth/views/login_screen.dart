@@ -7,6 +7,7 @@ import 'package:aoun_app/data/model/auth_model/auth_model.dart';
 
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/auth/view_model/login_cubit/login_cubit.dart';
+import 'package:aoun_app/presentation/widgets/common/error_dialog.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -46,7 +47,6 @@ class _LoginScreenState extends State<LoginScreen> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
-
     super.dispose();
   }
 
@@ -90,17 +90,19 @@ class _LoginScreenState extends State<LoginScreen> {
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter an email';
+                        return S.of(context).enter_email;
                       } else if (!RegExp(
                               r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
                           .hasMatch(value)) {
-                        return 'Please enter a valid email';
+                        return S.of(context).enter_valid_email;
                       }
                       return null;
                     },
                     cursorColor: Theme.of(context).primaryColor,
                     decoration: InputDecoration(
-                      prefixIcon: const Icon(Iconsax.send_1),
+                      prefixIcon: isRTL(context)
+                          ? Icon(Iconsax.direct_left)
+                          : Icon(Iconsax.direct_right),
                       hintText: S.of(context).email,
                     ),
                   ),
@@ -111,15 +113,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: _passwordController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter a password';
+                        return S.of(context).enter_password;
                       } else if (value.length < 6) {
-                        return 'Password must be at least 6 characters long';
+                        return S.of(context).password_length_validation;
                       }
-                      //else if (!RegExp(
-                      //         r'^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$')
-                      //     .hasMatch(value)) {
-                      //   return 'Password must contain at least one uppercase letter, one number, and one special character';
-                      // }
+
                       return null;
                     },
                     obscureText: obscureText,
@@ -168,28 +166,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                 email: _emailController.text.trim(),
                                 password: _passwordController.text.trim(),
                               ),
+                              context,
                             );
                       }
                     },
                     child: BlocConsumer<LoginCubit, LoginState>(
                       listener: (context, state) {
                         if (state is LoginFailure) {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text(
-                                "Warning",
-                                style: Theme.of(context).textTheme.titleMedium,
-                              ),
-                              content: Text(state.errorMessage),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text("Cancel"),
-                                ),
-                              ],
-                            ),
-                          );
+                          ErrorDialogWidget(message: state.errorMessage)
+                              .show(context);
                         } else if (state is LoginSuccess) {
                           Navigator.pushNamedAndRemoveUntil(
                             context,
@@ -245,9 +230,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 const BorderRadius.all(Radius.circular(15))),
                         child: Center(
                           child: SvgPicture.asset(
-                            Assets.imageFacebook,
+                            Assets.imageGoogle,
                             height: 30.h,
-                            fit: BoxFit.contain,
                           ),
                         ),
                       ),
@@ -259,6 +243,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                 color: Theme.of(context).colorScheme.outline),
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(15))),
+                        child: Center(
+                          child: SvgPicture.asset(
+                            Assets.imageGoogle,
+                            height: 30.h,
+                          ),
+                        ),
                       ),
                     ],
                   ),

@@ -23,23 +23,6 @@ class ApiHelper {
     required Map<String, dynamic> body,
     required Map<String, String> headers,
   }) async {
-    dio.interceptors.add(InterceptorsWrapper(
-      onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
-        print("Request: ${options.method} ${options.path}");
-        print("Headers: ${options.headers}");
-        print("Body: ${options.data}");
-        return handler.next(options);
-      },
-      onResponse: (Response response, ResponseInterceptorHandler handler) {
-        print("Response: ${response.statusCode} ${response.statusMessage}");
-        print("Data: ${response.data}");
-        return handler.next(response);
-      },
-      onError: (DioException e, ErrorInterceptorHandler handler) {
-        print("Error: ${e.message}");
-        return handler.next(e);
-      },
-    ));
     try {
       Response response = await dio.post(
         url,

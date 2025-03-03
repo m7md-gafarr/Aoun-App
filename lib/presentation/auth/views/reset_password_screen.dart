@@ -2,8 +2,8 @@ import 'package:aoun_app/core/constant/constant.dart';
 import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/data/model/auth_model/auth_model.dart';
 import 'package:aoun_app/generated/l10n.dart';
-import 'package:aoun_app/presentation/auth/view_model/login_cubit/login_cubit.dart';
 import 'package:aoun_app/presentation/auth/view_model/sendOTPForPasswordReset_cubit/send_otp_for_password_reset_cubit.dart';
+import 'package:aoun_app/presentation/widgets/common/error_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -87,17 +87,19 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter an email';
+                        return S.of(context).enter_email;
                       } else if (!RegExp(
                               r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
                           .hasMatch(value)) {
-                        return 'Please enter a valid email';
+                        return S.of(context).enter_valid_email;
                       }
                       return null;
                     },
                     cursorColor: Theme.of(context).primaryColor,
                     decoration: InputDecoration(
-                      prefixIcon: const Icon(Iconsax.send_1),
+                      prefixIcon: isRTL(context)
+                          ? Icon(Iconsax.direct_left)
+                          : Icon(Iconsax.direct_right),
                       hintText: S.of(context).email,
                     ),
                     focusNode: focusNode,
@@ -108,32 +110,18 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
                         context.read<SendOtpForPasswordResetCubit>().sendOtp(
-                              AuthModel(
-                                email: _emailController.text,
-                              ),
-                            );
+                            AuthModel(
+                              email: _emailController.text,
+                            ),
+                            context);
                       }
                     },
                     child: BlocConsumer<SendOtpForPasswordResetCubit,
                         SendOtpForPasswordResetState>(
                       listener: (context, state) {
                         if (state is SendOtpForPasswordResetFailure) {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text(
-                                "Warning",
-                                style: Theme.of(context).textTheme.titleMedium,
-                              ),
-                              content: Text(state.errorMessage),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text("Cancel"),
-                                ),
-                              ],
-                            ),
-                          );
+                          ErrorDialogWidget(message: state.errorMessage)
+                              .show(context);
                         } else if (state is SendOtpForPasswordResetSuccess) {
                           Navigator.pushNamed(
                             context,

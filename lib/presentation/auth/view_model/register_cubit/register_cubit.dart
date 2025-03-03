@@ -2,8 +2,10 @@ import 'package:aoun_app/core/utils/check_connection/check_connection_cubit.dart
 import 'package:aoun_app/data/model/auth_model/auth_model.dart' show AuthModel;
 import 'package:aoun_app/data/model/auth_model/location.dart';
 import 'package:aoun_app/data/repositories/remote/auth_repository.dart';
+import 'package:aoun_app/generated/l10n.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 part 'register_state.dart';
@@ -13,20 +15,32 @@ class RegisterCubit extends Cubit<RegisterState> {
 
   RegisterCubit(this.connectionCubit) : super(RegisterInitial());
 
-  Future<void> registerUser(AuthModel user, LocationModel location) async {
+  Future<void> registerUser(
+      AuthModel user, LocationModel location, BuildContext context) async {
     emit(RegisterLoading());
     if (connectionCubit.state is CheckConnectionNoInternet) {
-      emit(RegisterFailure("No internet connection"));
+      emit(RegisterFailure(S.of(context).no_internet_connection));
       return;
     }
+    if (user.phoneNumber == null || user.phoneNumber!.isEmpty) {
+      emit(RegisterFailure(S.of(context).phone_number_required));
+      return;
+    }
+
     try {
       Map<String, dynamic> response = await AuthenticationRepository()
           .register(user: user, location: location);
 
       if (response['successed'] == true) {
-        emit(RegisterSuccess(response['message']));
+        emit(RegisterSuccess(S.of(context).registration_successful));
       } else {
-        emit(RegisterFailure(response['errors'][0]));
+        String error = response['errors'][0];
+
+        if (error == "Email already exists.") {
+          emit(RegisterFailure(S.of(context).email_already_exists));
+        } else {
+          emit(RegisterFailure(response['errors'][0]));
+        }
       }
     } on DioException catch (e) {
       if (e.response?.statusCode == 500) {

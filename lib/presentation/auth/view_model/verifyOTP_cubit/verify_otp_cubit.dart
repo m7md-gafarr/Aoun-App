@@ -1,7 +1,9 @@
 import 'package:aoun_app/core/utils/check_connection/check_connection_cubit.dart';
 import 'package:aoun_app/data/model/auth_model/auth_model.dart';
 import 'package:aoun_app/data/repositories/remote/auth_repository.dart';
+import 'package:aoun_app/generated/l10n.dart';
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 part 'verify_otp_state.dart';
@@ -10,10 +12,11 @@ class VerifyOtpCubit extends Cubit<VerifyOtpState> {
   final CheckConnectionCubit connectionCubit;
   VerifyOtpCubit(this.connectionCubit) : super(VerifyOtpInitial());
 
-  Future<void> verfiyOtp(AuthModel user, String otp) async {
+  Future<void> verfiyOtp(
+      AuthModel user, String otp, BuildContext context) async {
     emit(VerifyOtpLoading());
     if (connectionCubit.state is CheckConnectionNoInternet) {
-      emit(VerifyOtpFailure("No internet connection"));
+      emit(VerifyOtpFailure(S.of(context).no_internet_connection));
       return;
     }
     try {
@@ -26,7 +29,13 @@ class VerifyOtpCubit extends Cubit<VerifyOtpState> {
       if (response["successed"] == true) {
         emit(VerifyOtpSuccess(response["message"]));
       } else {
-        emit(VerifyOtpFailure(response["errors"][0]));
+        String error = response['errors'][0];
+
+        if (error == "Invalid or expired OTP.") {
+          emit(VerifyOtpFailure(S.of(context).invalid_or_expired_otp));
+        } else {
+          emit(VerifyOtpFailure(response['errors'][0]));
+        }
       }
     } catch (e) {
       emit(VerifyOtpFailure("Unexpected error occurred: $e"));

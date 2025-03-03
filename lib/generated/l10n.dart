@@ -679,6 +679,286 @@ class S {
       args: [],
     );
   }
+
+  /// `No internet connection`
+  String get no_internet_connection {
+    return Intl.message(
+      'No internet connection',
+      name: 'no_internet_connection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email not confirmed Please check your inbox.`
+  String get email_not_confirmed {
+    return Intl.message(
+      'Email not confirmed Please check your inbox.',
+      name: 'email_not_confirmed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email not found Please make sure the email is correct.`
+  String get email_not_found {
+    return Intl.message(
+      'Email not found Please make sure the email is correct.',
+      name: 'email_not_found',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wrong Password or Email`
+  String get wrong_password_or_email {
+    return Intl.message(
+      'Wrong Password or Email',
+      name: 'wrong_password_or_email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login successful`
+  String get login_successful {
+    return Intl.message(
+      'Login successful',
+      name: 'login_successful',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invalid or expired OTP.`
+  String get invalid_or_expired_otp {
+    return Intl.message(
+      'Invalid or expired OTP.',
+      name: 'invalid_or_expired_otp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password reset successful You can now log in with your new password.`
+  String get password_reset_successful {
+    return Intl.message(
+      'Password reset successful You can now log in with your new password.',
+      name: 'password_reset_successful',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Passwords do not match.`
+  String get passwords_do_not_match {
+    return Intl.message(
+      'Passwords do not match.',
+      name: 'passwords_do_not_match',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `OTP verification expired Please request a new OTP.`
+  String get otp_verification_expired {
+    return Intl.message(
+      'OTP verification expired Please request a new OTP.',
+      name: 'otp_verification_expired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your account has been created successfully. Please check your email to activate your account before logging in.`
+  String get registration_successful {
+    return Intl.message(
+      'Your account has been created successfully. Please check your email to activate your account before logging in.',
+      name: 'registration_successful',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email already exists.`
+  String get email_already_exists {
+    return Intl.message(
+      'Email already exists.',
+      name: 'email_already_exists',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Phone number is required`
+  String get phone_number_required {
+    return Intl.message(
+      'Phone number is required',
+      name: 'phone_number_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Warning`
+  String get warning {
+    return Intl.message(
+      'Warning',
+      name: 'warning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get cancel {
+    return Intl.message(
+      'Cancel',
+      name: 'cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirmed successfully!`
+  String get confirmed_successfully {
+    return Intl.message(
+      'Confirmed successfully!',
+      name: 'confirmed_successfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Account Created Successfully!`
+  String get account_created_message {
+    return Intl.message(
+      'Account Created Successfully!',
+      name: 'account_created_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter an email`
+  String get enter_email {
+    return Intl.message(
+      'Please enter an email',
+      name: 'enter_email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a valid email`
+  String get enter_valid_email {
+    return Intl.message(
+      'Please enter a valid email',
+      name: 'enter_valid_email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a password`
+  String get enter_password {
+    return Intl.message(
+      'Please enter a password',
+      name: 'enter_password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must be at least 6 characters long`
+  String get password_length_validation {
+    return Intl.message(
+      'Password must be at least 6 characters long',
+      name: 'password_length_validation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name must be at least 5 characters long`
+  String get name_length_validation {
+    return Intl.message(
+      'Name must be at least 5 characters long',
+      name: 'name_length_validation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select a gender`
+  String get select_gender {
+    return Intl.message(
+      'Please select a gender',
+      name: 'select_gender',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Female`
+  String get female {
+    return Intl.message(
+      'Female',
+      name: 'female',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Male`
+  String get male {
+    return Intl.message(
+      'Male',
+      name: 'male',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select a Birthdate`
+  String get select_birthdate {
+    return Intl.message(
+      'Please select a Birthdate',
+      name: 'select_birthdate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Age must be at least 5 years old`
+  String get age_validation {
+    return Intl.message(
+      'Age must be at least 5 years old',
+      name: 'age_validation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Date of birth`
+  String get date_of_birth {
+    return Intl.message(
+      'Date of birth',
+      name: 'date_of_birth',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must contain at least one uppercase letter, one number, and one special character`
+  String get password_complexity_validation {
+    return Intl.message(
+      'Password must contain at least one uppercase letter, one number, and one special character',
+      name: 'password_complexity_validation',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

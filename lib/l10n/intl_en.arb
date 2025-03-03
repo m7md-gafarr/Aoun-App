@@ -35,13 +35,11 @@
   "email": "Email",
   "password": "Password",
   "confirm_password": "Confirm Password",
-
   "create_new_password": "Create New Password",
   "create_password_instruction": "Create a new password, please don’t forget this one too.",
   "full_name": "Full Name",
   "already_have_account": "Already have an account? ",
   "create_account": "Create Account",
-
   "login_phone_number": "Phone Number",
   "login_next": "Next",
   "validation_select_country": "Select a country.",
@@ -51,23 +49,50 @@
   "validation_success": "Validation successful.",
   "validation_invalid_number": "Invalid number for this country.",
   "ok_AlertDialogt": "Ok",
-
-  
   "verification_title": "Verification Code",
   "verification_instruction": "You need to enter 6-digit code we send to your Email",
   "did_not_receive_code": "Didn't receive the code?",
   "resend_code": "Resend Code",
   "verify": "Verify",
-
   "complete_your_information": "Complete your information",
   "name_label": "Name",
   "welcome_message": "Welcome to Aoun!",
   "introduce_yourself": "Please introduce yourself",
   "please_enter_name": "Please enter your name",
-
-
-
   "safe_easy_rides": "Safe & Easy Rides",
   "find_nearby_housing": "Find Nearby Housing",
-  "activities_opportunities": "Activities & Opportunities"
+  "activities_opportunities": "Activities & Opportunities",
+
+  
+  "no_internet_connection": "No internet connection",
+  "email_not_confirmed": "Email not confirmed Please check your inbox.",
+  "email_not_found": "Email not found Please make sure the email is correct.",
+  "wrong_password_or_email": "Wrong Password or Email",
+  "login_successful": "Login successful",
+  "invalid_or_expired_otp": "Invalid or expired OTP.",
+  "password_reset_successful": "Password reset successful You can now log in with your new password.",
+  "passwords_do_not_match": "Passwords do not match.",
+  "otp_verification_expired": "OTP verification expired Please request a new OTP.",
+  "registration_successful": "Your account has been created successfully. Please check your email to activate your account before logging in.",
+  "email_already_exists": "Email already exists.",
+  "phone_number_required": "Phone number is required",
+  "warning": "Warning",
+  "cancel": "Cancel",
+  "confirmed_successfully": "Confirmed successfully!", 
+  "account_created_message": "Account Created Successfully!", 
+
+
+  "enter_email": "Please enter an email",
+  "enter_valid_email": "Please enter a valid email", 
+    "enter_password": "Please enter a password",
+  "password_length_validation": "Password must be at least 6 characters long", 
+    "name_length_validation": "Name must be at least 5 characters long", 
+     "select_gender": "Please select a gender", 
+       "female": "Female",
+  "male": "Male", 
+    "select_birthdate": "Please select a Birthdate",
+  "age_validation": "Age must be at least 5 years old", 
+    "date_of_birth": "Date of birth", 
+      "password_complexity_validation": "Password must contain at least one uppercase letter, one number, and one special character"
+       
 }

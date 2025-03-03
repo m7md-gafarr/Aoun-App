@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:aoun_app/core/app_color/app_color_light.dart';
 import 'package:aoun_app/core/constant/constant.dart';
 import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/data/model/auth_model/auth_model.dart';
 import 'package:aoun_app/presentation/auth/view_model/sendOTPForPasswordReset_cubit/send_otp_for_password_reset_cubit.dart';
 import 'package:aoun_app/presentation/auth/view_model/verifyOTP_cubit/verify_otp_cubit.dart';
+import 'package:aoun_app/presentation/widgets/common/error_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -166,22 +166,8 @@ class _OTPScreenState extends State<OTPScreen> {
                     BlocListener<VerifyOtpCubit, VerifyOtpState>(
                       listener: (context, state) {
                         if (state is VerifyOtpFailure) {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text(
-                                "Warning",
-                                style: Theme.of(context).textTheme.titleMedium,
-                              ),
-                              content: Text(state.errorMessage),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text("Cancel"),
-                                ),
-                              ],
-                            ),
-                          );
+                          ErrorDialogWidget(message: state.errorMessage)
+                              .show(context);
                         } else if (state is VerifyOtpSuccess) {
                           Navigator.pushNamed(
                             context,
@@ -209,11 +195,11 @@ class _OTPScreenState extends State<OTPScreen> {
                         ],
                         onCompleted: (pin) async {
                           context.read<VerifyOtpCubit>().verfiyOtp(
-                                AuthModel(
-                                  email: email,
-                                ),
-                                pinController.text,
-                              );
+                              AuthModel(
+                                email: email,
+                              ),
+                              pinController.text,
+                              context);
                         },
                       ),
                     ),
@@ -229,7 +215,12 @@ class _OTPScreenState extends State<OTPScreen> {
                               _startTimer();
                               context
                                   .read<SendOtpForPasswordResetCubit>()
-                                  .sendOtp(AuthModel(email: email));
+                                  .sendOtp(
+                                    AuthModel(
+                                      email: email,
+                                    ),
+                                    context,
+                                  );
                             },
                       child: Text(
                         "${S.of(context).resend_code} ( $formattedTime )",

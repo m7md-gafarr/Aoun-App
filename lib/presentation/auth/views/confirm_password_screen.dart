@@ -3,6 +3,8 @@ import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/data/model/auth_model/auth_model.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/auth/view_model/confirmPassword_cubit/confirm_password_cubit.dart';
+import 'package:aoun_app/presentation/widgets/common/error_dialog.dart';
+import 'package:aoun_app/presentation/widgets/common/success_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -108,13 +110,13 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter a password';
+                        return S.of(context).enter_password;
                       } else if (value.length < 6) {
-                        return 'Password must be at least 6 characters long';
+                        return S.of(context).password_length_validation;
                       } else if (!RegExp(
                               r'^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$')
                           .hasMatch(value)) {
-                        return 'Password must contain at least one uppercase letter, one number, and one special character';
+                        return S.of(context).password_complexity_validation;
                       }
                       return null;
                     },
@@ -141,9 +143,9 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter a password';
+                        return S.of(context).enter_password;
                       } else if (value != _password.text) {
-                        return 'The passwords do not match.';
+                        return S.of(context).passwords_do_not_match;
                       }
                       return null;
                     },
@@ -174,6 +176,7 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
                                 password: _password.text.trim(),
                                 confirmedPassword: _confirmPassword.text.trim(),
                               ),
+                              context,
                             );
                       }
                     },
@@ -181,47 +184,26 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
                         ConfirmPasswordState>(
                       listener: (context, state) {
                         if (state is ConfirmPasswordFailure) {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text(
-                                "Warning",
-                                style: Theme.of(context).textTheme.titleMedium,
-                              ),
-                              content: Text(state.errorMessage),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text("Cancel"),
-                                ),
-                              ],
-                            ),
-                          );
+                          ErrorDialogWidget(message: state.errorMessage)
+                              .show(context);
                         } else if (state is ConfirmPasswordSuccess) {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text(
-                                "Confirmed successfully!",
-                                style: Theme.of(context).textTheme.titleMedium,
+                          SuccessDialogWidget(
+                            message: state.message,
+                            title: S.of(context).confirmed_successfully,
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    AppRoutesName.loginScreenRoute,
+                                    (route) => false,
+                                  );
+                                },
+                                child: Text(S.of(context).sign_in),
                               ),
-                              content: Text(
-                                  "Your password has been reset successfully. You can now log in."),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    Navigator.pushNamedAndRemoveUntil(
-                                      context,
-                                      AppRoutesName.loginScreenRoute,
-                                      (route) => false,
-                                    );
-                                  },
-                                  child: Text("Login"),
-                                ),
-                              ],
-                            ),
-                          );
+                            ],
+                          ).show(context);
                         }
                       },
                       builder: (context, state) {
