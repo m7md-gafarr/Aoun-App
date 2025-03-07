@@ -1,4 +1,5 @@
-import 'package:aoun_app/presentation/home/views/home_widget.dart';
+import 'package:aoun_app/presentation/home/views/widget/home_widget.dart';
+import 'package:aoun_app/presentation/transport/views/transport_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:iconsax/iconsax.dart';
@@ -23,8 +24,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final List<Widget> navBarList = [
       HomeScreenWidget(onServiceTap: changeIndex),
-      Center(child: Text("Search")),
-      Center(child: Text("Search")),
+      TransportScreen(),
+      Center(child: Text("Housing")),
+      Center(child: Text("Job")),
       Center(child: Text("Profile")),
     ];
     return WillPopScope(
@@ -61,12 +63,9 @@ class _HomeScreenState extends State<HomeScreen> {
           showSelectedLabels: false,
           items: [
             BottomNavigationBarItem(icon: Icon(Iconsax.home), label: "Home"),
-            BottomNavigationBarItem(
-                icon: Icon(Iconsax.search_normal), label: "Home"),
-            BottomNavigationBarItem(
-                icon: Icon(Iconsax.notification), label: "Home"),
-            BottomNavigationBarItem(icon: Icon(Iconsax.user), label: "User"),
-            BottomNavigationBarItem(icon: Icon(Iconsax.user), label: "User"),
+            BottomNavigationBarItem(icon: Icon(Iconsax.car), label: "Search"),
+            BottomNavigationBarItem(icon: Icon(Iconsax.house), label: "Home"),
+            BottomNavigationBarItem(icon: Icon(Iconsax.bag_2), label: "User"),
             BottomNavigationBarItem(icon: Icon(Iconsax.user), label: "User"),
           ],
         ),

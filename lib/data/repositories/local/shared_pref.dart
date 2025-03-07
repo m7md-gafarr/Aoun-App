@@ -4,7 +4,7 @@ class SharedPreferencesService {
   static const String AUTH_TOKEN = "auth_token";
   static const String INTRODUCTION_COMPLETED = "introduction_completed";
   static const String IS_LOGGED_IN = "is_logged_in";
-
+  static const String LANGUAGE = "language";
   static final SharedPreferencesService _instance =
       SharedPreferencesService._internal();
   late SharedPreferences _prefs;
@@ -47,5 +47,13 @@ class SharedPreferencesService {
   Future<void> logout() async {
     await _prefs.remove(AUTH_TOKEN);
     await _prefs.setBool(IS_LOGGED_IN, false);
+  }
+
+  Future<String?> loadSavedLanguage() async {
+    return _prefs.getString(LANGUAGE);
+  }
+
+  Future<void> changeLanguage(String languageCode) async {
+    await _prefs.setString(LANGUAGE, languageCode);
   }
 }

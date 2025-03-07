@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 ThemeData getThemeColorLight(BuildContext context) => ThemeData(
+      fontFamily: isRTL(context) ? fontArabic : fontEnglish,
       primaryColor: AppColorLight.primaryColor,
       secondaryHeaderColor: AppColorLight.secondaryColor,
       scaffoldBackgroundColor: AppColorLight.backgroundColor,
@@ -65,7 +66,7 @@ ThemeData getThemeColorLight(BuildContext context) => ThemeData(
           textStyle: WidgetStatePropertyAll(
             TextStyle(
               letterSpacing: .7,
-              fontFamily: isRTL(context) ? fontArabic : fontEnglish,
+              // fontFamily: isRTL(context) ? fontArabic : fontEnglish,
               fontSize: 18.sp,
               fontWeight: FontWeight.w500,
             ),
@@ -158,11 +159,11 @@ ThemeData getThemeColorLight(BuildContext context) => ThemeData(
           color: AppColorLight.textTertiary,
           fontSize: 17.sp,
           fontWeight: FontWeight.normal,
-          fontFamily: isRTL(context) ? fontArabic : fontEnglish,
+          // fontFamily: isRTL(context) ? fontArabic : fontEnglish,
         ),
         errorStyle: TextStyle(
           color: AppColorLight.errorColor,
-          fontFamily: isRTL(context) ? fontArabic : fontEnglish,
+          // fontFamily: isRTL(context) ? fontArabic : fontEnglish,
         ),
       ),
 
@@ -183,7 +184,7 @@ ThemeData getThemeColorLight(BuildContext context) => ThemeData(
         style: ButtonStyle(
           textStyle: WidgetStatePropertyAll(
             TextStyle(
-              fontFamily: isRTL(context) ? fontArabic : fontEnglish,
+              // fontFamily: isRTL(context) ? fontArabic : fontEnglish,
               fontSize: 18.sp,
             ),
           ),

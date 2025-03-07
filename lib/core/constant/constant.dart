@@ -1,18 +1,14 @@
 //APi Key
 
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-const API_Key = "API_KEY";
 
 /////////////////////////////////////////////////////////////
 
 // Name Fonts
 
 const fontArabic = "cairo";
-
 const fontEnglish = "Poppins";
 
 /////////////////////////////////////////////////////////////
@@ -29,10 +25,5 @@ class ScaleSize {
     return max(1, min(val, maxTextScaleFactor));
   }
 }
-
-/////////////////////////////////////////////////////////////
-
-// shared preferences  Named
-const String introductionPref = "introductionPref";
 
 /////////////////////////////////////////////////////////////

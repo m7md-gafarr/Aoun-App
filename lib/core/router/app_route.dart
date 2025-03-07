@@ -2,7 +2,7 @@ import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/presentation/auth/views/confirm_password_screen.dart';
 import 'package:aoun_app/presentation/auth/views/register_screen.dart';
 import 'package:aoun_app/presentation/auth/views/reset_password_screen.dart';
-import 'package:aoun_app/presentation/home/views/home_screen.dart';
+import 'package:aoun_app/presentation/home/views/screen/home_screen.dart';
 import 'package:aoun_app/presentation/introduction/introduction_screen.dart';
 import 'package:aoun_app/presentation/auth/views/login_screen.dart';
 import 'package:aoun_app/presentation/auth/views/otp_screen.dart';

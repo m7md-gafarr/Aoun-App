@@ -206,20 +206,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                   SizedBox(height: 15.h),
-                  IntlPhoneField(
-                    controller: _phoneController,
-                    validator: (value) {
-                      if (value == null || value.number.isEmpty) {
-                        return S.of(context).phone_number_required;
-                      }
-                      return null;
-                    },
-                    languageCode: "en",
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    decoration: InputDecoration(
-                      hintText: S.of(context).login_phone_number,
+                  Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: IntlPhoneField(
+                      controller: _phoneController,
+                      validator: (value) {
+                        if (value == null || value.number.isEmpty) {
+                          return S.of(context).phone_number_required;
+                        }
+                        return null;
+                      },
+                      languageCode: "en",
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: InputDecoration(
+                        hintText: S.of(context).login_phone_number,
+                      ),
+                      initialCountryCode: 'EG',
                     ),
-                    initialCountryCode: 'EG',
                   ),
                   SizedBox(height: 15.h),
                   TextFormField(

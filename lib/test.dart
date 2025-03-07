@@ -1,88 +1,60 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class TestScreen extends StatelessWidget {
-  const TestScreen({super.key});
+class MapScreen extends StatefulWidget {
+  const MapScreen({super.key});
+
+  @override
+  _MapScreenState createState() => _MapScreenState();
+}
+
+class _MapScreenState extends State<MapScreen> {
+  late GoogleMapController mapController;
+  late CameraPosition cameraPosition;
+  @override
+  void initState() {
+    super.initState();
+    cameraPosition = CameraPosition(
+      target: LatLng(31.097804426099284, 30.944998274515168),
+      zoom: 10,
+    );
+  }
+
+  onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () async {
-            Dio dio = Dio();
-
-            dio.interceptors.add(InterceptorsWrapper(
-              onRequest:
-                  (RequestOptions options, RequestInterceptorHandler handler) {
-                print("Request: ${options.method} ${options.path}");
-                print("Headers: ${options.headers}");
-                print("Body: ${options.data}");
-                return handler.next(options);
+      appBar: AppBar(title: Text('Map')),
+      body: Stack(
+        children: [
+          GoogleMap(
+            onMapCreated: onMapCreated,
+            initialCameraPosition: cameraPosition,
+            myLocationEnabled: true,
+            myLocationButtonEnabled: true,
+          ),
+          Positioned(
+            bottom: 16,
+            left: 16,
+            right: 16,
+            child: ElevatedButton(
+              onPressed: () {
+                mapController.moveCamera(
+                  CameraUpdate.newCameraPosition(
+                    CameraPosition(
+                      target: LatLng(38.06423492874064, 30.34873248072883),
+                      zoom: 8,
+                    ),
+                  ),
+                );
               },
-              onResponse:
-                  (Response response, ResponseInterceptorHandler handler) {
-                print(
-                    "Response: ${response.statusCode} ${response.statusMessage}");
-                print("Data: ${response.data}");
-                return handler.next(response);
-              },
-              onError: (DioException e, ErrorInterceptorHandler handler) {
-                print("Error: ${e.message}");
-                return handler.next(e);
-              },
-            ));
-
-            try {
-              Response response = await dio.post(
-                "https://studentpathapitest.runasp.net/api/Accounts/Register",
-                data: {
-                  "fullName": "MohameSobhy",
-                  "email": "nadoxal524@bnsteps.com",
-                  "password": "Sokar@123",
-                  "confirmedPassword": "Sokar@123",
-                  "userType": 0,
-                  "age": 22,
-                  "gender": 1,
-                  "phoneNumber": "+201013379651",
-                  "registrationDate": DateTime.now().toIso8601String(),
-                  "locations": [
-                    {
-                      "city": "Cairo",
-                      "country": "Egypt",
-                      "latitude": 30.0444,
-                      "longitude": 31.2357
-                    }
-                  ]
-                },
-                options: Options(
-                  headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json",
-                  },
-                ),
-              );
-              print("Response: \n${response.data}");
-            } on DioException catch (e) {
-              if (e.response != null) {
-                if (e.response?.statusCode == 400) {
-                  final responseData = e.response?.data;
-                  if (responseData != null && responseData['errors'] != null) {
-                    print("Error: ${responseData['errors'].join(", ")}");
-                  } else {
-                    print("Error: Bad Request");
-                  }
-                } else {
-                  print(
-                      "Error: ${e.response?.statusCode} ${e.response?.statusMessage}");
-                }
-              } else {
-                print("Error: ${e.message}");
-              }
-            }
-          },
-          child: Text("Test"),
-        ),
+              child: Text("Change camera"),
+            ),
+          ),
+        ],
       ),
     );
   }

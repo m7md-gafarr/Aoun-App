@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 ThemeData getThemeColorDark(BuildContext context) => ThemeData(
+      fontFamily: isRTL(context) ? fontArabic : fontEnglish,
       primaryColor: AppColorLight.primaryColor,
       secondaryHeaderColor: AppColorLight.secondaryColor,
       scaffoldBackgroundColor: AppColorLight.backgroundColor,

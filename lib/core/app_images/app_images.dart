@@ -2,6 +2,10 @@
 class Assets {
   Assets._();
   
+  /// Assets for imageDebitCard
+  /// assets/image/DebitCard.svg
+  static const String imageDebitCard = "assets/image/DebitCard.svg";
+
   /// Assets for imageFacebook
   /// assets/image/facebook.svg
   static const String imageFacebook = "assets/image/facebook.svg";
