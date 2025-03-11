@@ -147,7 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       highlightColor: Colors.transparent,
                       onTap: () => Navigator.pushNamed(
                         context,
-                        AppRoutesName.ResetPasswordScreenRoute,
+                        AppRoutesName.resetPasswordScreenRoute,
                       ),
                       child: Text(
                         S.of(context).login_forgot_password,
@@ -271,7 +271,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               Navigator.pushNamed(
-                                  context, AppRoutesName.RegisterScreenRoute);
+                                  context, AppRoutesName.registerScreenRoute);
                             },
                         ),
                       ],

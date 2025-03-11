@@ -8,6 +8,8 @@ import 'package:aoun_app/presentation/auth/views/login_screen.dart';
 import 'package:aoun_app/presentation/auth/views/otp_screen.dart';
 import 'package:aoun_app/presentation/splash/splash_screen.dart';
 import 'package:animations/animations.dart';
+import 'package:aoun_app/presentation/transport/views/mapViewRoute_screen.dart';
+import 'package:aoun_app/presentation/transport/views/trip_details_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../presentation/auth/views/complet_user_data_screen.dart';
@@ -32,7 +34,7 @@ class AppRouter {
           },
         );
       // check Connection
-      case AppRoutesName.RegisterScreenRoute:
+      case AppRoutesName.registerScreenRoute:
         return MaterialPageRoute(builder: (context) => RegisterScreen());
 
       // Login
@@ -89,7 +91,7 @@ class AppRouter {
         );
 
       // Reset Password Screen
-      case AppRoutesName.ResetPasswordScreenRoute:
+      case AppRoutesName.resetPasswordScreenRoute:
         return MaterialPageRoute(
             builder: (context) => const ResetPasswordScreen());
 
@@ -100,7 +102,6 @@ class AppRouter {
           pageBuilder: (context, animation, secondaryAnimation) =>
               const OTPScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            // Using SharedAxisPageRoute transition for OTP screen
             return SharedAxisTransition(
               animation: animation,
               secondaryAnimation: secondaryAnimation,
@@ -112,13 +113,12 @@ class AppRouter {
         );
 
       //Confirm Password Screen
-      case AppRoutesName.ConfirmPasswordScreenRoute:
+      case AppRoutesName.confirmPasswordScreenRoute:
         return PageRouteBuilder(
           settings: settings,
           pageBuilder: (context, animation, secondaryAnimation) =>
               const ConfirmPasswordScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            // Using SharedAxisPageRoute transition for OTP screen
             return SharedAxisTransition(
               animation: animation,
               secondaryAnimation: secondaryAnimation,
@@ -129,10 +129,13 @@ class AppRouter {
           },
         );
 
-      // check Connection
-      // case AppRoutesName.checkConnectionScreenRoute:
-      //   return MaterialPageRoute(
-      //       builder: (context) => const CheckConnectionScreen());
+      case AppRoutesName.tripDetailsScreenRoute:
+        return MaterialPageRoute(
+            builder: (context) => const TripDetailsScreen());
+
+      case AppRoutesName.mapViewRouteScreenRoute:
+        return MaterialPageRoute(
+            builder: (context) => const MapViewRouteScreen());
 
       default:
         return MaterialPageRoute(

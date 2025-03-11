@@ -27,15 +27,36 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   GlobalKey<FormState> formKey = GlobalKey();
 
-  final TextEditingController _dateController = TextEditingController();
-  final TextEditingController _fullNameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  late TextEditingController _dateController;
+  late TextEditingController _fullNameController;
+  late TextEditingController _emailController;
+  late TextEditingController _phoneController;
+  late TextEditingController _passwordController;
 
   bool isPhoneValidated = false;
   int? _selectedGender;
   bool obscureTextPassword = true;
+  Position? _position;
+  Placemark? _placemark;
+  @override
+  void initState() {
+    _dateController = TextEditingController();
+    _fullNameController = TextEditingController();
+    _emailController = TextEditingController();
+    _phoneController = TextEditingController();
+    _passwordController = TextEditingController();
+    _getLocation();
+    super.initState();
+  }
+
+  _getLocation() async {
+    _position = await LocationService.getCurrentLocation();
+    _placemark = await LocationService.getAddressFromCoordinates(
+        _position!.latitude, _position!.longitude);
+    print(_placemark?.subAdministrativeArea);
+    print(_position?.latitude);
+    print(_position?.longitude);
+  }
 
   int _age = 0;
   _obscureTextPassword_fun() {
@@ -261,32 +282,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
-                        Position? position =
-                            await LocationService.getCurrentLocation();
-                        Placemark? placemark =
-                            await LocationService.getAddressFromCoordinates(
-                                position!.latitude, position.longitude);
 
+                        print("***********************");
                         context.read<RegisterCubit>().registerUser(
-                            AuthModel(
-                              fullName: _fullNameController.text.trim(),
-                              email: _emailController.text.trim(),
-                              userType: 0,
-                              password: _passwordController.text.trim(),
-                              confirmedPassword:
-                                  _passwordController.text.trim(),
-                              gender: _selectedGender,
-                              registrationDate: DateTime.now(),
-                              age: _age,
-                              phoneNumber: _phoneController.text.trim(),
-                            ),
-                            LocationModel(
-                              city: placemark!.subAdministrativeArea,
-                              country: placemark.country,
-                              latitude: position.latitude,
-                              longitude: position.longitude,
-                            ),
-                            context);
+                              AuthModel(
+                                fullName: _fullNameController.text.trim(),
+                                email: _emailController.text.trim(),
+                                userType: 0,
+                                password: _passwordController.text.trim(),
+                                confirmedPassword:
+                                    _passwordController.text.trim(),
+                                gender: _selectedGender,
+                                registrationDate: DateTime.now(),
+                                age: _age,
+                                phoneNumber: _phoneController.text.trim(),
+                              ),
+                              LocationModel(
+                                city: _placemark!.subAdministrativeArea,
+                                country: _placemark!.country,
+                                latitude: _position!.latitude,
+                                longitude: _position!.longitude,
+                              ),
+                              context,
+                            );
                       }
                     },
                     child: BlocConsumer<RegisterCubit, RegisterState>(

@@ -1,4 +1,3 @@
-import 'package:aoun_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 class SuccessDialogWidget {
@@ -12,7 +11,7 @@ class SuccessDialogWidget {
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          S.of(context).warning,
+          title,
           style: Theme.of(context).textTheme.titleMedium,
         ),
         content: Text(message),

@@ -1,4 +1,6 @@
 import 'dart:math' as math;
+import 'package:animations/animations.dart';
+import 'package:aoun_app/presentation/transport/views/trip_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
@@ -8,25 +10,31 @@ class TripWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 7),
-      child: Container(
-        height: 80.h,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(7),
-          color: Theme.of(context).colorScheme.primaryContainer,
-        ),
-        child: Row(
-          children: [
-            SizedBox(width: 7.w),
-            _buildIconContainer(context, Iconsax.bus),
-            SizedBox(width: 7.w),
-            _TripDetails(),
-            const VerticalDivider(thickness: 0.7, endIndent: 10, indent: 15),
-            _TripPrice(price: 9999),
-            const Spacer(),
-            const Icon(Iconsax.arrow_right_3)
-          ],
+    return OpenContainer(
+      closedElevation: 0,
+      openElevation: 0,
+      transitionType: ContainerTransitionType.fadeThrough,
+      openBuilder: (context, action) => TripDetailsScreen(),
+      closedBuilder: (context, action) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 7),
+        child: Container(
+          height: 80.h,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(7),
+            color: Theme.of(context).colorScheme.primaryContainer,
+          ),
+          child: Row(
+            children: [
+              SizedBox(width: 7.w),
+              _buildIconContainer(context, Iconsax.bus),
+              SizedBox(width: 7.w),
+              _TripDetails(),
+              const VerticalDivider(thickness: 0.7, endIndent: 10, indent: 15),
+              _TripPrice(price: 9999),
+              const Spacer(),
+              const Icon(Iconsax.arrow_right_3)
+            ],
+          ),
         ),
       ),
     );

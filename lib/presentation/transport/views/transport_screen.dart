@@ -1,5 +1,4 @@
 import 'package:aoun_app/core/constant/constant.dart';
-import 'package:aoun_app/presentation/home/views/widget/appbar_widget.dart';
 import 'package:aoun_app/presentation/widgets/specific/debit_card.dart';
 import 'package:aoun_app/presentation/widgets/specific/trip.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,6 @@ class TransportScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(slivers: [
-      AppbarWidgetWelcomeAndNotification(userName: "Mohamed"),
       SliverPadding(
         padding: EdgeInsets.symmetric(horizontal: 13),
         sliver: SliverToBoxAdapter(

@@ -171,7 +171,7 @@ class _OTPScreenState extends State<OTPScreen> {
                         } else if (state is VerifyOtpSuccess) {
                           Navigator.pushNamed(
                             context,
-                            AppRoutesName.ConfirmPasswordScreenRoute,
+                            AppRoutesName.confirmPasswordScreenRoute,
                             arguments: {'email': email},
                           );
                         }

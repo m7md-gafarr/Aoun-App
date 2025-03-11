@@ -1,3 +1,5 @@
+import 'package:animations/animations.dart';
+import 'package:aoun_app/presentation/home/views/widget/appbar_widget.dart';
 import 'package:aoun_app/presentation/home/views/widget/home_widget.dart';
 import 'package:aoun_app/presentation/transport/views/transport_screen.dart';
 import 'package:flutter/material.dart';
@@ -35,24 +37,28 @@ class _HomeScreenState extends State<HomeScreen> {
         return false;
       },
       child: Scaffold(
-        // appBar: AppBar(
-        //   actions: [
-        //     SizedBox(width: 13),
-        //     Text(
-        //       "Welcome Sokar ,",
-        //       style: Theme.of(context).textTheme.titleSmall,
-        //     ),
-        //     Spacer(
-        //       flex: 1,
-        //     ),
-        //     Icon(
-        //       Iconsax.notification,
-        //       color: Theme.of(context).primaryColor,
-        //     ),
-        //     SizedBox(width: 13),
-        //   ],
-        // ),
-        body: navBarList[_indexNavBar],
+        body: CustomScrollView(
+          slivers: [
+            AppbarWidgetWelcomeAndNotification(
+              userName: "Mohamed",
+            ),
+            SliverFillRemaining(
+              hasScrollBody: true,
+              child: PageTransitionSwitcher(
+                duration: Duration(milliseconds: 500),
+                transitionBuilder:
+                    (child, primaryAnimation, secondaryAnimation) {
+                  return FadeThroughTransition(
+                    animation: primaryAnimation,
+                    secondaryAnimation: secondaryAnimation,
+                    child: child,
+                  );
+                },
+                child: navBarList[_indexNavBar],
+              ),
+            ),
+          ],
+        ),
         bottomNavigationBar: BottomNavigationBar(
           onTap: (value) {
             setState(() {
