@@ -3,7 +3,7 @@ import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/data/model/auth_model/auth_model.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/auth/view_model/sendOTPForPasswordReset_cubit/send_otp_for_password_reset_cubit.dart';
-import 'package:aoun_app/presentation/widgets/common/error_dialog.dart';
+import 'package:aoun_app/presentation/widgets/common/error_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

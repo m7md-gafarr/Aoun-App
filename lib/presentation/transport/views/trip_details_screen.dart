@@ -1,16 +1,15 @@
 import 'dart:ui';
 
-import 'package:animations/animations.dart';
-import 'package:aoun_app/core/constant/constant.dart';
-import 'package:aoun_app/presentation/transport/views/mapViewRoute_screen.dart';
+import 'package:aoun_app/core/router/route_name.dart';
+import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart';
+import 'package:aoun_app/presentation/widgets/common/divider_widget.dart';
+import 'package:aoun_app/presentation/widgets/common/title_Info_trip_widget.dart';
 import 'package:aoun_app/presentation/widgets/specific/trip_map.dart'
     show TripMapWidget;
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pannable_rating_bar/flutter_pannable_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:iconsax/iconsax.dart';
 
 class TripDetailsScreen extends StatefulWidget {
@@ -49,29 +48,12 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: InkWell(
-          focusColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          splashColor: Colors.transparent,
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Icon(
-            isRTL(context) ? Iconsax.arrow_right_1 : Iconsax.arrow_left,
-            size: 30,
-            color: Theme.of(context).iconTheme.color,
-          ),
-        ),
-        title: Text(
-          "Trip detail",
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
+      appBar: AppbarWidget(
+        title: "Trip detail",
         actions: [
           IconButton(
             onPressed: () {},
-            icon: Icon(Iconsax.share),
+            icon: const Icon(Iconsax.share),
           ),
         ],
       ),
@@ -204,7 +186,10 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
             SizedBox(
               width: 140.w,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(
+                      context, AppRoutesName.bookTripScreenRoute);
+                },
                 child: Text("Book"),
               ),
             )
@@ -221,7 +206,7 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _titleWidget(context, "Pickup Point"),
+            TitleInfoTripWidget(title: "Pickup Point"),
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
@@ -239,8 +224,8 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
             ),
             SizedBox(height: 7.h),
             TripMapWidget(),
-            _divider(),
-            _titleWidget(context, "Driver Notes"),
+            DividerWidget(),
+            TitleInfoTripWidget(title: "Driver Notes"),
             SizedBox(height: 7.h),
             Column(
               children: List.generate(
@@ -248,8 +233,8 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
                 (index) => _DriverNote(),
               ),
             ),
-            _divider(),
-            _titleWidget(context, "Amenities"),
+            DividerWidget(),
+            TitleInfoTripWidget(title: "Amenities"),
             Row(
               children: List.generate(
                 3,
@@ -306,7 +291,7 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
               "I am a lifelong explorer and entrepreneur. I have lived all over the U.S., born in Hawaii, and lived in Belgium. I have traveled across Europe, Australia, Bulgaria, Canada, Mexico, Belize, and Grand Cayman.... Read More",
               style: Theme.of(context).textTheme.bodySmall,
             ),
-            _divider(),
+            DividerWidget(),
             GridView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
@@ -324,10 +309,10 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
                 );
               },
             ),
-            _divider(),
+            DividerWidget(),
             Row(
               children: [
-                _titleWidget(context, "Rating"),
+                TitleInfoTripWidget(title: "Rating"),
                 Spacer(),
                 PannableRatingBar(
                   rate: 3.5,
@@ -346,6 +331,7 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
                 Text(
                   "(3.2)",
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: 13.sp,
                         fontWeight: FontWeight.bold,
                       ),
                 ),
@@ -379,8 +365,8 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
                 );
               }),
             ),
-            _divider(),
-            _titleWidget(context, "Last Reviews"),
+            DividerWidget(),
+            TitleInfoTripWidget(title: "Last Reviews"),
             Column(
               children: List.generate(
                 5,
@@ -428,7 +414,7 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
                     children: [
                       Text(
                         "(4.5)",
-                        style: Theme.of(context).textTheme.bodyMedium,
+                        style: Theme.of(context).textTheme.bodySmall,
                       ),
                       SizedBox(width: 5.w),
                       PannableRatingBar(
@@ -485,8 +471,8 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
                 );
               },
             ),
-            _divider(),
-            _titleWidget(context, "Display Route in map"),
+            DividerWidget(),
+            TitleInfoTripWidget(title: "Display Route in map"),
             SizedBox(height: 20.h),
             TripMapWidget(),
           ],
@@ -500,25 +486,6 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
       width: 8.h,
       height: 8.h,
       decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-    );
-  }
-
-  Widget _divider() {
-    return Divider(
-      endIndent: 30.w,
-      indent: 30.w,
-      thickness: .7,
-      height: 40.h,
-    );
-  }
-
-  Widget _titleWidget(BuildContext context, String text) {
-    return Text(
-      text,
-      style: Theme.of(context).textTheme.titleSmall!.copyWith(
-            fontWeight: FontWeight.bold,
-            fontSize: 17.sp,
-          ),
     );
   }
 }
