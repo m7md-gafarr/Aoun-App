@@ -22,6 +22,7 @@ class _SplashScreenState extends State<SplashScreen>
   Future<void> _loadIntroductionPref() async {
     bool? seen = await SharedPreferencesService().getIntroductionStatus();
     bool? loggedIn = await SharedPreferencesService().isUserLoggedIn();
+    bool? isUserMode = await SharedPreferencesService().getUserMode();
 
     if (!mounted) return;
 
@@ -31,7 +32,9 @@ class _SplashScreenState extends State<SplashScreen>
           context,
           seen
               ? (loggedIn
-                  ? AppRoutesName.homeScreenRoute
+                  ? (isUserMode!
+                      ? AppRoutesName.homeUserScreenRoute
+                      : AppRoutesName.homeDriverScreenRoute)
                   : AppRoutesName.loginScreenRoute)
               : AppRoutesName.introductionScreenRoute,
           (Route<dynamic> route) => false,

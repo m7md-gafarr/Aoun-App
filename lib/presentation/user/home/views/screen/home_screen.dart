@@ -1,19 +1,20 @@
 import 'package:animations/animations.dart';
-import 'package:aoun_app/presentation/home/views/widget/appbar_widget.dart';
-import 'package:aoun_app/presentation/home/views/widget/home_widget.dart';
-import 'package:aoun_app/presentation/transport/views/transport_screen.dart';
+import 'package:aoun_app/presentation/user/home/views/widget/appbar_widget.dart';
+import 'package:aoun_app/presentation/user/home/views/widget/home_widget.dart';
+import 'package:aoun_app/presentation/user/home/views/widget/profile_widget.dart';
+import 'package:aoun_app/presentation/user/transport/views/transport_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:iconsax/iconsax.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomeUserScreen extends StatefulWidget {
+  const HomeUserScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomeUserScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeUserScreen> {
   int _indexNavBar = 0;
 
   void changeIndex(int index) {
@@ -29,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
       TransportScreen(),
       Center(child: Text("Housing")),
       Center(child: Text("Job")),
-      Center(child: Text("Profile")),
+      ProfileWidget(),
     ];
     return WillPopScope(
       onWillPop: () async {
@@ -69,8 +70,10 @@ class _HomeScreenState extends State<HomeScreen> {
           showSelectedLabels: false,
           items: [
             BottomNavigationBarItem(icon: Icon(Iconsax.home), label: "Home"),
-            BottomNavigationBarItem(icon: Icon(Iconsax.car), label: "Search"),
-            BottomNavigationBarItem(icon: Icon(Iconsax.house), label: "Home"),
+            BottomNavigationBarItem(
+                icon: Icon(Iconsax.driving), label: "Search"),
+            BottomNavigationBarItem(
+                icon: Icon(Iconsax.buildings), label: "Home"),
             BottomNavigationBarItem(icon: Icon(Iconsax.bag_2), label: "User"),
             BottomNavigationBarItem(icon: Icon(Iconsax.user), label: "User"),
           ],

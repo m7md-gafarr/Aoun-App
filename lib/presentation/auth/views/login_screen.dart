@@ -2,8 +2,9 @@ import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/core/constant/constant.dart';
 import 'package:aoun_app/core/router/route_name.dart';
 
-import 'package:aoun_app/core/utils/location_utils.dart';
+import 'package:aoun_app/core/utils/location/location_utils.dart';
 import 'package:aoun_app/data/model/auth_model/auth_model.dart';
+import 'package:aoun_app/data/repositories/local/shared_pref.dart';
 
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/auth/view_model/login_cubit/login_cubit.dart';
@@ -27,6 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool obscureText = true;
+
   _obscureText_fun() {
     setState(() {
       obscureText = !obscureText;
@@ -178,7 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         } else if (state is LoginSuccess) {
                           Navigator.pushNamedAndRemoveUntil(
                             context,
-                            AppRoutesName.homeScreenRoute,
+                            AppRoutesName.homeUserScreenRoute,
                             (route) => false,
                           );
                         }

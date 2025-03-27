@@ -1,10 +1,12 @@
 import 'package:aoun_app/core/constant/constant.dart';
 import 'package:aoun_app/core/router/route_name.dart';
-import 'package:aoun_app/core/utils/location_utils.dart';
+import 'package:aoun_app/core/utils/location/location_Provider.dart';
+import 'package:aoun_app/core/utils/location/location_utils.dart';
 import 'package:aoun_app/data/model/auth_model/auth_model.dart';
 import 'package:aoun_app/data/model/auth_model/location.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/auth/view_model/register_cubit/register_cubit.dart';
+import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart';
 import 'package:aoun_app/presentation/widgets/common/error_dialog_widget.dart';
 import 'package:aoun_app/presentation/widgets/common/success_dialog_widget.dart';
 import 'package:flutter/gestures.dart';
@@ -16,6 +18,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -53,9 +56,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _position = await LocationService.getCurrentLocation();
     _placemark = await LocationService.getAddressFromCoordinates(
         _position!.latitude, _position!.longitude);
-    print(_placemark?.subAdministrativeArea);
-    print(_position?.latitude);
-    print(_position?.longitude);
   }
 
   int _age = 0;
@@ -103,27 +103,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: InkWell(
-          focusColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          splashColor: Colors.transparent,
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Icon(
-            isRTL(context) ? Iconsax.arrow_right_1 : Iconsax.arrow_left,
-            size: 30,
-            color: Theme.of(context).iconTheme.color,
-          ),
-        ),
-        title: Text(
-          S.of(context).create_account,
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        centerTitle: true,
-      ),
+      appBar: AppbarWidget(),
       body: Form(
         key: formKey,
         child: SafeArea(
@@ -283,7 +263,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
 
-                        print("***********************");
                         context.read<RegisterCubit>().registerUser(
                               AuthModel(
                                 fullName: _fullNameController.text.trim(),
@@ -298,10 +277,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 phoneNumber: _phoneController.text.trim(),
                               ),
                               LocationModel(
-                                city: _placemark!.subAdministrativeArea,
-                                country: _placemark!.country,
-                                latitude: _position!.latitude,
-                                longitude: _position!.longitude,
+                                city: Provider.of<LocationProvider>(
+                                  context,
+                                  listen: false,
+                                ).placemark!.subAdministrativeArea,
+                                country: Provider.of<LocationProvider>(
+                                  context,
+                                  listen: false,
+                                ).placemark!.country,
+                                latitude: Provider.of<LocationProvider>(
+                                  context,
+                                  listen: false,
+                                ).position!.latitude,
+                                longitude: Provider.of<LocationProvider>(
+                                  context,
+                                  listen: false,
+                                ).position!.longitude,
                               ),
                               context,
                             );
@@ -388,7 +379,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               Navigator.pushNamed(
-                                  context, AppRoutesName.homeScreenRoute);
+                                  context, AppRoutesName.homeUserScreenRoute);
                             },
                         ),
                         TextSpan(
@@ -404,7 +395,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               Navigator.pushNamed(
-                                  context, AppRoutesName.homeScreenRoute);
+                                  context, AppRoutesName.homeUserScreenRoute);
                             },
                         ),
                       ],

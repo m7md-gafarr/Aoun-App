@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 import 'package:animations/animations.dart';
-import 'package:aoun_app/presentation/transport/views/trip_details_screen.dart';
+import 'package:aoun_app/presentation/user/transport/views/trip_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
@@ -13,6 +13,7 @@ class TripWidget extends StatelessWidget {
     return OpenContainer(
       closedElevation: 0,
       openElevation: 0,
+      closedColor: Theme.of(context).scaffoldBackgroundColor,
       transitionType: ContainerTransitionType.fadeThrough,
       openBuilder: (context, action) => TripDetailsScreen(),
       closedBuilder: (context, action) => Padding(

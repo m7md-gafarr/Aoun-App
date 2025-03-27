@@ -5,6 +5,8 @@ class SharedPreferencesService {
   static const String INTRODUCTION_COMPLETED = "introduction_completed";
   static const String IS_LOGGED_IN = "is_logged_in";
   static const String LANGUAGE = "language";
+  static const String USERMODE = "user_mode";
+
   static final SharedPreferencesService _instance =
       SharedPreferencesService._internal();
   late SharedPreferences _prefs;
@@ -55,5 +57,13 @@ class SharedPreferencesService {
 
   Future<void> changeLanguage(String languageCode) async {
     await _prefs.setString(LANGUAGE, languageCode);
+  }
+
+  Future<void> userMode(bool usermode) async {
+    await _prefs.setBool(USERMODE, usermode);
+  }
+
+  Future<bool?> getUserMode() async {
+    return _prefs.getBool(USERMODE) ?? true;
   }
 }

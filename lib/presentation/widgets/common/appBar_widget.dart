@@ -3,13 +3,13 @@ import 'package:iconsax/iconsax.dart';
 import 'package:aoun_app/core/constant/constant.dart';
 
 class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
-  final String title;
+  final String? title;
   final VoidCallback? onBack;
   final List<Widget>? actions;
 
   const AppbarWidget({
     super.key,
-    required this.title,
+    this.title,
     this.onBack,
     this.actions,
   });
@@ -30,7 +30,7 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       title: Text(
-        title,
+        title ?? "",
         style: Theme.of(context).textTheme.titleMedium,
       ),
       actions: actions,

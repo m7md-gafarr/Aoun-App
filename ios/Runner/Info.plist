@@ -46,6 +46,15 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 
+<key>NSPhotoLibraryUsageDescription</key>
+<string>We need access to your photo library</string>
+
+<key>NSCameraUsageDescription</key>
+<string>We need access to your camera</string>
+
+<key>NSMicrophoneUsageDescription</key>
+<string>We need access to your microphone for recording videos</string>
+
 
 <key>NSLocationWhenInUseUsageDescription</key>
 <string>We need your location to provide better services</string>

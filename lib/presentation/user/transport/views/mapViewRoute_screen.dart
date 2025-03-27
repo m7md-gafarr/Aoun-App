@@ -4,9 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:iconsax/iconsax.dart';
 
-class MapViewRouteScreen extends StatelessWidget {
+class MapViewRouteScreen extends StatefulWidget {
   const MapViewRouteScreen({super.key});
 
+  @override
+  State<MapViewRouteScreen> createState() => _MapViewRouteScreenState();
+}
+
+class _MapViewRouteScreenState extends State<MapViewRouteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +38,7 @@ class MapViewRouteScreen extends StatelessWidget {
                 color: Theme.of(context).iconTheme.color,
               ),
             ),
-          )
+          ),
         ],
       ),
     );

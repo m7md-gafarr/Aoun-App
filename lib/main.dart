@@ -1,6 +1,8 @@
+import 'package:aoun_app/core/Theme/app_theme_dark.dart';
 import 'package:aoun_app/core/router/app_route.dart';
 import 'package:aoun_app/core/utils/check_connection/check_connection_cubit.dart';
 import 'package:aoun_app/core/utils/language.dart';
+import 'package:aoun_app/core/utils/location/location_Provider.dart';
 import 'package:aoun_app/data/repositories/local/shared_pref.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/auth/view_model/confirmPassword_cubit/confirm_password_cubit.dart';
@@ -40,8 +42,13 @@ void main() async {
       ],
       child: ChangeNotifierProvider(
         create: (context) => LanguageProvider(),
-        child: AounApp(
-          appRouter: AppRouter(),
+        child: MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (_) => LocationProvider()),
+          ],
+          child: AounApp(
+            appRouter: AppRouter(),
+          ),
         ),
       ),
     ),
@@ -74,12 +81,12 @@ class AounApp extends StatelessWidget {
           initialRoute: AppRoutesName.splashScreenRoute,
           // home: MapScreen(),
 
-          //Theme,
-          theme: getThemeColorLight(context),
+          // //Theme,
+          // theme: getThemeColorLight(context),
 
-          // theme: MediaQuery.of(context).platformBrightness == Brightness.dark
-          //     ? getThemeColorDark(context)
-          //     : getThemeColorLight(context),
+          theme: MediaQuery.of(context).platformBrightness == Brightness.dark
+              ? getThemeColorDark(context)
+              : getThemeColorLight(context),
         );
       }),
     );

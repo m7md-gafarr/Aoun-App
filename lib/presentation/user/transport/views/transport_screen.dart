@@ -1,14 +1,29 @@
+import 'package:aoun_app/core/router/route_name.dart';
+import 'package:aoun_app/core/utils/location/location_Provider.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:iconsax/iconsax.dart';
 
 import 'package:aoun_app/core/constant/constant.dart';
 import 'package:aoun_app/presentation/widgets/specific/debit_card.dart';
 import 'package:aoun_app/presentation/widgets/specific/trip_card.dart';
+import 'package:provider/provider.dart';
 
-class TransportScreen extends StatelessWidget {
+class TransportScreen extends StatefulWidget {
   const TransportScreen({super.key});
+
+  @override
+  State<TransportScreen> createState() => _TransportScreenState();
+}
+
+class _TransportScreenState extends State<TransportScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,10 +70,15 @@ class TransportScreen extends StatelessWidget {
             Column(
               children: [
                 SizedBox(height: 40.h),
-                _buildLocationField(
-                  context,
-                  icon: Iconsax.location,
-                  text: "AZ Zafaran",
+                Consumer<LocationProvider>(
+                  builder: (context, provider, child) {
+                    return _buildLocationField(
+                      context,
+                      icon: Iconsax.location,
+                      text: provider.placemark?.subAdministrativeArea ??
+                          "Loading...",
+                    );
+                  },
                 ),
                 SizedBox(height: 20.h),
                 _buildLocationField(
@@ -81,23 +101,28 @@ class TransportScreen extends StatelessWidget {
 
   Widget _buildLocationField(BuildContext context,
       {required IconData icon, required String text}) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 13),
-      height: 40.h,
-      width: 350.w,
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primaryContainer,
-        borderRadius: BorderRadius.circular(7),
-      ),
-      child: Row(
-        children: [
-          Icon(icon, size: 22.w),
-          const SizedBox(width: 5),
-          Text(
-            text,
-            style: Theme.of(context).textTheme.labelMedium,
-          ),
-        ],
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(context, AppRoutesName.searchTripScreenRoute);
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 13),
+        height: 40.h,
+        width: 350.w,
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.primaryContainer,
+          borderRadius: BorderRadius.circular(7),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, size: 22.w),
+            const SizedBox(width: 5),
+            Text(
+              text,
+              style: Theme.of(context).textTheme.labelMedium,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -140,7 +165,7 @@ class TransportScreen extends StatelessWidget {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (context, index) => const TripWidget(),
-        childCount: 10, // يمكن تغييره عند الحاجة
+        childCount: 10,
       ),
     );
   }

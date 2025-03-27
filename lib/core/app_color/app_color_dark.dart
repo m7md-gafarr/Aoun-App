@@ -24,6 +24,6 @@ class AppColorDark {
   // Other UI Colors
   static Color appBarColor = backgroundColor;
   static Color linkTextColor = primaryColor;
-  static Color iconPrimaryColor = secondaryColor;
+  static Color iconPrimaryColor = primaryColor;
   static Color dividerColor = const Color(0xff616161);
 }

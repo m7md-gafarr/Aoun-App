@@ -1,29 +1,30 @@
-import 'package:aoun_app/core/app_color/app_color_light.dart';
+import 'package:aoun_app/core/app_color/app_color_dark.dart';
 import 'package:aoun_app/core/constant/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 ThemeData getThemeColorDark(BuildContext context) => ThemeData(
       fontFamily: isRTL(context) ? fontArabic : fontEnglish,
-      primaryColor: AppColorLight.primaryColor,
-      secondaryHeaderColor: AppColorLight.secondaryColor,
-      scaffoldBackgroundColor: AppColorLight.backgroundColor,
+      primaryColor: AppColorDark.primaryColor,
+      secondaryHeaderColor: AppColorDark.secondaryColor,
+      scaffoldBackgroundColor: AppColorDark.backgroundColor,
 
       //
-      colorScheme: const ColorScheme.light(
-        outline: Color(0xff616161),
+      colorScheme: ColorScheme.dark(
+        outline: Colors.white.withOpacity(.2),
+        primaryContainer: AppColorDark.containerBackgroundColor,
       ),
       //AppBar
       appBarTheme: AppBarTheme(
-        backgroundColor: AppColorLight.appBarColor,
+        backgroundColor: AppColorDark.appBarColor,
+        surfaceTintColor: Colors.transparent,
       ),
 
       //Icon Button
       iconButtonTheme: IconButtonThemeData(
         style: ButtonStyle(
-          iconColor: WidgetStatePropertyAll(AppColorLight.iconPrimaryColor),
-          foregroundColor:
-              WidgetStatePropertyAll(AppColorLight.backgroundColor),
+          iconColor: WidgetStatePropertyAll(AppColorDark.iconPrimaryColor),
+          foregroundColor: WidgetStatePropertyAll(AppColorDark.backgroundColor),
         ),
       ),
 
@@ -40,99 +41,142 @@ ThemeData getThemeColorDark(BuildContext context) => ThemeData(
             TextStyle(
               letterSpacing: .7,
               fontFamily: isRTL(context) ? fontArabic : fontEnglish,
-              // fontSize: 18 * ScaleSize.textScaleFactor(context),
               fontSize: 18.sp,
               fontWeight: FontWeight.w500,
             ),
           ),
           elevation: const WidgetStatePropertyAll(0),
           backgroundColor: WidgetStateProperty.all(
-              AppColorLight.primaryColor), // Button background color
-          foregroundColor:
-              WidgetStateProperty.all(AppColorLight.textPrimary), // Text color
+              AppColorDark.primaryColor), // Button background color
+          foregroundColor: WidgetStateProperty.all(
+            AppColorDark.textPrimary,
+          ), // Text color
+        ),
+      ),
+
+      //outlinedButton
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: ButtonStyle(
+          fixedSize: const WidgetStatePropertyAll(Size(double.maxFinite, 47)),
+          shape: const WidgetStatePropertyAll(
+            ContinuousRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(27)),
+            ),
+          ),
+          textStyle: WidgetStatePropertyAll(
+            TextStyle(
+              letterSpacing: .7,
+              // fontFamily: isRTL(context) ? fontArabic : fontEnglish,
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          elevation: const WidgetStatePropertyAll(0),
+          side: WidgetStatePropertyAll(
+            BorderSide(color: AppColorDark.primaryColor, width: 1.2),
+          ),
+          foregroundColor: WidgetStateProperty.all(AppColorDark.primaryColor),
+          backgroundColor: WidgetStateProperty.all(Colors.transparent),
         ),
       ),
 
       //Icon
       iconTheme: IconThemeData(
-        color: AppColorLight.iconPrimaryColor,
-        size: 27,
+        color: AppColorDark.iconPrimaryColor,
       ),
 
+      //Radio
+      radioTheme: RadioThemeData(
+        fillColor: WidgetStatePropertyAll(
+          AppColorDark.primaryColor,
+        ),
+      ),
       // Text,
       textTheme: TextTheme(
         // Headline - Large Titles (Used for Page Titles or Important Headlines)
         headlineLarge: _getTextStyle(
-            AppColorLight.textPrimary, 32, FontWeight.bold, context),
+            AppColorDark.textPrimary, 32, FontWeight.bold, context),
         headlineMedium: _getTextStyle(
-            AppColorLight.textPrimary, 28, FontWeight.bold, context),
+            AppColorDark.textPrimary, 28, FontWeight.bold, context),
         headlineSmall: _getTextStyle(
-            AppColorLight.textPrimary, 24, FontWeight.bold, context),
+            AppColorDark.textPrimary, 24, FontWeight.bold, context),
 
         // Title - Medium Titles (Used for Section Titles)
         titleLarge: _getTextStyle(
-            AppColorLight.textPrimary, 22, FontWeight.w600, context),
+            AppColorDark.textPrimary, 22, FontWeight.w600, context),
         titleMedium: _getTextStyle(
-            AppColorLight.textPrimary, 20, FontWeight.w600, context),
+            AppColorDark.textPrimary, 20, FontWeight.w600, context),
         titleSmall: _getTextStyle(
-            AppColorLight.textPrimary, 18, FontWeight.w500, context),
+            AppColorDark.textPrimary, 18, FontWeight.w500, context),
 
         // Body - Normal Text (Used for Main Paragraphs and Content)
         bodyLarge: _getTextStyle(
-            AppColorLight.textSecondary, 16, FontWeight.normal, context),
+            AppColorDark.textSecondary, 16, FontWeight.normal, context),
         bodyMedium: _getTextStyle(
-            AppColorLight.textSecondary, 14, FontWeight.normal, context),
+            AppColorDark.textSecondary, 14, FontWeight.normal, context),
         bodySmall: _getTextStyle(
-            AppColorLight.textSecondary, 12, FontWeight.normal, context),
+            AppColorDark.textSecondary, 12, FontWeight.normal, context),
 
         // Labels -   Small Captions
         labelLarge: _getTextStyle(
-            AppColorLight.textTertiary, 16, FontWeight.w500, context),
+            AppColorDark.textTertiary, 16, FontWeight.w500, context),
         labelMedium: _getTextStyle(
-            AppColorLight.textTertiary, 14, FontWeight.w500, context),
+            AppColorDark.textTertiary, 14, FontWeight.w500, context),
         labelSmall: _getTextStyle(
-            AppColorLight.textTertiary, 12, FontWeight.w500, context),
+            AppColorDark.textTertiary, 12, FontWeight.w500, context),
       ),
 
       // Text Field
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColorLight.containerBackgroundColor,
+        fillColor: AppColorDark.containerBackgroundColor,
         border: OutlineInputBorder(
-          borderSide: BorderSide(color: AppColorLight.primaryColor),
+          borderSide: BorderSide(color: AppColorDark.primaryColor),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AppColorLight.primaryColor),
+          borderSide: BorderSide(color: AppColorDark.primaryColor),
         ),
         enabledBorder: const OutlineInputBorder(
           borderSide: BorderSide.none,
         ),
         errorBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AppColorLight.errorColor),
+          borderSide: BorderSide(
+            color: AppColorDark.errorColor.withOpacity(.5),
+          ),
         ),
-        prefixIconColor: AppColorLight.primaryColor,
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: AppColorDark.errorColor,
+          ),
+        ),
+        prefixIconColor: AppColorDark.primaryColor,
         labelStyle: TextStyle(
-          color: AppColorLight.primaryColor,
+          color: AppColorDark.primaryColor,
           fontSize: 16.0.sp,
         ),
         hintStyle: TextStyle(
-          color: AppColorLight.textPrimary,
+          color: AppColorDark.textTertiary,
           fontSize: 17.sp,
           fontWeight: FontWeight.normal,
-          fontFamily: isRTL(context) ? fontArabic : fontEnglish,
+          // fontFamily: isRTL(context) ? fontArabic : fontEnglish,
+        ),
+        suffixIconColor: AppColorDark.textTertiary,
+        errorStyle: TextStyle(
+          color: AppColorDark.errorColor,
+          // fontFamily: isRTL(context) ? fontArabic : fontEnglish,
         ),
       ),
 
       //Bottom Sheet
       bottomSheetTheme: BottomSheetThemeData(
-        backgroundColor: AppColorLight.backgroundColor,
+        backgroundColor: AppColorDark.backgroundColor,
         dragHandleSize: const Size(double.infinity, 4),
-        dragHandleColor: AppColorLight.primaryColor,
+        dragHandleColor: AppColorDark.primaryColor,
       ),
 
       // Progress Indicator
       progressIndicatorTheme: ProgressIndicatorThemeData(
-        color: AppColorLight.primaryColor,
+        color: AppColorDark.primaryColor,
       ),
 
       //Text Button
@@ -140,25 +184,35 @@ ThemeData getThemeColorDark(BuildContext context) => ThemeData(
         style: ButtonStyle(
           textStyle: WidgetStatePropertyAll(
             TextStyle(
-              fontFamily: isRTL(context) ? fontArabic : fontEnglish,
+              // fontFamily: isRTL(context) ? fontArabic : fontEnglish,
               fontSize: 18.sp,
             ),
           ),
           foregroundColor: WidgetStatePropertyAll(
-            AppColorLight.linkTextColor,
+            AppColorDark.linkTextColor,
           ),
         ),
       ),
 
       //Divider
       dividerTheme: DividerThemeData(
-        color: AppColorLight.dividerColor,
+        color: AppColorDark.dividerColor,
         thickness: 1.2,
         endIndent: 10,
         indent: 10,
       ),
-      dialogTheme:
-          DialogThemeData(backgroundColor: AppColorLight.backgroundColor),
+
+      //Dialog
+      dialogTheme: DialogThemeData(
+        backgroundColor: AppColorDark.backgroundColor,
+      ),
+
+      // Bottom Navigation Bar
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        selectedItemColor: AppColorDark.primaryColor,
+        unselectedItemColor: AppColorDark.textDisabled,
+        elevation: 10,
+      ),
     );
 
 TextStyle _getTextStyle(

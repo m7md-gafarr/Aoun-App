@@ -18,6 +18,10 @@ class Assets {
   /// assets/image/Google.svg
   static const String imageGoogle = "assets/image/Google.svg";
 
+  /// Assets for imageGrou
+  /// assets/image/Grou.png
+  static const String imageGrou = "assets/image/Grou.png";
+
   /// Assets for imageIntroductionIntro1
   /// assets/image/introduction/intro_1.svg
   static const String imageIntroductionIntro1 = "assets/image/introduction/intro_1.svg";
@@ -41,6 +45,14 @@ class Assets {
   /// Assets for imageLogoLogoLogin
   /// assets/image/logo/LogoLogin.svg
   static const String imageLogoLogoLogin = "assets/image/logo/LogoLogin.svg";
+
+  /// Assets for imageMaker
+  /// assets/image/maker.svg
+  static const String imageMaker = "assets/image/maker.svg";
+
+  /// Assets for imageMap
+  /// assets/image/map.png
+  static const String imageMap = "assets/image/map.png";
 
   /// Assets for imageServiceService1
   /// assets/image/service/service_1.svg

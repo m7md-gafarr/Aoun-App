@@ -1,8 +1,9 @@
 import 'package:animations/animations.dart';
-import 'package:aoun_app/presentation/transport/views/mapViewRoute_screen.dart';
+import 'package:aoun_app/core/app_images/app_images.dart';
+import 'package:aoun_app/presentation/user/transport/views/mapViewRoute_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class TripMapWidget extends StatelessWidget {
   const TripMapWidget({super.key});
@@ -20,19 +21,8 @@ class TripMapWidget extends StatelessWidget {
           openBuilder: (context, action) => MapViewRouteScreen(),
           closedBuilder: (context, action) => GestureDetector(
             onTap: action,
-            child: AbsorbPointer(
-              child: GoogleMap(
-                initialCameraPosition: CameraPosition(
-                  target: LatLng(31.097804426099284, 30.944998274515168),
-                  zoom: 10,
-                ),
-                zoomControlsEnabled: false,
-                scrollGesturesEnabled: false,
-                zoomGesturesEnabled: false,
-                rotateGesturesEnabled: false,
-                tiltGesturesEnabled: false,
-                myLocationButtonEnabled: false,
-              ),
+            child: Image.asset(
+              Assets.imageMap,
             ),
           ),
         ),

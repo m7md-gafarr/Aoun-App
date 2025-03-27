@@ -201,7 +201,14 @@ ThemeData getThemeColorLight(BuildContext context) => ThemeData(
         endIndent: 10,
         indent: 10,
       ),
-
+      checkboxTheme: CheckboxThemeData(
+          side: BorderSide(
+            color: AppColorLight.primaryColor,
+          ),
+          checkColor: WidgetStatePropertyAll(
+            AppColorLight.primaryColor,
+          ),
+          fillColor: WidgetStatePropertyAll(AppColorLight.backgroundColor)),
       //Dialog
       dialogTheme: DialogThemeData(
         backgroundColor: AppColorLight.backgroundColor,

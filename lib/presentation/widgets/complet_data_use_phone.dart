@@ -88,7 +88,7 @@ class _CompletDataUsePhoneWidgetState extends State<CompletDataUsePhoneWidget> {
 
                   Navigator.pushNamedAndRemoveUntil(
                     context,
-                    AppRoutesName.homeScreenRoute,
+                    AppRoutesName.homeUserScreenRoute,
                     (route) => false,
                   );
                   setState(() {

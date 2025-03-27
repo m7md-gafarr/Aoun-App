@@ -14,7 +14,7 @@ class AppRoutesName {
   static const completeUserDataScreenRoute = "/completeUserDataScreenRoute";
 
   // Home Screen
-  static const homeScreenRoute = "/";
+  static const homeUserScreenRoute = "/";
 
   //Transport Service Screen
   static const tripDetailsScreenRoute = "/TripDetailsScreenRoute";
@@ -22,4 +22,14 @@ class AppRoutesName {
   static const bookTripScreenRoute = "/bookTripScreenRoute";
   static const paymentScreenRoute = "/paymentScreenRoute";
   static const addNewCardScreenRoute = "/addNewCardScreenRoute";
+  static const searchTripScreenRoute = "/searchTripScreenRoute";
+  static const mapSelectRouteScreenRoute = "/mapSelectRouteScreenRoute";
+
+  /////////////////////////////////////////////////////////
+
+  static const introductionDriverScreenRoute = "/introductionDriverScreenRoute";
+  static const registerDriverScreenRoute = "/registerDriverScreenRoute";
+
+  static const homeDriverScreenRoute = "homeDriverScreenRoute";
+  static const createTripScreenRoute = "createTripScreenRoute";
 }

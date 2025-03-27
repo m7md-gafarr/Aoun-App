@@ -1,0 +1,47 @@
+[
+  {
+      "featureType": "road",
+      "elementType": "geometry",
+      "stylers": [
+          {
+              "color": "#ffffff"
+          },
+          {
+              "visibility": "on"
+          }
+      ]
+  },
+  {
+      "featureType": "road",
+      "elementType": "geometry.stroke",
+      "stylers": [
+          {
+              "color": "#b3b3b3"
+          },
+          {
+              "visibility": "on"
+          }
+      ]
+  },
+  {
+      "featureType": "road",
+      "elementType": "labels",
+      "stylers": [
+          {
+              "visibility": "on"
+          },
+          {
+              "color": "#000000"
+          }
+      ]
+  },
+  {
+      "featureType": "landscape",
+      "elementType": "geometry",
+      "stylers": [
+          {
+              "color": "#f0f0f0"
+          }
+      ]
+  }
+]

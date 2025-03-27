@@ -9,7 +9,7 @@ class AppbarWidgetWelcomeAndNotification extends StatelessWidget {
     return SliverAppBar(
       automaticallyImplyLeading: false,
       floating: true,
-      pinned: false,
+      pinned: true,
       actions: [
         SizedBox(width: 13),
         Text(

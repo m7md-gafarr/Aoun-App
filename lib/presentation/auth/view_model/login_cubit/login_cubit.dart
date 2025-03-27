@@ -27,6 +27,7 @@ class LoginCubit extends Cubit<LoginState> {
           await AuthenticationRepository().login(user: user);
 
       if (response['successed'] == true) {
+        await SharedPreferencesService().userMode(true);
         await SharedPreferencesService().saveLoginState(response['token']);
         emit(LoginSuccess(S.of(context).login_successful));
       } else {

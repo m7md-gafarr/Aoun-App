@@ -84,7 +84,7 @@ class _PaymentScreenState extends State<PaymentScreen>
         ),
         indicatorSize: TabBarIndicatorSize.tab,
         labelColor: Theme.of(context).primaryColor,
-        unselectedLabelColor: Colors.black87,
+        unselectedLabelColor: Theme.of(context).textTheme.labelLarge!.color,
         indicatorAnimation: TabIndicatorAnimation.linear,
         indicatorColor: Colors.transparent,
         overlayColor: WidgetStatePropertyAll(Colors.transparent),
@@ -119,9 +119,10 @@ class _PaymentScreenState extends State<PaymentScreen>
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 13.0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 20.h),
-          Text("Wallet Number"),
+          Text("Pay from"),
           _buildCardSelector(),
         ],
       ),
@@ -282,15 +283,7 @@ class _PaymentScreenState extends State<PaymentScreen>
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(13.r)),
-        color: Theme.of(context).scaffoldBackgroundColor,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 6,
-            spreadRadius: 2,
-            offset: Offset(0, 4),
-          ),
-        ],
+        color: Theme.of(context).colorScheme.primaryContainer,
       ),
       padding: EdgeInsets.all(15),
       child: child,

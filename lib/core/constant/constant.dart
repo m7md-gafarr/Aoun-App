@@ -27,3 +27,6 @@ class ScaleSize {
 }
 
 /////////////////////////////////////////////////////////////
+
+const userModePassenger = "passenger";
+const userModeDriver = "Driver";

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_flip_card/flutter_flip_card.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -24,6 +25,11 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
     'expiry': FocusNode(),
     'name': FocusNode(),
   };
+
+  String _cardNumberText = "XXXX XXXX XXXX XXXX";
+  String _fullnameText = "Cardholder";
+  String _expiryDateText = "MM/YY";
+  String _cvvText = "XXX";
 
   @override
   void initState() {
@@ -88,19 +94,76 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          _buildTextField(_focusNodes['number']!, Iconsax.card, "Card number"),
+          _buildTextField(
+            _focusNodes['number']!,
+            Iconsax.card,
+            "Card number",
+            TextInputType.number,
+            (value) {
+              setState(() {
+                _cardNumberText = formatCardNumber(value);
+              });
+            },
+            [
+              FilteringTextInputFormatter.digitsOnly,
+              LengthLimitingTextInputFormatter(16),
+              CardNumberFormatter(),
+            ],
+          ),
           SizedBox(height: 15.h),
-          _buildTextField(_focusNodes['name']!, Iconsax.user, "Full name"),
+          _buildTextField(
+            _focusNodes['name']!,
+            Iconsax.user,
+            "Full name",
+            TextInputType.name,
+            (value) {
+              setState(() {
+                _fullnameText =
+                    value.isEmpty ? "CARDHOLDER" : value.toUpperCase();
+              });
+            },[
+             
+            ],
+          ),
           SizedBox(height: 15.h),
           Row(
             children: [
               Expanded(
-                  child: _buildTextField(
-                      _focusNodes['expiry']!, Iconsax.calendar_1, "MM/YY")),
+                child: _buildTextField(
+                  _focusNodes['expiry']!,
+                  Iconsax.calendar_1,
+                  "MM/YY",
+                  TextInputType.number,
+                  (value) {
+                    setState(() {
+                      _expiryDateText = formatExpiryDate(value);
+                    });
+                  },
+                  [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(4),
+                    ExpiryDateFormatter(),
+                  ],
+                ),
+              ),
               SizedBox(width: 15.w),
               Expanded(
-                  child: _buildTextField(
-                      _focusNodes['cvv']!, Iconsax.lock_1, "CVV")),
+                child: _buildTextField(
+                  _focusNodes['cvv']!,
+                  Iconsax.lock_1,
+                  "CVV",
+                  TextInputType.number,
+                  (value) {
+                    setState(() {
+                      _cvvText = value;
+                    });
+                  },
+                  [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(3),
+                  ],
+                ),
+              ),
             ],
           ),
           SizedBox(height: 20.h),
@@ -111,12 +174,22 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
     );
   }
 
-  Widget _buildTextField(FocusNode focusNode, IconData icon, String hint) {
+  Widget _buildTextField(
+    FocusNode focusNode,
+    IconData icon,
+    String hint,
+    TextInputType keyboardType,
+    Function(String) onChanged,
+    List<TextInputFormatter>? inputFormatters,
+  ) {
     return TextFormField(
       focusNode: focusNode,
+      keyboardType: keyboardType,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       cursorColor: Theme.of(context).primaryColor,
       decoration: InputDecoration(prefixIcon: Icon(icon), hintText: hint),
+      onChanged: onChanged,
+      inputFormatters: inputFormatters,
     );
   }
 
@@ -139,15 +212,18 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
             left: 7,
             child: Row(
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildCardText("XXXX XXXX XXXX XXXX", 17.sp),
-                    _buildCardText("Cardholder", 17.sp),
-                  ],
+                SizedBox(
+                  width: 215.w,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildCardText(_cardNumberText, 17.sp),
+                      _buildCardText(_fullnameText, 17.sp),
+                    ],
+                  ),
                 ),
                 SizedBox(width: 35.w),
-                _buildCardLabelValue('VALID\nTHRU', 'MM/YY'),
+                _buildCardLabelValue('VALID\nTHRU', _expiryDateText),
               ],
             ),
           ),
@@ -185,7 +261,7 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
       color: Colors.white54,
       alignment: Alignment.centerRight,
       padding: const EdgeInsets.only(right: 8.0),
-      child: Text("XXX",
+      child: Text(_cvvText,
           style: Theme.of(context)
               .textTheme
               .bodyLarge!
@@ -219,4 +295,53 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
               Theme.of(context).textTheme.labelSmall!.copyWith(color: color)),
     );
   }
+}
+
+class CardNumberFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    String text = newValue.text.replaceAll(RegExp(r'\D'), '');
+    String formatted = '';
+
+    for (int i = 0; i < text.length; i++) {
+      if (i > 0 && i % 4 == 0) formatted += ' ';
+      formatted += text[i];
+    }
+
+    return TextEditingValue(
+      text: formatted,
+      selection: TextSelection.collapsed(offset: formatted.length),
+    );
+  }
+}
+
+class ExpiryDateFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    final text = newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
+    String formatted = text;
+
+    if (text.length >= 2) {
+      formatted = '${text.substring(0, 2)}/${text.substring(2)}';
+    }
+
+    return newValue.copyWith(
+        text: formatted,
+        selection: TextSelection.collapsed(offset: formatted.length));
+  }
+}
+
+String formatCardNumber(String value) {
+  return value
+      .replaceAllMapped(RegExp(r'.{1,4}'), (match) => '${match.group(0)} ')
+      .trim();
+}
+
+String formatExpiryDate(String value) {
+  if (value.length >= 2) {
+    return '${value.substring(0, 2)}/${value.substring(2)}';
+  }
+  return value;
 }

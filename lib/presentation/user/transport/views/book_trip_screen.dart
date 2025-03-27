@@ -22,18 +22,21 @@ class _BookTripScreenState extends State<BookTripScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AppbarWidget(title: "Book trip"),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 13.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildSeatSelection(),
-            const DividerWidget(),
-            _buildMeetingPointSection(),
-            const DividerWidget(),
-            _buildNoteSection(),
-            _buildContinueButton(),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 13.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildSeatSelection(),
+              const DividerWidget(),
+              _buildMeetingPointSection(),
+              const DividerWidget(),
+              _buildNoteSection(),
+              _buildContinueButton(),
+              SizedBox(height: 15.h)
+            ],
+          ),
         ),
       ),
     );

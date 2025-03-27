@@ -34,7 +34,7 @@ class _CompletUserDataScreenState extends State<CompletUserDataScreen> {
   void dispose() {
     _controllerEmail!.dispose();
     _controllerName!.dispose();
-
+    _phone!.dispose();
     super.dispose();
   }
 
@@ -110,7 +110,8 @@ class _CompletUserDataScreenState extends State<CompletUserDataScreen> {
                 SizedBox(height: 30.h),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, AppRoutesName.homeScreenRoute);
+                    Navigator.pushNamed(
+                        context, AppRoutesName.homeUserScreenRoute);
                   },
                   child: Text(S.of(context).intro_next_button),
                 )
