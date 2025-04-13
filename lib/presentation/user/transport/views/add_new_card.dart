@@ -121,9 +121,8 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
                 _fullnameText =
                     value.isEmpty ? "CARDHOLDER" : value.toUpperCase();
               });
-            },[
-             
-            ],
+            },
+            [],
           ),
           SizedBox(height: 15.h),
           Row(

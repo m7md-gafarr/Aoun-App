@@ -2,8 +2,11 @@
     "java.configuration.updateBuildConfiguration": "automatic",
     "cmake.ignoreCMakeListsMissing": true,
     "cSpell.words": [
+        "aoun",
         "getstated",
+        "jvmargs",
         "mapselectd",
+        "Metaspace",
         "successed"
     ]
 }

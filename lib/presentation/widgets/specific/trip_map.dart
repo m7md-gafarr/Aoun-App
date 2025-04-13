@@ -3,7 +3,6 @@ import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/presentation/user/transport/views/mapViewRoute_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class TripMapWidget extends StatelessWidget {
   const TripMapWidget({super.key});

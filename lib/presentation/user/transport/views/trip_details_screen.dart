@@ -1,12 +1,9 @@
-import 'dart:ui';
-
 import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart';
 import 'package:aoun_app/presentation/widgets/common/divider_widget.dart';
 import 'package:aoun_app/presentation/widgets/common/title_Info_trip_widget.dart';
 import 'package:aoun_app/presentation/widgets/specific/trip_map.dart'
     show TripMapWidget;
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pannable_rating_bar/flutter_pannable_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

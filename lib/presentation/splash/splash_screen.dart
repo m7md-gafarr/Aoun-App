@@ -35,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen>
                   ? (isUserMode!
                       ? AppRoutesName.homeUserScreenRoute
                       : AppRoutesName.homeDriverScreenRoute)
-                  : AppRoutesName.loginScreenRoute)
+                  : AppRoutesName.selectTypeScreenRoute)
               : AppRoutesName.introductionScreenRoute,
           (Route<dynamic> route) => false,
         );

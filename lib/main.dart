@@ -1,15 +1,16 @@
 import 'package:aoun_app/core/Theme/app_theme_dark.dart';
 import 'package:aoun_app/core/router/app_route.dart';
+import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/core/utils/check_connection/check_connection_cubit.dart';
-import 'package:aoun_app/core/utils/language.dart';
+import 'package:aoun_app/core/utils/language/language.dart';
 import 'package:aoun_app/core/utils/location/location_Provider.dart';
 import 'package:aoun_app/data/repositories/local/shared_pref.dart';
 import 'package:aoun_app/generated/l10n.dart';
-import 'package:aoun_app/presentation/auth/view_model/confirmPassword_cubit/confirm_password_cubit.dart';
-import 'package:aoun_app/presentation/auth/view_model/login_cubit/login_cubit.dart';
-import 'package:aoun_app/presentation/auth/view_model/register_cubit/register_cubit.dart';
-import 'package:aoun_app/presentation/auth/view_model/sendOTPForPasswordReset_cubit/send_otp_for_password_reset_cubit.dart';
-import 'package:aoun_app/presentation/auth/view_model/verifyOTP_cubit/verify_otp_cubit.dart';
+import 'package:aoun_app/presentation/user/auth/view_model/confirmPassword_cubit/confirm_password_cubit.dart';
+import 'package:aoun_app/presentation/user/auth/view_model/login_cubit/login_cubit.dart';
+import 'package:aoun_app/presentation/user/auth/view_model/register_cubit/register_cubit.dart';
+import 'package:aoun_app/presentation/user/auth/view_model/sendOTPForPasswordReset_cubit/send_otp_for_password_reset_cubit.dart';
+import 'package:aoun_app/presentation/user/auth/view_model/verifyOTP_cubit/verify_otp_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -17,7 +18,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'core/Theme/app_theme_light.dart';
-import 'core/router/route_name.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,11 +40,15 @@ void main() async {
             create: (context) => RegisterCubit(CheckConnectionCubit())),
         BlocProvider(create: (context) => CheckConnectionCubit()),
       ],
-      child: ChangeNotifierProvider(
-        create: (context) => LanguageProvider(),
-        child: MultiProvider(
+      child: Builder(
+        builder: (context) => MultiProvider(
           providers: [
-            ChangeNotifierProvider(create: (_) => LocationProvider()),
+            ChangeNotifierProvider(
+              create: (context) => LocationProvider(context),
+            ),
+            ChangeNotifierProvider(
+              create: (_) => LanguageProvider(),
+            ),
           ],
           child: AounApp(
             appRouter: AppRouter(),

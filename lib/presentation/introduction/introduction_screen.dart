@@ -167,7 +167,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                       // Navigate to the login screen when the last page is reached
                       Navigator.pushNamedAndRemoveUntil(
                         context,
-                        AppRoutesName.loginScreenRoute,
+                        AppRoutesName.selectTypeScreenRoute,
                         (route) => false, // Removes all previous routes
                       );
 

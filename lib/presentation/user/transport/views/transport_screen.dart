@@ -34,8 +34,21 @@ class _TransportScreenState extends State<TransportScreen> {
         ),
         _buildCardSwiper(),
         _buildLocationFields(context),
-        _buildLastedTitle(context),
-        _buildTripList(),
+        SliverToBoxAdapter(
+          child: Divider(
+            height: 50.h,
+            endIndent: 35.w,
+            indent: 35.w,
+          ),
+        ),
+        _buildLastedTitle(
+            context, "Our premium services tailored\nto your location"),
+        _buildTripList(3),
+        _buildLastedTitle(context, "Lasted trips"),
+        _buildTripList(15),
+        SliverToBoxAdapter(
+          child: SizedBox(height: 7.h),
+        ),
       ],
     );
   }
@@ -142,7 +155,7 @@ class _TransportScreenState extends State<TransportScreen> {
     );
   }
 
-  Widget _buildLastedTitle(BuildContext context) {
+  Widget _buildLastedTitle(BuildContext contex, String text) {
     return SliverToBoxAdapter(
       child: Padding(
         padding: EdgeInsets.only(
@@ -152,7 +165,7 @@ class _TransportScreenState extends State<TransportScreen> {
           top: 7.h,
         ),
         child: Text(
-          "Lasted",
+          text,
           style: Theme.of(context).textTheme.titleSmall!.copyWith(
                 fontWeight: FontWeight.bold,
               ),
@@ -161,11 +174,11 @@ class _TransportScreenState extends State<TransportScreen> {
     );
   }
 
-  Widget _buildTripList() {
+  Widget _buildTripList(int count) {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (context, index) => const TripWidget(),
-        childCount: 10,
+        childCount: count,
       ),
     );
   }

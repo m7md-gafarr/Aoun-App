@@ -1,22 +1,36 @@
 class AppRoutesName {
-  //Splash screen
+  // TODO : Splash screen
   static const splashScreenRoute = "/splashScreenRoute";
 
-  // introductions Screen
+  // TODO : introductions Screen
   static const introductionScreenRoute = "/introductionScreenRoute";
+  static const selectTypeScreenRoute = "/selectTypeScreenRoute";
 
-  //Auth Screen
-  static const loginScreenRoute = "/loginScreenRoute";
-  static const registerScreenRoute = "/RegisterScreenRoute";
-  static const resetPasswordScreenRoute = "/ResetPasswordScreenRoute";
-  static const confirmPasswordScreenRoute = "/ConfirmPasswordScreenRoute";
-  static const oTPScreenRoute = "/oTPScreenRoute";
+  // TODO : Auth Screen user
+  static const userloginScreenRoute = "/userloginScreenRoute";
+  static const userRegisterScreenRoute = "/userregisterScreenRoute";
+  static const userResetPasswordScreenRoute = "/userResetPasswordScreenRoute";
+  static const userConfirmPasswordScreenRoute =
+      "/userConfirmPasswordScreenRoute";
+  static const userOTPScreenRoute = "/userOTPScreenRoute";
   static const completeUserDataScreenRoute = "/completeUserDataScreenRoute";
 
-  // Home Screen
+  // TODO : Auth Screen user
+  static const driverloginScreenRoute = "/driverloginScreenRoute";
+  static const driverRegisterScreenRoute = "/driverRegisterScreenRoute";
+  static const driverResetPasswordScreenRoute =
+      "/driverResetPasswordScreenRoute";
+  static const driverConfirmPasswordScreenRoute =
+      "/driverConfirmPasswordScreenRoute";
+  static const driverOTPScreenRoute = "/driverOTPScreenRoute";
+
+  // TODO : Home Screen user
   static const homeUserScreenRoute = "/";
 
-  //Transport Service Screen
+  // TODO : Home screen driver
+  static const homeDriverScreenRoute = "homeDriverScreenRoute";
+
+  // TODO : Transport Service Screen
   static const tripDetailsScreenRoute = "/TripDetailsScreenRoute";
   static const mapViewRouteScreenRoute = "/mapViewRouteScreenRoute";
   static const bookTripScreenRoute = "/bookTripScreenRoute";
@@ -27,9 +41,6 @@ class AppRoutesName {
 
   /////////////////////////////////////////////////////////
 
-  static const introductionDriverScreenRoute = "/introductionDriverScreenRoute";
-  static const registerDriverScreenRoute = "/registerDriverScreenRoute";
-
-  static const homeDriverScreenRoute = "homeDriverScreenRoute";
+  static const driverIntroductionScreenRoute = "/driverIntroductionScreenRoute";
   static const createTripScreenRoute = "createTripScreenRoute";
 }

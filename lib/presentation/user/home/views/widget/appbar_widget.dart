@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 
 class AppbarWidgetWelcomeAndNotification extends StatelessWidget {
@@ -8,10 +9,12 @@ class AppbarWidgetWelcomeAndNotification extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
       automaticallyImplyLeading: false,
+      pinned: false,
+      snap: true,
       floating: true,
-      pinned: true,
+      stretch: true,
       actions: [
-        SizedBox(width: 13),
+        SizedBox(width: 13.w),
         Text(
           "Welcome $userName ,",
           style: Theme.of(context).textTheme.titleSmall,
@@ -23,7 +26,11 @@ class AppbarWidgetWelcomeAndNotification extends StatelessWidget {
           Iconsax.notification,
           color: Theme.of(context).primaryColor,
         ),
-        SizedBox(width: 13),
+        SizedBox(width: 13.w),
+        CircleAvatar(
+          maxRadius: 13.w,
+        ),
+        SizedBox(width: 13.w),
       ],
     );
   }

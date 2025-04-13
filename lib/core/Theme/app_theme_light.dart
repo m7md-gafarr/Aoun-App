@@ -66,7 +66,7 @@ ThemeData getThemeColorLight(BuildContext context) => ThemeData(
           textStyle: WidgetStatePropertyAll(
             TextStyle(
               letterSpacing: .7,
-              // fontFamily: isRTL(context) ? fontArabic : fontEnglish,
+              fontFamily: isRTL(context) ? fontArabic : fontEnglish,
               fontSize: 18.sp,
               fontWeight: FontWeight.w500,
             ),
