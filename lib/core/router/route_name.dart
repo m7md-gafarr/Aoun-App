@@ -1,12 +1,12 @@
 class AppRoutesName {
-  // TODO : Splash screen
+  //  Splash screen
   static const splashScreenRoute = "/splashScreenRoute";
 
-  // TODO : introductions Screen
+  // introductions Screens
   static const introductionScreenRoute = "/introductionScreenRoute";
   static const selectTypeScreenRoute = "/selectTypeScreenRoute";
 
-  // TODO : Auth Screen user
+  //  Auth Screens user
   static const userloginScreenRoute = "/userloginScreenRoute";
   static const userRegisterScreenRoute = "/userregisterScreenRoute";
   static const userResetPasswordScreenRoute = "/userResetPasswordScreenRoute";
@@ -15,7 +15,7 @@ class AppRoutesName {
   static const userOTPScreenRoute = "/userOTPScreenRoute";
   static const completeUserDataScreenRoute = "/completeUserDataScreenRoute";
 
-  // TODO : Auth Screen user
+  // Auth Screens Driver
   static const driverloginScreenRoute = "/driverloginScreenRoute";
   static const driverRegisterScreenRoute = "/driverRegisterScreenRoute";
   static const driverResetPasswordScreenRoute =
@@ -24,13 +24,13 @@ class AppRoutesName {
       "/driverConfirmPasswordScreenRoute";
   static const driverOTPScreenRoute = "/driverOTPScreenRoute";
 
-  // TODO : Home Screen user
+  //  Home Screen user
   static const homeUserScreenRoute = "/";
 
-  // TODO : Home screen driver
+  //  Home screen driver
   static const homeDriverScreenRoute = "homeDriverScreenRoute";
 
-  // TODO : Transport Service Screen
+  //  Transport Screens
   static const tripDetailsScreenRoute = "/TripDetailsScreenRoute";
   static const mapViewRouteScreenRoute = "/mapViewRouteScreenRoute";
   static const bookTripScreenRoute = "/bookTripScreenRoute";
@@ -38,6 +38,13 @@ class AppRoutesName {
   static const addNewCardScreenRoute = "/addNewCardScreenRoute";
   static const searchTripScreenRoute = "/searchTripScreenRoute";
   static const mapSelectRouteScreenRoute = "/mapSelectRouteScreenRoute";
+
+  // Profile user screen
+  static const userProfileScreenRoute = "/userProfileScreenRoute";
+  static const userEditProfileScreenRoute = "/userEditProfileScreenRoute";
+
+  // Notification user screen
+  static const userNotificationScreenRoute = "/userNotificationScreenRoute";
 
   /////////////////////////////////////////////////////////
 

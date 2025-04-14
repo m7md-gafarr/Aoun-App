@@ -1,3 +1,4 @@
+import 'package:aoun_app/data/model/debit_card_model/debit_card_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -5,8 +6,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:aoun_app/core/app_images/app_images.dart';
 
 class DebitCardWidget extends StatelessWidget {
-  const DebitCardWidget({super.key});
-
+  const DebitCardWidget({super.key, required this.model});
+  final DebitCardModel model;
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -33,15 +34,20 @@ class DebitCardWidget extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildCardText("•••• •••• •••• 4586", 17.sp),
-                    _buildCardText("MOHAMED SOBHY GAFAR", 17.sp),
-                  ],
+                SizedBox(
+                  width: 215.w,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildCardText(
+                          "•••• •••• •••• ${model.cardNumber.substring(model.cardNumber.length - 4)}",
+                          17.sp),
+                      _buildCardText(model.fullName.toUpperCase(), 17.sp),
+                    ],
+                  ),
                 ),
                 SizedBox(width: 35.w),
-                _buildCardLabelValue('VALID\nTHRU', '44/64'),
+                _buildCardLabelValue('VALID\nTHRU', model.validThru),
               ],
             ),
           ),

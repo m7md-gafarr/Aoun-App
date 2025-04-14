@@ -1,6 +1,8 @@
 import 'package:aoun_app/core/router/route_name.dart';
+import 'package:aoun_app/presentation/user/transport/view_model/view%20debit%20card/view_all_debit_card_cubit.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -15,9 +17,14 @@ class _PaymentScreenState extends State<PaymentScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
+  int _selectedCard = 0;
+
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
+
+    context.read<ViewAllDebitCardCubit>().fetchDebitcard();
+
     super.initState();
   }
 
@@ -140,7 +147,7 @@ class _PaymentScreenState extends State<PaymentScreen>
           context: context,
           builder: (context) => Container(
             padding: EdgeInsets.all(13),
-            height: 200.h,
+            height: 300.h,
             child: Column(
               children: [
                 Text(
@@ -148,7 +155,47 @@ class _PaymentScreenState extends State<PaymentScreen>
                   style: Theme.of(context).textTheme.labelMedium,
                 ),
                 SizedBox(height: 20.h),
-                _buildPaymentOption("1549", "Mohamed Sokar"),
+                BlocBuilder<ViewAllDebitCardCubit, ViewAllDebitCardState>(
+                  builder: (context, state) {
+                    if (state is ViewAllDebitCardSuccess) {
+                      return SizedBox(
+                        height: 210.h,
+                        child: ListView.separated(
+                          separatorBuilder: (context, index) {
+                            return Divider(
+                              thickness: .5,
+                            );
+                          },
+                          itemCount: state.debitCardList.length,
+                          itemBuilder: (context, index) => _buildPaymentOption(
+                            state.debitCardList[index].cardNumber.substring(
+                              state.debitCardList[index].cardNumber.length - 4,
+                            ),
+                            state.debitCardList[index].fullName,
+                            () {
+                              setState(() {
+                                _selectedCard = index;
+                              });
+                              Navigator.pop(context);
+                            },
+                            _selectedCard == index,
+                          ),
+                        ),
+                      );
+                    } else if (state is ViewAllDebitCardLoading) {
+                      return Center(child: CircularProgressIndicator());
+                    } else {
+                      return SizedBox(
+                        height: 210.h,
+                        child: Center(
+                            child: Text(
+                          "No Debit Card Found",
+                          style: Theme.of(context).textTheme.titleMedium,
+                        )),
+                      );
+                    }
+                  },
+                ),
                 Spacer(),
                 _buildAddNewCardOption(),
               ],
@@ -156,55 +203,110 @@ class _PaymentScreenState extends State<PaymentScreen>
           ),
         );
       },
-      child: _buildContainer(
+      child: BlocBuilder<ViewAllDebitCardCubit, ViewAllDebitCardState>(
+        builder: (context, state) {
+          if (state is ViewAllDebitCardSuccess) {
+            return _buildContainer(
+              child: Row(
+                children: [
+                  Text(
+                    state.debitCardList[_selectedCard].cardNumber.substring(
+                      state.debitCardList[_selectedCard].cardNumber.length - 4,
+                    ),
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall!
+                        .copyWith(fontSize: 16.sp),
+                  ),
+                  VerticalDivider(width: 30.w),
+                  Text(
+                    state.debitCardList[0].fullName,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall!
+                        .copyWith(fontSize: 16.sp),
+                  ),
+                  Spacer(),
+                  Icon(Iconsax.arrow_down_1, size: 20.w),
+                ],
+              ),
+            );
+          } else if (state is ViewAllDebitCardLoading) {
+            return _buildContainer(
+              child: Row(
+                children: [
+                  Text(
+                    "****",
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall!
+                        .copyWith(fontSize: 16.sp),
+                  ),
+                  VerticalDivider(width: 30.w),
+                  Text(
+                    "loading",
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall!
+                        .copyWith(fontSize: 16.sp),
+                  ),
+                  Spacer(),
+                  Icon(Iconsax.arrow_down_1, size: 20.w),
+                ],
+              ),
+            );
+          } else {
+            return _buildContainer(
+              child: Row(
+                children: [
+                  Text(
+                    "No cards available",
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall!
+                        .copyWith(fontSize: 16.sp),
+                  ),
+                  Spacer(),
+                  Icon(Iconsax.add, size: 20.w),
+                ],
+              ),
+            );
+          }
+        },
+      ),
+    );
+  }
+
+  Widget _buildPaymentOption(
+      String number, String name, void Function()? onTap, bool Selected) {
+    return InkWell(
+      onTap: onTap,
+      child: SizedBox(
+        height: 40.h,
         child: Row(
           children: [
-            Text(
-              "1549",
-              style: Theme.of(context)
-                  .textTheme
-                  .titleSmall!
-                  .copyWith(fontSize: 16.sp),
+            SizedBox(
+              width: 45.w,
+              child: Text(
+                number,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleSmall!
+                    .copyWith(fontSize: 16.sp),
+              ),
             ),
-            VerticalDivider(width: 30.w),
+            VerticalDivider(width: 30.w, endIndent: 15, indent: 15),
             Text(
-              "Mohamed Sokar",
+              name,
               style: Theme.of(context)
                   .textTheme
                   .titleSmall!
                   .copyWith(fontSize: 16.sp),
             ),
             Spacer(),
-            Icon(Iconsax.arrow_down_1, size: 20.w),
+            Selected ? Icon(Iconsax.tick_circle) : const SizedBox(),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildPaymentOption(String number, String name) {
-    return SizedBox(
-      height: 40.h,
-      child: Row(
-        children: [
-          Text(
-            number,
-            style: Theme.of(context)
-                .textTheme
-                .titleSmall!
-                .copyWith(fontSize: 16.sp),
-          ),
-          VerticalDivider(width: 30.w, endIndent: 15, indent: 15),
-          Text(
-            name,
-            style: Theme.of(context)
-                .textTheme
-                .titleSmall!
-                .copyWith(fontSize: 16.sp),
-          ),
-          Spacer(),
-          Icon(Iconsax.tick_circle),
-        ],
       ),
     );
   }

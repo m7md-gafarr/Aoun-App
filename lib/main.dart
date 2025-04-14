@@ -4,6 +4,8 @@ import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/core/utils/check_connection/check_connection_cubit.dart';
 import 'package:aoun_app/core/utils/language/language.dart';
 import 'package:aoun_app/core/utils/location/location_Provider.dart';
+import 'package:aoun_app/data/model/debit_card_model/debit_card_model.dart';
+import 'package:aoun_app/data/repositories/local/hive.dart';
 import 'package:aoun_app/data/repositories/local/shared_pref.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/user/auth/view_model/confirmPassword_cubit/confirm_password_cubit.dart';
@@ -11,11 +13,14 @@ import 'package:aoun_app/presentation/user/auth/view_model/login_cubit/login_cub
 import 'package:aoun_app/presentation/user/auth/view_model/register_cubit/register_cubit.dart';
 import 'package:aoun_app/presentation/user/auth/view_model/sendOTPForPasswordReset_cubit/send_otp_for_password_reset_cubit.dart';
 import 'package:aoun_app/presentation/user/auth/view_model/verifyOTP_cubit/verify_otp_cubit.dart';
+import 'package:aoun_app/presentation/user/transport/view_model/add%20new%20debit%20card/add_new_debit_card_cubit.dart';
+import 'package:aoun_app/presentation/user/transport/view_model/view%20debit%20card/view_all_debit_card_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
 import 'core/Theme/app_theme_light.dart';
 
@@ -25,6 +30,9 @@ void main() async {
   await ScreenUtil.ensureScreenSize();
   await SharedPreferencesService().init();
 
+  await Hive.initFlutter();
+  Hive.registerAdapter(DebitCardModelAdapter());
+  await Hive.openBox<DebitCardModel>(HiveService.DEBITCARDBOX);
   runApp(
     MultiBlocProvider(
       providers: [
@@ -39,6 +47,8 @@ void main() async {
         BlocProvider(
             create: (context) => RegisterCubit(CheckConnectionCubit())),
         BlocProvider(create: (context) => CheckConnectionCubit()),
+        BlocProvider(create: (context) => ViewAllDebitCardCubit()),
+        BlocProvider(create: (context) => AddNewDebitCardCubit()),
       ],
       child: Builder(
         builder: (context) => MultiProvider(

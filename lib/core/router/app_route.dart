@@ -17,7 +17,10 @@ import 'package:aoun_app/presentation/user/auth/views/user_login_screen.dart';
 import 'package:aoun_app/presentation/user/auth/views/user_otp_screen.dart';
 import 'package:aoun_app/presentation/splash/splash_screen.dart';
 import 'package:animations/animations.dart';
-import 'package:aoun_app/presentation/user/transport/views/add_new_card.dart';
+import 'package:aoun_app/presentation/user/notification/view/user_notification_screen.dart';
+import 'package:aoun_app/presentation/user/profile/view/user_edit_profile_screen.dart';
+import 'package:aoun_app/presentation/user/profile/view/user_profile_screen.dart';
+import 'package:aoun_app/presentation/user/transport/views/add_new_card_screen.dart';
 import 'package:aoun_app/presentation/user/transport/views/book_trip_screen.dart';
 import 'package:aoun_app/presentation/user/transport/views/mapSelectRoute_screen.dart';
 import 'package:aoun_app/presentation/user/transport/views/mapViewRoute_screen.dart';
@@ -32,11 +35,11 @@ import '../../presentation/user/auth/views/complet_user_data_screen.dart';
 class AppRouter {
   Route generate_route(RouteSettings settings) {
     switch (settings.name) {
-      // TODO : Splash route
+      //  Splash route
       case AppRoutesName.splashScreenRoute:
         return MaterialPageRoute(builder: (context) => const SplashScreen());
 
-      // TODO : introduction route
+      //  introduction route
       case AppRoutesName.introductionScreenRoute:
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) =>
@@ -60,7 +63,7 @@ class AppRouter {
           },
         );
 
-      // TODO : Auth user route
+      //  Auth user route
       case AppRoutesName.userloginScreenRoute:
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) =>
@@ -75,7 +78,6 @@ class AppRouter {
             );
           },
         );
-
       case AppRoutesName.userRegisterScreenRoute:
         return MaterialPageRoute(
             builder: (context) => const UserRegisterScreen());
@@ -131,7 +133,7 @@ class AppRouter {
           },
         );
 
-      // TODO : Auth Driver route
+      // Auth Driver route
       case AppRoutesName.driverloginScreenRoute:
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) =>
@@ -146,16 +148,13 @@ class AppRouter {
             );
           },
         );
-
       case AppRoutesName.driverRegisterScreenRoute:
         return MaterialPageRoute(
             builder: (context) => const DriverRegisterScreen());
-
       case AppRoutesName.driverResetPasswordScreenRoute:
         return MaterialPageRoute(
           builder: (context) => const DriverResetPasswordScreen(),
         );
-
       case AppRoutesName.driverOTPScreenRoute:
         return PageRouteBuilder(
           settings: settings,
@@ -171,7 +170,6 @@ class AppRouter {
             );
           },
         );
-
       case AppRoutesName.driverConfirmPasswordScreenRoute:
         return PageRouteBuilder(
           settings: settings,
@@ -188,7 +186,7 @@ class AppRouter {
           },
         );
 
-      // TODO :  Home user Screen
+      //   Home user Screen
       case AppRoutesName.homeUserScreenRoute:
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) =>
@@ -208,16 +206,17 @@ class AppRouter {
             );
           },
         );
-      // TODO :  Home Driver Screen
+
+      //   Home Driver Screen
       case AppRoutesName.homeDriverScreenRoute:
         return MaterialPageRoute(
           builder: (context) => HomeDriverScreen(),
         );
-      // TODO : Transport route
+
+      //  Transport route
       case AppRoutesName.tripDetailsScreenRoute:
         return MaterialPageRoute(
             builder: (context) => const TripDetailsScreen());
-
       case AppRoutesName.mapViewRouteScreenRoute:
         return MaterialPageRoute(
             builder: (context) => const MapViewRouteScreen());
@@ -257,12 +256,21 @@ class AppRouter {
             );
           },
         );
-
       case AppRoutesName.addNewCardScreenRoute:
         return MaterialPageRoute(
             builder: (context) => const AddNewCardScreen());
 
-      ///
+      /// User Profile Screen
+      case AppRoutesName.userProfileScreenRoute:
+        return MaterialPageRoute(builder: (context) => UserProfileScreen());
+      case AppRoutesName.userEditProfileScreenRoute:
+        return MaterialPageRoute(builder: (context) => UserEditProfileScreen());
+
+      /// User Notification Screen
+      case AppRoutesName.userNotificationScreenRoute:
+        return MaterialPageRoute(
+            builder: (context) => UserNotificationScreen());
+
       ///
       ////////////////////////////////////
       ///

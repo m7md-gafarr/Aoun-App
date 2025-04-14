@@ -1,5 +1,11 @@
+import 'package:aoun_app/data/model/debit_card_model/debit_card_model.dart';
+import 'package:aoun_app/generated/l10n.dart';
+import 'package:aoun_app/presentation/user/transport/view_model/add%20new%20debit%20card/add_new_debit_card_cubit.dart';
+import 'package:aoun_app/presentation/user/transport/view_model/view%20debit%20card/view_all_debit_card_cubit.dart';
+import 'package:aoun_app/presentation/widgets/common/success_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_flip_card/flutter_flip_card.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -30,7 +36,7 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
   String _fullnameText = "Cardholder";
   String _expiryDateText = "MM/YY";
   String _cvvText = "XXX";
-
+  GlobalKey<FormState> formKey = GlobalKey();
   @override
   void initState() {
     super.initState();
@@ -91,89 +97,196 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
   }
 
   Widget _buildForm(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          _buildTextField(
-            _focusNodes['number']!,
-            Iconsax.card,
-            "Card number",
-            TextInputType.number,
-            (value) {
-              setState(() {
-                _cardNumberText = formatCardNumber(value);
-              });
-            },
-            [
-              FilteringTextInputFormatter.digitsOnly,
-              LengthLimitingTextInputFormatter(16),
-              CardNumberFormatter(),
-            ],
-          ),
-          SizedBox(height: 15.h),
-          _buildTextField(
-            _focusNodes['name']!,
-            Iconsax.user,
-            "Full name",
-            TextInputType.name,
-            (value) {
-              setState(() {
-                _fullnameText =
-                    value.isEmpty ? "CARDHOLDER" : value.toUpperCase();
-              });
-            },
-            [],
-          ),
-          SizedBox(height: 15.h),
-          Row(
-            children: [
-              Expanded(
-                child: _buildTextField(
-                  _focusNodes['expiry']!,
-                  Iconsax.calendar_1,
-                  "MM/YY",
-                  TextInputType.number,
-                  (value) {
-                    setState(() {
-                      _expiryDateText = formatExpiryDate(value);
-                    });
-                  },
-                  [
-                    FilteringTextInputFormatter.digitsOnly,
-                    LengthLimitingTextInputFormatter(4),
-                    ExpiryDateFormatter(),
-                  ],
+    return Form(
+      key: formKey,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            _buildTextField(
+              (value) {
+                if (value == null || value.isEmpty) {
+                  return "S.of(context).enter_card_number";
+                } else if (value.length != 19) {
+                  return "S.of(context).invalid_card_number_lengt";
+                }
+
+                return null;
+              },
+              _focusNodes['number']!,
+              Iconsax.card,
+              "Card number",
+              TextInputType.number,
+              (value) {
+                setState(() {
+                  _cardNumberText = value;
+                });
+              },
+              [
+                FilteringTextInputFormatter.digitsOnly,
+                LengthLimitingTextInputFormatter(16),
+                CardNumberFormatter(),
+              ],
+            ),
+            SizedBox(height: 15.h),
+            _buildTextField(
+              (value) {
+                if (value == null || value.isEmpty) {
+                  return "S.of(context).enter_full_name";
+                } else if (!RegExp(r'^[A-Za-z]+(?: [A-Za-z]+){2}$')
+                    .hasMatch(value)) {
+                  return "S.of(context).invalid_name_format";
+                }
+
+                return null;
+              },
+              _focusNodes['name']!,
+              Iconsax.user,
+              "Full name",
+              TextInputType.name,
+              (value) {
+                setState(() {
+                  _fullnameText =
+                      value.isEmpty ? "CARDHOLDER" : value.toUpperCase();
+                });
+              },
+              [],
+            ),
+            SizedBox(height: 15.h),
+            Row(
+              children: [
+                Expanded(
+                  child: _buildTextField(
+                    (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Please enter expiry date";
+                      }
+
+                      final cleaned = value.replaceAll(RegExp(r'[^0-9]'), '');
+                      if (cleaned.length != 4) {
+                        return "Enter 4 digits (MMYY)";
+                      }
+
+                      final month = int.tryParse(cleaned.substring(0, 2));
+                      final year = int.tryParse('20${cleaned.substring(2)}');
+
+                      if (month == null || month < 1 || month > 12) {
+                        return "Invalid month";
+                      }
+
+                      final now = DateTime.now();
+                      final inputDate = DateTime(year!, month);
+
+                      if (inputDate.isBefore(DateTime(now.year, now.month))) {
+                        return "Card expired";
+                      }
+
+                      return null;
+                    },
+                    _focusNodes['expiry']!,
+                    Iconsax.calendar_1,
+                    "MM/YY",
+                    TextInputType.number,
+                    (value) {
+                      setState(() {
+                        _expiryDateText = value;
+                      });
+                    },
+                    [
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(4),
+                      ExpiryDateFormatter(),
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(width: 15.w),
-              Expanded(
-                child: _buildTextField(
-                  _focusNodes['cvv']!,
-                  Iconsax.lock_1,
-                  "CVV",
-                  TextInputType.number,
-                  (value) {
-                    setState(() {
-                      _cvvText = value;
-                    });
-                  },
-                  [
-                    FilteringTextInputFormatter.digitsOnly,
-                    LengthLimitingTextInputFormatter(3),
-                  ],
+                SizedBox(width: 15.w),
+                Expanded(
+                  child: _buildTextField(
+                    (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Please enter CVV";
+                      }
+                      if (!RegExp(r'^\d{3}$').hasMatch(value)) {
+                        return "CVV must be 3 digits";
+                      }
+                      return null;
+                    },
+                    _focusNodes['cvv']!,
+                    Iconsax.lock_1,
+                    "CVV",
+                    TextInputType.number,
+                    (value) {
+                      setState(() {
+                        _cvvText = value;
+                      });
+                    },
+                    [
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(3),
+                    ],
+                  ),
                 ),
+              ],
+            ),
+            SizedBox(height: 20.h),
+            ElevatedButton(
+              onPressed: () async {
+                if (formKey.currentState!.validate()) {
+                  formKey.currentState!.save();
+
+                  await context.read<AddNewDebitCardCubit>().addDebitCard(
+                        DebitCardModel(
+                          cardNumber: _cardNumberText,
+                          fullName: _fullnameText,
+                          cvv: _cvvText,
+                          validThru: _expiryDateText,
+                        ),
+                      );
+                }
+              },
+              child: BlocConsumer<AddNewDebitCardCubit, AddNewDebitCardState>(
+                listener: (context, state) {
+                  if (state is AddNewDebitCardSuccess) {
+                    SuccessDialogWidget(
+                      message: "Success Add Card",
+                      title: S.of(context).confirmed_successfully,
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                          },
+                          child: Text(S.of(context).ok_AlertDialogt),
+                        ),
+                      ],
+                    ).show(context);
+
+                    context.read<ViewAllDebitCardCubit>().fetchDebitcard();
+                  }
+                },
+                builder: (context, state) {
+                  if (state is AddNewDebitCardLoading) {
+                    return SizedBox(
+                      height: 30,
+                      width: 30,
+                      child: CircularProgressIndicator(
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                      ),
+                    );
+                  } else {
+                    return Text("Add card");
+                  }
+                },
               ),
-            ],
-          ),
-          SizedBox(height: 20.h),
-          ElevatedButton(onPressed: () {}, child: Text("Add card")),
-          SizedBox(height: 15.h),
-        ],
+            ),
+            SizedBox(height: 15.h),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildTextField(
+    String? Function(String?)? validator,
     FocusNode focusNode,
     IconData icon,
     String hint,
@@ -182,11 +295,16 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
     List<TextInputFormatter>? inputFormatters,
   ) {
     return TextFormField(
+      validator: validator,
       focusNode: focusNode,
       keyboardType: keyboardType,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       cursorColor: Theme.of(context).primaryColor,
-      decoration: InputDecoration(prefixIcon: Icon(icon), hintText: hint),
+      decoration: InputDecoration(
+        prefixIcon: Icon(icon),
+        hintText: hint,
+        errorMaxLines: 2,
+      ),
       onChanged: onChanged,
       inputFormatters: inputFormatters,
     );

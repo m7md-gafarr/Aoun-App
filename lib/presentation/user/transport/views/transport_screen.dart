@@ -1,7 +1,12 @@
 import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/core/utils/location/location_Provider.dart';
+import 'package:aoun_app/data/model/debit_card_model/debit_card_model.dart';
+import 'package:aoun_app/data/repositories/local/hive.dart';
+import 'package:aoun_app/presentation/user/transport/view_model/view%20debit%20card/view_all_debit_card_cubit.dart';
+import 'package:aoun_app/presentation/widgets/specific/empty_debit_card.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -23,6 +28,11 @@ class _TransportScreenState extends State<TransportScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<ViewAllDebitCardCubit>().fetchDebitcard();
+      }
+    });
   }
 
   @override
@@ -32,7 +42,36 @@ class _TransportScreenState extends State<TransportScreen> {
         SliverToBoxAdapter(
           child: SizedBox(height: 7.h),
         ),
-        _buildCardSwiper(),
+        BlocBuilder<ViewAllDebitCardCubit, ViewAllDebitCardState>(
+          builder: (context, state) {
+            if (state is ViewAllDebitCardSuccess &&
+                state.debitCardList.isNotEmpty) {
+              return _buildCardSwiper(state.debitCardList);
+            } else if (state is ViewAllDebitCardNull) {
+              return SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 13),
+                sliver: SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: 160.h,
+                    child: const EmptyDebitCardWidget(),
+                  ),
+                ),
+              );
+            } else {
+              return SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 13),
+                sliver: SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: 160.h,
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                ),
+              );
+            }
+          },
+        ),
         _buildLocationFields(context),
         SliverToBoxAdapter(
           child: Divider(
@@ -53,20 +92,66 @@ class _TransportScreenState extends State<TransportScreen> {
     );
   }
 
-  Widget _buildCardSwiper() {
+  Widget _buildCardSwiper(List<DebitCardModel> model) {
     return SliverPadding(
       padding: const EdgeInsets.symmetric(horizontal: 13),
       sliver: SliverToBoxAdapter(
         child: SizedBox(
           height: 160.h,
           child: CardSwiper(
-            cardsCount: 3,
+            cardsCount: model.length,
             isLoop: true,
-            numberOfCardsDisplayed: 3,
+            numberOfCardsDisplayed: model.length,
             padding: EdgeInsets.zero,
             backCardOffset: const Offset(0, 20),
             scale: 0.9,
-            cardBuilder: (context, index, _, __) => const DebitCardWidget(),
+            cardBuilder: (context, index, _, __) {
+              return Stack(
+                children: [
+                  DebitCardWidget(
+                    model: model[index],
+                  ),
+                  Positioned(
+                    top: 8,
+                    right: 8,
+                    child: PopupMenuButton<String>(
+                      icon: Icon(Icons.more_vert, color: Colors.white),
+                      onSelected: (value) async {
+                        if (!mounted) return;
+                        if (value == 'delete') {
+                          await HiveService().deleteDebitCard(index);
+                          context
+                              .read<ViewAllDebitCardCubit>()
+                              .fetchDebitcard();
+                        } else if (value == "add") {
+                          Navigator.pushNamed(
+                              context, AppRoutesName.addNewCardScreenRoute);
+                        }
+                      },
+                      itemBuilder: (context) => [
+                        PopupMenuItem(
+                          value: 'add',
+                          child: Text(
+                            'Add New Card',
+                            style: Theme.of(context).textTheme.labelMedium,
+                          ),
+                        ),
+                        PopupMenuItem(
+                          value: 'delete',
+                          child: Text(
+                            'Delete',
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelMedium!
+                                .copyWith(color: Colors.red),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
         ),
       ),
