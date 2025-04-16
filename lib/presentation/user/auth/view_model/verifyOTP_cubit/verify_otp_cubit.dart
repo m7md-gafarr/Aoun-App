@@ -1,5 +1,6 @@
 import 'package:aoun_app/core/utils/check_connection/check_connection_cubit.dart';
 import 'package:aoun_app/data/model/auth_model/auth_model.dart';
+import 'package:aoun_app/data/repositories/remote/api_response_handler.dart';
 import 'package:aoun_app/data/repositories/remote/auth_repository.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:bloc/bloc.dart';
@@ -19,21 +20,21 @@ class VerifyOtpCubit extends Cubit<VerifyOtpState> {
       return;
     }
     try {
-      Map<String, dynamic> response =
+      ApiResponse<Map<String, dynamic>> response =
           await AuthenticationRepository().verifyOtp(
         user: user,
         otp: otp,
       );
 
-      if (response["successed"] == true) {
-        emit(VerifyOtpSuccess(response["message"]));
+      if (response.success) {
+        emit(VerifyOtpSuccess(response.data!["message"]));
       } else {
-        String error = response['errors'][0];
+        String error = response.errors;
 
         if (error == "Invalid or expired OTP.") {
           emit(VerifyOtpFailure(S.of(context).invalid_or_expired_otp));
         } else {
-          emit(VerifyOtpFailure(response['errors'][0]));
+          emit(VerifyOtpFailure(error));
         }
       }
     } catch (e) {

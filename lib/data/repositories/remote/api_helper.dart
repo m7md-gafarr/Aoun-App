@@ -1,3 +1,4 @@
+import 'package:aoun_app/data/repositories/remote/api_response_handler.dart';
 import 'package:dio/dio.dart';
 
 class ApiHelper {
@@ -7,18 +8,60 @@ class ApiHelper {
     required String url,
   }) async {
     try {
-      Response response = await dio.get(url);
+      Response response = await dio.get(
+        url,
+      );
       if (response.statusCode == 200) {
-        return response.data;
+        return response.data as Map<String, dynamic>;
       } else {
-        throw Exception(" You have a problem in ${response.statusCode}");
+        return {
+          'successed': false,
+          'errors': ["${response.data}"],
+        };
       }
     } on DioException catch (e) {
-      throw Exception("Error: $e");
+      return {
+        'successed': false,
+        'errors': ["Network error: ${e.response?.data}"],
+      };
+    } catch (e) {
+      return {
+        'successed': false,
+        'errors': ["Unexpected error get: $e"],
+      };
     }
   }
 
-  Future<Map<String, dynamic>> post({
+  // Future<Map<String, dynamic>> post({
+  //   required String url,
+  //   required Map<String, dynamic> body,
+  //   required Map<String, String> headers,
+  // }) async {
+  //   try {
+  //     Response response = await dio.post(
+  //       url,
+  //       data: body,
+  //       options: Options(headers: headers),
+  //     );
+  //     return response.data as Map<String, dynamic>;
+  //   } on DioException catch (e) {
+  //     if (e.response!.statusCode == 400 || e.response!.statusCode == 401) {
+  //       return e.response!.data as Map<String, dynamic>;
+  //     } else {
+  //       return {
+  //         'successed': false,
+  //         'errors': ["${e.response?.data}"],
+  //       };
+  //     }
+  //   } catch (e) {
+  //     return {
+  //       'successed': false,
+  //       'errors': ["$e"],
+  //     };
+  //   }
+  // }
+
+  Future<ApiResponse<Map<String, dynamic>>> post({
     required String url,
     required Map<String, dynamic> body,
     required Map<String, String> headers,
@@ -30,21 +73,11 @@ class ApiHelper {
         options: Options(headers: headers),
       );
 
-      return response.data as Map<String, dynamic>;
+      return ApiResponseHandler.handleSuccess<Map<String, dynamic>>(response);
     } on DioException catch (e) {
-      if (e.response!.statusCode == 400 || e.response!.statusCode == 401) {
-        return e.response!.data as Map<String, dynamic>;
-      } else {
-        return {
-          'successed': false,
-          'errors': ["Network error: ${e.response?.data}"],
-        };
-      }
+      return ApiResponseHandler.handleDioError<Map<String, dynamic>>(e);
     } catch (e) {
-      return {
-        'successed': false,
-        'errors': ["Unexpected error post: $e"],
-      };
+      return ApiResponseHandler.handleGenericError<Map<String, dynamic>>(e);
     }
   }
 

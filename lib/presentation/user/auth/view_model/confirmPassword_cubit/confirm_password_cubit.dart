@@ -1,5 +1,6 @@
 import 'package:aoun_app/core/utils/check_connection/check_connection_cubit.dart';
 import 'package:aoun_app/data/model/auth_model/auth_model.dart';
+import 'package:aoun_app/data/repositories/remote/api_response_handler.dart';
 import 'package:aoun_app/data/repositories/remote/auth_repository.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:bloc/bloc.dart';
@@ -20,20 +21,20 @@ class ConfirmPasswordCubit extends Cubit<ConfirmPasswordState> {
       return;
     }
     try {
-      Map<String, dynamic> response =
+      ApiResponse<Map<String, dynamic>> response =
           await AuthenticationRepository().confirmPassword(user: user);
 
-      if (response['successed'] == true) {
+      if (response.success) {
         emit(ConfirmPasswordSuccess(S.of(context).password_reset_successful));
       } else {
-        String error = response['errors'][0];
+        String error = response.errors;
 
         if (error == "OTP verification expired. Please request a new OTP.") {
           emit(ConfirmPasswordFailure(S.of(context).otp_verification_expired));
         } else if (error == "Passwords do not match.") {
           emit(ConfirmPasswordFailure(S.of(context).passwords_do_not_match));
         } else {
-          emit(ConfirmPasswordFailure(response['errors'][0]));
+          emit(ConfirmPasswordFailure(error));
         }
       }
     } on DioException catch (e) {

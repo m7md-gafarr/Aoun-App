@@ -39,9 +39,9 @@ class SnackbarHelper {
       SnackBar(
         content: snackBarContent,
         duration: duration,
-        behavior: SnackBarBehavior.floating, // Float the SnackBar
+        behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16), // Rounded corners
+          borderRadius: BorderRadius.circular(16),
         ),
       ),
     );

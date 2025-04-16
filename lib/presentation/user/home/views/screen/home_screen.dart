@@ -1,4 +1,6 @@
 import 'package:aoun_app/core/router/route_name.dart';
+import 'package:aoun_app/core/utils/open_url.dart';
+
 import 'package:aoun_app/presentation/user/transport/views/transport_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -59,8 +61,13 @@ class _HomeScreenState extends State<HomeUserScreen> {
                     hoverColor: Colors.transparent,
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
-                    onTap: () => Navigator.pushNamed(
-                        context, AppRoutesName.userProfileScreenRoute),
+                    // onTap: () => Navigator.pushNamed(
+                    //     context, AppRoutesName.userProfileScreenRoute),
+
+                    onTap: () async {
+                      OpenUrlUtils.launchInWebView(Uri.parse(
+                          "https://pub.dev/packages/url_launcher/example"));
+                    },
                     child: CircleAvatar(
                       maxRadius: 13.w,
                     ),

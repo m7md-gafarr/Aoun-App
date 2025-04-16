@@ -1,6 +1,9 @@
 import 'package:aoun_app/core/router/route_name.dart';
+import 'package:aoun_app/core/utils/open_url.dart';
+import 'package:aoun_app/presentation/user/transport/view_model/payment%20wallet/payment_wallet_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/view%20debit%20card/view_all_debit_card_cubit.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart';
+import 'package:aoun_app/presentation/widgets/common/error_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,12 +19,14 @@ class PaymentScreen extends StatefulWidget {
 class _PaymentScreenState extends State<PaymentScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  late TextEditingController _textEditingController;
 
   int _selectedCard = 0;
-
+  GlobalKey<FormState> formKey = GlobalKey();
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
+    _textEditingController = TextEditingController();
 
     context.read<ViewAllDebitCardCubit>().fetchDebitcard();
 
@@ -30,44 +35,104 @@ class _PaymentScreenState extends State<PaymentScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppbarWidget(
-        title: "Payment",
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
-              Navigator.pop(context);
-            },
-            child: Text("Cancel"),
-          )
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 13.0),
-          child: Column(
-            children: [
-              SizedBox(height: 40.h),
-              _buildTabBar(),
-              SizedBox(
-                height: 100.h,
-                child: TabBarView(
-                  physics: NeverScrollableScrollPhysics(),
-                  controller: _tabController,
-                  children: [
-                    _walletWidget(),
-                    _cardWidget(),
-                  ],
+    return Form(
+      key: formKey,
+      child: Scaffold(
+        appBar: AppbarWidget(
+          title: "Payment",
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+              child: Text("Cancel"),
+            )
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 13.0),
+            child: Column(
+              children: [
+                SizedBox(height: 40.h),
+                _buildTabBar(),
+                SizedBox(
+                  height: 130.h,
+                  child: TabBarView(
+                    physics: NeverScrollableScrollPhysics(),
+                    controller: _tabController,
+                    children: [
+                      _walletWidget(),
+                      _cardWidget(),
+                    ],
+                  ),
                 ),
-              ),
-              _buildWalletSummary(),
-              ElevatedButton(
-                onPressed: () {},
-                child: Text("Pay 24EG"),
-              ),
-            ],
+                _buildWalletSummary(),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_tabController.index == 0) {
+                      if (formKey.currentState!.validate()) {
+                        formKey.currentState!.save();
+                        context.read<PaymentWalletCubit>().paymentWallet(
+                            _textEditingController.value.text, 350);
+                      }
+                    }
+                  },
+                  child: BlocConsumer<PaymentWalletCubit, PaymentWalletState>(
+                    listener: (context, state) {
+                      if (state is PaymentWalletFailure) {
+                        ErrorDialogWidget(message: state.errorMessage)
+                            .show(context);
+                      } else if (state is PaymentWalletSuccess) {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text(
+                              "Payment Started Successfully",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall!
+                                  .copyWith(fontWeight: FontWeight.bold),
+                            ),
+                            content: Text(
+                              "You will now be redirected to complete the payment.\nA confirmation email has also been sent.",
+                              style: Theme.of(context).textTheme.labelMedium,
+                            ),
+                            actions: [
+                              ElevatedButton(
+                                onPressed: () async {
+                                  Navigator.of(context)
+                                      .pop(); // Close dialog first
+                                  await OpenUrlUtils.launchInBrowserView(
+                                    Uri.parse(state.url.toString()),
+                                  );
+                                },
+                                child: Text("Proceed"),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is PaymentWalletLoading) {
+                        return SizedBox(
+                          height: 30,
+                          width: 30,
+                          child: CircularProgressIndicator(
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                          ),
+                        );
+                      } else {
+                        return Text("Pay: 24 EG");
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -344,11 +409,33 @@ class _PaymentScreenState extends State<PaymentScreen>
         children: [
           SizedBox(height: 20.h),
           Text("Wallet Number"),
-          TextField(
+          TextFormField(
+            controller: _textEditingController,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            keyboardType: TextInputType.phone,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return "Phone number is required";
+              }
+
+              if (!value.startsWith('010') &&
+                  !value.startsWith('011') &&
+                  !value.startsWith('012') &&
+                  !value.startsWith('015')) {
+                return "Phone number must start with 010, 011, 012, or 015";
+              }
+
+              if (value.length != 11) {
+                return "Phone number must be exactly 11 digits";
+              }
+
+              return null;
+            },
+            maxLength: 11,
             cursorColor: Theme.of(context).primaryColor,
             decoration: InputDecoration(
               errorMaxLines: 2,
-              hintText: "010X XXXX XXXX",
+              hintText: "01X XXXX XXXX",
             ),
           ),
         ],

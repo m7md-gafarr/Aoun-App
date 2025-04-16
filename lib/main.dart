@@ -14,12 +14,14 @@ import 'package:aoun_app/presentation/user/auth/view_model/register_cubit/regist
 import 'package:aoun_app/presentation/user/auth/view_model/sendOTPForPasswordReset_cubit/send_otp_for_password_reset_cubit.dart';
 import 'package:aoun_app/presentation/user/auth/view_model/verifyOTP_cubit/verify_otp_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/add%20new%20debit%20card/add_new_debit_card_cubit.dart';
+import 'package:aoun_app/presentation/user/transport/view_model/payment%20wallet/payment_wallet_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/view%20debit%20card/view_all_debit_card_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
 import 'core/Theme/app_theme_light.dart';
@@ -27,6 +29,8 @@ import 'core/Theme/app_theme_light.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
+  final String? apiUrl = dotenv.env['PUBLISHABLE_KEY_STRIPE'];
+  Stripe.publishableKey = apiUrl!;
   await ScreenUtil.ensureScreenSize();
   await SharedPreferencesService().init();
 
@@ -49,6 +53,7 @@ void main() async {
         BlocProvider(create: (context) => CheckConnectionCubit()),
         BlocProvider(create: (context) => ViewAllDebitCardCubit()),
         BlocProvider(create: (context) => AddNewDebitCardCubit()),
+        BlocProvider(create: (context) => PaymentWalletCubit()),
       ],
       child: Builder(
         builder: (context) => MultiProvider(

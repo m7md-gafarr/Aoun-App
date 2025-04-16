@@ -1,5 +1,6 @@
 import 'package:aoun_app/core/utils/check_connection/check_connection_cubit.dart';
 import 'package:aoun_app/data/model/auth_model/auth_model.dart';
+import 'package:aoun_app/data/repositories/remote/api_response_handler.dart';
 import 'package:aoun_app/data/repositories/remote/auth_repository.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:bloc/bloc.dart';
@@ -20,19 +21,19 @@ class SendOtpForPasswordResetCubit extends Cubit<SendOtpForPasswordResetState> {
       return;
     }
     try {
-      Map<String, dynamic> response =
+      ApiResponse<Map<String, dynamic>> response =
           await AuthenticationRepository().sendOTPForPasswordReset(user: user);
 
-      if (response["successed"] == true) {
-        emit(SendOtpForPasswordResetSuccess(response["message"]));
+      if (response.success) {
+        emit(SendOtpForPasswordResetSuccess(response.data!["message"]));
       } else {
-        String error = response['errors'][0];
+        String error = response.errors;
 
         if (error ==
             "Email not found. Please make sure the email is correct.") {
           emit(SendOtpForPasswordResetFailure(S.of(context).email_not_found));
         } else {
-          emit(SendOtpForPasswordResetFailure(response['errors'][0]));
+          emit(SendOtpForPasswordResetFailure(error));
         }
       }
     } catch (e) {

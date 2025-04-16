@@ -46,12 +46,15 @@ class EmptyDebitCardWidget extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildCardText("•••• •••• •••• 0000", 17.sp),
-                      _buildCardText("NO CARD FOUND", 17.sp),
-                    ],
+                  SizedBox(
+                    width: 215.w,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildCardText("•••• •••• •••• 0000", 17.sp),
+                        _buildCardText("NO CARD FOUND", 17.sp),
+                      ],
+                    ),
                   ),
                   SizedBox(width: 35.w),
                   _buildCardLabelValue('VALID\nTHRU', "--/--"),
