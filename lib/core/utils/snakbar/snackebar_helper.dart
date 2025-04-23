@@ -8,7 +8,7 @@ class SnackbarHelper {
     String? message,
     Widget? content,
     Widget? trailing,
-    Duration duration = const Duration(seconds: 3),
+    Duration duration = const Duration(seconds: 1),
   }) {
     final snackBarContent = Row(
       children: [
@@ -51,7 +51,7 @@ class SnackbarHelper {
     BuildContext context, {
     required String title,
     String? message,
-    Duration duration = const Duration(seconds: 3),
+    Duration duration = const Duration(seconds: 1),
   }) {
     final Color backgroundColor = Theme.of(context).colorScheme.error;
     final Color textColor = Theme.of(context).colorScheme.onError;
@@ -88,7 +88,7 @@ class SnackbarHelper {
   static void showCustom(
     BuildContext context, {
     required Widget child,
-    Duration duration = const Duration(seconds: 3),
+    Duration duration = const Duration(seconds: 1),
   }) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(

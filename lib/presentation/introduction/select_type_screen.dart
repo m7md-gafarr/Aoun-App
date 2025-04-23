@@ -42,7 +42,10 @@ class SelectTypeScreen extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   Navigator.pushNamed(
-                      context, AppRoutesName.userloginScreenRoute);
+                    context,
+                    AppRoutesName.loginScreenRoute,
+                    arguments: "user",
+                  );
                 },
                 child: Text("Continue as Passenger"),
               ),
@@ -62,7 +65,9 @@ class SelectTypeScreen extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   Navigator.pushNamed(
-                      context, AppRoutesName.driverIntroductionScreenRoute);
+                    context,
+                    AppRoutesName.driverIntroductionScreenRoute,
+                  );
                 },
                 child: Text("Continue as Driver"),
               ),

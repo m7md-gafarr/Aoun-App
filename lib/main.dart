@@ -8,11 +8,12 @@ import 'package:aoun_app/data/model/debit_card_model/debit_card_model.dart';
 import 'package:aoun_app/data/repositories/local/hive.dart';
 import 'package:aoun_app/data/repositories/local/shared_pref.dart';
 import 'package:aoun_app/generated/l10n.dart';
-import 'package:aoun_app/presentation/user/auth/view_model/confirmPassword_cubit/confirm_password_cubit.dart';
-import 'package:aoun_app/presentation/user/auth/view_model/login_cubit/login_cubit.dart';
-import 'package:aoun_app/presentation/user/auth/view_model/register_cubit/register_cubit.dart';
-import 'package:aoun_app/presentation/user/auth/view_model/sendOTPForPasswordReset_cubit/send_otp_for_password_reset_cubit.dart';
-import 'package:aoun_app/presentation/user/auth/view_model/verifyOTP_cubit/verify_otp_cubit.dart';
+import 'package:aoun_app/presentation/auth/view_model/driver_register_cubit/register_cubit.dart';
+import 'package:aoun_app/presentation/auth/view_model/confirmPassword_cubit/confirm_password_cubit.dart';
+import 'package:aoun_app/presentation/auth/view_model/login_cubit/login_cubit.dart';
+import 'package:aoun_app/presentation/auth/view_model/user_register_cubit/register_cubit.dart';
+import 'package:aoun_app/presentation/auth/view_model/sendOTPForPasswordReset_cubit/send_otp_for_password_reset_cubit.dart';
+import 'package:aoun_app/presentation/auth/view_model/verifyOTP_cubit/verify_otp_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/add%20new%20debit%20card/add_new_debit_card_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/payment%20wallet/payment_wallet_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/view%20debit%20card/view_all_debit_card_cubit.dart';
@@ -49,11 +50,13 @@ void main() async {
         BlocProvider(
             create: (context) => ConfirmPasswordCubit(CheckConnectionCubit())),
         BlocProvider(
-            create: (context) => RegisterCubit(CheckConnectionCubit())),
+            create: (context) => UserRegisterCubit(CheckConnectionCubit())),
         BlocProvider(create: (context) => CheckConnectionCubit()),
         BlocProvider(create: (context) => ViewAllDebitCardCubit()),
         BlocProvider(create: (context) => AddNewDebitCardCubit()),
         BlocProvider(create: (context) => PaymentWalletCubit()),
+        BlocProvider(
+            create: (context) => DriverRegisterCubit(CheckConnectionCubit())),
       ],
       child: Builder(
         builder: (context) => MultiProvider(

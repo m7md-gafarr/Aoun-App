@@ -63,7 +63,7 @@ class ApiHelper {
 
   Future<ApiResponse<Map<String, dynamic>>> post({
     required String url,
-    required Map<String, dynamic> body,
+    required dynamic body,
     required Map<String, String> headers,
   }) async {
     try {

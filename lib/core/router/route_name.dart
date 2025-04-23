@@ -6,23 +6,14 @@ class AppRoutesName {
   static const introductionScreenRoute = "/introductionScreenRoute";
   static const selectTypeScreenRoute = "/selectTypeScreenRoute";
 
-  //  Auth Screens user
-  static const userloginScreenRoute = "/userloginScreenRoute";
-  static const userRegisterScreenRoute = "/userregisterScreenRoute";
-  static const userResetPasswordScreenRoute = "/userResetPasswordScreenRoute";
-  static const userConfirmPasswordScreenRoute =
-      "/userConfirmPasswordScreenRoute";
-  static const userOTPScreenRoute = "/userOTPScreenRoute";
-  static const completeUserDataScreenRoute = "/completeUserDataScreenRoute";
-
-  // Auth Screens Driver
-  static const driverloginScreenRoute = "/driverloginScreenRoute";
+  // Auth Screens
   static const driverRegisterScreenRoute = "/driverRegisterScreenRoute";
-  static const driverResetPasswordScreenRoute =
-      "/driverResetPasswordScreenRoute";
-  static const driverConfirmPasswordScreenRoute =
-      "/driverConfirmPasswordScreenRoute";
-  static const driverOTPScreenRoute = "/driverOTPScreenRoute";
+  static const userRegisterScreenRoute = "/userregisterScreenRoute";
+  static const loginScreenRoute = "/loginScreenRoute";
+  static const resetPasswordScreenRoute = "/ResetPasswordScreenRoute";
+  static const confirmPasswordScreenRoute = "/ConfirmPasswordScreenRoute";
+  static const oTPScreenRoute = "/OTPScreenRoute";
+  static const completeUserDataScreenRoute = "/completeUserDataScreenRoute";
 
   //  Home Screen user
   static const homeUserScreenRoute = "/";

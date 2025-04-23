@@ -127,7 +127,7 @@ class _CompletDataUseEmailWidgetState extends State<CompletDataUseEmailWidget> {
 
                     Navigator.pushNamed(
                       context,
-                      AppRoutesName.userOTPScreenRoute,
+                      AppRoutesName.oTPScreenRoute,
                     );
                     setState(() {
                       autovalidateMode = AutovalidateMode.disabled;

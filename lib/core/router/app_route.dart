@@ -1,20 +1,17 @@
 import 'package:aoun_app/core/router/route_name.dart';
-import 'package:aoun_app/presentation/driver/auth/views/driver_confirm_password_screen.dart';
-import 'package:aoun_app/presentation/driver/auth/views/driver_login_screen.dart';
-import 'package:aoun_app/presentation/driver/auth/views/driver_otp_screen.dart';
-import 'package:aoun_app/presentation/driver/auth/views/driver_reset_password_screen.dart';
+
 import 'package:aoun_app/presentation/introduction/select_type_screen.dart';
-import 'package:aoun_app/presentation/user/auth/views/user_confirm_password_screen.dart';
-import 'package:aoun_app/presentation/user/auth/views/user_register_screen.dart';
-import 'package:aoun_app/presentation/user/auth/views/user_reset_password_screen.dart';
+import 'package:aoun_app/presentation/auth/views/confirm_password_screen.dart';
+import 'package:aoun_app/presentation/auth/views/user_register_screen.dart';
+import 'package:aoun_app/presentation/auth/views/reset_password_screen.dart';
 import 'package:aoun_app/presentation/driver/home/view/create_trip_screen.dart';
 import 'package:aoun_app/presentation/driver/home/view/home_driver_screen.dart';
-import 'package:aoun_app/presentation/driver/auth/views/driver_introduction_screen.dart';
-import 'package:aoun_app/presentation/driver/auth/views/register_driver_screen.dart';
+import 'package:aoun_app/presentation/auth/views/driver_introduction_screen.dart';
+import 'package:aoun_app/presentation/auth/views/driver_register_screen.dart';
 import 'package:aoun_app/presentation/user/home/views/screen/home_screen.dart';
 import 'package:aoun_app/presentation/introduction/introduction_screen.dart';
-import 'package:aoun_app/presentation/user/auth/views/user_login_screen.dart';
-import 'package:aoun_app/presentation/user/auth/views/user_otp_screen.dart';
+import 'package:aoun_app/presentation/auth/views/login_screen.dart';
+import 'package:aoun_app/presentation/auth/views/otp_screen.dart';
 import 'package:aoun_app/presentation/splash/splash_screen.dart';
 import 'package:animations/animations.dart';
 import 'package:aoun_app/presentation/user/notification/view/user_notification_screen.dart';
@@ -30,7 +27,7 @@ import 'package:aoun_app/presentation/user/transport/views/search_trip_screen.da
 import 'package:aoun_app/presentation/user/transport/views/trip_details_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../../presentation/user/auth/views/complet_user_data_screen.dart';
+import '../../presentation/auth/views/complet_user_data_screen.dart';
 
 class AppRouter {
   Route generate_route(RouteSettings settings) {
@@ -64,10 +61,11 @@ class AppRouter {
         );
 
       //  Auth user route
-      case AppRoutesName.userloginScreenRoute:
+      case AppRoutesName.loginScreenRoute:
         return PageRouteBuilder(
+          settings: settings,
           pageBuilder: (context, animation, secondaryAnimation) =>
-              const UserLoginScreen(),
+              const LoginScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return SharedAxisTransition(
               animation: animation,
@@ -82,15 +80,15 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (context) => const UserRegisterScreen());
 
-      case AppRoutesName.userResetPasswordScreenRoute:
+      case AppRoutesName.resetPasswordScreenRoute:
         return MaterialPageRoute(
-            builder: (context) => const UserResetPasswordScreen());
+            builder: (context) => const ResetPasswordScreen());
 
-      case AppRoutesName.userOTPScreenRoute:
+      case AppRoutesName.oTPScreenRoute:
         return PageRouteBuilder(
           settings: settings,
           pageBuilder: (context, animation, secondaryAnimation) =>
-              const UserOtpScreen(),
+              const OtpScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return SharedAxisTransition(
               animation: animation,
@@ -102,11 +100,11 @@ class AppRouter {
           },
         );
 
-      case AppRoutesName.userConfirmPasswordScreenRoute:
+      case AppRoutesName.confirmPasswordScreenRoute:
         return PageRouteBuilder(
           settings: settings,
           pageBuilder: (context, animation, secondaryAnimation) =>
-              const UserConfirmPasswordScreen(),
+              const ConfirmPasswordScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return SharedAxisTransition(
               animation: animation,
@@ -133,58 +131,9 @@ class AppRouter {
           },
         );
 
-      // Auth Driver route
-      case AppRoutesName.driverloginScreenRoute:
-        return PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              DriverLoginScreen(),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return SharedAxisTransition(
-              animation: animation,
-              secondaryAnimation: secondaryAnimation,
-              transitionType: SharedAxisTransitionType.horizontal,
-              fillColor: Theme.of(context).scaffoldBackgroundColor,
-              child: child,
-            );
-          },
-        );
       case AppRoutesName.driverRegisterScreenRoute:
         return MaterialPageRoute(
             builder: (context) => const DriverRegisterScreen());
-      case AppRoutesName.driverResetPasswordScreenRoute:
-        return MaterialPageRoute(
-          builder: (context) => const DriverResetPasswordScreen(),
-        );
-      case AppRoutesName.driverOTPScreenRoute:
-        return PageRouteBuilder(
-          settings: settings,
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              const DriverOTPScreen(),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return SharedAxisTransition(
-              animation: animation,
-              secondaryAnimation: secondaryAnimation,
-              transitionType: SharedAxisTransitionType.horizontal,
-              fillColor: Theme.of(context).scaffoldBackgroundColor,
-              child: child,
-            );
-          },
-        );
-      case AppRoutesName.driverConfirmPasswordScreenRoute:
-        return PageRouteBuilder(
-          settings: settings,
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              const DriverConfirmPasswordScreen(),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return SharedAxisTransition(
-              animation: animation,
-              secondaryAnimation: secondaryAnimation,
-              transitionType: SharedAxisTransitionType.horizontal,
-              fillColor: Theme.of(context).scaffoldBackgroundColor,
-              child: child,
-            );
-          },
-        );
 
       //   Home user Screen
       case AppRoutesName.homeUserScreenRoute:
