@@ -3,7 +3,7 @@ import 'package:aoun_app/core/constant/constant.dart';
 import 'package:aoun_app/core/router/route_name.dart';
 
 import 'package:aoun_app/core/utils/location/location_utils.dart';
-import 'package:aoun_app/data/model/user_auth_model/auth_model.dart';
+import 'package:aoun_app/data/model/auth%20models/user_auth_model/auth_model.dart';
 
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/auth/view_model/login_cubit/login_cubit.dart';
@@ -193,7 +193,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         } else if (state is LoginSuccess) {
                           Navigator.pushNamedAndRemoveUntil(
                             context,
-                            AppRoutesName.homeUserScreenRoute,
+                            AppRoutesName.homeDriverScreenRoute,
                             (route) => false,
                           );
                         }

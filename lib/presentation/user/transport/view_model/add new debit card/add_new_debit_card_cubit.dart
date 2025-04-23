@@ -1,4 +1,4 @@
-import 'package:aoun_app/data/model/debit_card_model/debit_card_model.dart';
+import 'package:aoun_app/data/model/payment%20models/debit_card_model/debit_card_model.dart';
 import 'package:aoun_app/data/repositories/local/hive.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';

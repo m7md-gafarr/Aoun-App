@@ -1,5 +1,5 @@
 import 'package:aoun_app/core/utils/check_connection/check_connection_cubit.dart';
-import 'package:aoun_app/data/model/driver_auth_model/driver_auth_model.dart';
+import 'package:aoun_app/data/model/auth%20models/driver_auth_model/driver_auth_model.dart';
 import 'package:aoun_app/data/repositories/remote/api_response_handler.dart';
 import 'package:aoun_app/data/repositories/remote/auth_repository.dart';
 import 'package:aoun_app/generated/l10n.dart';

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:aoun_app/data/model/register_driver_model/register_driver_model.dart';
+import 'package:aoun_app/data/model/auth%20models/register_driver_model/register_driver_model.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart'
     show AppbarWidget;
 import 'package:flutter/material.dart';

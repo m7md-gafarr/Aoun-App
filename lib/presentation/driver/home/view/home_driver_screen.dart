@@ -13,11 +13,13 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 class HomeDriverScreen extends StatelessWidget {
   HomeDriverScreen({super.key});
   List<_SalesData> data = [
-    _SalesData('Jan', 35),
-    _SalesData('Feb', 28),
-    _SalesData('Mar', 34),
-    _SalesData('Apr', 32),
-    _SalesData('May', 40)
+    _SalesData('Monday', 35),
+    _SalesData('Tuesday', 28),
+    _SalesData('Wednesday', 34),
+    _SalesData('Thursday', 32),
+    _SalesData('Friday', 40),
+    _SalesData('Saturday', 40),
+    _SalesData('Sunday', 40),
   ];
   @override
   Widget build(BuildContext context) {

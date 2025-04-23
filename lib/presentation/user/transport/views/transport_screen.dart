@@ -1,6 +1,6 @@
 import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/core/utils/location/location_Provider.dart';
-import 'package:aoun_app/data/model/debit_card_model/debit_card_model.dart';
+import 'package:aoun_app/data/model/payment%20models/debit_card_model/debit_card_model.dart';
 import 'package:aoun_app/data/repositories/local/hive.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/view%20debit%20card/view_all_debit_card_cubit.dart';
 import 'package:aoun_app/presentation/widgets/specific/empty_debit_card.dart';

@@ -1,5 +1,5 @@
 import 'package:aoun_app/core/router/route_name.dart';
-import 'package:aoun_app/data/model/user_auth_model/auth_model.dart';
+import 'package:aoun_app/data/model/auth%20models/user_auth_model/auth_model.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/auth/view_model/confirmPassword_cubit/confirm_password_cubit.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart'

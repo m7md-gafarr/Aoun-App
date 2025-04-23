@@ -4,7 +4,7 @@ import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/core/utils/check_connection/check_connection_cubit.dart';
 import 'package:aoun_app/core/utils/language/language.dart';
 import 'package:aoun_app/core/utils/location/location_Provider.dart';
-import 'package:aoun_app/data/model/debit_card_model/debit_card_model.dart';
+import 'package:aoun_app/data/model/payment%20models/debit_card_model/debit_card_model.dart';
 import 'package:aoun_app/data/repositories/local/hive.dart';
 import 'package:aoun_app/data/repositories/local/shared_pref.dart';
 import 'package:aoun_app/generated/l10n.dart';

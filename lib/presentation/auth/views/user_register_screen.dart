@@ -1,8 +1,8 @@
 import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/core/utils/location/location_Provider.dart';
 import 'package:aoun_app/core/utils/location/location_utils.dart';
-import 'package:aoun_app/data/model/user_auth_model/auth_model.dart';
-import 'package:aoun_app/data/model/user_auth_model/location.dart';
+import 'package:aoun_app/data/model/auth%20models/user_auth_model/auth_model.dart';
+import 'package:aoun_app/data/model/auth%20models/user_auth_model/location.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/auth/view_model/user_register_cubit/register_cubit.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart';

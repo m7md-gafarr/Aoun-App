@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:aoun_app/data/model/driver_auth_model/driver_auth_model.dart';
-import 'package:aoun_app/data/model/user_auth_model/auth_model.dart';
-import 'package:aoun_app/data/model/user_auth_model/location.dart';
+import 'package:aoun_app/data/model/auth%20models/driver_auth_model/driver_auth_model.dart';
+import 'package:aoun_app/data/model/auth%20models/user_auth_model/auth_model.dart';
+import 'package:aoun_app/data/model/auth%20models/user_auth_model/location.dart';
 import 'package:aoun_app/data/repositories/remote/api_helper.dart';
 import 'package:aoun_app/data/repositories/remote/api_response_handler.dart';
 import 'package:dio/dio.dart';
