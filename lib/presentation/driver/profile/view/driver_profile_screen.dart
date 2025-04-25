@@ -1,3 +1,4 @@
+import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart';
 import 'package:aoun_app/presentation/widgets/common/review_card_widget.dart';
 import 'package:flutter/material.dart';
@@ -83,7 +84,10 @@ class _DriverProfileScreenState extends State<DriverProfileScreen>
                 ),
                 const SizedBox(height: 10),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(
+                        context, AppRoutesName.driverEditProfileScreenRoute);
+                  },
                   child: Text("Edit profile"),
                   style: ElevatedButton.styleFrom(
                       fixedSize: Size(150.w, double.infinity)),
