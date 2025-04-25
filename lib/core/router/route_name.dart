@@ -5,6 +5,7 @@ class AppRoutesName {
   // introductions Screens
   static const introductionScreenRoute = "/introductionScreenRoute";
   static const selectTypeScreenRoute = "/selectTypeScreenRoute";
+  static const driverIntroductionScreenRoute = "/driverIntroductionScreenRoute";
 
   // Auth Screens
   static const driverRegisterScreenRoute = "/driverRegisterScreenRoute";
@@ -20,9 +21,6 @@ class AppRoutesName {
 
   //  Home Screen user
   static const homeUserScreenRoute = "/";
-
-  //  Home screen driver
-  static const homeDriverScreenRoute = "/homeDriverScreenRoute";
 
   //  Transport Screens
   static const tripDetailsScreenRoute = "/TripDetailsScreenRoute";
@@ -42,7 +40,34 @@ class AppRoutesName {
 
   /////////////////////////////////////////////////////////
   //TODO: Driver Routes
-  static const driverIntroductionScreenRoute = "/driverIntroductionScreenRoute";
+
+  //  Home screen driver
+  static const homeDriverScreenRoute = "/homeDriverScreenRoute";
+
+  // Profile driver screen
+  static const driverProfileScreenRoute = "/driverProfileScreenRoute";
+  static const driverEditProfileScreenRoute = "/driverEditProfileScreenRoute";
+
+  // Wallet & Earnings screen
+  static const driverWalletAndEarningsScreenRoute =
+      "/driverWalletAndEarningsScreenRoute";
+
+  // History trips screen
+  static const driverHistoryTripsScreenRoute = "/driverHistoryTripsScreenRoute";
+
+  // Notification screen
+  static const driverNotificationScreenRoute = "/driverNotificationScreenRoute";
+
+  // Safety screen
+  static const driverSafetyScreenRoute = "/driverSafetyScreenRoute";
+
+  // Help & feedback screen
+  static const driverHelpFeedbackScreenRoute = "/driverHelpFeedbackScreenRoute";
+
+  // Setting screen
+  static const driverSettingScreenRoute = "/driverSettingScreenRoute";
+
+  // trip screen
   static const createTripScreenRoute = "/createTripScreenRoute";
   static const selectRouteOnMapScreenRoute = "/selectRouteOnMapScreenRoute";
 }

@@ -2,14 +2,12 @@ import 'dart:developer';
 
 import 'package:aoun_app/core/utils/check_connection/check_connection_cubit.dart';
 import 'package:aoun_app/data/model/driver%20models/greate_trip_model/greate_trip_model.dart';
-import 'package:aoun_app/data/model/driver%20models/greate_trip_model/trip_location.dart';
 import 'package:aoun_app/data/repositories/remote/api_response_handler.dart';
 import 'package:aoun_app/data/repositories/remote/trip_repository.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 
 part 'create_trip_state.dart';
 

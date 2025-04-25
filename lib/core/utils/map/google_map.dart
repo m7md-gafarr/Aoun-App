@@ -46,11 +46,11 @@ class GoogleMapUtils {
   static Future<PalceAutocompleteModel> getSuggestionPlaces(
     String input,
   ) async {
-    final String? PLACES_API_KEY = dotenv.env['PLACES_API_KEY'];
+    final String? placesApiKey = dotenv.env['PLACES_API_KEY'];
 
     String baseURL = 'https://maps.gomaps.pro/maps/api/place/autocomplete/json';
     String request =
-        '$baseURL?input=$input&key=$PLACES_API_KEY&components=country:eg';
+        '$baseURL?input=$input&key=$placesApiKey&components=country:eg';
     ApiResponse<Map<String, dynamic>> response =
         await ApiHelper().get(url: request);
 
@@ -62,10 +62,10 @@ class GoogleMapUtils {
   }
 
   static Future<PalceLatlngModel> getPlaceLatLng(String placeId) async {
-    final String? PLACES_API_KEY = dotenv.env['PLACES_API_KEY'];
+    final String? placesApiKey = dotenv.env['PLACES_API_KEY'];
 
     String baseURL = 'https://maps.gomaps.pro/maps/api/place/details/json';
-    String request = '$baseURL?place_id=$placeId&key=$PLACES_API_KEY';
+    String request = '$baseURL?place_id=$placeId&key=$placesApiKey';
     ApiResponse<Map<String, dynamic>> response =
         await ApiHelper().get(url: request);
 

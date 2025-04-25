@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class HistoryTripsScreen extends StatelessWidget {
-  const HistoryTripsScreen({super.key});
+class DriverHistoryTripsScreen extends StatelessWidget {
+  const DriverHistoryTripsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

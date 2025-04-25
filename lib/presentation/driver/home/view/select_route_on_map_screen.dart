@@ -1,7 +1,6 @@
 import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/core/utils/location/location_utils.dart';
 import 'package:aoun_app/core/utils/map/google_map.dart';
-import 'package:aoun_app/data/model/auth%20models/user_auth_model/location.dart';
 import 'package:aoun_app/data/model/driver%20models/greate_trip_model/trip_location.dart';
 import 'package:aoun_app/data/model/map%20models/palce_autocomplete_model/prediction.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +29,8 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
   bool isFirstMove = true;
   LocationTrip? locationModel;
   List<Prediction> palceAutocompleteModel = [];
+  bool showMarker = false;
+
   @override
   void initState() {
     searchController = TextEditingController();
@@ -38,6 +39,7 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
       zoom: 5.65,
     );
     super.initState();
+
     _onChanged();
     loadMarkerIcon();
   }
@@ -120,6 +122,10 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
               selectedLocation = position.target;
             },
             onCameraIdle: () async {
+              await Future.delayed(Duration(milliseconds: 300));
+              setState(() {
+                showMarker = true;
+              });
               if (selectedLocation != null) {
                 final name = await LocationService.getAddressFromCoordinates(
                   context,
@@ -144,8 +150,9 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
                       .trim();
                   parts.add(adminArea);
                 }
-                if (name.subAdministrativeArea != null)
+                if (name.subAdministrativeArea != null) {
                   parts.add(name.subAdministrativeArea!);
+                }
                 if (name.thoroughfare != null) parts.add(name.thoroughfare!);
 
                 setState(() {
@@ -162,10 +169,12 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
             top: MediaQuery.of(context).size.height / 2 -
                 (isCameraMoving ? 70 : 50),
             left: MediaQuery.of(context).size.width / 2 - 14,
-            child: SvgPicture.asset(
-              Assets.imageMapMakerMyMakerLive,
-              height: 48,
-            ),
+            child: showMarker
+                ? SvgPicture.asset(
+                    Assets.imageMapMakerMyMakerLive,
+                    height: 48,
+                  )
+                : SizedBox.shrink(),
           ),
           if (!isCameraMoving && !isFirstMove)
             Positioned(

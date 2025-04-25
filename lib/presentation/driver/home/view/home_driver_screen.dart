@@ -3,7 +3,6 @@ import 'dart:math' as math;
 import 'package:animations/animations.dart';
 import 'package:aoun_app/core/constant/constant.dart';
 import 'package:aoun_app/core/router/route_name.dart';
-import 'package:aoun_app/data/repositories/local/shared_pref.dart';
 import 'package:aoun_app/presentation/user/transport/views/trip_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -57,71 +56,72 @@ class HomeDriverScreen extends StatelessWidget {
                 icon: Iconsax.user,
                 title: "Profile",
                 context: context,
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(
+                      context, AppRoutesName.driverProfileScreenRoute);
+                },
               ),
               _drawercard(
                 icon: Iconsax.wallet_1,
                 title: "Wallet & Earnings",
                 context: context,
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(
+                      context, AppRoutesName.userProfileScreenRoute);
+                },
               ),
               _drawercard(
                 icon: Iconsax.clock,
                 title: "History trips",
                 context: context,
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(
+                      context, AppRoutesName.userProfileScreenRoute);
+                },
               ),
               _drawercard(
                 icon: Iconsax.notification,
                 title: "Notification",
                 context: context,
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(
+                      context, AppRoutesName.userProfileScreenRoute);
+                },
               ),
               _drawercard(
                 icon: Iconsax.shield_tick,
                 title: "safety",
                 context: context,
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(
+                      context, AppRoutesName.userProfileScreenRoute);
+                },
               ),
               _drawercard(
                 icon: Iconsax.support,
                 title: "Help & feedback",
                 context: context,
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(
+                      context, AppRoutesName.userProfileScreenRoute);
+                },
               ),
               _drawercard(
                 icon: Iconsax.setting,
                 title: "Setting",
                 context: context,
-              ),
-              Spacer(),
-              ElevatedButton(
-                onPressed: () async {
-                  await SharedPreferencesService().userMode(true);
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    AppRoutesName.homeUserScreenRoute,
-                    (route) => false,
-                  );
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(
+                      context, AppRoutesName.userProfileScreenRoute);
                 },
-                child: Text("Passenger mode"),
               ),
-              SizedBox(height: 10.h),
-              InkWell(
-                onTap: () {},
-                child: Row(
-                  children: [
-                    Icon(
-                      Iconsax.logout,
-                      color: Colors.red,
-                    ),
-                    SizedBox(
-                      width: 7.w,
-                    ),
-                    Text(
-                      "Logout",
-                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                            fontSize: 17.sp,
-                            color: Colors.red,
-                          ),
-                    ),
-                  ],
-                ),
-              )
             ],
           ),
         ),
@@ -252,22 +252,26 @@ class HomeDriverScreen extends StatelessWidget {
   Widget _drawercard(
       {required String title,
       required IconData icon,
-      required BuildContext context}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        children: [
-          Icon(icon),
-          SizedBox(
-            width: 7.w,
-          ),
-          Text(
-            title,
-            style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                  fontSize: 17.sp,
-                ),
-          ),
-        ],
+      required BuildContext context,
+      required void Function()? onTap}) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Row(
+          children: [
+            Icon(icon),
+            SizedBox(
+              width: 7.w,
+            ),
+            Text(
+              title,
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    fontSize: 17.sp,
+                  ),
+            ),
+          ],
+        ),
       ),
     );
   }

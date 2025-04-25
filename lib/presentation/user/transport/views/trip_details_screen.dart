@@ -1,6 +1,7 @@
 import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart';
 import 'package:aoun_app/presentation/widgets/common/divider_widget.dart';
+import 'package:aoun_app/presentation/widgets/common/review_card_widget.dart';
 import 'package:aoun_app/presentation/widgets/common/title_Info_trip_widget.dart';
 import 'package:aoun_app/presentation/widgets/specific/trip_map.dart'
     show TripMapWidget;
@@ -367,79 +368,11 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
             Column(
               children: List.generate(
                 5,
-                (index) => _ReviewCard(),
+                (index) => ReviewCardWidget(),
               ),
             )
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _ReviewCard() {
-    return Container(
-      padding: EdgeInsets.all(13),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              CircleAvatar(
-                maxRadius: 25.w,
-              ),
-              SizedBox(width: 10.w),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(width: 5.w),
-                  Row(
-                    children: [
-                      Text(
-                        "Stephanie",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(fontSize: 15.sp),
-                      ),
-                      SizedBox(width: 5.w),
-                      Text(
-                        "October, 2019",
-                        style: Theme.of(context).textTheme.labelSmall,
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "(4.5)",
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                      SizedBox(width: 5.w),
-                      PannableRatingBar(
-                        rate: 4.5,
-                        items: List.generate(
-                          5,
-                          (index) => RatingWidget(
-                            selectedColor: Color(0xffffcf4a),
-                            unSelectedColor: Colors.grey,
-                            child: Icon(
-                              Icons.star,
-                              size: 15.h,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              )
-            ],
-          ),
-          SizedBox(height: 10.h),
-          Text(
-            "This is a great way to experience the Grand Canyon from Phoenix. I could never have done this trip on my own... Read More",
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
-        ],
       ),
     );
   }

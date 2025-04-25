@@ -1,5 +1,8 @@
 import 'package:aoun_app/core/router/route_name.dart';
+import 'package:aoun_app/presentation/driver/help%20and%20feedback/view/help_and_feedback_screen.dart';
 import 'package:aoun_app/presentation/driver/home/view/select_route_on_map_screen.dart';
+import 'package:aoun_app/presentation/driver/profile/view/driver_edit_profile.dart';
+import 'package:aoun_app/presentation/driver/profile/view/driver_profile_screen.dart';
 
 import 'package:aoun_app/presentation/introduction/select_type_screen.dart';
 import 'package:aoun_app/presentation/auth/views/confirm_password_screen.dart';
@@ -33,11 +36,11 @@ import '../../presentation/auth/views/complet_user_data_screen.dart';
 class AppRouter {
   Route generate_route(RouteSettings settings) {
     switch (settings.name) {
-      //  Splash route
+      //TODO :  Splash route
       case AppRoutesName.splashScreenRoute:
         return MaterialPageRoute(builder: (context) => const SplashScreen());
 
-      //  introduction route
+      //TODO :  introduction route
       case AppRoutesName.introductionScreenRoute:
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) =>
@@ -61,11 +64,8 @@ class AppRouter {
           },
         );
 
-      ////////////////////////////////////////////////////////
+      //TODO :  Auth Routes
 
-      //TODO :  User Routes
-
-      //  Auth  route
       case AppRoutesName.loginScreenRoute:
         return PageRouteBuilder(
           settings: settings,
@@ -134,6 +134,8 @@ class AppRouter {
       case AppRoutesName.driverRegisterScreenRoute:
         return MaterialPageRoute(
             builder: (context) => const DriverRegisterScreen());
+
+      //TODO : User Routes
 
       //   Home route
       case AppRoutesName.homeUserScreenRoute:
@@ -240,6 +242,7 @@ class AppRouter {
             );
           },
         );
+
       //  Trip route
       case AppRoutesName.createTripScreenRoute:
         return MaterialPageRoute(
@@ -249,6 +252,52 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => SelectRouteOnMapScreen(),
         );
+
+      // Driver profile
+      case AppRoutesName.driverProfileScreenRoute:
+        return PageRouteBuilder(
+          settings: settings,
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              const DriverProfileScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return SharedAxisTransition(
+              animation: animation,
+              secondaryAnimation: secondaryAnimation,
+              transitionType: SharedAxisTransitionType.horizontal,
+              fillColor: Theme.of(context).scaffoldBackgroundColor,
+              child: child,
+            );
+          },
+        );
+      case AppRoutesName.driverEditProfileScreenRoute:
+        return MaterialPageRoute(
+          builder: (context) => DriverEditProfile(),
+        );
+
+      // case AppRoutesName.driverHistoryTripsScreenRoute:
+      //   return MaterialPageRoute(
+      //     builder: (context) => DriverHistoryTripsScreen(),
+      //   );
+
+      // case AppRoutesName.notificationScreenRoute:
+      //   return MaterialPageRoute(
+      //     builder: (context) => NotificationScreen(),
+      //   );
+
+      // case AppRoutesName.safetyScreenRoute:
+      //   return MaterialPageRoute(
+      //     builder: (context) => SafetyScreen(),
+      //   );
+
+      case AppRoutesName.driverHelpFeedbackScreenRoute:
+        return MaterialPageRoute(
+          builder: (context) => HelpAndFeedbackScreen(),
+        );
+
+      // case AppRoutesName.driverSettingScreenRoute:
+      //   return MaterialPageRoute(
+      //     builder: (context) => SettingScreen(),
+      //   );
 
       default:
         return MaterialPageRoute(

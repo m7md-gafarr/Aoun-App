@@ -1,11 +1,9 @@
 import 'dart:developer';
 
 import 'package:animations/animations.dart';
-import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/core/utils/snakbar/snackebar_helper.dart';
 import 'package:aoun_app/data/model/driver%20models/greate_trip_model/trip_location.dart';
 import 'package:aoun_app/data/model/driver%20models/greate_trip_model/greate_trip_model.dart';
-import 'package:aoun_app/data/repositories/local/shared_pref.dart';
 import 'package:aoun_app/presentation/driver/home/view/select_route_on_map_screen.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/amenities/amenities_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/grate%20trip/create_trip_cubit.dart';

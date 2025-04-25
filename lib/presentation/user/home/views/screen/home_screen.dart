@@ -1,8 +1,4 @@
-import 'dart:developer';
-
 import 'package:aoun_app/core/router/route_name.dart';
-import 'package:aoun_app/core/utils/map/google_map.dart';
-import 'package:aoun_app/data/model/map%20models/palce_autocomplete_model/palce_autocomplete_model.dart';
 
 import 'package:aoun_app/presentation/user/transport/views/transport_screen.dart';
 import 'package:flutter/material.dart';

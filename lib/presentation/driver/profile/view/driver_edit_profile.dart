@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ProfileDriverScreen extends StatelessWidget {
-  const ProfileDriverScreen({super.key});
+class DriverEditProfile extends StatelessWidget {
+  const DriverEditProfile({super.key});
 
   @override
   Widget build(BuildContext context) {
