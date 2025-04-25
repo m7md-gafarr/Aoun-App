@@ -49,26 +49,22 @@ class Assets {
   /// assets/image/logo/LogoLogin.svg
   static const String imageLogoLogoLogin = "assets/image/logo/LogoLogin.svg";
 
-  /// Assets for imageMaker
-  /// assets/image/maker.svg
-  static const String imageMaker = "assets/image/maker.svg";
+  /// Assets for imageMapMakerMakerUser
+  /// assets/image/map_maker/MakerUser.svg
+  static const String imageMapMakerMakerUser =
+      "assets/image/map_maker/MakerUser.svg";
 
-  /// Assets for imageMap
-  /// assets/image/map.png
-  static const String imageMap = "assets/image/map.png";
+  /// Assets for imageMapMakerMap
+  /// assets/image/map_maker/map.png
+  static const String imageMapMakerMap = "assets/image/map_maker/map.png";
 
-  /// Assets for imageServiceService1
-  /// assets/image/service/service_1.svg
-  static const String imageServiceService1 =
-      "assets/image/service/service_1.svg";
+  /// Assets for imageMapMakerMyMakerLive
+  /// assets/image/map_maker/MyMakerLive.svg
+  static const String imageMapMakerMyMakerLive =
+      "assets/image/map_maker/MyMakerLive.svg";
 
-  /// Assets for imageServiceService2
-  /// assets/image/service/service_2.svg
-  static const String imageServiceService2 =
-      "assets/image/service/service_2.svg";
-
-  /// Assets for imageServiceService3
-  /// assets/image/service/service_3.svg
-  static const String imageServiceService3 =
-      "assets/image/service/service_3.svg";
+  /// Assets for imageMapMakerMyMakerLocation
+  /// assets/image/map_maker/MyMakerLocation.svg
+  static const String imageMapMakerMyMakerLocation =
+      "assets/image/map_maker/MyMakerLocation.svg";
 }

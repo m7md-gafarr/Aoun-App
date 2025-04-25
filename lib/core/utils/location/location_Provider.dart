@@ -23,7 +23,6 @@ class LocationProvider with ChangeNotifier {
         _placemark = await LocationService.getAddressFromCoordinates(
             context, newPosition.latitude, newPosition.longitude);
 
-        print("**********************${_placemark?.subAdministrativeArea}");
         notifyListeners();
       },
     );

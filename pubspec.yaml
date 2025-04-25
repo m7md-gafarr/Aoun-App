@@ -91,6 +91,8 @@ flutter:
     - assets/image/
     - assets/icon/
     - assets/map_styles/
+    - assets/image/map_maker/MyMakerLive.svg
+    - assets/image/map_maker/
     - .env
 
   fonts:

@@ -80,7 +80,6 @@ class AuthenticationRepository {
         "gender": user.gender,
         "phoneNumber": user.phoneNumber,
         "registrationDate": user.registrationDate!.toIso8601String(),
-        "ImgUrl": user.imgUrl,
         "DrivingLicense": user.drivingLicense,
         "IdNumber": user.idNumber,
         "LicenseNumber": user.licenseNumber,
@@ -104,7 +103,13 @@ class AuthenticationRepository {
           }
         ]),
       });
-
+      if (user.imgUrlFile != null) {
+        body.files.add(MapEntry(
+          "ImgUrlFile",
+          await MultipartFile.fromFile(user.imgUrlFile!,
+              filename: "personal_picture.jpg"),
+        ));
+      }
       if (user.vehiclePicture0 != null) {
         body.files.add(MapEntry(
           "VehiclePicture_0",
@@ -190,6 +195,7 @@ class AuthenticationRepository {
       body: {
         "email": user.email.toString(),
         "password": user.password.toString(),
+        "rememberMe": true
       },
     );
   }

@@ -29,7 +29,13 @@ class LoginCubit extends Cubit<LoginState> {
 
       if (response.success) {
         final token = response.data?['token'];
-        await SharedPreferencesService().userMode(true);
+        final mode = response.data?['loggedBy'];
+        if (mode == "driver") {
+          await SharedPreferencesService().userMode(false);
+        } else {
+          await SharedPreferencesService().userMode(true);
+        }
+
         await SharedPreferencesService().saveLoginState(token);
         emit(LoginSuccess(S.of(context).login_successful));
       } else {

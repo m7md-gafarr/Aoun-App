@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:aoun_app/core/utils/snakbar/snackebar_helper.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
@@ -43,6 +45,7 @@ class LocationService {
       return await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
     } catch (e) {
+      log(e.toString());
       SnackbarHelper.showError(context, title: "Error getting location: $e");
       return null;
     }
@@ -58,6 +61,7 @@ class LocationService {
           distanceFilter: 2,
         ),
       ).handleError((error) {
+        log(error);
         SnackbarHelper.showError(context,
             title: "Error getting location: ${error.toString()}");
       });
@@ -74,8 +78,14 @@ class LocationService {
           await placemarkFromCoordinates(latitude, longitude);
       return placemarks.isNotEmpty ? placemarks.first : null;
     } catch (e) {
-      SnackbarHelper.showError(context, title: "Error getting location: $e");
-      return null;
+      await Future.delayed(Duration(seconds: 1));
+      try {
+        List<Placemark> placemarks =
+            await placemarkFromCoordinates(latitude, longitude);
+        return placemarks.isNotEmpty ? placemarks.first : null;
+      } catch (e) {
+        return null;
+      }
     }
   }
 }

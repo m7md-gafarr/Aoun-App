@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:aoun_app/core/router/route_name.dart';
-import 'package:aoun_app/core/utils/open_url.dart';
+import 'package:aoun_app/core/utils/map/google_map.dart';
+import 'package:aoun_app/data/model/map%20models/palce_autocomplete_model/palce_autocomplete_model.dart';
 
 import 'package:aoun_app/presentation/user/transport/views/transport_screen.dart';
 import 'package:flutter/material.dart';
@@ -48,8 +51,10 @@ class _HomeScreenState extends State<HomeUserScreen> {
                     hoverColor: Colors.transparent,
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
-                    onTap: () => Navigator.pushNamed(
-                        context, AppRoutesName.userNotificationScreenRoute),
+                    // onTap: () => Navigator.pushNamed(
+                    //     context, AppRoutesName.userNotificationScreenRoute),
+
+                    onTap: () async {},
                     child: Icon(
                       Iconsax.notification,
                       color: Theme.of(context).primaryColor,
@@ -65,8 +70,8 @@ class _HomeScreenState extends State<HomeUserScreen> {
                     //     context, AppRoutesName.userProfileScreenRoute),
 
                     onTap: () async {
-                      OpenUrlUtils.launchInWebView(Uri.parse(
-                          "https://pub.dev/packages/url_launcher/example"));
+                      Navigator.pushNamed(
+                          context, AppRoutesName.homeDriverScreenRoute);
                     },
                     child: CircleAvatar(
                       maxRadius: 13.w,

@@ -1,13 +1,13 @@
 import 'prediction.dart';
 
-class PlaceAutocompeletModel {
+class PalceAutocompleteModel {
   List<Prediction>? predictions;
   String? status;
 
-  PlaceAutocompeletModel({this.predictions, this.status});
+  PalceAutocompleteModel({this.predictions, this.status});
 
-  factory PlaceAutocompeletModel.fromJson(Map<String, dynamic> json) {
-    return PlaceAutocompeletModel(
+  factory PalceAutocompleteModel.fromJson(Map<String, dynamic> json) {
+    return PalceAutocompleteModel(
       predictions: (json['predictions'] as List<dynamic>?)
           ?.map((e) => Prediction.fromJson(e as Map<String, dynamic>))
           .toList(),

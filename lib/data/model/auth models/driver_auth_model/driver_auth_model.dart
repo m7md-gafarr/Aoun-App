@@ -11,7 +11,7 @@ class DriverAuthModel {
   int? gender;
   String? phoneNumber;
   DateTime? registrationDate;
-  String? imgUrl;
+  String? imgUrlFile;
   String? drivingLicense;
   String? idNumber;
   String? licenseNumber;
@@ -38,7 +38,7 @@ class DriverAuthModel {
     this.gender,
     this.phoneNumber,
     this.registrationDate,
-    this.imgUrl,
+    this.imgUrlFile,
     this.drivingLicense,
     this.idNumber,
     this.licenseNumber,
@@ -69,7 +69,7 @@ class DriverAuthModel {
       registrationDate: json['registrationDate'] == null
           ? null
           : DateTime.parse(json['registrationDate'] as String),
-      imgUrl: json['ImgUrl'] as String?,
+      imgUrlFile: json['imgUrlFile'] as String?,
       drivingLicense: json['DrivingLicense'] as String?,
       idNumber: json['IdNumber'] as String?,
       licenseNumber: json['LicenseNumber'] as String?,
@@ -102,7 +102,7 @@ class DriverAuthModel {
         'gender': gender,
         'phoneNumber': phoneNumber,
         'registrationDate': registrationDate?.toIso8601String(),
-        'ImgUrl': imgUrl,
+        'imgUrlFile': imgUrlFile,
         'DrivingLicense': drivingLicense,
         'IdNumber': idNumber,
         'LicenseNumber': licenseNumber,

@@ -1,4 +1,5 @@
 import 'package:aoun_app/core/router/route_name.dart';
+import 'package:aoun_app/presentation/driver/home/view/select_route_on_map_screen.dart';
 
 import 'package:aoun_app/presentation/introduction/select_type_screen.dart';
 import 'package:aoun_app/presentation/auth/views/confirm_password_screen.dart';
@@ -60,7 +61,11 @@ class AppRouter {
           },
         );
 
-      //  Auth user route
+      ////////////////////////////////////////////////////////
+
+      //TODO :  User Routes
+
+      //  Auth  route
       case AppRoutesName.loginScreenRoute:
         return PageRouteBuilder(
           settings: settings,
@@ -79,11 +84,9 @@ class AppRouter {
       case AppRoutesName.userRegisterScreenRoute:
         return MaterialPageRoute(
             builder: (context) => const UserRegisterScreen());
-
       case AppRoutesName.resetPasswordScreenRoute:
         return MaterialPageRoute(
             builder: (context) => const ResetPasswordScreen());
-
       case AppRoutesName.oTPScreenRoute:
         return PageRouteBuilder(
           settings: settings,
@@ -99,7 +102,6 @@ class AppRouter {
             );
           },
         );
-
       case AppRoutesName.confirmPasswordScreenRoute:
         return PageRouteBuilder(
           settings: settings,
@@ -115,7 +117,6 @@ class AppRouter {
             );
           },
         );
-
       case AppRoutesName.completeUserDataScreenRoute:
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) =>
@@ -130,12 +131,11 @@ class AppRouter {
             );
           },
         );
-
       case AppRoutesName.driverRegisterScreenRoute:
         return MaterialPageRoute(
             builder: (context) => const DriverRegisterScreen());
 
-      //   Home user Screen
+      //   Home route
       case AppRoutesName.homeUserScreenRoute:
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) =>
@@ -154,12 +154,6 @@ class AppRouter {
               child: child,
             );
           },
-        );
-
-      //   Home Driver Screen
-      case AppRoutesName.homeDriverScreenRoute:
-        return MaterialPageRoute(
-          builder: (context) => HomeDriverScreen(),
         );
 
       //  Transport route
@@ -209,22 +203,28 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (context) => const AddNewCardScreen());
 
-      /// User Profile Screen
+      //  Profile route
       case AppRoutesName.userProfileScreenRoute:
         return MaterialPageRoute(builder: (context) => UserProfileScreen());
       case AppRoutesName.userEditProfileScreenRoute:
         return MaterialPageRoute(builder: (context) => UserEditProfileScreen());
 
-      /// User Notification Screen
+      //  Notification route
       case AppRoutesName.userNotificationScreenRoute:
         return MaterialPageRoute(
             builder: (context) => UserNotificationScreen());
 
-      ///
-      ////////////////////////////////////
-      ///
-      ///
+      ////////////////////////////////////////////////////////
 
+      //TODO :  Driver Routes
+
+      //   Home route
+      case AppRoutesName.homeDriverScreenRoute:
+        return MaterialPageRoute(
+          builder: (context) => HomeDriverScreen(),
+        );
+
+      //  Introduction before login or register route
       case AppRoutesName.driverIntroductionScreenRoute:
         return PageRouteBuilder(
           settings: settings,
@@ -240,10 +240,14 @@ class AppRouter {
             );
           },
         );
-
+      //  Trip route
       case AppRoutesName.createTripScreenRoute:
         return MaterialPageRoute(
           builder: (context) => CreateTripScreen(),
+        );
+      case AppRoutesName.selectRouteOnMapScreenRoute:
+        return MaterialPageRoute(
+          builder: (context) => SelectRouteOnMapScreen(),
         );
 
       default:

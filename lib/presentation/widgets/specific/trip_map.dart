@@ -21,7 +21,7 @@ class TripMapWidget extends StatelessWidget {
           closedBuilder: (context, action) => GestureDetector(
             onTap: action,
             child: Image.asset(
-              Assets.imageMap,
+              Assets.imageMapMakerMap,
             ),
           ),
         ),

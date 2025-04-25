@@ -26,7 +26,13 @@ class ApiResponseHandler {
   static ApiResponse<T> handleDioError<T>(DioException e) {
     final responseData = e.response?.data;
     final statusCode = e.response?.statusCode;
-
+    if (statusCode == 401) {
+      return ApiResponse<T>(
+        success: false,
+        errors: 'Session expired. Please log in again.',
+        statusCode: statusCode,
+      );
+    }
     return ApiResponse<T>(
       success: false,
       errors: _extractErrors(responseData),
@@ -42,9 +48,13 @@ class ApiResponseHandler {
   }
 
   static String _extractErrors(dynamic data) {
-    if (data == null) return 'Unknown error';
+    if (data == null) return 'No error details provided by the server';
 
     try {
+      if (data is String) {
+        return data;
+      }
+
       if (data is Map<String, dynamic>) {
         // auth user
         if (data.containsKey('successed') &&
@@ -69,9 +79,12 @@ class ApiResponseHandler {
         if (data.containsKey('message')) {
           return data['message'].toString();
         }
+
+        // إذا لم يتم العثور على حقل محدد
+        return 'Unknown server error: ${data.toString()}';
       }
 
-      return data.toString();
+      return 'Unexpected error format: ${data.toString()}';
     } catch (e) {
       return 'Error parsing response: $e';
     }

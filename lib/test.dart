@@ -45,7 +45,7 @@ class _MapScreenState extends State<MapScreen> {
   initialMarkers(LatLng lat) async {
     BitmapDescriptor makerIcon =
         await GoogleMapUtils.bitmapDescriptorFromSvgAsset(
-      Assets.imageMaker,
+      Assets.imageMapMakerMyMakerLive,
     );
 
     myMarker.add(

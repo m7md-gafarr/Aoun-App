@@ -1,10 +1,18 @@
 import 'dart:math';
 import 'dart:ui' as ui;
 
+import 'package:aoun_app/data/model/map%20models/palce_autocomplete_model/palce_autocomplete_model.dart';
+import 'package:aoun_app/data/model/map%20models/palce_latlng_model/palce_latlng_model.dart';
+import 'package:aoun_app/data/repositories/remote/api_helper.dart';
+import 'package:aoun_app/data/repositories/remote/api_response_handler.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class GoogleMapUtils {
+  final Dio dio = Dio();
+
   static Future<BitmapDescriptor> bitmapDescriptorFromSvgAsset(
     String assetName, [
     ui.Size size = const ui.Size(50, 50),
@@ -24,9 +32,7 @@ class GoogleMapUtils {
     final recorder = ui.PictureRecorder();
     final canvas = ui.Canvas(recorder);
 
-    canvas.translate(0, height.toDouble());
-    canvas.scale(scaleFactor, -scaleFactor);
-    canvas.rotate(pi);
+    canvas.scale(scaleFactor, scaleFactor);
 
     canvas.drawPicture(pictureInfo.picture);
 
@@ -35,5 +41,38 @@ class GoogleMapUtils {
     final bytes = (await image.toByteData(format: ui.ImageByteFormat.png))!;
 
     return BitmapDescriptor.fromBytes(bytes.buffer.asUint8List());
+  }
+
+  static Future<PalceAutocompleteModel> getSuggestionPlaces(
+    String input,
+  ) async {
+    final String? PLACES_API_KEY = dotenv.env['PLACES_API_KEY'];
+
+    String baseURL = 'https://maps.gomaps.pro/maps/api/place/autocomplete/json';
+    String request =
+        '$baseURL?input=$input&key=$PLACES_API_KEY&components=country:eg';
+    ApiResponse<Map<String, dynamic>> response =
+        await ApiHelper().get(url: request);
+
+    if (response.success) {
+      return PalceAutocompleteModel.fromJson(response.data!);
+    } else {
+      throw Exception("Failed to load places: ${response.errors}");
+    }
+  }
+
+  static Future<PalceLatlngModel> getPlaceLatLng(String placeId) async {
+    final String? PLACES_API_KEY = dotenv.env['PLACES_API_KEY'];
+
+    String baseURL = 'https://maps.gomaps.pro/maps/api/place/details/json';
+    String request = '$baseURL?place_id=$placeId&key=$PLACES_API_KEY';
+    ApiResponse<Map<String, dynamic>> response =
+        await ApiHelper().get(url: request);
+
+    if (response.success) {
+      return PalceLatlngModel.fromJson(response.data!['result']['geometry']);
+    } else {
+      throw Exception("Failed to load places: ${response.errors}");
+    }
   }
 }

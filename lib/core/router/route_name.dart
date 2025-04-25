@@ -15,11 +15,14 @@ class AppRoutesName {
   static const oTPScreenRoute = "/OTPScreenRoute";
   static const completeUserDataScreenRoute = "/completeUserDataScreenRoute";
 
+  /////////////////////////////////////////////////////////
+  //TODO: User Routes
+
   //  Home Screen user
   static const homeUserScreenRoute = "/";
 
   //  Home screen driver
-  static const homeDriverScreenRoute = "homeDriverScreenRoute";
+  static const homeDriverScreenRoute = "/homeDriverScreenRoute";
 
   //  Transport Screens
   static const tripDetailsScreenRoute = "/TripDetailsScreenRoute";
@@ -38,7 +41,8 @@ class AppRoutesName {
   static const userNotificationScreenRoute = "/userNotificationScreenRoute";
 
   /////////////////////////////////////////////////////////
-
+  //TODO: Driver Routes
   static const driverIntroductionScreenRoute = "/driverIntroductionScreenRoute";
-  static const createTripScreenRoute = "createTripScreenRoute";
+  static const createTripScreenRoute = "/createTripScreenRoute";
+  static const selectRouteOnMapScreenRoute = "/selectRouteOnMapScreenRoute";
 }

@@ -7,7 +7,7 @@ class UserAuthModel {
   String? password;
   String? confirmedPassword;
   String? address;
-  String? imgUrl;
+  String? imgUrlFile;
   String? ssn;
   int? userType;
   int? age;
@@ -24,7 +24,7 @@ class UserAuthModel {
     this.password,
     this.confirmedPassword,
     this.address,
-    this.imgUrl,
+    this.imgUrlFile,
     this.ssn,
     this.userType,
     this.age,
@@ -42,7 +42,7 @@ class UserAuthModel {
         password: json['password'] as String?,
         confirmedPassword: json['confirmedPassword'] as String?,
         address: json['address'] as String?,
-        imgUrl: json['imgUrl'] as String?,
+        imgUrlFile: json['imgUrlFile'] as String?,
         ssn: json['ssn'] as String?,
         userType: json['userType'] as int?,
         age: json['age'] as int?,
@@ -66,7 +66,7 @@ class UserAuthModel {
         'password': password,
         'confirmedPassword': confirmedPassword,
         'address': address,
-        'imgUrl': imgUrl,
+        'imgUrlFile': imgUrlFile,
         'ssn': ssn,
         'userType': userType,
         'age': age,

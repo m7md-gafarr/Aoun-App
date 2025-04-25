@@ -365,7 +365,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                                         _seatsNumberController.text.trim()),
                                   ),
                                 ],
-                                imgUrl: _personalImageFile?.path ?? "",
+                                imgUrlFile: _personalImageFile?.path ?? "",
                                 licenseFront: _driverLicenseFront?.path ?? "",
                                 licenseBack: _driverLicenseBack?.path ?? "",
                                 licenseSelfie: _selfieWithLicense?.path ?? "",
