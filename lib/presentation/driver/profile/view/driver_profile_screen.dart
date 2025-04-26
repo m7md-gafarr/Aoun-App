@@ -88,9 +88,9 @@ class _DriverProfileScreenState extends State<DriverProfileScreen>
                     Navigator.pushNamed(
                         context, AppRoutesName.driverEditProfileScreenRoute);
                   },
-                  child: Text("Edit profile"),
                   style: ElevatedButton.styleFrom(
                       fixedSize: Size(150.w, double.infinity)),
+                  child: Text("Edit profile"),
                 ),
                 SizedBox(height: 10.h),
                 Padding(

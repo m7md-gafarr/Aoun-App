@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/core/utils/location/location_utils.dart';
 import 'package:aoun_app/core/utils/map/google_map.dart';
@@ -9,6 +11,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:uuid/uuid.dart';
 
 class SelectRouteOnMapScreen extends StatefulWidget {
   const SelectRouteOnMapScreen({super.key});
@@ -31,6 +34,8 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
   List<Prediction> palceAutocompleteModel = [];
   bool showMarker = false;
 
+  String? sessiontoken;
+
   @override
   void initState() {
     searchController = TextEditingController();
@@ -47,9 +52,12 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
   _onChanged() async {
     searchController.addListener(
       () async {
+        sessiontoken ??= Uuid().v4();
+        log(sessiontoken!);
+
         if (searchController.text.isNotEmpty) {
-          var result =
-              await GoogleMapUtils.getSuggestionPlaces(searchController.text);
+          var result = await GoogleMapUtils.getSuggestionPlaces(
+              searchController.text, sessiontoken!);
 
           palceAutocompleteModel.clear();
           palceAutocompleteModel.addAll(result.predictions!);
@@ -232,8 +240,8 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
                         ? IconButton(
                             icon: const Icon(Icons.cancel),
                             onPressed: () {
-                              searchController.clear();
                               setState(() {
+                                searchController.clear();
                                 palceAutocompleteModel.clear();
                               });
                             },
@@ -271,8 +279,12 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
                     itemBuilder: (context, index) => ListTile(
                       onTap: () async {
                         var latlng = await GoogleMapUtils.getPlaceLatLng(
-                            palceAutocompleteModel[index].placeId!);
+                          palceAutocompleteModel[index].placeId!,
+                          sessiontoken!,
+                        );
                         palceAutocompleteModel.clear();
+                        searchController.clear();
+                        sessiontoken = null;
                         mapController.animateCamera(
                           CameraUpdate.newCameraPosition(
                             CameraPosition(

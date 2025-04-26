@@ -83,16 +83,6 @@ class HomeDriverScreen extends StatelessWidget {
                 },
               ),
               _drawercard(
-                icon: Iconsax.notification,
-                title: "Notification",
-                context: context,
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.pushNamed(
-                      context, AppRoutesName.userProfileScreenRoute);
-                },
-              ),
-              _drawercard(
                 icon: Iconsax.shield_tick,
                 title: "safety",
                 context: context,
