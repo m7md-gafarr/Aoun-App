@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:aoun_app/core/utils/check_connection/check_connection_cubit.dart';
 import 'package:aoun_app/data/model/driver%20models/greate_trip_model/greate_trip_model.dart';
 import 'package:aoun_app/data/repositories/remote/api_response_handler.dart';
@@ -27,12 +25,7 @@ class CreateTripCubit extends Cubit<CreateTripState> {
     try {
       ApiResponse<Map<String, dynamic>> response =
           await TripRepository().greateTrip(trip: trip);
-      log("===== API Response Info =====");
-      log("Success: ${response.success}");
-      log("Data: ${response.data}");
-      log("Errors: ${response.errors}");
-      log("Status Code: ${response.statusCode}");
-      log("===============================");
+
       if (response.success) {
         emit(CreateTripSuccess(response.data!['message']));
       } else {
@@ -41,18 +34,10 @@ class CreateTripCubit extends Cubit<CreateTripState> {
         emit(CreateTripFailure(error));
       }
     } on DioException catch (e) {
-      log("===== DioException in Cubit =====");
-      log("Status Code: ${e.response?.statusCode}");
-      log("Data: ${e.response?.data}");
-      log("===============================");
       if (e.response?.statusCode == 500) {
         emit(CreateTripFailure("Network error: ${e.message}"));
       }
     } catch (e) {
-      log("===== Unexpected Error in Cubit =====");
-      log("Error: $e");
-      log("Type: ${e.runtimeType}");
-      log("===============================");
       emit(CreateTripFailure("Unexpected error login: $e"));
     }
   }

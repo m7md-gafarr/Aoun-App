@@ -1,4 +1,7 @@
+import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/core/constant/constant.dart';
+import 'package:aoun_app/core/utils/map/google_map.dart';
+import 'package:aoun_app/data/model/map%20models/route_model/route_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -12,17 +15,90 @@ class MapViewRouteScreen extends StatefulWidget {
 }
 
 class _MapViewRouteScreenState extends State<MapViewRouteScreen> {
+  late GoogleMapController _mapController;
+  final Set<Polyline> _polylines = {};
+  Set<Marker> marker = {};
+  late CameraPosition cameraPosition;
+
+  @override
+  void initState() {
+    super.initState();
+    getRoute();
+    cameraPosition = CameraPosition(
+      target: LatLng(26.74869101049492, 29.91485567756057),
+      zoom: 5.65,
+    );
+  }
+
+  getRoute() async {
+    RouteModel routeModel = await GoogleMapUtils().getRoute(
+        LatLng(31.25862757187389, 31.170393773156743),
+        LatLng(31.314723768732595, 31.146343409619615));
+    _setPolyline(routeModel.routes![0].polyline!.encodedPolyline!);
+  }
+
+  void _setPolyline(String encodedPolyline) async {
+    final List<LatLng> decodedPolyline =
+        GoogleMapUtils.decodePolyline(encodedPolyline);
+    BitmapDescriptor fromMarker =
+        await GoogleMapUtils.bitmapDescriptorFromSvgAsset(
+            Assets.imageMapMakerMyMakerLocation);
+    BitmapDescriptor toMarker =
+        await GoogleMapUtils.bitmapDescriptorFromSvgAsset(
+            Assets.imageMapMakerMakerUser);
+    setState(() {
+      _polylines.add(
+        Polyline(
+          startCap: Cap.roundCap,
+          endCap: Cap.roundCap,
+          polylineId: const PolylineId('route'),
+          points: decodedPolyline,
+          width: 7,
+          color: Theme.of(context).primaryColor,
+        ),
+      );
+
+      marker.add(
+        Marker(
+          markerId: MarkerId("from"),
+          icon: fromMarker,
+          position: decodedPolyline.first,
+          anchor: Offset(0.37, 0.95),
+        ),
+      );
+      marker.add(
+        Marker(
+          markerId: MarkerId("to"),
+          icon: toMarker,
+          position: decodedPolyline.last,
+          anchor: Offset(0.35, 0.95),
+        ),
+      );
+    });
+    LatLngBounds? bounds = GoogleMapUtils.getBoundRoute(decodedPolyline);
+    _mapController.animateCamera(
+      CameraUpdate.newLatLngBounds(
+        LatLngBounds(southwest: bounds.southwest, northeast: bounds.northeast),
+        50,
+      ),
+    );
+  }
+
+  onMapCreated(GoogleMapController controller) {
+    _mapController = controller;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
           GoogleMap(
+            markers: marker,
             zoomControlsEnabled: false,
-            initialCameraPosition: CameraPosition(
-              target: LatLng(31.097804426099284, 30.944998274515168),
-              zoom: 10,
-            ),
+            initialCameraPosition: cameraPosition,
+            polylines: _polylines,
+            onMapCreated: onMapCreated,
           ),
           Positioned(
             top: 20.h,

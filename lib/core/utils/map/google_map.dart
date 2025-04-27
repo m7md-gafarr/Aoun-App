@@ -1,8 +1,10 @@
+import 'dart:developer';
 import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:aoun_app/data/model/map%20models/palce_autocomplete_model/palce_autocomplete_model.dart';
 import 'package:aoun_app/data/model/map%20models/palce_latlng_model/palce_latlng_model.dart';
+import 'package:aoun_app/data/model/map%20models/route_model/route_model.dart';
 import 'package:aoun_app/data/repositories/remote/api_helper.dart';
 import 'package:aoun_app/data/repositories/remote/api_response_handler.dart';
 import 'package:dio/dio.dart';
@@ -12,6 +14,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class GoogleMapUtils {
   final Dio dio = Dio();
+  final String? _apiKey = dotenv.env['SERVICE_MAP_API_KEY'];
 
   static Future<BitmapDescriptor> bitmapDescriptorFromSvgAsset(
     String assetName, [
@@ -43,30 +46,87 @@ class GoogleMapUtils {
     return BitmapDescriptor.fromBytes(bytes.buffer.asUint8List());
   }
 
-  static Future<PalceAutocompleteModel> getSuggestionPlaces(
-      String input, String sessiontoken) async {
-    final String? placesApiKey = dotenv.env['PLACES_API_KEY'];
+  static List<LatLng> decodePolyline(String encoded) {
+    List<LatLng> points = [];
+    int index = 0, len = encoded.length;
+    int lat = 0, lng = 0;
 
-    String baseURL = 'https://maps.gomaps.pro/maps/api/place/autocomplete/json';
+    while (index < len) {
+      int b, shift = 0, result = 0;
+      do {
+        b = encoded.codeUnitAt(index++) - 63;
+        result |= (b & 0x1f) << shift;
+        shift += 5;
+      } while (b >= 0x20);
+      int dlat = (result & 1) != 0 ? ~(result >> 1) : (result >> 1);
+      lat += dlat;
+
+      shift = 0;
+      result = 0;
+      do {
+        b = encoded.codeUnitAt(index++) - 63;
+        result |= (b & 0x1f) << shift;
+        shift += 5;
+      } while (b >= 0x20);
+      int dlng = (result & 1) != 0 ? ~(result >> 1) : (result >> 1);
+      lng += dlng;
+
+      points.add(LatLng(lat / 1E5, lng / 1E5));
+    }
+
+    return points;
+  }
+
+  static LatLngBounds getBoundRoute(List<LatLng> list) {
+    if (list.isEmpty) {
+      return LatLngBounds(
+        southwest: LatLng(0, 0),
+        northeast: LatLng(0, 0),
+      );
+    }
+
+    double minLat = list[0].latitude;
+    double maxLat = list[0].latitude;
+    double minLng = list[0].longitude;
+    double maxLng = list[0].longitude;
+
+    for (LatLng point in list) {
+      minLat = min(point.latitude, minLat);
+      maxLat = max(point.latitude, maxLat);
+      minLng = min(point.longitude, minLng);
+      maxLng = max(point.longitude, maxLng);
+    }
+    return LatLngBounds(
+      southwest: LatLng(minLat, minLng),
+      northeast: LatLng(maxLat, maxLng),
+    );
+  }
+
+  Future<PalceAutocompleteModel> getSuggestionPlaces(
+    String input,
+    String sessiontoken,
+  ) async {
+    String baseURL =
+        'https://maps.googleapis.com/maps/api/place/autocomplete/json';
     String request =
-        '$baseURL?input=$input&key=$placesApiKey&components=country:eg&sessiontoken=$sessiontoken';
+        '$baseURL?input=$input&key=$_apiKey&components=country:eg&sessiontoken=$sessiontoken';
     ApiResponse<Map<String, dynamic>> response =
         await ApiHelper().get(url: request);
 
     if (response.success) {
       return PalceAutocompleteModel.fromJson(response.data!);
     } else {
-      throw Exception("Failed to load places: ${response.errors}");
+      throw Exception("Failed to load Suggestion: ${response.errors}");
     }
   }
 
-  static Future<PalceLatlngModel> getPlaceLatLng(
-      String placeId, String sessiontoken) async {
-    final String? placesApiKey = dotenv.env['PLACES_API_KEY'];
-
-    String baseURL = 'https://maps.gomaps.pro/maps/api/place/details/json';
+  Future<PalceLatlngModel> getPlaceLatLng(
+    String placeId,
+    String sessiontoken,
+  ) async {
+    String baseURL = 'https://maps.googleapis.com/maps/api/place/details/json';
     String request =
-        '$baseURL?place_id=$placeId&key=$placesApiKey&sessiontoken=$sessiontoken';
+        '$baseURL?place_id=$placeId&key=$_apiKey&sessiontoken=$sessiontoken';
     ApiResponse<Map<String, dynamic>> response =
         await ApiHelper().get(url: request);
 
@@ -74,6 +134,48 @@ class GoogleMapUtils {
       return PalceLatlngModel.fromJson(response.data!['result']['geometry']);
     } else {
       throw Exception("Failed to load places: ${response.errors}");
+    }
+  }
+
+  Future<RouteModel> getRoute(
+    LatLng from,
+    LatLng to,
+  ) async {
+    ApiResponse<Map<String, dynamic>> response = await ApiHelper().post(
+        url: "https://routes.googleapis.com/directions/v2:computeRoutes",
+        body: {
+          "origin": {
+            "location": {
+              "latLng": {"latitude": from.latitude, "longitude": from.longitude}
+            }
+          },
+          "destination": {
+            "location": {
+              "latLng": {"latitude": to.latitude, "longitude": to.longitude}
+            }
+          },
+          "travelMode": "DRIVE",
+          "routingPreference": "TRAFFIC_AWARE",
+          "computeAlternativeRoutes": false,
+          "routeModifiers": {
+            "avoidTolls": false,
+            "avoidHighways": false,
+            "avoidFerries": false
+          },
+          "languageCode": "en-US",
+          "units": "METRIC"
+        },
+        headers: {
+          "Content-Type": "application/json",
+          "X-Goog-FieldMask":
+              "routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline",
+          "X-Goog-Api-Key": "$_apiKey"
+        });
+
+    if (response.success) {
+      return RouteModel.fromJson(response.data!);
+    } else {
+      throw Exception("Failed to load route: ${response.errors}");
     }
   }
 }

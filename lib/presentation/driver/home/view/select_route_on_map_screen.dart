@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:aoun_app/core/app_images/app_images.dart';
@@ -33,7 +34,7 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
   LocationTrip? locationModel;
   List<Prediction> palceAutocompleteModel = [];
   bool showMarker = false;
-
+  Timer? _debounce;
   String? sessiontoken;
 
   @override
@@ -50,27 +51,31 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
   }
 
   _onChanged() async {
-    searchController.addListener(
-      () async {
-        sessiontoken ??= Uuid().v4();
-        log(sessiontoken!);
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(Duration(milliseconds: 500), () async {
+      searchController.addListener(
+        () async {
+          sessiontoken ??= Uuid().v4();
+          log(sessiontoken!);
 
-        if (searchController.text.isNotEmpty) {
-          var result = await GoogleMapUtils.getSuggestionPlaces(
-              searchController.text, sessiontoken!);
+          if (searchController.text.isNotEmpty) {
+            var result = await GoogleMapUtils()
+                .getSuggestionPlaces(searchController.text, sessiontoken!);
 
-          palceAutocompleteModel.clear();
-          palceAutocompleteModel.addAll(result.predictions!);
-          setState(() {});
-        }
-      },
-    );
+            palceAutocompleteModel.clear();
+            palceAutocompleteModel.addAll(result.predictions!);
+            setState(() {});
+          }
+        },
+      );
+    });
   }
 
   @override
   void dispose() {
     mapController.dispose();
     searchController.dispose();
+
     super.dispose();
   }
 
@@ -278,7 +283,7 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
                     itemCount: palceAutocompleteModel.length,
                     itemBuilder: (context, index) => ListTile(
                       onTap: () async {
-                        var latlng = await GoogleMapUtils.getPlaceLatLng(
+                        var latlng = await GoogleMapUtils().getPlaceLatLng(
                           palceAutocompleteModel[index].placeId!,
                           sessiontoken!,
                         );
