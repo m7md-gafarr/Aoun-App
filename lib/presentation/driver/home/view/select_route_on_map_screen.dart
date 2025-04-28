@@ -5,8 +5,11 @@ import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/core/utils/location/location_utils.dart';
 import 'package:aoun_app/core/utils/map/google_map.dart';
 import 'package:aoun_app/data/model/driver%20models/greate_trip_model/trip_location.dart';
-import 'package:aoun_app/data/model/map%20models/palce_autocomplete_model/prediction.dart';
+import 'package:aoun_app/presentation/driver/home/view_model/Textfeild%20Search%20location/textfeild_search_location_cubit.dart';
+import 'package:aoun_app/presentation/driver/home/view_model/street%20name/street_name_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
@@ -24,15 +27,12 @@ class SelectRouteOnMapScreen extends StatefulWidget {
 class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
   late GoogleMapController mapController;
   late CameraPosition cameraPosition;
-  late BitmapDescriptor myMarkerIcon;
   late TextEditingController searchController;
   LatLng? selectedLocation;
-  late Position? _myPosition;
   bool isCameraMoving = false;
-  String? currentAddress, returnLocationName;
+  String? returnLocationName;
   bool isFirstMove = true;
   LocationTrip? locationModel;
-  List<Prediction> palceAutocompleteModel = [];
   bool showMarker = false;
   Timer? _debounce;
   String? sessiontoken;
@@ -40,48 +40,22 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
   @override
   void initState() {
     searchController = TextEditingController();
-    cameraPosition = CameraPosition(
-      target: LatLng(26.74869101049492, 29.91485567756057),
-      zoom: 5.65,
-    );
-    super.initState();
-
+    cameraPosition = GoogleMapUtils.intialCameraPosition;
     _onChanged();
-    loadMarkerIcon();
+    super.initState();
   }
 
   _onChanged() async {
-    if (_debounce?.isActive ?? false) _debounce!.cancel();
-    _debounce = Timer(Duration(milliseconds: 500), () async {
-      searchController.addListener(
-        () async {
+    searchController.addListener(
+      () async {
+        if (_debounce?.isActive ?? false) _debounce!.cancel();
+        _debounce = Timer(Duration(milliseconds: 500), () async {
           sessiontoken ??= Uuid().v4();
-          log(sessiontoken!);
-
-          if (searchController.text.isNotEmpty) {
-            var result = await GoogleMapUtils()
-                .getSuggestionPlaces(searchController.text, sessiontoken!);
-
-            palceAutocompleteModel.clear();
-            palceAutocompleteModel.addAll(result.predictions!);
-            setState(() {});
-          }
-        },
-      );
-    });
-  }
-
-  @override
-  void dispose() {
-    mapController.dispose();
-    searchController.dispose();
-
-    super.dispose();
-  }
-
-  Future<void> loadMarkerIcon() async {
-    myMarkerIcon = await GoogleMapUtils.bitmapDescriptorFromSvgAsset(
-      Assets.imageMapMakerMyMakerLive,
+          context
+              .read<TextfeildSearchLocationCubit>()
+              .getSuggestionPlaces(searchController.text, sessiontoken!);
+        });
+      },
     );
   }
 
@@ -98,21 +72,31 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
   }
 
   void getLocation(BuildContext context) async {
-    _myPosition = await LocationService.getCurrentLocation(context);
+    Position? _myPosition = await LocationService.getCurrentLocation(context);
     mapController.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(
-          target: LatLng(_myPosition!.latitude, _myPosition!.longitude),
+          target: LatLng(_myPosition!.latitude, _myPosition.longitude),
           zoom: 18,
         ),
       ),
     );
+
     if (isFirstMove) {
       isFirstMove = false;
       return;
     }
-    selectedLocation = LatLng(_myPosition!.latitude, _myPosition!.longitude);
-    setState(() {});
+
+    setState(() {
+      selectedLocation = LatLng(_myPosition.latitude, _myPosition.longitude);
+    });
+  }
+
+  @override
+  void dispose() {
+    mapController.dispose();
+    searchController.dispose();
+    super.dispose();
   }
 
   @override
@@ -128,23 +112,28 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
             onCameraMoveStarted: () {
               setState(() {
                 isCameraMoving = true;
-                currentAddress = null;
               });
             },
             onCameraMove: (CameraPosition position) {
               selectedLocation = position.target;
             },
             onCameraIdle: () async {
-              await Future.delayed(Duration(milliseconds: 300));
-              setState(() {
-                showMarker = true;
-              });
+              !isFirstMove
+                  ? await Future.delayed(
+                      Duration(milliseconds: 300),
+                      () {
+                        setState(() {
+                          showMarker = true;
+                        });
+                      },
+                    )
+                  : null;
+
               if (selectedLocation != null) {
-                final name = await LocationService.getAddressFromCoordinates(
-                  context,
-                  selectedLocation!.latitude,
-                  selectedLocation!.longitude,
-                );
+                context
+                    .read<StreetNameCubit>()
+                    .getStreetName(selectedLocation!, context);
+                final name = context.read<StreetNameCubit>().placemark;
 
                 locationModel = LocationTrip(
                   displayName: name!.thoroughfare,
@@ -155,29 +144,18 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
                   additionalNotes: "",
                 );
 
-                List<String> parts = [];
-
-                if (name.administrativeArea != null) {
-                  String adminArea = name.administrativeArea!
-                      .replaceAll("Governorate", "")
-                      .trim();
-                  parts.add(adminArea);
-                }
-                if (name.subAdministrativeArea != null) {
-                  parts.add(name.subAdministrativeArea!);
-                }
-                if (name.thoroughfare != null) parts.add(name.thoroughfare!);
-
                 setState(() {
-                  returnLocationName = parts.join(', ');
+                  returnLocationName =
+                      "${name.administrativeArea!.replaceAll("Governorate", "").trim()}, ${name.subAdministrativeArea}, ${name.thoroughfare}";
                   isCameraMoving = false;
-                  currentAddress = name.thoroughfare ?? 'unknown';
                 });
               }
             },
           ),
+
+          //Marker
           AnimatedPositioned(
-            duration: Duration(milliseconds: 200),
+            duration: Duration(milliseconds: 150),
             curve: Curves.easeOut,
             top: MediaQuery.of(context).size.height / 2 -
                 (isCameraMoving ? 70 : 50),
@@ -189,6 +167,7 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
                   )
                 : SizedBox.shrink(),
           ),
+          // Location name
           if (!isCameraMoving && !isFirstMove)
             Positioned(
               top: MediaQuery.of(context).size.height * 0.37,
@@ -201,18 +180,30 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Center(
-                  child: Text(
-                    (currentAddress?.isEmpty ?? true)
-                        ? "unknown"
-                        : currentAddress!,
-                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                          fontSize: 15.sp,
-                        ),
-                    overflow: TextOverflow.ellipsis,
+                  child: BlocBuilder<StreetNameCubit, StreetNameState>(
+                    builder: (context, state) {
+                      if (state is StreetNameSuccess) {
+                        return Text(
+                          state.nameLocation,
+                          style:
+                              Theme.of(context).textTheme.titleSmall!.copyWith(
+                                    fontSize: 15.sp,
+                                  ),
+                          overflow: TextOverflow.ellipsis,
+                        );
+                      } else {
+                        return SizedBox(
+                          height: 22.w,
+                          width: 22.w,
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    },
                   ),
                 ),
               ),
             ),
+          // Button Confirm location
           Positioned(
             bottom: 15,
             left: 13,
@@ -229,8 +220,9 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
               child: Text("Confirm this location"),
             ),
           ),
+          // Textfeild Search location
           Positioned(
-            top: 20.h,
+            top: 30.h,
             left: 13,
             right: 13,
             child: Column(
@@ -241,17 +233,6 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide.none,
                     ),
-                    suffixIcon: searchController.value.text.isNotEmpty
-                        ? IconButton(
-                            icon: const Icon(Icons.cancel),
-                            onPressed: () {
-                              setState(() {
-                                searchController.clear();
-                                palceAutocompleteModel.clear();
-                              });
-                            },
-                          )
-                        : null,
                     fillColor: Theme.of(context)
                         .colorScheme
                         .primaryContainer
@@ -263,53 +244,63 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
                     ),
                   ),
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .primaryContainer
-                          .withOpacity(0.9),
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(7),
-                        bottomRight: Radius.circular(7),
-                      )),
-                  child: ListView.separated(
-                    padding: EdgeInsets.only(top: 0),
-                    shrinkWrap: true,
-                    separatorBuilder: (context, index) => Divider(
-                      thickness: .5,
-                      height: 0,
-                    ),
-                    itemCount: palceAutocompleteModel.length,
-                    itemBuilder: (context, index) => ListTile(
-                      onTap: () async {
-                        var latlng = await GoogleMapUtils().getPlaceLatLng(
-                          palceAutocompleteModel[index].placeId!,
-                          sessiontoken!,
-                        );
-                        palceAutocompleteModel.clear();
-                        searchController.clear();
-                        sessiontoken = null;
-                        mapController.animateCamera(
-                          CameraUpdate.newCameraPosition(
-                            CameraPosition(
-                              target: LatLng(
-                                  latlng.location!.lat!, latlng.location!.lng!),
-                              zoom: 16,
+                BlocBuilder<TextfeildSearchLocationCubit,
+                    TextfeildSearchLocationState>(
+                  builder: (context, state) {
+                    if (state is TextfeildSearchLocationSuccsess) {
+                      return Container(
+                        decoration: BoxDecoration(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .primaryContainer
+                                .withOpacity(0.9),
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(7),
+                              bottomRight: Radius.circular(7),
+                            )),
+                        child: ListView.separated(
+                          padding: EdgeInsets.only(top: 0),
+                          shrinkWrap: true,
+                          separatorBuilder: (context, index) => Divider(
+                            thickness: .5,
+                            height: 0,
+                          ),
+                          itemCount: state.palceAutocompleteModel.length,
+                          itemBuilder: (context, index) => ListTile(
+                            onTap: () async {
+                              var latlng =
+                                  await GoogleMapUtils().getPlaceLatLng(
+                                state.palceAutocompleteModel[index].placeId!,
+                                sessiontoken!,
+                              );
+                              state.palceAutocompleteModel.clear();
+                              searchController.clear();
+                              sessiontoken = null;
+                              mapController.animateCamera(
+                                CameraUpdate.newCameraPosition(
+                                  CameraPosition(
+                                    target: LatLng(latlng.location!.lat!,
+                                        latlng.location!.lng!),
+                                    zoom: 16,
+                                  ),
+                                ),
+                              );
+                            },
+                            leading: Icon(
+                              Iconsax.location,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            title: Text(
+                              state.palceAutocompleteModel[index].description!,
+                              style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ),
-                        );
-                      },
-                      leading: Icon(
-                        Iconsax.location,
-                        color: Theme.of(context).secondaryHeaderColor,
-                      ),
-                      title: Text(
-                        palceAutocompleteModel[index].description!,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                    ),
-                  ),
+                        ),
+                      );
+                    } else {
+                      return SizedBox();
+                    }
+                  },
                 ),
               ],
             ),

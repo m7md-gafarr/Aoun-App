@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:math';
 import 'dart:ui' as ui;
 
@@ -15,7 +14,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class GoogleMapUtils {
   final Dio dio = Dio();
   final String? _apiKey = dotenv.env['SERVICE_MAP_API_KEY'];
-
+  static CameraPosition intialCameraPosition = CameraPosition(
+    target: LatLng(26.74869101049492, 29.91485567756057),
+    zoom: 5.65,
+  );
   static Future<BitmapDescriptor> bitmapDescriptorFromSvgAsset(
     String assetName, [
     ui.Size size = const ui.Size(50, 50),

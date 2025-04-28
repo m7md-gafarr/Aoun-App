@@ -14,8 +14,10 @@ import 'package:aoun_app/presentation/auth/view_model/login_cubit/login_cubit.da
 import 'package:aoun_app/presentation/auth/view_model/user_register_cubit/register_cubit.dart';
 import 'package:aoun_app/presentation/auth/view_model/sendOTPForPasswordReset_cubit/send_otp_for_password_reset_cubit.dart';
 import 'package:aoun_app/presentation/auth/view_model/verifyOTP_cubit/verify_otp_cubit.dart';
+import 'package:aoun_app/presentation/driver/home/view_model/Textfeild%20Search%20location/textfeild_search_location_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/amenities/amenities_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/grate%20trip/create_trip_cubit.dart';
+import 'package:aoun_app/presentation/driver/home/view_model/street%20name/street_name_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/add%20new%20debit%20card/add_new_debit_card_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/payment%20wallet/payment_wallet_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/view%20debit%20card/view_all_debit_card_cubit.dart';
@@ -62,6 +64,8 @@ void main() async {
         BlocProvider(create: (context) => AmenitiesCubit()),
         BlocProvider(
             create: (context) => CreateTripCubit(CheckConnectionCubit())),
+        BlocProvider(create: (context) => TextfeildSearchLocationCubit()),
+        BlocProvider(create: (context) => StreetNameCubit()),
       ],
       child: Builder(
         builder: (context) => MultiProvider(
