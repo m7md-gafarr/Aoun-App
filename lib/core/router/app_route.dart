@@ -3,6 +3,7 @@ import 'package:aoun_app/presentation/driver/help%20and%20feedback/view/help_and
 import 'package:aoun_app/presentation/driver/home/view/select_route_on_map_screen.dart';
 import 'package:aoun_app/presentation/driver/profile/view/driver_edit_profile.dart';
 import 'package:aoun_app/presentation/driver/profile/view/driver_profile_screen.dart';
+import 'package:aoun_app/presentation/driver/setting/view/driver_setting_screen.dart';
 
 import 'package:aoun_app/presentation/introduction/select_type_screen.dart';
 import 'package:aoun_app/presentation/auth/views/confirm_password_screen.dart';
@@ -67,19 +68,9 @@ class AppRouter {
       //TODO :  Auth Routes
 
       case AppRoutesName.loginScreenRoute:
-        return PageRouteBuilder(
+        return MaterialPageRoute(
           settings: settings,
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              const LoginScreen(),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return SharedAxisTransition(
-              animation: animation,
-              secondaryAnimation: secondaryAnimation,
-              transitionType: SharedAxisTransitionType.horizontal,
-              fillColor: Theme.of(context).scaffoldBackgroundColor,
-              child: child,
-            );
-          },
+          builder: (context) => const LoginScreen(),
         );
       case AppRoutesName.userRegisterScreenRoute:
         return MaterialPageRoute(
@@ -294,10 +285,10 @@ class AppRouter {
           builder: (context) => HelpAndFeedbackScreen(),
         );
 
-      // case AppRoutesName.driverSettingScreenRoute:
-      //   return MaterialPageRoute(
-      //     builder: (context) => SettingScreen(),
-      //   );
+      case AppRoutesName.driverSettingScreenRoute:
+        return MaterialPageRoute(
+          builder: (context) => DriverSettingScreen(),
+        );
 
       default:
         return MaterialPageRoute(

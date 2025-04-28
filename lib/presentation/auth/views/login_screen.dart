@@ -215,69 +215,59 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   SizedBox(height: 30.h),
                   // Divider with "or continue with" text
-                  isUser == "user"
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              width: 100.w,
-                              child: const Divider(),
-                            ),
-                            Text(S.of(context).login_or_continue_with,
-                                style: Theme.of(context).textTheme.bodyMedium),
-                            SizedBox(
-                              width: 100.w,
-                              child: const Divider(),
-                            ),
-                          ],
-                        )
-                      : SizedBox(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 100.w,
+                        child: const Divider(),
+                      ),
+                      Text(S.of(context).login_or_continue_with,
+                          style: Theme.of(context).textTheme.bodyMedium),
+                      SizedBox(
+                        width: 100.w,
+                        child: const Divider(),
+                      ),
+                    ],
+                  ),
                   SizedBox(height: MediaQuery.of(context).size.width / 15),
                   // Social media login buttons
-                  isUser == "user"
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Container(
-                              height: 50.w,
-                              width: 100.w,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .outline),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(15))),
-                              child: Center(
-                                child: SvgPicture.asset(
-                                  Assets.imageGoogle,
-                                  height: 30.h,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: 50.w,
-                              width: 100.w,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .outline),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(15))),
-                              child: Center(
-                                child: SvgPicture.asset(
-                                  Assets.imageFacebook,
-                                  height: 30.h,
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      : SizedBox(),
-                  isUser == "user"
-                      ? SizedBox(height: MediaQuery.of(context).size.width / 13)
-                      : SizedBox(height: MediaQuery.of(context).size.width / 5),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                        height: 50.w,
+                        width: 100.w,
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                color: Theme.of(context).colorScheme.outline),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(15))),
+                        child: Center(
+                          child: SvgPicture.asset(
+                            Assets.imageGoogle,
+                            height: 30.h,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 50.w,
+                        width: 100.w,
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                color: Theme.of(context).colorScheme.outline),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(15))),
+                        child: Center(
+                          child: SvgPicture.asset(
+                            Assets.imageFacebook,
+                            height: 30.h,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.width / 13),
                   // Sign up link for new users
                   RichText(
                     textAlign: TextAlign.center,

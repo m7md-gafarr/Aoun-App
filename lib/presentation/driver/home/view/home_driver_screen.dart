@@ -126,7 +126,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.pushNamed(
-                      context, AppRoutesName.userProfileScreenRoute);
+                      context, AppRoutesName.driverSettingScreenRoute);
                 },
               ),
             ],
