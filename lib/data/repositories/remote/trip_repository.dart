@@ -1,51 +1,47 @@
-import 'dart:developer';
-
 import 'package:aoun_app/data/model/driver%20models/greate_trip_model/greate_trip_model.dart';
 import 'package:aoun_app/data/repositories/local/shared_pref.dart';
 import 'package:aoun_app/data/repositories/remote/api_helper.dart';
 import 'package:aoun_app/data/repositories/remote/api_response_handler.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class TripRepository {
   final String? _apiUrl = dotenv.env['API_URL'];
-  String? _token;
 
-  Future<void> getToken() async {
+  Future<String> getToken() async {
     String? token = await SharedPreferencesService().getToken();
     if (token != null && token.isNotEmpty) {
-      log(token);
-      _token = token;
+      return token;
+    } else {
+      return "";
     }
   }
 
-  Map<String, String> get _headers {
+  Map<String, String> _headers(String token) {
     return {
       "Content-Type": "application/json",
       "Accept": "*/*",
-      "Authorization": "Bearer $_token",
+      "Authorization": "Bearer $token",
     };
   }
 
   Future<ApiResponse<Map<String, dynamic>>> greateTrip({
     required CreateTripModel trip,
   }) async {
-    await getToken();
-    try {
-      return await ApiHelper().post(
-        url: "$_apiUrl/Trips",
-        body: trip.toJson(),
-        headers: _headers,
-      );
-    } on DioException catch (e) {
-      return ApiResponseHandler.handleDioError<Map<String, dynamic>>(e);
-    } catch (e) {
-      log(e.toString());
-      return ApiResponseHandler.handleGenericError<Map<String, dynamic>>(e);
-    }
+    String token = await getToken();
+    return await ApiHelper().post<Map<String, dynamic>>(
+      url: "$_apiUrl/Trips",
+      body: trip.toJson(),
+      headers: _headers(token),
+    );
   }
 
-  chancelTrip() {}
+  Future<ApiResponse<List<Map<String, dynamic>>>>
+      getActiveTripRequests() async {
+    return await ApiHelper().get<List<Map<String, dynamic>>>(
+      url: "$_apiUrl/Trips/active-trip-requests",
+    );
+  }
+
   getDriverAllTrip() {}
   bookUserTrip() {}
   getUserAllTrip() {}

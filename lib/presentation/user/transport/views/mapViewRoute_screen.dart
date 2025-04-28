@@ -24,10 +24,7 @@ class _MapViewRouteScreenState extends State<MapViewRouteScreen> {
   void initState() {
     super.initState();
     getRoute();
-    cameraPosition = CameraPosition(
-      target: LatLng(26.74869101049492, 29.91485567756057),
-      zoom: 5.65,
-    );
+    cameraPosition = GoogleMapUtils.intialCameraPosition;
   }
 
   getRoute() async {
@@ -79,7 +76,7 @@ class _MapViewRouteScreenState extends State<MapViewRouteScreen> {
     _mapController.animateCamera(
       CameraUpdate.newLatLngBounds(
         LatLngBounds(southwest: bounds.southwest, northeast: bounds.northeast),
-        50,
+        100,
       ),
     );
   }

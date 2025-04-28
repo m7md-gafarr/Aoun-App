@@ -13,8 +13,8 @@ class UserRepository {
     String? token = await SharedPreferencesService().getToken();
     String userID = extractUserInfoFromToken().extractUserIdFromToken(token!);
 
-    ApiResponse<Map<String, dynamic>> response =
-        await ApiHelper().get(url: "$_apiUrl/User/ById/$userID");
+    ApiResponse<Map<String, dynamic>> response = await ApiHelper()
+        .get<Map<String, dynamic>>(url: "$_apiUrl/User/ById/$userID");
     if (response.success) {
       return UserModel.fromJson(response.data!);
     } else {

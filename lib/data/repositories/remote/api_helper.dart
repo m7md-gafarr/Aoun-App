@@ -4,23 +4,27 @@ import 'package:dio/dio.dart';
 class ApiHelper {
   final Dio dio = Dio();
 
-  Future<ApiResponse<Map<String, dynamic>>> get({
-    required String url,
-  }) async {
+  Future<ApiResponse<T>> get<T>({required String url}) async {
     try {
-      Response response = await dio.get(
-        url,
-      );
+      Response response = await dio.get(url);
 
-      return ApiResponseHandler.handleSuccess<Map<String, dynamic>>(response);
+      if (response.data == null) {
+        return ApiResponse<T>(
+          success: false,
+          errors: 'Empty response data',
+          statusCode: response.statusCode,
+        );
+      }
+
+      return ApiResponseHandler.handleSuccess<T>(response);
     } on DioException catch (e) {
-      return ApiResponseHandler.handleDioError<Map<String, dynamic>>(e);
+      return ApiResponseHandler.handleDioError<T>(e);
     } catch (e) {
-      return ApiResponseHandler.handleGenericError<Map<String, dynamic>>(e);
+      return ApiResponseHandler.handleGenericError<T>(e);
     }
   }
 
-  Future<ApiResponse<Map<String, dynamic>>> post({
+  Future<ApiResponse<T>> post<T>({
     required String url,
     required dynamic body,
     required Map<String, String> headers,
@@ -32,15 +36,15 @@ class ApiHelper {
         options: Options(headers: headers),
       );
 
-      return ApiResponseHandler.handleSuccess<Map<String, dynamic>>(response);
+      return ApiResponseHandler.handleSuccess<T>(response);
     } on DioException catch (e) {
-      return ApiResponseHandler.handleDioError<Map<String, dynamic>>(e);
+      return ApiResponseHandler.handleDioError<T>(e);
     } catch (e) {
-      return ApiResponseHandler.handleGenericError<Map<String, dynamic>>(e);
+      return ApiResponseHandler.handleGenericError<T>(e);
     }
   }
 
-  Future<ApiResponse<Map<String, dynamic>>> put({
+  Future<ApiResponse<T>> put<T>({
     required String url,
     required Map<String, dynamic> body,
     required Map<String, String> headers,
@@ -51,12 +55,11 @@ class ApiHelper {
         data: body,
         options: Options(headers: headers),
       );
-
-      return ApiResponseHandler.handleSuccess<Map<String, dynamic>>(response);
+      return ApiResponseHandler.handleSuccess<T>(response);
     } on DioException catch (e) {
-      return ApiResponseHandler.handleDioError<Map<String, dynamic>>(e);
+      return ApiResponseHandler.handleDioError<T>(e);
     } catch (e) {
-      return ApiResponseHandler.handleGenericError<Map<String, dynamic>>(e);
+      return ApiResponseHandler.handleGenericError<T>(e);
     }
   }
 }

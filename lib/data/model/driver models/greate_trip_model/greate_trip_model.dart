@@ -3,7 +3,7 @@ import 'trip_location.dart';
 class CreateTripModel {
   LocationTrip? fromLocation;
   LocationTrip? toLocation;
-  DateTime? departureTime;
+  String? departureTime;
   int? availableSeats;
   int? pricePerSeat;
   String? driverNotes;
@@ -37,9 +37,7 @@ class CreateTripModel {
       toLocation: json['toLocation'] == null
           ? null
           : LocationTrip.fromJson(json['toLocation'] as Map<String, dynamic>),
-      departureTime: json['departureTime'] == null
-          ? null
-          : DateTime.parse(json['departureTime'] as String),
+      departureTime: json['departureTime'] as String,
       availableSeats: json['availableSeats'] as int?,
       pricePerSeat: json['pricePerSeat'] as int?,
       driverNotes: json['driverNotes'] as String?,
@@ -55,7 +53,7 @@ class CreateTripModel {
   Map<String, dynamic> toJson() => {
         'fromLocation': fromLocation?.toJson(),
         'toLocation': toLocation?.toJson(),
-        'departureTime': departureTime?.toIso8601String(),
+        'departureTime': departureTime,
         'availableSeats': availableSeats,
         'pricePerSeat': pricePerSeat,
         'driverNotes': driverNotes,

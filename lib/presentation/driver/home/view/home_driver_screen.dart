@@ -1,16 +1,27 @@
+import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:animations/animations.dart';
 import 'package:aoun_app/core/constant/constant.dart';
 import 'package:aoun_app/core/router/route_name.dart';
+import 'package:aoun_app/data/model/driver%20models/active_trip_requests/active_trip_requests.dart';
+import 'package:aoun_app/presentation/driver/home/view/create_trip_screen.dart';
+import 'package:aoun_app/presentation/driver/home/view_model/active%20trip%20request/active_trip_requests_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/views/trip_details_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class HomeDriverScreen extends StatelessWidget {
+class HomeDriverScreen extends StatefulWidget {
   HomeDriverScreen({super.key});
+
+  @override
+  State<HomeDriverScreen> createState() => _HomeDriverScreenState();
+}
+
+class _HomeDriverScreenState extends State<HomeDriverScreen> {
   List<_SalesData> data = [
     _SalesData('Monday', 35),
     _SalesData('Tuesday', 28),
@@ -20,6 +31,12 @@ class HomeDriverScreen extends StatelessWidget {
     _SalesData('Saturday', 40),
     _SalesData('Sunday', 40),
   ];
+  @override
+  void initState() {
+    super.initState();
+    context.read<ActiveTripRequestsCubit>().getActiveTripRequests();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -219,19 +236,27 @@ class HomeDriverScreen extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                   ),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      "See all",
-                      style: TextStyle(fontSize: 15.sp),
-                    ),
-                  )
                 ],
               ),
-              Column(
-                children:
-                    List.generate(5, (index) => _recentOrderWidget(context)),
-              ),
+              BlocBuilder<ActiveTripRequestsCubit, ActiveTripRequestsState>(
+                builder: (context, state) {
+                  if (state is ActiveTripRequestsSuccess) {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: state.tripList.length,
+                      itemBuilder: (context, index) {
+                        return _recentOrderWidget(
+                            context, state.tripList[index]);
+                      },
+                    );
+                  } else if (state is ActiveTripRequestsFailure) {
+                    log(state.errorMessage);
+                    return Center(child: Text(state.errorMessage));
+                  } else {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                },
+              )
             ],
           ),
         ),
@@ -266,13 +291,13 @@ class HomeDriverScreen extends StatelessWidget {
     );
   }
 
-  Widget _recentOrderWidget(BuildContext context) {
+  Widget _recentOrderWidget(BuildContext context, ActiveTripRequests model) {
     return OpenContainer(
       closedElevation: 0,
       openElevation: 0,
       closedColor: Theme.of(context).scaffoldBackgroundColor,
       transitionType: ContainerTransitionType.fadeThrough,
-      openBuilder: (context, action) => TripDetailsScreen(),
+      openBuilder: (context, action) => CreateTripScreen(),
       closedBuilder: (context, action) => Padding(
         padding: const EdgeInsets.symmetric(vertical: 7),
         child: Container(
@@ -289,12 +314,14 @@ class HomeDriverScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(7.r),
                   border: Border.all(
-                      width: 1, color: Theme.of(context).primaryColor),
+                    width: 1,
+                    color: Theme.of(context).primaryColor,
+                  ),
                 ),
                 child: Icon(Iconsax.profile_2user),
               ),
               SizedBox(width: 7.w),
-              _TripDetails(),
+              _TripDetails(model),
               const Spacer(),
               Icon(isRTL(context)
                   ? Iconsax.arrow_left_2
@@ -349,6 +376,8 @@ class _InfoCard extends StatelessWidget {
 }
 
 class _TripDetails extends StatelessWidget {
+  ActiveTripRequests model;
+  _TripDetails(this.model);
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -356,9 +385,14 @@ class _TripDetails extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         _TripDetailRow(
-            iconRotation: math.pi / 4, label: "From: Kafr El-Shaikh "),
-        _TripDetailRow(iconRotation: -3 * math.pi / 4, label: "To: AZ Zafaran"),
-        _TripDetailRow(icon: Iconsax.map_1, label: "Active passengers: 13"),
+            iconRotation: math.pi / 4,
+            label: "From: ${model.fromLocation!.fullAddress}"),
+        _TripDetailRow(
+            iconRotation: -3 * math.pi / 4,
+            label: "To: ${model.toLocation!.fullAddress}"),
+        _TripDetailRow(
+            icon: Iconsax.map_1,
+            label: " Active passengers: ${model.activePassengers}"),
       ],
     );
   }
@@ -387,7 +421,7 @@ class _TripDetailRow extends StatelessWidget {
             : Icon(icon, size: 17.w),
         SizedBox(width: 2.w),
         SizedBox(
-          width: 150.w,
+          width: 220.w,
           child: Text(
             label,
             style: Theme.of(context).textTheme.labelSmall,

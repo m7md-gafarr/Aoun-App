@@ -16,9 +16,14 @@ class ApiResponse<T> {
 
 class ApiResponseHandler {
   static ApiResponse<T> handleSuccess<T>(Response response) {
+    dynamic data = response.data;
+
+    if (T == List<Map<String, dynamic>>) {
+      data = (data as List).map((e) => e as Map<String, dynamic>).toList();
+    }
     return ApiResponse<T>(
       success: true,
-      data: response.data,
+      data: data as T,
       statusCode: response.statusCode,
     );
   }

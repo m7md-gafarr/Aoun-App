@@ -32,6 +32,12 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
   final TextEditingController availableSeatsController =
       TextEditingController();
   final TextEditingController driverNotesController = TextEditingController();
+  final TextEditingController departureTimeController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   void dispose() {
     priceController.dispose();
@@ -266,6 +272,51 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                     hintText: "Price of Seat",
                   ),
                 ),
+                SizedBox(height: 15.h),
+                TextFormField(
+                  onTap: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime.now(),
+                      lastDate: DateTime.now(),
+                    );
+
+                    if (pickedDate != null) {
+                      TimeOfDay? pickedTime = await showTimePicker(
+                        context: context,
+                        initialTime: TimeOfDay.now(),
+                      );
+
+                      if (pickedTime != null) {
+                        final DateTime fullDateTime = DateTime(
+                          pickedDate.year,
+                          pickedDate.month,
+                          pickedDate.day,
+                          pickedTime.hour,
+                          pickedTime.minute,
+                        );
+
+                        departureTimeController.text =
+                            "${fullDateTime.year}-${fullDateTime.month.toString().padLeft(2, '0')}-${fullDateTime.day.toString().padLeft(2, '0')} "
+                            "${pickedTime.format(context)}";
+                      }
+                    }
+                  },
+                  readOnly: true,
+                  controller: departureTimeController,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please select time';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    hintText: "Departure Time",
+                  ),
+                ),
                 DividerWidget(),
                 TitleSectionWidget(text: "Driver Notes"),
                 SizedBox(height: 15.h),
@@ -318,7 +369,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                         final trip = CreateTripModel(
                           fromLocation: formLocatiomModel,
                           toLocation: toLocatiomModel,
-                          departureTime: DateTime.now(),
+                          departureTime: departureTimeController.text,
                           availableSeats:
                               int.parse(availableSeatsController.text.trim()),
                           pricePerSeat: int.parse(priceController.text.trim()),

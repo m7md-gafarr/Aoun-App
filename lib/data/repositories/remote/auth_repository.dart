@@ -51,7 +51,7 @@ class AuthenticationRepository {
         ]),
       });
 
-      return await ApiHelper().post(
+      return await ApiHelper().post<Map<String, dynamic>>(
         url: '$_apiUrl/Accounts/Register',
         body: body,
         headers: {
@@ -172,7 +172,7 @@ class AuthenticationRepository {
         ));
       }
 
-      return await ApiHelper().post(
+      return await ApiHelper().post<Map<String, dynamic>>(
         url: '$_apiUrl/Accounts/Register',
         body: body,
         headers: {
@@ -242,7 +242,7 @@ class AuthenticationRepository {
     required Map<String, dynamic> body,
   }) async {
     try {
-      return await ApiHelper().post(
+      return await ApiHelper().post<Map<String, dynamic>>(
         url: endpoint,
         body: body,
         headers: _headers,

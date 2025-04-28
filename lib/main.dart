@@ -15,6 +15,7 @@ import 'package:aoun_app/presentation/auth/view_model/user_register_cubit/regist
 import 'package:aoun_app/presentation/auth/view_model/sendOTPForPasswordReset_cubit/send_otp_for_password_reset_cubit.dart';
 import 'package:aoun_app/presentation/auth/view_model/verifyOTP_cubit/verify_otp_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/Textfeild%20Search%20location/textfeild_search_location_cubit.dart';
+import 'package:aoun_app/presentation/driver/home/view_model/active%20trip%20request/active_trip_requests_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/amenities/amenities_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/grate%20trip/create_trip_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/street%20name/street_name_cubit.dart';
@@ -66,6 +67,7 @@ void main() async {
             create: (context) => CreateTripCubit(CheckConnectionCubit())),
         BlocProvider(create: (context) => TextfeildSearchLocationCubit()),
         BlocProvider(create: (context) => StreetNameCubit()),
+        BlocProvider(create: (context) => ActiveTripRequestsCubit()),
       ],
       child: Builder(
         builder: (context) => MultiProvider(

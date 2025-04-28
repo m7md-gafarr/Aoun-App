@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/core/utils/location/location_utils.dart';
@@ -8,7 +7,6 @@ import 'package:aoun_app/data/model/driver%20models/greate_trip_model/trip_locat
 import 'package:aoun_app/presentation/driver/home/view_model/Textfeild%20Search%20location/textfeild_search_location_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/street%20name/street_name_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -49,7 +47,7 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
     searchController.addListener(
       () async {
         if (_debounce?.isActive ?? false) _debounce!.cancel();
-        _debounce = Timer(Duration(milliseconds: 500), () async {
+        _debounce = Timer(Duration(milliseconds: 200), () async {
           sessiontoken ??= Uuid().v4();
           context
               .read<TextfeildSearchLocationCubit>()
@@ -72,11 +70,11 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
   }
 
   void getLocation(BuildContext context) async {
-    Position? _myPosition = await LocationService.getCurrentLocation(context);
+    Position? myPosition = await LocationService.getCurrentLocation(context);
     mapController.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(
-          target: LatLng(_myPosition!.latitude, _myPosition.longitude),
+          target: LatLng(myPosition!.latitude, myPosition.longitude),
           zoom: 18,
         ),
       ),
@@ -88,7 +86,7 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
     }
 
     setState(() {
-      selectedLocation = LatLng(_myPosition.latitude, _myPosition.longitude);
+      selectedLocation = LatLng(myPosition.latitude, myPosition.longitude);
     });
   }
 
