@@ -31,13 +31,13 @@ class ApiResponseHandler {
   static ApiResponse<T> handleDioError<T>(DioException e) {
     final responseData = e.response?.data;
     final statusCode = e.response?.statusCode;
-    if (statusCode == 401) {
-      return ApiResponse<T>(
-        success: false,
-        errors: 'Session expired. Please log in again.',
-        statusCode: statusCode,
-      );
-    }
+    // if (statusCode == 401) {
+    //   return ApiResponse<T>(
+    //     success: false,
+    //     errors: 'Session expired. Please log in again.',
+    //     statusCode: statusCode,
+    //   );
+    // }
     return ApiResponse<T>(
       success: false,
       errors: _extractErrors(responseData),

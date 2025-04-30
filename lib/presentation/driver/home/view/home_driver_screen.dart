@@ -7,7 +7,6 @@ import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/data/model/driver%20models/active_trip_requests/active_trip_requests.dart';
 import 'package:aoun_app/presentation/driver/home/view/create_trip_screen.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/active%20trip%20request/active_trip_requests_cubit.dart';
-import 'package:aoun_app/presentation/user/transport/views/trip_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,7 +14,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class HomeDriverScreen extends StatefulWidget {
-  HomeDriverScreen({super.key});
+  const HomeDriverScreen({super.key});
 
   @override
   State<HomeDriverScreen> createState() => _HomeDriverScreenState();

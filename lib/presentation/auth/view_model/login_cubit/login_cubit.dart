@@ -37,7 +37,7 @@ class LoginCubit extends Cubit<LoginState> {
         }
 
         await SharedPreferencesService().saveLoginState(token);
-        emit(LoginSuccess(S.of(context).login_successful));
+        emit(LoginSuccess(S.of(context).login_successful, mode));
       } else {
         final error = response.errors;
 

@@ -66,29 +66,6 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
   File? _vehicleRegistrationBack;
   int? _selectedGender;
   int _age = 0;
-  _selectDateOfBirth() async {
-    DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    );
-
-    if (pickedDate != null) {
-      setState(() {
-        _dateOfBirthController.text =
-            "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
-
-        _age = DateTime.now().year - pickedDate.year;
-
-        if (DateTime.now().month < pickedDate.month ||
-            (DateTime.now().month == pickedDate.month &&
-                DateTime.now().day < pickedDate.day)) {
-          _age--;
-        }
-      });
-    }
-  }
 
   void _goToNextStep() {
     _pageController.nextPage(
@@ -98,26 +75,6 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
     setState(() {
       _currentPage++;
     });
-  }
-
-  _selectExpirationDate() async {
-    DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(Duration(days: 3650)),
-    );
-
-    if (pickedDate != null) {
-      setState(() {
-        _dateExpirationDateController.text =
-            "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
-
-        if (DateTime.now().month < pickedDate.month ||
-            (DateTime.now().month == pickedDate.month &&
-                DateTime.now().day < pickedDate.day)) {}
-      });
-    }
   }
 
   bool obscureTextPassword = true;
@@ -401,8 +358,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                               Navigator.pop(context);
                               Navigator.pushNamedAndRemoveUntil(
                                 context,
-                                AppRoutesName.loginScreenRoute,
-                                arguments: "driver",
+                                AppRoutesName.selectTypeScreenRoute,
                                 (route) => false,
                               );
                             },
@@ -538,10 +494,33 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return S.of(context).select_birthdate;
-                  } else if (_age < 5) {
+                  } else if (_age < 18) {
                     return S.of(context).age_validation;
                   }
                   return null;
+                },
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(1900),
+                    lastDate: DateTime.now(),
+                  );
+
+                  if (pickedDate != null) {
+                    setState(() {
+                      _dateOfBirthController.text =
+                          "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
+
+                      _age = DateTime.now().year - pickedDate.year;
+
+                      if (DateTime.now().month < pickedDate.month ||
+                          (DateTime.now().month == pickedDate.month &&
+                              DateTime.now().day < pickedDate.day)) {
+                        _age--;
+                      }
+                    });
+                  }
                 },
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 keyboardType: TextInputType.datetime,
@@ -549,9 +528,6 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                 readOnly: true,
                 cursorColor: Theme.of(context).primaryColor,
                 decoration: InputDecoration(
-                  suffixIcon: IconButton(
-                      onPressed: _selectDateOfBirth,
-                      icon: Icon(Iconsax.calendar_1)),
                   hintText: "Date of birth",
                 ),
               ),
@@ -665,6 +641,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
               )),
               SizedBox(height: 40.h),
               TextFormField(
+                maxLength: 14,
                 controller: _licenseController,
                 cursorColor: Theme.of(context).primaryColor,
                 decoration: InputDecoration(
@@ -696,11 +673,27 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                 readOnly: true,
                 cursorColor: Theme.of(context).primaryColor,
                 decoration: InputDecoration(
-                  suffixIcon: IconButton(
-                      onPressed: _selectExpirationDate,
-                      icon: Icon(Iconsax.calendar_1)),
                   hintText: "Expiration date",
                 ),
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime.now().add(Duration(days: 3650)),
+                  );
+
+                  if (pickedDate != null) {
+                    setState(() {
+                      _dateExpirationDateController.text =
+                          "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
+
+                      if (DateTime.now().month < pickedDate.month ||
+                          (DateTime.now().month == pickedDate.month &&
+                              DateTime.now().day < pickedDate.day)) {}
+                    });
+                  }
+                },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return S.of(context).select_birthdate;
@@ -801,6 +794,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
               )),
               SizedBox(height: 40.h),
               TextFormField(
+                maxLength: 14,
                 controller: _idController,
                 keyboardType: TextInputType.number,
                 cursorColor: Theme.of(context).primaryColor,
@@ -822,7 +816,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                     return "ID number must be 14 digits long.";
                   }
 
-                  return null; // إذا كان كل شيء صحيحًا
+                  return null;
                 },
               ),
               SizedBox(height: 15.h),
@@ -962,6 +956,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
               ),
               SizedBox(height: 15.h),
               TextFormField(
+                maxLength: 4,
                 controller: _vehicleYearController,
                 cursorColor: Theme.of(context).primaryColor,
                 decoration: InputDecoration(
@@ -1140,6 +1135,10 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
         Column(
           children: [
             InkWell(
+              focusColor: Colors.transparent,
+              hoverColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
               onTap: onTap,
               child: Container(
                 height: 120.h,

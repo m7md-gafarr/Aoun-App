@@ -38,18 +38,21 @@ class _DriverImageDetailScreenState extends State<DriverImageDetailScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: List.generate(
                 widget.model.description.length,
-                (index) => Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Icon(Iconsax.tick_circle),
-                    SizedBox(width: 5.w),
-                    Expanded(
-                      child: Text(
-                        widget.model.description[index],
-                        softWrap: true,
+                (index) => Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(Iconsax.tick_circle),
+                      SizedBox(width: 5.w),
+                      Expanded(
+                        child: Text(
+                          widget.model.description[index],
+                          softWrap: true,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

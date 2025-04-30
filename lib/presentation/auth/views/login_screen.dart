@@ -191,11 +191,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           ErrorDialogWidget(message: state.errorMessage)
                               .show(context);
                         } else if (state is LoginSuccess) {
-                          Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            AppRoutesName.homeDriverScreenRoute,
-                            (route) => false,
-                          );
+                          state.type == "user"
+                              ? Navigator.pushNamedAndRemoveUntil(
+                                  context,
+                                  AppRoutesName.homeUserScreenRoute,
+                                  (route) => false,
+                                )
+                              : Navigator.pushNamedAndRemoveUntil(
+                                  context,
+                                  AppRoutesName.homeDriverScreenRoute,
+                                  (route) => false,
+                                );
                         }
                       },
                       builder: (context, state) {

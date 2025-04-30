@@ -32,7 +32,7 @@ class _RegisterScreenState extends State<UserRegisterScreen> {
   late TextEditingController _dateController;
   late TextEditingController _fullNameController;
   late TextEditingController _emailController;
-  late TextEditingController _phoneController;
+
   late TextEditingController _passwordController;
 
   bool isPhoneValidated = false;
@@ -40,12 +40,14 @@ class _RegisterScreenState extends State<UserRegisterScreen> {
   bool obscureTextPassword = true;
   Position? _position;
   Placemark? _placemark;
+  int _age = 0;
+  String? phoneNumber;
   @override
   void initState() {
     _dateController = TextEditingController();
     _fullNameController = TextEditingController();
     _emailController = TextEditingController();
-    _phoneController = TextEditingController();
+
     _passwordController = TextEditingController();
     _getLocation();
     super.initState();
@@ -57,35 +59,10 @@ class _RegisterScreenState extends State<UserRegisterScreen> {
         context, _position!.latitude, _position!.longitude);
   }
 
-  int _age = 0;
   _obscureTextPassword_fun() {
     setState(() {
       obscureTextPassword = !obscureTextPassword;
     });
-  }
-
-  _selectDate() async {
-    DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    );
-
-    if (pickedDate != null) {
-      setState(() {
-        _dateController.text =
-            "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
-
-        _age = DateTime.now().year - pickedDate.year;
-
-        if (DateTime.now().month < pickedDate.month ||
-            (DateTime.now().month == pickedDate.month &&
-                DateTime.now().day < pickedDate.day)) {
-          _age--;
-        }
-      });
-    }
   }
 
   @override
@@ -93,7 +70,6 @@ class _RegisterScreenState extends State<UserRegisterScreen> {
     _dateController.dispose();
     _fullNameController.dispose();
     _emailController.dispose();
-    _phoneController.dispose();
     _passwordController.dispose();
 
     super.dispose();
@@ -163,6 +139,9 @@ class _RegisterScreenState extends State<UserRegisterScreen> {
                   ),
                   SizedBox(height: 15.h),
                   FormBuilderRadioGroup<int>(
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Iconsax.user_tag),
+                    ),
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     name: 'gender',
                     validator: (value) {
@@ -195,13 +174,34 @@ class _RegisterScreenState extends State<UserRegisterScreen> {
                       }
                       return null;
                     },
+                    onTap: () async {
+                      DateTime? pickedDate = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(1900),
+                        lastDate: DateTime.now(),
+                      );
+
+                      if (pickedDate != null) {
+                        setState(() {
+                          _dateController.text =
+                              "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
+
+                          _age = DateTime.now().year - pickedDate.year;
+
+                          if (DateTime.now().month < pickedDate.month ||
+                              (DateTime.now().month == pickedDate.month &&
+                                  DateTime.now().day < pickedDate.day)) {
+                            _age--;
+                          }
+                        });
+                      }
+                    },
                     controller: _dateController,
                     readOnly: true,
                     cursorColor: Theme.of(context).primaryColor,
                     decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                          onPressed: _selectDate,
-                          icon: Icon(Iconsax.calendar_1)),
+                      prefixIcon: Icon(Iconsax.calendar_1),
                       hintText: S.of(context).date_of_birth,
                     ),
                   ),
@@ -209,11 +209,14 @@ class _RegisterScreenState extends State<UserRegisterScreen> {
                   Directionality(
                     textDirection: TextDirection.ltr,
                     child: IntlPhoneField(
-                      controller: _phoneController,
+                      onChanged: (phone) {
+                        phoneNumber = phone.completeNumber;
+                      },
                       validator: (value) {
-                        if (value == null || value.number.isEmpty) {
+                        if (value == null) {
                           return S.of(context).phone_number_required;
                         }
+
                         return null;
                       },
                       languageCode: "en",
@@ -273,7 +276,7 @@ class _RegisterScreenState extends State<UserRegisterScreen> {
                                 gender: _selectedGender,
                                 registrationDate: DateTime.now(),
                                 age: _age,
-                                phoneNumber: _phoneController.text.trim(),
+                                phoneNumber: phoneNumber?.trim() ?? '',
                               ),
                               LocationModel(
                                 city: Provider.of<LocationProvider>(
@@ -312,8 +315,7 @@ class _RegisterScreenState extends State<UserRegisterScreen> {
                                   Navigator.pop(context);
                                   Navigator.pushNamedAndRemoveUntil(
                                     context,
-                                    AppRoutesName.loginScreenRoute,
-                                    arguments: "user",
+                                    AppRoutesName.selectTypeScreenRoute,
                                     (route) => false,
                                   );
                                 },
@@ -356,51 +358,15 @@ class _RegisterScreenState extends State<UserRegisterScreen> {
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               Navigator.pop(context);
+                              Navigator.pushNamed(
+                                  context, AppRoutesName.loginScreenRoute,
+                                  arguments: "user");
                             },
                         ),
                       ],
                     ),
                   ),
                   SizedBox(height: 20.h),
-                  RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: S.of(context).joining_terms,
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                        TextSpan(
-                          text: S.of(context).terms_of_use,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(color: Theme.of(context).primaryColor),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              Navigator.pushNamed(
-                                  context, AppRoutesName.homeUserScreenRoute);
-                            },
-                        ),
-                        TextSpan(
-                          text: S.of(context).and,
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                        TextSpan(
-                          text: S.of(context).privacy_policy,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(color: Theme.of(context).primaryColor),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              Navigator.pushNamed(
-                                  context, AppRoutesName.homeUserScreenRoute);
-                            },
-                        ),
-                      ],
-                    ),
-                  ),
                 ],
               ),
             ),

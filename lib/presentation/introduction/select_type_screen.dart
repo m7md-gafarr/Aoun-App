@@ -1,6 +1,8 @@
 import 'package:aoun_app/core/app_color/app_color_light.dart';
 import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/core/router/route_name.dart';
+import 'package:aoun_app/generated/l10n.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
@@ -110,7 +112,7 @@ class SelectTypeScreen extends StatelessWidget {
                       showModalBottomSheet(
                         context: context,
                         builder: (context) => Container(
-                          height: 150.h,
+                          height: 200.h,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(30.r),
@@ -153,6 +155,60 @@ class SelectTypeScreen extends StatelessWidget {
                                     text: "Driver",
                                   ),
                                 ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(13.0),
+                                child: RichText(
+                                  textAlign: TextAlign.center,
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: S.of(context).joining_terms,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
+                                      ),
+                                      TextSpan(
+                                        text: S.of(context).terms_of_use,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall!
+                                            .copyWith(
+                                                color: Theme.of(context)
+                                                    .primaryColor),
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () {
+                                            Navigator.pushNamed(
+                                                context,
+                                                AppRoutesName
+                                                    .homeUserScreenRoute);
+                                          },
+                                      ),
+                                      TextSpan(
+                                        text: S.of(context).and,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
+                                      ),
+                                      TextSpan(
+                                        text: S.of(context).privacy_policy,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall!
+                                            .copyWith(
+                                                color: Theme.of(context)
+                                                    .primaryColor),
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () {
+                                            Navigator.pushNamed(
+                                                context,
+                                                AppRoutesName
+                                                    .homeUserScreenRoute);
+                                          },
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
                             ],
                           ),

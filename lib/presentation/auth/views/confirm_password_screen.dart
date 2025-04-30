@@ -177,7 +177,7 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
                                   Navigator.pop(context);
                                   Navigator.pushNamedAndRemoveUntil(
                                     context,
-                                    AppRoutesName.loginScreenRoute,
+                                    AppRoutesName.selectTypeScreenRoute,
                                     (route) => false,
                                   );
                                 },

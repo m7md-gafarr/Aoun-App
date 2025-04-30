@@ -129,25 +129,9 @@ class AppRouter {
       //TODO : User Routes
 
       //   Home route
+
       case AppRoutesName.homeUserScreenRoute:
-        return PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              const HomeUserScreen(),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            const begin = Offset(1.0, 0.0);
-            const end = Offset.zero;
-            const curve = Curves.easeInOut;
-
-            var tween =
-                Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-            var offsetAnimation = animation.drive(tween);
-
-            return SlideTransition(
-              position: offsetAnimation,
-              child: child,
-            );
-          },
-        );
+        return MaterialPageRoute(builder: (context) => const HomeUserScreen());
 
       //  Transport route
       case AppRoutesName.tripDetailsScreenRoute:
@@ -213,9 +197,7 @@ class AppRouter {
 
       //   Home route
       case AppRoutesName.homeDriverScreenRoute:
-        return MaterialPageRoute(
-          builder: (context) => HomeDriverScreen(),
-        );
+        return MaterialPageRoute(builder: (context) => HomeDriverScreen());
 
       //  Introduction before login or register route
       case AppRoutesName.driverIntroductionScreenRoute:
