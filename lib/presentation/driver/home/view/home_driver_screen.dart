@@ -4,9 +4,10 @@ import 'dart:math' as math;
 import 'package:animations/animations.dart';
 import 'package:aoun_app/core/constant/constant.dart';
 import 'package:aoun_app/core/router/route_name.dart';
-import 'package:aoun_app/data/model/driver%20models/active_trip_requests/active_trip_requests.dart';
+import 'package:aoun_app/data/model/trip%20models/active_trip_requests/active_trip_requests.dart';
 import 'package:aoun_app/presentation/driver/home/view/create_trip_screen.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/active%20trip%20request/active_trip_requests_cubit.dart';
+import 'package:aoun_app/presentation/widgets/common/trip_shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -242,17 +243,19 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                   if (state is ActiveTripRequestsSuccess) {
                     return ListView.builder(
                       shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
                       itemCount: state.tripList.length,
                       itemBuilder: (context, index) {
                         return _recentOrderWidget(
                             context, state.tripList[index]);
                       },
                     );
-                  } else if (state is ActiveTripRequestsFailure) {
-                    log(state.errorMessage);
-                    return Center(child: Text(state.errorMessage));
                   } else {
-                    return Center(child: CircularProgressIndicator());
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) => TripShimmerWidget(),
+                      itemCount: 5,
+                    );
                   }
                 },
               )

@@ -2,8 +2,10 @@ import 'dart:developer';
 
 import 'package:animations/animations.dart';
 import 'package:aoun_app/core/utils/snakbar/snackebar_helper.dart';
-import 'package:aoun_app/data/model/driver%20models/greate_trip_model/trip_location.dart';
-import 'package:aoun_app/data/model/driver%20models/greate_trip_model/greate_trip_model.dart';
+import 'package:aoun_app/data/model/trip%20models/get_trip_route/get_trip_route.dart';
+import 'package:aoun_app/data/model/trip%20models/greate_trip_model/trip_location.dart';
+import 'package:aoun_app/data/model/trip%20models/greate_trip_model/greate_trip_model.dart';
+import 'package:aoun_app/data/repositories/remote/trip_repository.dart';
 import 'package:aoun_app/presentation/driver/home/view/select_route_on_map_screen.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/amenities/amenities_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/grate%20trip/create_trip_cubit.dart';
@@ -15,6 +17,7 @@ import 'package:aoun_app/presentation/widgets/common/title_section_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:iconsax/iconsax.dart';
 
 class CreateTripScreen extends StatefulWidget {
@@ -33,6 +36,8 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
       TextEditingController();
   final TextEditingController driverNotesController = TextEditingController();
   final TextEditingController departureTimeController = TextEditingController();
+
+  DateTime? selectedDepartureTime;
   @override
   void initState() {
     super.initState();
@@ -279,7 +284,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                       context: context,
                       initialDate: DateTime.now(),
                       firstDate: DateTime.now(),
-                      lastDate: DateTime.now(),
+                      lastDate: DateTime.now().add(const Duration(days: 5)),
                     );
 
                     if (pickedDate != null) {
@@ -300,6 +305,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                         departureTimeController.text =
                             "${fullDateTime.year}-${fullDateTime.month.toString().padLeft(2, '0')}-${fullDateTime.day.toString().padLeft(2, '0')} "
                             "${pickedTime.format(context)}";
+                        selectedDepartureTime = fullDateTime;
                       }
                     }
                   },
@@ -363,13 +369,21 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                     if (fromLocation != null || toLocation != null) {
                       if (keyForm.currentState!.validate()) {
                         keyForm.currentState!.save();
-                        log(availableSeatsController.text);
+                        GetTripRoute tripRoute = await TripRepository()
+                            .getTripRoute(
+                                LatLng(formLocatiomModel!.latitude!,
+                                    formLocatiomModel!.longitude!),
+                                LatLng(toLocatiomModel!.latitude!,
+                                    toLocatiomModel!.longitude!));
+                        log(convertSecondsToTimeSpan(
+                            tripRoute.routes![0].duration!));
                         Map<String, bool> amenities =
                             context.read<AmenitiesCubit>().getAmenities();
                         final trip = CreateTripModel(
                           fromLocation: formLocatiomModel,
                           toLocation: toLocatiomModel,
-                          departureTime: departureTimeController.text,
+                          departureTime:
+                              selectedDepartureTime?.toUtc().toIso8601String(),
                           availableSeats:
                               int.parse(availableSeatsController.text.trim()),
                           pricePerSeat: int.parse(priceController.text.trim()),
@@ -380,6 +394,10 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                           hasChildSeat: amenities['hasChildSeat'],
                           hasFreeWater: amenities['hasFreeWater'],
                           hasMusic: amenities['hasMusic'],
+                          estimatedDistance:
+                              tripRoute.routes![0].distanceMeters,
+                          estimatedDuration: convertSecondsToTimeSpan(
+                              tripRoute.routes![0].duration!),
                         );
 
                         context
@@ -396,18 +414,9 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                   child: BlocConsumer<CreateTripCubit, CreateTripState>(
                     listener: (context, state) async {
                       if (state is CreateTripFailure) {
-                        if (state.errorMessage ==
-                            "Session expired. Please log in again.") {
-                          ErrorDialogWidget(message: state.errorMessage)
-                              .show(context);
-                          // await SharedPreferencesService().logout();
-
-                          // Navigator.pushNamedAndRemoveUntil(
-                          //   context,
-                          //   AppRoutesName.selectTypeScreenRoute,
-                          //   (route) => false,
-                          // );
-                        }
+                        log(state.errorMessage);
+                        ErrorDialogWidget(message: state.errorMessage)
+                            .show(context);
                       } else if (state is CreateTripSuccess) {
                         Navigator.pop(context);
                       }
@@ -461,5 +470,15 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
       default:
         return key;
     }
+  }
+
+  String convertSecondsToTimeSpan(String secondsWithSuffix) {
+    int seconds = int.parse(secondsWithSuffix.replaceAll("s", ""));
+
+    int hours = seconds ~/ 3600;
+    int minutes = (seconds % 3600) ~/ 60;
+    int remainingSeconds = seconds % 60;
+
+    return "${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}";
   }
 }

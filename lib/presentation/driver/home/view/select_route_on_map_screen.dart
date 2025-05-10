@@ -3,9 +3,10 @@ import 'dart:async';
 import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/core/utils/location/location_utils.dart';
 import 'package:aoun_app/core/utils/map/google_map.dart';
-import 'package:aoun_app/data/model/driver%20models/greate_trip_model/trip_location.dart';
+import 'package:aoun_app/data/model/trip%20models/greate_trip_model/trip_location.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/Textfeild%20Search%20location/textfeild_search_location_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/street%20name/street_name_cubit.dart';
+import 'package:aoun_app/presentation/widgets/common/placeautocomplete_shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -39,6 +40,7 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
   void initState() {
     searchController = TextEditingController();
     cameraPosition = GoogleMapUtils.intialCameraPosition;
+    context.read<TextfeildSearchLocationCubit>().emitInitial();
     _onChanged();
     super.initState();
   }
@@ -48,10 +50,11 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
       () async {
         if (_debounce?.isActive ?? false) _debounce!.cancel();
         _debounce = Timer(Duration(milliseconds: 200), () async {
-          sessiontoken ??= Uuid().v4();
-          context
-              .read<TextfeildSearchLocationCubit>()
-              .getSuggestionPlaces(searchController.text, sessiontoken!);
+          if (searchController.text.isNotEmpty) {
+            sessiontoken ??= Uuid().v4();
+            context.read<TextfeildSearchLocationCubit>().getSuggestionPlaces(
+                searchController.text.trim(), sessiontoken!);
+          }
         });
       },
     );
@@ -267,7 +270,7 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
                           itemBuilder: (context, index) => ListTile(
                             onTap: () async {
                               var latlng =
-                                  await GoogleMapUtils().getPlaceLatLng(
+                                  await GoogleMapUtils().getPlaceLatLngFromID(
                                 state.palceAutocompleteModel[index].placeId!,
                                 sessiontoken!,
                               );
@@ -294,6 +297,13 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
                             ),
                           ),
                         ),
+                      );
+                    } else if (state is TextfeildSearchLocationLoading) {
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) =>
+                            PlaceAutocompleteShimmerWidget(),
+                        itemCount: 5,
                       );
                     } else {
                       return SizedBox();

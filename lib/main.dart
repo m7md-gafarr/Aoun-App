@@ -20,7 +20,9 @@ import 'package:aoun_app/presentation/driver/home/view_model/amenities/amenities
 import 'package:aoun_app/presentation/driver/home/view_model/grate%20trip/create_trip_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/street%20name/street_name_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/add%20new%20debit%20card/add_new_debit_card_cubit.dart';
+import 'package:aoun_app/presentation/user/transport/view_model/create%20request%20trip/create_request_trip_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/payment%20wallet/payment_wallet_cubit.dart';
+import 'package:aoun_app/presentation/user/transport/view_model/search%20trip/search_trip_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/view%20debit%20card/view_all_debit_card_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -68,6 +70,8 @@ void main() async {
         BlocProvider(create: (context) => TextfeildSearchLocationCubit()),
         BlocProvider(create: (context) => StreetNameCubit()),
         BlocProvider(create: (context) => ActiveTripRequestsCubit()),
+        BlocProvider(create: (context) => SearchTripCubit()),
+        BlocProvider(create: (context) => CreateRequestTripCubit()),
       ],
       child: Builder(
         builder: (context) => MultiProvider(

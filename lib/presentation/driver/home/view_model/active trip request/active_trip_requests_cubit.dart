@@ -1,6 +1,4 @@
-import 'dart:developer';
-
-import 'package:aoun_app/data/model/driver%20models/active_trip_requests/active_trip_requests.dart';
+import 'package:aoun_app/data/model/trip%20models/active_trip_requests/active_trip_requests.dart';
 import 'package:aoun_app/data/repositories/remote/api_response_handler.dart';
 import 'package:aoun_app/data/repositories/remote/trip_repository.dart';
 import 'package:bloc/bloc.dart';
@@ -16,7 +14,7 @@ class ActiveTripRequestsCubit extends Cubit<ActiveTripRequestsState> {
     try {
       ApiResponse<List<Map<String, dynamic>>> response =
           await TripRepository().getActiveTripRequests();
-      log(response.data.toString());
+
       if (response.success) {
         List<ActiveTripRequests> list = [];
 
@@ -24,7 +22,7 @@ class ActiveTripRequestsCubit extends Cubit<ActiveTripRequestsState> {
           list.add(ActiveTripRequests.fromJson(element));
         }
 
-        emit(ActiveTripRequestsSuccess(list));
+        emit(ActiveTripRequestsSuccess(list.reversed.toList()));
       } else {
         String error = response.errors;
 

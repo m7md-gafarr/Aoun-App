@@ -21,7 +21,7 @@ class TripWidget extends StatelessWidget {
         child: Container(
           height: 80.h,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(7),
+            borderRadius: BorderRadius.circular(7.r),
             color: Theme.of(context).colorScheme.primaryContainer,
           ),
           child: Row(

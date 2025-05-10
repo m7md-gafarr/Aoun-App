@@ -7,12 +7,12 @@ part 'textfeild_search_location_state.dart';
 class TextfeildSearchLocationCubit extends Cubit<TextfeildSearchLocationState> {
   TextfeildSearchLocationCubit() : super(TextfeildSearchLocationInitial());
   getSuggestionPlaces(String text, String sessiontoken) async {
-    emit(TextfeildSearchLocationInitial());
-
     try {
+      emit(TextfeildSearchLocationInitial());
       if (text.isNotEmpty) {
         PalceAutocompleteModel model =
             await GoogleMapUtils().getSuggestionPlaces(text, sessiontoken);
+
         emit(TextfeildSearchLocationSuccsess(model.predictions!));
       } else {
         emit(TextfeildSearchLocationIsEmpity());
@@ -20,5 +20,9 @@ class TextfeildSearchLocationCubit extends Cubit<TextfeildSearchLocationState> {
     } catch (e) {
       emit(TextfeildSearchLocationFailure(e.toString()));
     }
+  }
+
+  void emitInitial() {
+    emit(TextfeildSearchLocationInitial());
   }
 }

@@ -7,6 +7,8 @@ class CreateTripModel {
   int? availableSeats;
   int? pricePerSeat;
   String? driverNotes;
+  int? estimatedDistance;
+  String? estimatedDuration;
   bool? hasWiFi;
   bool? hasPhoneCharger;
   bool? hasAirConditioning;
@@ -27,6 +29,8 @@ class CreateTripModel {
     this.hasChildSeat,
     this.hasFreeWater,
     this.hasMusic,
+    this.estimatedDistance,
+    this.estimatedDuration,
   });
 
   factory CreateTripModel.fromJson(Map<String, dynamic> json) {
@@ -41,6 +45,8 @@ class CreateTripModel {
       availableSeats: json['availableSeats'] as int?,
       pricePerSeat: json['pricePerSeat'] as int?,
       driverNotes: json['driverNotes'] as String?,
+      estimatedDuration: json['estimatedDuration'] as String?,
+      estimatedDistance: json['estimatedDistance'] as int?,
       hasWiFi: json['hasWiFi'] as bool?,
       hasPhoneCharger: json['hasPhoneCharger'] as bool?,
       hasAirConditioning: json['hasAirConditioning'] as bool?,
@@ -57,6 +63,8 @@ class CreateTripModel {
         'availableSeats': availableSeats,
         'pricePerSeat': pricePerSeat,
         'driverNotes': driverNotes,
+        "estimatedDistance": estimatedDistance,
+        "estimatedDuration": estimatedDuration,
         'hasWiFi': hasWiFi,
         'hasPhoneCharger': hasPhoneCharger,
         'hasAirConditioning': hasAirConditioning,

@@ -3,7 +3,9 @@ import 'package:aoun_app/core/utils/location/location_Provider.dart';
 import 'package:aoun_app/data/model/payment%20models/debit_card_model/debit_card_model.dart';
 import 'package:aoun_app/data/repositories/local/hive.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/view%20debit%20card/view_all_debit_card_cubit.dart';
+import 'package:aoun_app/presentation/widgets/common/trip_shimmer_widget.dart';
 import 'package:aoun_app/presentation/widgets/specific/empty_debit_card.dart';
+import 'package:aoun_app/presentation/widgets/specific/trip_card.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,7 +16,6 @@ import 'package:iconsax/iconsax.dart';
 
 import 'package:aoun_app/core/constant/constant.dart';
 import 'package:aoun_app/presentation/widgets/specific/debit_card.dart';
-import 'package:aoun_app/presentation/widgets/specific/trip_card.dart';
 import 'package:provider/provider.dart';
 
 class TransportScreen extends StatefulWidget {
@@ -82,7 +83,12 @@ class _TransportScreenState extends State<TransportScreen> {
         ),
         _buildLastedTitle(
             context, "Our premium services tailored\nto your location"),
-        _buildTripList(3),
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) => TripShimmerWidget(),
+            childCount: 3,
+          ),
+        ),
         _buildLastedTitle(context, "Lasted trips"),
         _buildTripList(15),
         SliverToBoxAdapter(
@@ -173,8 +179,9 @@ class _TransportScreenState extends State<TransportScreen> {
                     return _buildLocationField(
                       context,
                       icon: Iconsax.location,
-                      text: provider.placemark?.subAdministrativeArea ??
-                          "Loading...",
+                      text:
+                          "${provider.placemark?.subAdministrativeArea}, ${provider.placemark?.locality}" ??
+                              "Loading...",
                     );
                   },
                 ),
@@ -262,7 +269,7 @@ class _TransportScreenState extends State<TransportScreen> {
   Widget _buildTripList(int count) {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
-        (context, index) => const TripWidget(),
+        (context, index) => TripWidget(),
         childCount: count,
       ),
     );

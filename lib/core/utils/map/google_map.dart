@@ -1,6 +1,5 @@
-import 'dart:math';
 import 'dart:ui' as ui;
-
+import 'dart:math';
 import 'package:aoun_app/data/model/map%20models/palce_autocomplete_model/palce_autocomplete_model.dart';
 import 'package:aoun_app/data/model/map%20models/palce_latlng_model/palce_latlng_model.dart';
 import 'package:aoun_app/data/model/map%20models/route_model/route_model.dart';
@@ -122,7 +121,7 @@ class GoogleMapUtils {
     }
   }
 
-  Future<PalceLatlngModel> getPlaceLatLng(
+  Future<PalceLatlngModel> getPlaceLatLngFromID(
     String placeId,
     String sessiontoken,
   ) async {
@@ -176,6 +175,22 @@ class GoogleMapUtils {
 
     if (response.success) {
       return RouteModel.fromJson(response.data!);
+    } else {
+      throw Exception("Failed to load route: ${response.errors}");
+    }
+  }
+
+  Future<LatLng?> getLatLngFromAddress(
+    String address,
+    String sessiontoken,
+  ) async {
+    ApiResponse<Map<String, dynamic>> response = await ApiHelper().get(
+      url:
+          "https://maps.googleapis.com/maps/api/geocode/json?address=$address&key=$_apiKey&sessiontoken=$sessiontoken",
+    );
+    if (response.success) {
+      final location = response.data!['results'][0]['geometry']['location'];
+      return LatLng(location['lat'], location['lng']);
     } else {
       throw Exception("Failed to load route: ${response.errors}");
     }
