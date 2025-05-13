@@ -1,9 +1,8 @@
-import 'from_location.dart';
-import 'to_location.dart';
+import '../trip_location_model.dart';
 
 class ActiveTripRequests {
-  FromLocation? fromLocation;
-  ToLocation? toLocation;
+  TripLocationModel? fromLocation;
+  TripLocationModel? toLocation;
   int? activePassengers;
 
   ActiveTripRequests({
@@ -16,10 +15,12 @@ class ActiveTripRequests {
     return ActiveTripRequests(
       fromLocation: json['fromLocation'] == null
           ? null
-          : FromLocation.fromJson(json['fromLocation'] as Map<String, dynamic>),
+          : TripLocationModel.fromJson(
+              json['fromLocation'] as Map<String, dynamic>),
       toLocation: json['toLocation'] == null
           ? null
-          : ToLocation.fromJson(json['toLocation'] as Map<String, dynamic>),
+          : TripLocationModel.fromJson(
+              json['toLocation'] as Map<String, dynamic>),
       activePassengers: json['activePassengers'] as int?,
     );
   }

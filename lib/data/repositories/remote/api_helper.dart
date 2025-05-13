@@ -2,7 +2,13 @@ import 'package:aoun_app/data/repositories/remote/api_response_handler.dart';
 import 'package:dio/dio.dart';
 
 class ApiHelper {
-  final Dio dio = Dio();
+  final Dio dio = Dio(
+    BaseOptions(
+      validateStatus: (status) {
+        return status != null && status >= 200 && status < 300;
+      },
+    ),
+  );
 
   Future<ApiResponse<T>> get<T>({required String url}) async {
     try {

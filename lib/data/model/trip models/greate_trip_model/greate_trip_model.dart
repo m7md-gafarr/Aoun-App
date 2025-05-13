@@ -1,8 +1,8 @@
-import 'trip_location.dart';
+import 'package:aoun_app/data/model/trip%20models/trip_location_model.dart';
 
 class CreateTripModel {
-  LocationTrip? fromLocation;
-  LocationTrip? toLocation;
+  TripLocationModel? fromLocation;
+  TripLocationModel? toLocation;
   String? departureTime;
   int? availableSeats;
   int? pricePerSeat;
@@ -37,10 +37,12 @@ class CreateTripModel {
     return CreateTripModel(
       fromLocation: json['fromLocation'] == null
           ? null
-          : LocationTrip.fromJson(json['fromLocation'] as Map<String, dynamic>),
+          : TripLocationModel.fromJson(
+              json['fromLocation'] as Map<String, dynamic>),
       toLocation: json['toLocation'] == null
           ? null
-          : LocationTrip.fromJson(json['toLocation'] as Map<String, dynamic>),
+          : TripLocationModel.fromJson(
+              json['toLocation'] as Map<String, dynamic>),
       departureTime: json['departureTime'] as String,
       availableSeats: json['availableSeats'] as int?,
       pricePerSeat: json['pricePerSeat'] as int?,

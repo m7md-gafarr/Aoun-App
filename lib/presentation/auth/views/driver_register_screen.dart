@@ -446,7 +446,6 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                 },
               ),
               SizedBox(height: 15.h),
-              SizedBox(height: 15.h),
               TextFormField(
                 controller: _emailController,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -495,7 +494,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                   if (value == null || value.isEmpty) {
                     return S.of(context).select_birthdate;
                   } else if (_age < 18) {
-                    return S.of(context).age_validation;
+                    return "Age must be at least 18 years old";
                   }
                   return null;
                 },

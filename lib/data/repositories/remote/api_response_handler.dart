@@ -21,9 +21,11 @@ class ApiResponseHandler {
     if (T == List<Map<String, dynamic>>) {
       data = (data as List).map((e) => e as Map<String, dynamic>).toList();
     }
+    final bool isSuccess = data['success'] == true || data['successed'] == true;
     return ApiResponse<T>(
-      success: true,
+      success: isSuccess,
       data: data as T,
+      errors: _extractErrors(data),
       statusCode: response.statusCode,
     );
   }

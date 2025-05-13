@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/core/utils/location/location_utils.dart';
 import 'package:aoun_app/core/utils/map/google_map.dart';
-import 'package:aoun_app/data/model/trip%20models/greate_trip_model/trip_location.dart';
+import 'package:aoun_app/data/model/trip%20models/trip_location_model.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/Textfeild%20Search%20location/textfeild_search_location_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/street%20name/street_name_cubit.dart';
 import 'package:aoun_app/presentation/widgets/common/placeautocomplete_shimmer_widget.dart';
@@ -31,7 +31,7 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
   bool isCameraMoving = false;
   String? returnLocationName;
   bool isFirstMove = true;
-  LocationTrip? locationModel;
+  TripLocationModel? locationModel;
   bool showMarker = false;
   Timer? _debounce;
   String? sessiontoken;
@@ -136,13 +136,12 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
                     .getStreetName(selectedLocation!, context);
                 final name = context.read<StreetNameCubit>().placemark;
 
-                locationModel = LocationTrip(
+                locationModel = TripLocationModel(
                   displayName: name!.thoroughfare,
                   fullAddress:
                       "${name.administrativeArea!.replaceAll("Governorate", "").trim()}, ${name.subAdministrativeArea}, ${name.thoroughfare}",
                   latitude: selectedLocation!.latitude,
                   longitude: selectedLocation!.longitude,
-                  additionalNotes: "",
                 );
 
                 setState(() {

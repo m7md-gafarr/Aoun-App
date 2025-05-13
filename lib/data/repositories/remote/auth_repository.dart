@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:aoun_app/data/model/auth%20models/driver_auth_model/driver_auth_model.dart';
 import 'package:aoun_app/data/model/auth%20models/user_auth_model/auth_model.dart';
@@ -103,6 +104,7 @@ class AuthenticationRepository {
           }
         ]),
       });
+
       if (user.imgUrlFile != null) {
         body.files.add(MapEntry(
           "ImgUrlFile",

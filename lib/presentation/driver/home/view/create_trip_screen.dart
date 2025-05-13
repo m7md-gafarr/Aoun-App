@@ -3,8 +3,8 @@ import 'dart:developer';
 import 'package:animations/animations.dart';
 import 'package:aoun_app/core/utils/snakbar/snackebar_helper.dart';
 import 'package:aoun_app/data/model/trip%20models/get_trip_route/get_trip_route.dart';
-import 'package:aoun_app/data/model/trip%20models/greate_trip_model/trip_location.dart';
 import 'package:aoun_app/data/model/trip%20models/greate_trip_model/greate_trip_model.dart';
+import 'package:aoun_app/data/model/trip%20models/trip_location_model.dart';
 import 'package:aoun_app/data/repositories/remote/trip_repository.dart';
 import 'package:aoun_app/presentation/driver/home/view/select_route_on_map_screen.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/amenities/amenities_cubit.dart';
@@ -29,7 +29,7 @@ class CreateTripScreen extends StatefulWidget {
 
 class _CreateTripScreenState extends State<CreateTripScreen> {
   String? fromLocation, toLocation;
-  LocationTrip? formLocatiomModel, toLocatiomModel;
+  TripLocationModel? formLocatiomModel, toLocatiomModel;
   GlobalKey<FormState> keyForm = GlobalKey();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController availableSeatsController =
@@ -53,6 +53,8 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final arguments = ModalRoute.of(context)!.settings.arguments;
+    log(arguments.toString());
     return Scaffold(
       appBar: AppbarWidget(
         title: "Create trip",

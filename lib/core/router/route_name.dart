@@ -68,6 +68,7 @@ class AppRoutesName {
   static const driverSettingScreenRoute = "/driverSettingScreenRoute";
 
   // trip screen
-  static const createTripScreenRoute = "/createTripScreenRoute";
-  static const selectRouteOnMapScreenRoute = "/selectRouteOnMapScreenRoute";
+  static const driverCreateTripScreenRoute = "/driverCreateTripScreenRoute";
+  static const driverSelectRouteOnMapScreenRoute =
+      "/driverSelectRouteOnMapScreenRoute";
 }

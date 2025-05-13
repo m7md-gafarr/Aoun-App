@@ -1,17 +1,15 @@
-import 'dart:developer';
 import 'dart:math' as math;
-
-import 'package:animations/animations.dart';
 import 'package:aoun_app/core/constant/constant.dart';
 import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/data/model/trip%20models/active_trip_requests/active_trip_requests.dart';
-import 'package:aoun_app/presentation/driver/home/view/create_trip_screen.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/active%20trip%20request/active_trip_requests_cubit.dart';
+import 'package:aoun_app/presentation/driver/profile/view_model/get_driver_data/get_driver_data_cubit.dart';
 import 'package:aoun_app/presentation/widgets/common/trip_shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class HomeDriverScreen extends StatefulWidget {
@@ -35,6 +33,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
   void initState() {
     super.initState();
     context.read<ActiveTripRequestsCubit>().getActiveTripRequests();
+    context.read<GetDriverDataCubit>().getDriverData(context);
   }
 
   @override
@@ -43,9 +42,9 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
       appBar: AppBar(
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () async {},
             icon: Icon(Iconsax.notification),
-          )
+          ),
         ],
       ),
       drawer: Container(
@@ -58,14 +57,79 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
           child: Column(
             children: [
               SizedBox(height: 40.h),
-              CircleAvatar(
-                minRadius: 30.w,
-              ),
-              SizedBox(height: 7.h),
-              Text(
-                "Mohamed Sobhy saber",
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.titleSmall,
+              BlocBuilder<GetDriverDataCubit, GetDriverDataState>(
+                builder: (context, state) {
+                  if (state is GetDriverDataSucess &&
+                      state.driverdata != null) {
+                    return SizedBox(
+                      height: 100.h,
+                      child: Column(
+                        children: [
+                          CircleAvatar(
+                            minRadius: 35.w,
+                            backgroundImage: NetworkImage(
+                                "https://studentpathapitest.runasp.net/${state.driverdata.data!.nationalIdBackPath!.replaceAll(r'\\', '/')}"),
+                          ),
+                          SizedBox(height: 7.h),
+                          Text(
+                            state.driverdata.data!.userName!,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.titleSmall,
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return SizedBox(
+                      height: 100.h,
+                      child: Column(
+                        children: [
+                          Shimmer.fromColors(
+                            baseColor:
+                                Theme.of(context).colorScheme.primaryContainer,
+                            highlightColor:
+                                Theme.of(context).scaffoldBackgroundColor,
+                            child: CircleAvatar(
+                              maxRadius: 30.w,
+                            ),
+                          ),
+                          SizedBox(height: 7.h),
+                          Shimmer.fromColors(
+                            baseColor:
+                                Theme.of(context).colorScheme.primaryContainer,
+                            highlightColor:
+                                Theme.of(context).scaffoldBackgroundColor,
+                            child: Container(
+                              width: 150.w,
+                              height: 8.h,
+                              decoration: BoxDecoration(
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(7.r))),
+                            ),
+                          ),
+                          SizedBox(height: 4.h),
+                          Shimmer.fromColors(
+                            baseColor:
+                                Theme.of(context).colorScheme.primaryContainer,
+                            highlightColor:
+                                Theme.of(context).scaffoldBackgroundColor,
+                            child: Container(
+                              width: 50.w,
+                              height: 8.h,
+                              decoration: BoxDecoration(
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(7.r))),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                },
               ),
               SizedBox(height: 15.h),
               Divider(thickness: 1),
@@ -223,7 +287,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
               ElevatedButton(
                   onPressed: () {
                     Navigator.pushNamed(
-                        context, AppRoutesName.createTripScreenRoute);
+                        context, AppRoutesName.driverCreateTripScreenRoute);
                   },
                   child: Text("Create a trip")),
               SizedBox(height: 20.h),
@@ -247,7 +311,13 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                       itemCount: state.tripList.length,
                       itemBuilder: (context, index) {
                         return _recentOrderWidget(
-                            context, state.tripList[index]);
+                          context,
+                          state.tripList[index],
+                          [
+                            state.tripList[index].fromLocation,
+                            state.tripList[index].toLocation,
+                          ],
+                        );
                       },
                     );
                   } else {
@@ -293,15 +363,18 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
     );
   }
 
-  Widget _recentOrderWidget(BuildContext context, ActiveTripRequests model) {
-    return OpenContainer(
-      closedElevation: 0,
-      openElevation: 0,
-      closedColor: Theme.of(context).scaffoldBackgroundColor,
-      transitionType: ContainerTransitionType.fadeThrough,
-      openBuilder: (context, action) => CreateTripScreen(),
-      closedBuilder: (context, action) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 7),
+  Widget _recentOrderWidget(
+      BuildContext context, ActiveTripRequests model, Object arguments) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 7),
+      child: InkWell(
+        focusColor: Colors.transparent,
+        hoverColor: Colors.transparent,
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        onTap: () => Navigator.pushNamed(
+            context, AppRoutesName.driverCreateTripScreenRoute,
+            arguments: arguments),
         child: Container(
           height: 80.h,
           decoration: BoxDecoration(

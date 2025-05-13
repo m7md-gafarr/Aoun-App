@@ -4,7 +4,7 @@ import 'dart:math' as math;
 import 'package:aoun_app/core/utils/location/location_Provider.dart';
 import 'package:aoun_app/core/utils/map/google_map.dart';
 import 'package:aoun_app/data/model/trip%20models/active_trip_requests/active_trip_requests.dart';
-import 'package:aoun_app/data/model/trip%20models/greate_trip_model/trip_location.dart';
+import 'package:aoun_app/data/model/trip%20models/trip_location_model.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/Textfeild%20Search%20location/textfeild_search_location_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/active%20trip%20request/active_trip_requests_cubit.dart';
@@ -38,7 +38,7 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
   Timer? _debounce;
   String? sessiontoken;
   String? activeField;
-  LocationTrip? formLocatiomModel, toLocatiomModel;
+  TripLocationModel? formLocatiomModel, toLocatiomModel;
 
   @override
   void initState() {
@@ -56,13 +56,12 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
   }
 
   _onChanged() async {
-    formLocatiomModel = LocationTrip(
+    formLocatiomModel = TripLocationModel(
       longitude: context.read<LocationProvider>().position!.longitude,
       latitude: context.read<LocationProvider>().position!.latitude,
       fullAddress:
           "${context.read<LocationProvider>().placemark!.subAdministrativeArea!.trim()}, ${context.read<LocationProvider>().placemark!.locality}",
       displayName: "${context.read<LocationProvider>().placemark!.locality}",
-      additionalNotes: "",
     );
     _formController.addListener(_fromListener);
     _toController.addListener(_toListener);
@@ -126,24 +125,22 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
         _toController.text,
         sessiontoken!,
       );
-      toLocatiomModel = LocationTrip(
+      toLocatiomModel = TripLocationModel(
         displayName: _toController.text.trim().split(" ").first,
         fullAddress: _toController.text,
         latitude: latlng!.latitude,
         longitude: latlng.longitude,
-        additionalNotes: "",
       );
     } else if (activeField == "from") {
       var latlng = await GoogleMapUtils().getLatLngFromAddress(
         _formController.text,
         sessiontoken!,
       );
-      formLocatiomModel = LocationTrip(
+      formLocatiomModel = TripLocationModel(
         displayName: _formController.text.trim().split(" ").first,
         fullAddress: _formController.text,
         latitude: latlng!.latitude,
         longitude: latlng.longitude,
-        additionalNotes: "",
       );
     }
 
@@ -241,7 +238,7 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
                             .map((e) => e.trim())
                             .toList();
                         if (activeField == "to") {
-                          toLocatiomModel = LocationTrip(
+                          toLocatiomModel = TripLocationModel(
                             displayName: parts.length >= 2
                                 ? parts[parts.length - 2]
                                 : parts.last,
@@ -249,10 +246,9 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
                                 .palceAutocompleteModel[index].description!,
                             latitude: latlng.location!.lat,
                             longitude: latlng.location!.lng,
-                            additionalNotes: "",
                           );
                         } else if (activeField == "from") {
-                          formLocatiomModel = LocationTrip(
+                          formLocatiomModel = TripLocationModel(
                             displayName: parts.length >= 2
                                 ? parts[parts.length - 2]
                                 : parts.last,
@@ -260,7 +256,6 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
                                 .palceAutocompleteModel[index].description!,
                             latitude: latlng.location!.lat,
                             longitude: latlng.location!.lng,
-                            additionalNotes: "",
                           );
                         }
 

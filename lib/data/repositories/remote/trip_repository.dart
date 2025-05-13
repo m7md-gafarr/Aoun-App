@@ -1,6 +1,6 @@
 import 'package:aoun_app/data/model/trip%20models/get_trip_route/get_trip_route.dart';
 import 'package:aoun_app/data/model/trip%20models/greate_trip_model/greate_trip_model.dart';
-import 'package:aoun_app/data/model/trip%20models/greate_trip_model/trip_location.dart';
+import 'package:aoun_app/data/model/trip%20models/trip_location_model.dart';
 import 'package:aoun_app/data/repositories/local/shared_pref.dart';
 import 'package:aoun_app/data/repositories/remote/api_helper.dart';
 import 'package:aoun_app/data/repositories/remote/api_response_handler.dart';
@@ -92,7 +92,7 @@ class TripRepository {
   }
 
   Future<ApiResponse<Map<String, dynamic>>> createTripRequest(
-      LocationTrip fromLocation, LocationTrip toLocation) async {
+      TripLocationModel fromLocation, TripLocationModel toLocation) async {
     String token = await getToken();
     return await ApiHelper().post<Map<String, dynamic>>(
       url: "$_apiUrl/Trips/Create-or-request-trip",

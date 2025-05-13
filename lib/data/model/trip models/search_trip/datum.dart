@@ -1,10 +1,9 @@
-import 'from_location.dart';
-import 'to_location.dart';
+import 'package:aoun_app/data/model/trip%20models/trip_location_model.dart';
 
 class Datum {
   int? id;
-  FromLocation? fromLocation;
-  ToLocation? toLocation;
+  TripLocationModel? fromLocation;
+  TripLocationModel? toLocation;
   String? driverName;
   String? driverPhone;
   String? startingPoint;
@@ -40,11 +39,12 @@ class Datum {
         id: json['id'] as int?,
         fromLocation: json['fromLocation'] == null
             ? null
-            : FromLocation.fromJson(
+            : TripLocationModel.fromJson(
                 json['fromLocation'] as Map<String, dynamic>),
         toLocation: json['toLocation'] == null
             ? null
-            : ToLocation.fromJson(json['toLocation'] as Map<String, dynamic>),
+            : TripLocationModel.fromJson(
+                json['toLocation'] as Map<String, dynamic>),
         driverName: json['driverName'] as String?,
         driverPhone: json['driverPhone'] as String?,
         startingPoint: json['startingPoint'] as String?,

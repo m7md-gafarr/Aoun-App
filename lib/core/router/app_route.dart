@@ -217,11 +217,12 @@ class AppRouter {
         );
 
       //  Trip route
-      case AppRoutesName.createTripScreenRoute:
+      case AppRoutesName.driverCreateTripScreenRoute:
         return MaterialPageRoute(
+          settings: settings,
           builder: (context) => CreateTripScreen(),
         );
-      case AppRoutesName.selectRouteOnMapScreenRoute:
+      case AppRoutesName.driverSelectRouteOnMapScreenRoute:
         return MaterialPageRoute(
           builder: (context) => SelectRouteOnMapScreen(),
         );
@@ -244,6 +245,7 @@ class AppRouter {
         );
       case AppRoutesName.driverEditProfileScreenRoute:
         return MaterialPageRoute(
+          settings: settings,
           builder: (context) => DriverEditProfile(),
         );
 

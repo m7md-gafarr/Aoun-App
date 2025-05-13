@@ -1,4 +1,4 @@
-import 'package:aoun_app/data/model/trip%20models/greate_trip_model/trip_location.dart';
+import 'package:aoun_app/data/model/trip%20models/trip_location_model.dart';
 import 'package:aoun_app/data/repositories/remote/api_response_handler.dart';
 import 'package:aoun_app/data/repositories/remote/trip_repository.dart';
 import 'package:bloc/bloc.dart';
@@ -10,7 +10,7 @@ part 'create_request_trip_state.dart';
 class CreateRequestTripCubit extends Cubit<CreateRequestTripState> {
   CreateRequestTripCubit() : super(CreateRequestTripInitial());
 
-  createRequestTrip(LocationTrip from, LocationTrip to) async {
+  createRequestTrip(TripLocationModel from, TripLocationModel to) async {
     try {
       emit(CreateRequestTripLoading());
       ApiResponse<Map<String, dynamic>> response =

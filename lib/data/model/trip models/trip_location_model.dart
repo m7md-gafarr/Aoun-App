@@ -1,20 +1,18 @@
-class ToLocation {
-  int? id;
+class TripLocationModel {
   double? latitude;
   double? longitude;
   String? displayName;
   String? fullAddress;
 
-  ToLocation({
-    this.id,
+  TripLocationModel({
     this.latitude,
     this.longitude,
     this.displayName,
     this.fullAddress,
   });
 
-  factory ToLocation.fromJson(Map<String, dynamic> json) => ToLocation(
-        id: json['id'] as int?,
+  factory TripLocationModel.fromJson(Map<String, dynamic> json) =>
+      TripLocationModel(
         latitude: (json['latitude'] as num?)?.toDouble(),
         longitude: (json['longitude'] as num?)?.toDouble(),
         displayName: json['displayName'] as String?,
@@ -22,7 +20,6 @@ class ToLocation {
       );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
         'latitude': latitude,
         'longitude': longitude,
         'displayName': displayName,
