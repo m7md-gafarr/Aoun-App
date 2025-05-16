@@ -86,7 +86,7 @@ class _BookTripScreenState extends State<BookTripScreen> {
           style: Theme.of(context).textTheme.labelSmall,
         ),
         SizedBox(height: 7.h),
-        const TripMapWidget(),
+        TripMapWidget(),
       ],
     );
   }

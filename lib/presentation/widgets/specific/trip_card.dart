@@ -1,13 +1,14 @@
 import 'dart:math' as math;
 import 'package:animations/animations.dart';
+import 'package:aoun_app/data/model/trip%20models/trip_model/trip_model.dart';
 import 'package:aoun_app/presentation/user/transport/views/trip_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 
 class TripWidget extends StatelessWidget {
-  const TripWidget({super.key});
-
+  TripWidget({super.key, required this.trip});
+  TripModel trip;
   @override
   Widget build(BuildContext context) {
     return OpenContainer(
@@ -15,7 +16,9 @@ class TripWidget extends StatelessWidget {
       openElevation: 0,
       closedColor: Theme.of(context).scaffoldBackgroundColor,
       transitionType: ContainerTransitionType.fadeThrough,
-      openBuilder: (context, action) => TripDetailsScreen(),
+      openBuilder: (context, action) => TripDetailsScreen(
+        tripModel: trip,
+      ),
       closedBuilder: (context, action) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 7),
         child: Container(
@@ -29,11 +32,13 @@ class TripWidget extends StatelessWidget {
               SizedBox(width: 7.w),
               _buildIconContainer(context, Iconsax.bus),
               SizedBox(width: 7.w),
-              _TripDetails(),
+              _TripDetails(
+                trip: trip,
+              ),
               const VerticalDivider(thickness: 0.7, endIndent: 10, indent: 15),
-              _TripPrice(price: 9999),
-              const Spacer(),
-              const Icon(Iconsax.arrow_right_3)
+              Spacer(),
+              _TripPrice(price: trip.pricePerSeat!),
+              SizedBox(width: 7.w),
             ],
           ),
         ),
@@ -54,6 +59,8 @@ class TripWidget extends StatelessWidget {
 }
 
 class _TripDetails extends StatelessWidget {
+  TripModel trip;
+  _TripDetails({required this.trip});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -61,9 +68,14 @@ class _TripDetails extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         _TripDetailRow(
-            iconRotation: math.pi / 4, label: "From: Kafr El-Shaikh "),
-        _TripDetailRow(iconRotation: -3 * math.pi / 4, label: "To: AZ Zafaran"),
-        _TripDetailRow(icon: Iconsax.clock, label: "Today / 16:00 AM"),
+            iconRotation: math.pi / 4,
+            label: "From: ${trip.fromLocation!.fullAddress}"),
+        _TripDetailRow(
+            iconRotation: -3 * math.pi / 4,
+            label: "To: ${trip.fromLocation!.fullAddress}"),
+        _TripDetailRow(
+            icon: Iconsax.clock,
+            label: " ${trip.basicInfo!.formattedDepartureTime}"),
       ],
     );
   }
@@ -92,7 +104,7 @@ class _TripDetailRow extends StatelessWidget {
             : Icon(icon, size: 17.w),
         SizedBox(width: 2.w),
         SizedBox(
-          width: 150.w,
+          width: 180.w,
           child: Text(
             label,
             style: Theme.of(context).textTheme.labelSmall,
@@ -106,14 +118,14 @@ class _TripDetailRow extends StatelessWidget {
 }
 
 class _TripPrice extends StatelessWidget {
-  final int price;
+  final double price;
 
   const _TripPrice({required this.price});
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      "\$$price",
+      "\$${price.toInt()}",
       style: Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 17.sp),
     );
   }

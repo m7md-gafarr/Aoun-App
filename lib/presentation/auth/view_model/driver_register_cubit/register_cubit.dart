@@ -28,18 +28,14 @@ class DriverRegisterCubit extends Cubit<DriverRegisterState> {
     }
 
     try {
-      log("🚀 Attempting to register user: ${user.toJson()}");
       ApiResponse<Map<String, dynamic>> response =
           await AuthenticationRepository().registerDriver(
         user: user,
       );
-      log("📥 API Response: success=${response.success}, errors=${response.errors}, data=${response.data}");
       if (response.success) {
-        log("✅ Registration success, emitting DriverRegisterSuccess");
         emit(DriverRegisterSuccess(S.of(context).registration_successful));
       } else {
         String error = response.errors;
-        log("❌ Registration failed with error: $error");
         if (error == "Email already exists.") {
           emit(DriverRegisterFailure(S.of(context).email_already_exists));
         } else {
@@ -47,12 +43,10 @@ class DriverRegisterCubit extends Cubit<DriverRegisterState> {
         }
       }
     } on DioException catch (e) {
-      log("🔥 DioException occurred: ${e.message}, statusCode: ${e.response?.statusCode}");
       if (e.response?.statusCode == 500) {
         emit(DriverRegisterFailure("Network error: ${e.message}"));
       }
     } catch (e) {
-      log("❗ Unexpected error occurred: $e");
       emit(DriverRegisterFailure("Unexpected error occurred : $e"));
     }
   }

@@ -186,7 +186,6 @@ class _DriverProfileScreenState extends State<DriverProfileScreen>
               ),
             );
           } else if (state is GetDriverDataError) {
-            log(state.errorMessage);
             return Text(state.errorMessage);
           } else {
             return DriverProfileShimmerWidget();

@@ -1,4 +1,13 @@
+import 'dart:developer';
+
+import 'package:animations/animations.dart';
+import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/core/router/route_name.dart';
+import 'package:aoun_app/core/utils/map/google_map.dart';
+import 'package:aoun_app/data/model/map%20models/route_model/route_model.dart';
+import 'package:aoun_app/data/model/trip%20models/trip_model/trip_model.dart';
+import 'package:aoun_app/presentation/user/transport/views/map_view_pickup_point_screen.dart';
+import 'package:aoun_app/presentation/user/transport/views/map_viewr_route_screen.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart';
 import 'package:aoun_app/presentation/widgets/common/divider_widget.dart';
 import 'package:aoun_app/presentation/widgets/common/review_card_widget.dart';
@@ -8,11 +17,12 @@ import 'package:aoun_app/presentation/widgets/specific/trip_map.dart'
 import 'package:flutter/material.dart';
 import 'package:flutter_pannable_rating_bar/flutter_pannable_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:iconsax/iconsax.dart';
 
 class TripDetailsScreen extends StatefulWidget {
-  const TripDetailsScreen({super.key});
-
+  TripDetailsScreen({super.key, this.tripModel});
+  TripModel? tripModel;
   @override
   State<TripDetailsScreen> createState() => _TripDetailsScreenState();
 }
@@ -20,29 +30,69 @@ class TripDetailsScreen extends StatefulWidget {
 class _TripDetailsScreenState extends State<TripDetailsScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  late dynamic itemsInfotrip, itemsInfoDriver, ratings;
+  RouteModel? routeModel;
   @override
   void initState() {
     _tabController = TabController(length: 3, vsync: this);
     super.initState();
+    getRoute();
+    itemsInfotrip = [
+      {
+        "title": "Departure date",
+        "value": "${widget.tripModel!.basicInfo!.formattedDepartureTime}"
+      },
+      {
+        "title": "Estimated Distance",
+        "value": "${widget.tripModel!.basicInfo!.formattedDistance}"
+      },
+      {
+        "title": "Estimated Arrival Time",
+        "value": "${widget.tripModel!.basicInfo!.formattedDuration}"
+      },
+      {
+        "title": "Available Seats",
+        "value": "${widget.tripModel!.basicInfo!.availableSeats} Seats"
+      },
+    ];
+    itemsInfoDriver = [
+      {
+        "title": "Car Model",
+        "value": "${widget.tripModel!.driverInfo!.vehicleInfo!.vehicleModel}"
+      },
+      {
+        "title": "Seats",
+        "value": "${widget.tripModel!.driverInfo!.vehicleInfo!.seatingCapacity}"
+      },
+      {
+        "title": "License Plate",
+        "value": "${widget.tripModel!.driverInfo!.vehicleInfo!.plateNumber}"
+      },
+      {
+        "title": "Mobile number",
+        "value": "${widget.tripModel!.driverInfo!.driverPhone}"
+      },
+    ];
+    ratings = [
+      {"title": "Driving skills", "value": 1.0},
+      {"title": "Punctuality", "value": 0.2},
+      {"title": "Behavior", "value": 0.9},
+      {"title": "Pricing", "value": 0.75},
+    ];
   }
 
-  final itemsInfotrip = [
-    {"title": "Departure date", "value": "Today / 16:00 AM"},
-    {"title": "Estimated Distance", "value": "220 KM"},
-    {"title": "Estimated Arrival Time", "value": "2h 30min"},
-    {"title": "Available Seats", "value": "3 Seats"},
-  ];
-  final itemsInfoDriver = [
-    {"title": "Car Model", "value": "Toyota Corolla 2022"},
-    {"title": "Seats", "value": "License Plate :"},
-    {"title": "License Plate", "value": "ABC-1234"},
-  ];
-  final List<Map<String, dynamic>> ratings = [
-    {"title": "Driving skills", "value": 1.0},
-    {"title": "Punctuality", "value": 0.2},
-    {"title": "Behavior", "value": 0.9},
-    {"title": "Pricing", "value": 0.75},
-  ];
+  getRoute() async {
+    final route = await GoogleMapUtils().getRoute(
+      LatLng(widget.tripModel!.fromLocation!.latitude!,
+          widget.tripModel!.fromLocation!.longitude!),
+      LatLng(widget.tripModel!.toLocation!.latitude!,
+          widget.tripModel!.toLocation!.longitude!),
+    );
+    setState(() {
+      routeModel = route;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,7 +165,7 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
                               style: Theme.of(context).textTheme.labelSmall,
                             ),
                             Text(
-                              "Cairo, Egypt",
+                              "${widget.tripModel!.fromLocation!.fullAddress}",
                               style: Theme.of(context).textTheme.titleSmall,
                             ),
                             SizedBox(height: 30.h),
@@ -124,7 +174,7 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
                               style: Theme.of(context).textTheme.labelSmall,
                             ),
                             Text(
-                              "Alexandria, Egypt",
+                              "${widget.tripModel!.toLocation!.fullAddress}",
                               style: Theme.of(context).textTheme.titleSmall,
                             ),
                           ],
@@ -177,7 +227,7 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
         child: Row(
           children: [
             Text(
-              "\$ 7.00",
+              "\$ ${widget.tripModel!.pricePerSeat}",
               style: Theme.of(context).textTheme.titleLarge,
             ),
             Spacer(),
@@ -209,7 +259,7 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
               padding:
                   const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
               child: Text(
-                "Downtown Cairo - Gate 5",
+                "${widget.tripModel!.additionalInfo!.startingPoint}",
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
@@ -221,44 +271,64 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
                   .copyWith(color: Theme.of(context).primaryColor),
             ),
             SizedBox(height: 7.h),
-            const TripMapWidget(),
-            DividerWidget(),
-            TitleInfoTripWidget(title: "Driver Notes"),
-            SizedBox(height: 7.h),
-            Column(
-              children: List.generate(
-                5,
-                (index) => _DriverNote(),
+            SizedBox(
+              height: 180.h,
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(15.r)),
+                child: OpenContainer(
+                  closedElevation: 0,
+                  openElevation: 0,
+                  transitionType: ContainerTransitionType.fadeThrough,
+                  openBuilder: (context, action) => MapViewPickupPointScreen(
+                    locationModel: widget.tripModel!.fromLocation!,
+                  ),
+                  closedBuilder: (context, action) => GestureDetector(
+                    onTap: action,
+                    child: Image.asset(
+                      Assets.imageMapMakerMap,
+                    ),
+                  ),
+                ),
               ),
             ),
             DividerWidget(),
+            TitleInfoTripWidget(title: "Driver Notes"),
+            SizedBox(height: 7.h),
+            _DriverNote(widget.tripModel!.additionalInfo!.notes!),
+            DividerWidget(),
             TitleInfoTripWidget(title: "Amenities"),
-            Row(
+            Wrap(
+              spacing: 0,
+              runSpacing: 0,
               children: List.generate(
-                3,
+                widget.tripModel!.additionalInfo!.amenities!.length,
                 (index) => Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primaryContainer,
-                        borderRadius: BorderRadius.all(Radius.circular(12.r))),
-                    child: Text("Charge"),
+                      color: Theme.of(context).colorScheme.primaryContainer,
+                      borderRadius: BorderRadius.all(Radius.circular(12.r)),
+                    ),
+                    child: Text(
+                      widget.tripModel!.additionalInfo!.amenities![index],
+                      style: TextStyle(fontSize: 14.sp), // خط اختياري للتنسيق
+                    ),
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _DriverNote() {
+  Widget _DriverNote(String note) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
       child: Text(
-        "• Downtown Cairo - Gate 5",
+        "• $note",
         style: Theme.of(context).textTheme.bodyMedium,
       ),
     );
@@ -279,15 +349,10 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
                 ),
                 SizedBox(width: 20.w),
                 Text(
-                  "Mohamed Sobhy",
+                  "${widget.tripModel!.driverInfo!.driverName}",
                   style: Theme.of(context).textTheme.titleSmall,
                 )
               ],
-            ),
-            SizedBox(height: 10.h),
-            Text(
-              "I am a lifelong explorer and entrepreneur. I have lived all over the U.S., born in Hawaii, and lived in Belgium. I have traveled across Europe, Australia, Bulgaria, Canada, Mexico, Belize, and Grand Cayman.... Read More",
-              style: Theme.of(context).textTheme.bodySmall,
             ),
             DividerWidget(),
             GridView.builder(
@@ -404,7 +469,7 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
             DividerWidget(),
             TitleInfoTripWidget(title: "Display Route in map"),
             SizedBox(height: 20.h),
-            const TripMapWidget(),
+            TripMapWidget(routeModel: routeModel),
           ],
         ),
       ),

@@ -8,8 +8,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:iconsax/iconsax.dart';
 
 class MapViewRouteScreen extends StatefulWidget {
-  const MapViewRouteScreen({super.key});
-
+  MapViewRouteScreen({super.key, this.routeModel});
+  RouteModel? routeModel;
   @override
   State<MapViewRouteScreen> createState() => _MapViewRouteScreenState();
 }
@@ -23,15 +23,16 @@ class _MapViewRouteScreenState extends State<MapViewRouteScreen> {
   @override
   void initState() {
     super.initState();
-    getRoute();
     cameraPosition = GoogleMapUtils.intialCameraPosition;
   }
 
-  getRoute() async {
-    RouteModel routeModel = await GoogleMapUtils().getRoute(
-        LatLng(31.25862757187389, 31.170393773156743),
-        LatLng(31.314723768732595, 31.146343409619615));
-    _setPolyline(routeModel.routes![0].polyline!.encodedPolyline!);
+  onMapCreated(GoogleMapController controller) {
+    _mapController = controller;
+    final route = widget.routeModel;
+    final routes = route?.routes;
+    if (routes != null && routes.isNotEmpty && routes[0].polyline != null) {
+      _setPolyline(routes[0].polyline!.encodedPolyline.toString());
+    }
   }
 
   void _setPolyline(String encodedPolyline) async {
@@ -79,10 +80,6 @@ class _MapViewRouteScreenState extends State<MapViewRouteScreen> {
         100,
       ),
     );
-  }
-
-  onMapCreated(GoogleMapController controller) {
-    _mapController = controller;
   }
 
   @override

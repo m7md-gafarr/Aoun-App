@@ -22,6 +22,7 @@ import 'package:aoun_app/presentation/driver/home/view_model/street%20name/stree
 import 'package:aoun_app/presentation/driver/profile/view_model/get_driver_data/get_driver_data_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/add%20new%20debit%20card/add_new_debit_card_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/create%20request%20trip/create_request_trip_cubit.dart';
+import 'package:aoun_app/presentation/user/transport/view_model/get_trips/get_trips_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/payment%20wallet/payment_wallet_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/search%20trip/search_trip_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/view%20debit%20card/view_all_debit_card_cubit.dart';
@@ -74,6 +75,7 @@ void main() async {
         BlocProvider(create: (context) => SearchTripCubit()),
         BlocProvider(create: (context) => CreateRequestTripCubit()),
         BlocProvider(create: (context) => GetDriverDataCubit()),
+        BlocProvider(create: (context) => GetTripsCubit()),
       ],
       child: Builder(
         builder: (context) => MultiProvider(

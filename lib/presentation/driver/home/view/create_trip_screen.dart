@@ -54,7 +54,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
   @override
   Widget build(BuildContext context) {
     final arguments = ModalRoute.of(context)!.settings.arguments;
-    log(arguments.toString());
+
     return Scaffold(
       appBar: AppbarWidget(
         title: "Create trip",
@@ -416,7 +416,6 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                   child: BlocConsumer<CreateTripCubit, CreateTripState>(
                     listener: (context, state) async {
                       if (state is CreateTripFailure) {
-                        log(state.errorMessage);
                         ErrorDialogWidget(message: state.errorMessage)
                             .show(context);
                       } else if (state is CreateTripSuccess) {

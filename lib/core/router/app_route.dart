@@ -24,8 +24,8 @@ import 'package:aoun_app/presentation/user/profile/view/user_edit_profile_screen
 import 'package:aoun_app/presentation/user/profile/view/user_profile_screen.dart';
 import 'package:aoun_app/presentation/user/transport/views/add_new_card_screen.dart';
 import 'package:aoun_app/presentation/user/transport/views/book_trip_screen.dart';
-import 'package:aoun_app/presentation/user/transport/views/mapSelectRoute_screen.dart';
-import 'package:aoun_app/presentation/user/transport/views/mapViewRoute_screen.dart';
+import 'package:aoun_app/presentation/user/transport/views/map_select_route_screen.dart';
+import 'package:aoun_app/presentation/user/transport/views/map_viewr_route_screen.dart';
 import 'package:aoun_app/presentation/user/transport/views/payment_screen.dart';
 import 'package:aoun_app/presentation/user/transport/views/search_trip_screen.dart'
     show SearchTripScreen;
@@ -135,11 +135,9 @@ class AppRouter {
 
       //  Transport route
       case AppRoutesName.tripDetailsScreenRoute:
-        return MaterialPageRoute(
-            builder: (context) => const TripDetailsScreen());
+        return MaterialPageRoute(builder: (context) => TripDetailsScreen());
       case AppRoutesName.mapViewRouteScreenRoute:
-        return MaterialPageRoute(
-            builder: (context) => const MapViewRouteScreen());
+        return MaterialPageRoute(builder: (context) => MapViewRouteScreen());
       case AppRoutesName.mapSelectRouteScreenRoute:
         return MaterialPageRoute(
             builder: (context) => const MapSelectRouteScreen());

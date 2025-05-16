@@ -38,10 +38,16 @@ class TripRepository {
     );
   }
 
-  Future<ApiResponse<List<Map<String, dynamic>>>>
-      getActiveTripRequests() async {
-    return await ApiHelper().get<List<Map<String, dynamic>>>(
+  Future<ApiResponse<Map<String, dynamic>>> getActiveTripRequests() async {
+    return await ApiHelper().get<Map<String, dynamic>>(
       url: "$_apiUrl/Trips/active-trip-requests",
+    );
+  }
+
+  Future<ApiResponse<Map<String, dynamic>>> getTrips(
+      {required bool includePast}) async {
+    return await ApiHelper().get<Map<String, dynamic>>(
+      url: "$_apiUrl/Trips?includePast=$includePast",
     );
   }
 

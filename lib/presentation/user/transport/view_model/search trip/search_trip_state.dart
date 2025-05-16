@@ -7,7 +7,7 @@ final class SearchTripInitial extends SearchTripState {}
 
 final class SearchTripLoading extends SearchTripState {}
 
-final class SearchTripEmpity extends SearchTripState {}
+final class SearchTripEmpty extends SearchTripState {}
 
 final class SearchTripSuccess extends SearchTripState {
   List<SearchTrip> list;

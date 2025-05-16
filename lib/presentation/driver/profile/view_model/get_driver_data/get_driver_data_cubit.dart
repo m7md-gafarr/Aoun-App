@@ -44,7 +44,6 @@ class GetDriverDataCubit extends Cubit<GetDriverDataState> {
         }
       }
     } catch (e) {
-      log("Cubit error: ${e.toString()}");
       emit(GetDriverDataError(e.toString()));
     }
   }

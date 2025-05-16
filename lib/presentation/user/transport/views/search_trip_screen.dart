@@ -5,6 +5,7 @@ import 'package:aoun_app/core/utils/location/location_Provider.dart';
 import 'package:aoun_app/core/utils/map/google_map.dart';
 import 'package:aoun_app/data/model/trip%20models/active_trip_requests/active_trip_requests.dart';
 import 'package:aoun_app/data/model/trip%20models/trip_location_model.dart';
+import 'package:aoun_app/data/model/trip%20models/trip_model/trip_model.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/Textfeild%20Search%20location/textfeild_search_location_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/active%20trip%20request/active_trip_requests_cubit.dart';
@@ -283,7 +284,7 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
                     itemCount: 5,
                   );
                 } else if (state is TextfeildSearchLocationFailure) {
-                  return Text("Error");
+                  return Text(state.errorMessage);
                 } else {
                   return BlocBuilder<SearchTripCubit, SearchTripState>(
                     builder: (context, state) {
@@ -296,7 +297,7 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
                           itemBuilder: (context, index) => TripShimmerWidget(),
                           itemCount: 5,
                         );
-                      } else if (state is SearchTripEmpity &&
+                      } else if (state is SearchTripEmpty &&
                           !isSelectingSuggestion) {
                         return BlocBuilder<ActiveTripRequestsCubit,
                             ActiveTripRequestsState>(
@@ -321,11 +322,6 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
                                             .createRequestTrip(
                                                 formLocatiomModel!,
                                                 toLocatiomModel!);
-
-                                        log(formLocatiomModel!.fullAddress
-                                            .toString());
-                                        log(toLocatiomModel!.fullAddress
-                                            .toString());
                                       },
                                       child: BlocConsumer<
                                           CreateRequestTripCubit,
@@ -378,6 +374,7 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
                                     SizedBox(height: 20.h),
                                     ListView.builder(
                                       shrinkWrap: true,
+                                      physics: NeverScrollableScrollPhysics(),
                                       itemCount: state.tripList.length,
                                       itemBuilder: (context, index) {
                                         return _recentOrderWidget(
@@ -390,7 +387,12 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
                                 ),
                               );
                             } else {
-                              return Center(child: CircularProgressIndicator());
+                              return ListView.builder(
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) =>
+                                    TripShimmerWidget(),
+                                itemCount: 5,
+                              );
                             }
                           },
                         );
@@ -401,7 +403,9 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
                           shrinkWrap: true,
                           itemCount: state.list.length,
                           itemBuilder: (context, index) {
-                            return TripWidget();
+                            return TripWidget(
+                              trip: TripModel(),
+                            );
                           },
                         );
                       } else {

@@ -45,7 +45,6 @@ class LocationService {
       return await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
     } catch (e) {
-      log(e.toString());
       SnackbarHelper.showError(context, title: "Error getting location: $e");
       return null;
     }
@@ -61,7 +60,6 @@ class LocationService {
           distanceFilter: 2,
         ),
       ).handleError((error) {
-        log(error);
         SnackbarHelper.showError(context,
             title: "Error getting location: ${error.toString()}");
       });

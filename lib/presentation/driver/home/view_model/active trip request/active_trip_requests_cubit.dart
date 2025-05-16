@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:aoun_app/data/model/trip%20models/active_trip_requests/active_trip_requests.dart';
 import 'package:aoun_app/data/repositories/remote/api_response_handler.dart';
 import 'package:aoun_app/data/repositories/remote/trip_repository.dart';
@@ -12,26 +14,29 @@ class ActiveTripRequestsCubit extends Cubit<ActiveTripRequestsState> {
 
   getActiveTripRequests() async {
     try {
-      ApiResponse<List<Map<String, dynamic>>> response =
+      emit(ActiveTripRequestsInitial());
+
+      ApiResponse<Map<String, dynamic>> response =
           await TripRepository().getActiveTripRequests();
 
       if (response.success) {
-        List<ActiveTripRequests> list = [];
+        if (response.data!['data'] == null || response.data!['data']!.isEmpty) {
+          emit(ActiveTripRequestsSuccess([]));
+        } else {
+          List<ActiveTripRequests> list = [];
 
-        for (var element in response.data!) {
-          list.add(ActiveTripRequests.fromJson(element));
+          for (var element in response.data!['data']!) {
+            list.add(ActiveTripRequests.fromJson(element));
+          }
+
+          emit(ActiveTripRequestsSuccess(list.reversed.toList()));
         }
-
-        emit(ActiveTripRequestsSuccess(list.reversed.toList()));
       } else {
         String error = response.errors;
-
         emit(ActiveTripRequestsFailure(error));
       }
     } on DioException catch (e) {
-      if (e.response?.statusCode == 500) {
-        emit(ActiveTripRequestsFailure("Network error: ${e.message}"));
-      }
+      emit(ActiveTripRequestsFailure("Network error: ${e.message}"));
     } catch (e) {
       emit(ActiveTripRequestsFailure("Unexpected error login: $e"));
     }

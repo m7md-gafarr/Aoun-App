@@ -13,10 +13,17 @@ class CreateRequestTripCubit extends Cubit<CreateRequestTripState> {
   createRequestTrip(TripLocationModel from, TripLocationModel to) async {
     try {
       emit(CreateRequestTripLoading());
+
       ApiResponse<Map<String, dynamic>> response =
           await TripRepository().createTripRequest(from, to);
+
       if (response.success) {
-        emit(CreateRequestTripSuccess(response.data!['message']));
+        final message =
+            response.data?['message'] ?? "Trip request created successfully";
+
+        emit(CreateRequestTripSuccess(message));
+      } else {
+        emit(CreateRequestTripFailure(response.errors));
       }
     } on DioException catch (e) {
       emit(CreateRequestTripFailure("Network error: ${e.message}"));

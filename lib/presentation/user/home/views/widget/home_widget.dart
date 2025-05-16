@@ -1,5 +1,6 @@
 import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/core/constant/constant.dart';
+import 'package:aoun_app/data/model/trip%20models/trip_model/trip_model.dart';
 import 'package:aoun_app/presentation/widgets/specific/trip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -176,16 +177,28 @@ class HomeScreenWidget extends StatelessWidget {
           //   ),
           // ),
           Column(
-            children: List.generate(3, (index) => TripWidget()),
+            children: List.generate(
+                3,
+                (index) => TripWidget(
+                      trip: TripModel(),
+                    )),
           ),
 
           _titleWidget(context, "Rentals"),
           Column(
-            children: List.generate(3, (index) => TripWidget()),
+            children: List.generate(
+                3,
+                (index) => TripWidget(
+                      trip: TripModel(),
+                    )),
           ),
           _titleWidget(context, "Communities"),
           Column(
-            children: List.generate(3, (index) => TripWidget()),
+            children: List.generate(
+                3,
+                (index) => TripWidget(
+                      trip: TripModel(),
+                    )),
           ),
           SizedBox(
             height: 50,
