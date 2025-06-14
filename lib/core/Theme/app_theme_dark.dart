@@ -3,8 +3,8 @@ import 'package:aoun_app/core/constant/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-ThemeData getThemeColorDark(BuildContext context) => ThemeData(
-      fontFamily: isRTL(context) ? fontArabic : fontEnglish,
+ThemeData getThemeColorDark(BuildContext context, Locale? locale) => ThemeData(
+      fontFamily: locale?.languageCode == 'ar' ? fontArabic : fontEnglish,
       primaryColor: AppColorDark.primaryColor,
       secondaryHeaderColor: AppColorDark.secondaryColor,
       scaffoldBackgroundColor: AppColorDark.backgroundColor,
@@ -40,7 +40,8 @@ ThemeData getThemeColorDark(BuildContext context) => ThemeData(
           textStyle: WidgetStatePropertyAll(
             TextStyle(
               letterSpacing: .7,
-              fontFamily: isRTL(context) ? fontArabic : fontEnglish,
+              fontFamily:
+                  locale?.languageCode == 'ar' ? fontArabic : fontEnglish,
               fontSize: 18.sp,
               fontWeight: FontWeight.w500,
             ),
@@ -95,35 +96,35 @@ ThemeData getThemeColorDark(BuildContext context) => ThemeData(
       textTheme: TextTheme(
         // Headline - Large Titles (Used for Page Titles or Important Headlines)
         headlineLarge: _getTextStyle(
-            AppColorDark.textPrimary, 32, FontWeight.bold, context),
+            AppColorDark.textPrimary, 32, FontWeight.bold, context, locale),
         headlineMedium: _getTextStyle(
-            AppColorDark.textPrimary, 28, FontWeight.bold, context),
+            AppColorDark.textPrimary, 28, FontWeight.bold, context, locale),
         headlineSmall: _getTextStyle(
-            AppColorDark.textPrimary, 24, FontWeight.bold, context),
+            AppColorDark.textPrimary, 24, FontWeight.bold, context, locale),
 
         // Title - Medium Titles (Used for Section Titles)
         titleLarge: _getTextStyle(
-            AppColorDark.textPrimary, 22, FontWeight.w600, context),
+            AppColorDark.textPrimary, 22, FontWeight.w600, context, locale),
         titleMedium: _getTextStyle(
-            AppColorDark.textPrimary, 20, FontWeight.w600, context),
+            AppColorDark.textPrimary, 20, FontWeight.w600, context, locale),
         titleSmall: _getTextStyle(
-            AppColorDark.textPrimary, 18, FontWeight.w500, context),
+            AppColorDark.textPrimary, 18, FontWeight.w500, context, locale),
 
         // Body - Normal Text (Used for Main Paragraphs and Content)
         bodyLarge: _getTextStyle(
-            AppColorDark.textSecondary, 16, FontWeight.normal, context),
+            AppColorDark.textSecondary, 16, FontWeight.normal, context, locale),
         bodyMedium: _getTextStyle(
-            AppColorDark.textSecondary, 14, FontWeight.normal, context),
+            AppColorDark.textSecondary, 14, FontWeight.normal, context, locale),
         bodySmall: _getTextStyle(
-            AppColorDark.textSecondary, 12, FontWeight.normal, context),
+            AppColorDark.textSecondary, 12, FontWeight.normal, context, locale),
 
         // Labels -   Small Captions
         labelLarge: _getTextStyle(
-            AppColorDark.textTertiary, 16, FontWeight.w500, context),
+            AppColorDark.textTertiary, 16, FontWeight.w500, context, locale),
         labelMedium: _getTextStyle(
-            AppColorDark.textTertiary, 14, FontWeight.w500, context),
+            AppColorDark.textTertiary, 14, FontWeight.w500, context, locale),
         labelSmall: _getTextStyle(
-            AppColorDark.textTertiary, 12, FontWeight.w500, context),
+            AppColorDark.textTertiary, 12, FontWeight.w500, context, locale),
       ),
 
       // Text Field
@@ -213,13 +214,19 @@ ThemeData getThemeColorDark(BuildContext context) => ThemeData(
         unselectedItemColor: AppColorDark.textDisabled,
         elevation: 10,
       ),
+
+      // Expansion Tile
+      expansionTileTheme: ExpansionTileThemeData(
+        iconColor: AppColorDark.primaryColor,
+        shape: Border.all(width: 0, color: Colors.transparent),
+      ),
     );
 
-TextStyle _getTextStyle(
-    Color color, double fontSize, FontWeight fontWeight, BuildContext context) {
+TextStyle _getTextStyle(Color color, double fontSize, FontWeight fontWeight,
+    BuildContext context, Locale? locale) {
   return TextStyle(
     color: color,
-    fontFamily: isRTL(context) ? fontArabic : fontEnglish,
+    fontFamily: locale?.languageCode == 'ar' ? fontArabic : fontEnglish,
     // fontSize: fontSize * ScaleSize.textScaleFactor(context),
     fontSize: fontSize.sp,
     fontWeight: fontWeight,

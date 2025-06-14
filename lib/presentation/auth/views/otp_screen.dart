@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:aoun_app/core/router/route_name.dart';
+import 'package:aoun_app/core/utils/dialog/dialog_helper.dart';
 import 'package:aoun_app/data/model/auth%20models/user_auth_model/auth_model.dart';
 import 'package:aoun_app/presentation/auth/view_model/sendOTPForPasswordReset_cubit/send_otp_for_password_reset_cubit.dart';
 import 'package:aoun_app/presentation/auth/view_model/verifyOTP_cubit/verify_otp_cubit.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart';
-import 'package:aoun_app/presentation/widgets/common/error_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -145,8 +145,8 @@ class _OTPScreenState extends State<OtpScreen> {
                     BlocListener<VerifyOtpCubit, VerifyOtpState>(
                       listener: (context, state) {
                         if (state is VerifyOtpFailure) {
-                          ErrorDialogWidget(message: state.errorMessage)
-                              .show(context);
+                          DialogHelper(context)
+                              .showErroeDialog(message: state.errorMessage);
                         } else if (state is VerifyOtpSuccess) {
                           Navigator.pushNamed(
                             context,

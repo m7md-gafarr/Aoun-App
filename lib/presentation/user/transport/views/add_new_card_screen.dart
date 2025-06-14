@@ -1,8 +1,8 @@
+import 'package:aoun_app/core/utils/dialog/dialog_helper.dart';
 import 'package:aoun_app/data/model/payment%20models/debit_card_model/debit_card_model.dart';
 import 'package:aoun_app/generated/l10n.dart';
-import 'package:aoun_app/presentation/user/transport/view_model/add%20new%20debit%20card/add_new_debit_card_cubit.dart';
-import 'package:aoun_app/presentation/user/transport/view_model/view%20debit%20card/view_all_debit_card_cubit.dart';
-import 'package:aoun_app/presentation/widgets/common/success_dialog_widget.dart';
+import 'package:aoun_app/presentation/user/transport/view_model/add_new_debit_card/add_new_debit_card_cubit.dart';
+import 'package:aoun_app/presentation/user/transport/view_model/view_debit_card/view_all_debit_card_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -105,9 +105,9 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
             _buildTextField(
               (value) {
                 if (value == null || value.isEmpty) {
-                  return "S.of(context).enter_card_number";
+                  return "Enter card number";
                 } else if (value.length != 19) {
-                  return "S.of(context).invalid_card_number_lengt";
+                  return "Invalid card number lengt";
                 }
 
                 return null;
@@ -131,10 +131,10 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
             _buildTextField(
               (value) {
                 if (value == null || value.isEmpty) {
-                  return "S.of(context).enter_full_name";
+                  return "Enter full name";
                 } else if (!RegExp(r'^[A-Za-z]+(?: [A-Za-z]+){2}$')
                     .hasMatch(value)) {
-                  return "S.of(context).invalid_name_format";
+                  return "Invalid name format";
                 }
 
                 return null;
@@ -246,7 +246,7 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
               child: BlocConsumer<AddNewDebitCardCubit, AddNewDebitCardState>(
                 listener: (context, state) {
                   if (state is AddNewDebitCardSuccess) {
-                    SuccessDialogWidget(
+                    DialogHelper(context).showSuccessDialog(
                       message: "Success Add Card",
                       title: S.of(context).confirmed_successfully,
                       actions: [
@@ -258,7 +258,7 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
                           child: Text(S.of(context).ok_AlertDialogt),
                         ),
                       ],
-                    ).show(context);
+                    );
 
                     context.read<ViewAllDebitCardCubit>().fetchDebitcard();
                   }

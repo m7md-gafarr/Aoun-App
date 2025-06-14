@@ -2,11 +2,12 @@ import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/core/utils/location/location_Provider.dart';
 import 'package:aoun_app/data/model/payment%20models/debit_card_model/debit_card_model.dart';
 import 'package:aoun_app/data/repositories/local/hive.dart';
+import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/get_trips/get_trips_cubit.dart';
-import 'package:aoun_app/presentation/user/transport/view_model/view%20debit%20card/view_all_debit_card_cubit.dart';
-import 'package:aoun_app/presentation/widgets/common/trip_shimmer_widget.dart';
-import 'package:aoun_app/presentation/widgets/specific/empty_debit_card.dart';
-import 'package:aoun_app/presentation/widgets/specific/trip_card.dart';
+import 'package:aoun_app/presentation/user/transport/view_model/view_debit_card/view_all_debit_card_cubit.dart';
+import 'package:aoun_app/presentation/widgets/shimmer/trip_shimmer_widget.dart';
+import 'package:aoun_app/presentation/widgets/user/empty_debit_card.dart';
+import 'package:aoun_app/presentation/widgets/common/primary_trip_widget.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +17,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 
 import 'package:aoun_app/core/constant/constant.dart';
-import 'package:aoun_app/presentation/widgets/specific/debit_card.dart';
+import 'package:aoun_app/presentation/widgets/user/debit_card.dart';
 import 'package:provider/provider.dart';
 
 class TransportScreen extends StatefulWidget {
@@ -32,7 +33,7 @@ class _TransportScreenState extends State<TransportScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
-        context.read<GetTripsCubit>().getTrips(includePast: true);
+        context.read<GetTripsCubit>().getTrips(includePast: false);
         context.read<ViewAllDebitCardCubit>().fetchDebitcard();
       }
     });
@@ -83,15 +84,7 @@ class _TransportScreenState extends State<TransportScreen> {
             indent: 35.w,
           ),
         ),
-        // _buildLastedTitle(
-        //     context, "Our premium services tailored\nto your location"),
-        // SliverList(
-        //   delegate: SliverChildBuilderDelegate(
-        //     (context, index) => TripShimmerWidget(),
-        //     childCount: 3,
-        //   ),
-        // ),
-        _buildLastedTitle(context, "Lasted trips"),
+        _buildLastedTitle(context, S.of(context).transport_latest_trips),
         _buildTripList(),
         SliverToBoxAdapter(
           child: SizedBox(height: 7.h),
@@ -140,14 +133,14 @@ class _TransportScreenState extends State<TransportScreen> {
                         PopupMenuItem(
                           value: 'add',
                           child: Text(
-                            'Add New Card',
+                            S.of(context).transport_add_new_card,
                             style: Theme.of(context).textTheme.labelMedium,
                           ),
                         ),
                         PopupMenuItem(
                           value: 'delete',
                           child: Text(
-                            'Delete',
+                            S.of(context).transport_delete,
                             style: Theme.of(context)
                                 .textTheme
                                 .labelMedium!
@@ -183,7 +176,7 @@ class _TransportScreenState extends State<TransportScreen> {
                       icon: Iconsax.location,
                       text:
                           "${provider.placemark?.subAdministrativeArea}, ${provider.placemark?.locality}" ??
-                              "Loading...",
+                              S.of(context).transport_location_loading,
                     );
                   },
                 ),
@@ -191,13 +184,13 @@ class _TransportScreenState extends State<TransportScreen> {
                 _buildLocationField(
                   context,
                   icon: Iconsax.search_normal,
-                  text: "To",
+                  text: S.of(context).transport_destination,
                 ),
               ],
             ),
             Positioned(
               top: 70.h,
-              right: -25,
+              left: isRTL(context) ? -22.w : 0,
               child: _buildSwapButton(context),
             ),
           ],
@@ -284,7 +277,7 @@ class _TransportScreenState extends State<TransportScreen> {
             );
           } else {
             return SliverToBoxAdapter(
-              child: Center(child: Text("No trips found.")),
+              child: Center(child: Text(S.of(context).transport_no_trips)),
             );
           }
         } else {

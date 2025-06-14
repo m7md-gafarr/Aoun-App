@@ -3,8 +3,8 @@ import 'package:aoun_app/core/constant/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-ThemeData getThemeColorLight(BuildContext context) => ThemeData(
-      fontFamily: isRTL(context) ? fontArabic : fontEnglish,
+ThemeData getThemeColorLight(BuildContext context, Locale? locale) => ThemeData(
+      fontFamily: locale?.languageCode == 'ar' ? fontArabic : fontEnglish,
       primaryColor: AppColorLight.primaryColor,
       secondaryHeaderColor: AppColorLight.secondaryColor,
       scaffoldBackgroundColor: AppColorLight.backgroundColor,
@@ -41,7 +41,8 @@ ThemeData getThemeColorLight(BuildContext context) => ThemeData(
           textStyle: WidgetStatePropertyAll(
             TextStyle(
               letterSpacing: .7,
-              fontFamily: isRTL(context) ? fontArabic : fontEnglish,
+              fontFamily:
+                  locale?.languageCode == 'ar' ? fontArabic : fontEnglish,
               fontSize: 18.sp,
               fontWeight: FontWeight.w500,
             ),
@@ -66,7 +67,8 @@ ThemeData getThemeColorLight(BuildContext context) => ThemeData(
           textStyle: WidgetStatePropertyAll(
             TextStyle(
               letterSpacing: .7,
-              fontFamily: isRTL(context) ? fontArabic : fontEnglish,
+              fontFamily:
+                  locale?.languageCode == 'ar' ? fontArabic : fontEnglish,
               fontSize: 18.sp,
               fontWeight: FontWeight.w500,
             ),
@@ -96,35 +98,35 @@ ThemeData getThemeColorLight(BuildContext context) => ThemeData(
       textTheme: TextTheme(
         // Headline - Large Titles (Used for Page Titles or Important Headlines)
         headlineLarge: _getTextStyle(
-            AppColorLight.textPrimary, 32, FontWeight.bold, context),
+            AppColorLight.textPrimary, 32, FontWeight.bold, context, locale),
         headlineMedium: _getTextStyle(
-            AppColorLight.textPrimary, 28, FontWeight.bold, context),
+            AppColorLight.textPrimary, 28, FontWeight.bold, context, locale),
         headlineSmall: _getTextStyle(
-            AppColorLight.textPrimary, 24, FontWeight.bold, context),
+            AppColorLight.textPrimary, 24, FontWeight.bold, context, locale),
 
         // Title - Medium Titles (Used for Section Titles)
         titleLarge: _getTextStyle(
-            AppColorLight.textPrimary, 22, FontWeight.w600, context),
+            AppColorLight.textPrimary, 22, FontWeight.w600, context, locale),
         titleMedium: _getTextStyle(
-            AppColorLight.textPrimary, 20, FontWeight.w600, context),
+            AppColorLight.textPrimary, 20, FontWeight.w600, context, locale),
         titleSmall: _getTextStyle(
-            AppColorLight.textPrimary, 18, FontWeight.w500, context),
+            AppColorLight.textPrimary, 18, FontWeight.w500, context, locale),
 
         // Body - Normal Text (Used for Main Paragraphs and Content)
-        bodyLarge: _getTextStyle(
-            AppColorLight.textSecondary, 16, FontWeight.normal, context),
-        bodyMedium: _getTextStyle(
-            AppColorLight.textSecondary, 14, FontWeight.normal, context),
-        bodySmall: _getTextStyle(
-            AppColorLight.textSecondary, 12, FontWeight.normal, context),
+        bodyLarge: _getTextStyle(AppColorLight.textSecondary, 16,
+            FontWeight.normal, context, locale),
+        bodyMedium: _getTextStyle(AppColorLight.textSecondary, 14,
+            FontWeight.normal, context, locale),
+        bodySmall: _getTextStyle(AppColorLight.textSecondary, 12,
+            FontWeight.normal, context, locale),
 
         // Labels -   Small Captions
         labelLarge: _getTextStyle(
-            AppColorLight.textTertiary, 16, FontWeight.w500, context),
+            AppColorLight.textTertiary, 16, FontWeight.w500, context, locale),
         labelMedium: _getTextStyle(
-            AppColorLight.textTertiary, 14, FontWeight.w500, context),
+            AppColorLight.textTertiary, 14, FontWeight.w500, context, locale),
         labelSmall: _getTextStyle(
-            AppColorLight.textTertiary, 12, FontWeight.w500, context),
+            AppColorLight.textTertiary, 12, FontWeight.w500, context, locale),
       ),
 
       // Text Field
@@ -220,13 +222,19 @@ ThemeData getThemeColorLight(BuildContext context) => ThemeData(
         unselectedItemColor: AppColorLight.textDisabled,
         elevation: 10,
       ),
+
+      // Expansion Tile
+      expansionTileTheme: ExpansionTileThemeData(
+        iconColor: AppColorLight.primaryColor,
+        shape: Border.all(width: 0, color: Colors.transparent),
+      ),
     );
 
-TextStyle _getTextStyle(
-    Color color, double fontSize, FontWeight fontWeight, BuildContext context) {
+TextStyle _getTextStyle(Color color, double fontSize, FontWeight fontWeight,
+    BuildContext context, Locale? locale) {
   return TextStyle(
     color: color,
-    fontFamily: isRTL(context) ? fontArabic : fontEnglish,
+    fontFamily: locale?.languageCode == 'ar' ? fontArabic : fontEnglish,
     // fontSize: fontSize * ScaleSize.textScaleFactor(context),
     fontSize: fontSize.sp,
     fontWeight: fontWeight,

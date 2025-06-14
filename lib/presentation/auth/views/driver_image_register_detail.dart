@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:aoun_app/data/model/auth%20models/register_driver_model/register_driver_model.dart';
+import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart'
     show AppbarWidget;
 import 'package:flutter/material.dart';
@@ -66,7 +67,7 @@ class _DriverImageDetailScreenState extends State<DriverImageDetailScreen> {
                   Navigator.pop(context, File(pickedFile.path));
                 }
               },
-              child: Text("Take a picture"),
+              child: Text(S.of(context).driver_image_take_picture),
             ),
             SizedBox(height: 15.h),
             Visibility(
@@ -79,7 +80,7 @@ class _DriverImageDetailScreenState extends State<DriverImageDetailScreen> {
                     Navigator.pop(context, File(image.path));
                   }
                 },
-                child: Text("Choose from Gallery"),
+                child: Text(S.of(context).driver_image_choose_gallery),
               ),
             ),
             Visibility(

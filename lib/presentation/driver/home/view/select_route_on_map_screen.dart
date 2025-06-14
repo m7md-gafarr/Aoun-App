@@ -4,9 +4,10 @@ import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/core/utils/location/location_utils.dart';
 import 'package:aoun_app/core/utils/map/google_map.dart';
 import 'package:aoun_app/data/model/trip%20models/trip_location_model.dart';
-import 'package:aoun_app/presentation/driver/home/view_model/Textfeild%20Search%20location/textfeild_search_location_cubit.dart';
+import 'package:aoun_app/generated/l10n.dart';
+import 'package:aoun_app/presentation/driver/home/view_model/textfeild%20search%20location/textfeild_search_location_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/street%20name/street_name_cubit.dart';
-import 'package:aoun_app/presentation/widgets/common/placeautocomplete_shimmer_widget.dart';
+import 'package:aoun_app/presentation/widgets/shimmer/placeautocomplete_shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,10 +30,11 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
   late TextEditingController searchController;
   LatLng? selectedLocation;
   bool isCameraMoving = false;
+  bool showMarker = false;
   String? returnLocationName;
   bool isFirstMove = true;
   TripLocationModel? locationModel;
-  bool showMarker = false;
+
   Timer? _debounce;
   String? sessiontoken;
 
@@ -217,7 +219,7 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
                   );
                 }
               },
-              child: Text("Confirm this location"),
+              child: Text(S.of(context).select_route_confirm_location),
             ),
           ),
           // Textfeild Search location
@@ -237,7 +239,7 @@ class _MapSelectRouteScreenState extends State<SelectRouteOnMapScreen> {
                         .colorScheme
                         .primaryContainer
                         .withOpacity(0.9),
-                    hintText: "Search",
+                    hintText: S.of(context).select_route_search_hint,
                     prefixIcon: Icon(
                       Iconsax.search_normal,
                       color: Theme.of(context).primaryColor,

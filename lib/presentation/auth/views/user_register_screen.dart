@@ -1,4 +1,5 @@
 import 'package:aoun_app/core/router/route_name.dart';
+import 'package:aoun_app/core/utils/dialog/dialog_helper.dart';
 import 'package:aoun_app/core/utils/location/location_Provider.dart';
 import 'package:aoun_app/core/utils/location/location_utils.dart';
 import 'package:aoun_app/data/model/auth%20models/user_auth_model/auth_model.dart';
@@ -6,8 +7,7 @@ import 'package:aoun_app/data/model/auth%20models/user_auth_model/location.dart'
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/auth/view_model/user_register_cubit/register_cubit.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart';
-import 'package:aoun_app/presentation/widgets/common/error_dialog_widget.dart';
-import 'package:aoun_app/presentation/widgets/common/success_dialog_widget.dart';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -63,6 +63,12 @@ class _RegisterScreenState extends State<UserRegisterScreen> {
     setState(() {
       obscureTextPassword = !obscureTextPassword;
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    context.read<LocationProvider>().startListening(context);
   }
 
   @override
@@ -303,10 +309,10 @@ class _RegisterScreenState extends State<UserRegisterScreen> {
                     child: BlocConsumer<UserRegisterCubit, UserRegisterState>(
                       listener: (context, state) {
                         if (state is RegisterFailure) {
-                          ErrorDialogWidget(message: state.errorMessage)
-                              .show(context);
+                          DialogHelper(context)
+                              .showErroeDialog(message: state.errorMessage);
                         } else if (state is RegisterSuccess) {
-                          SuccessDialogWidget(
+                          DialogHelper(context).showSuccessDialog(
                             message: state.message,
                             title: S.of(context).confirmed_successfully,
                             actions: [
@@ -322,7 +328,7 @@ class _RegisterScreenState extends State<UserRegisterScreen> {
                                 child: Text(S.of(context).ok_AlertDialogt),
                               ),
                             ],
-                          ).show(context);
+                          );
                         }
                       },
                       builder: (context, state) {
@@ -340,7 +346,7 @@ class _RegisterScreenState extends State<UserRegisterScreen> {
                       },
                     ),
                   ),
-                  SizedBox(height: 15.h),
+                  SizedBox(height: MediaQuery.of(context).size.width / 4.5),
                   RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
@@ -366,7 +372,6 @@ class _RegisterScreenState extends State<UserRegisterScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 20.h),
                 ],
               ),
             ),

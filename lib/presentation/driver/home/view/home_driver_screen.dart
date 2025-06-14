@@ -2,9 +2,13 @@ import 'dart:math' as math;
 import 'package:aoun_app/core/constant/constant.dart';
 import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/data/model/trip%20models/active_trip_requests/active_trip_requests.dart';
+import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/active%20trip%20request/active_trip_requests_cubit.dart';
+import 'package:aoun_app/presentation/driver/home/view_model/driver%20create%20trip%20or%20not/driver_create_trip_or_not_cubit.dart';
+import 'package:aoun_app/presentation/driver/home/view_model/driver%20dashboard/driver_dashboard_cubit.dart';
 import 'package:aoun_app/presentation/driver/profile/view_model/get_driver_data/get_driver_data_cubit.dart';
-import 'package:aoun_app/presentation/widgets/common/trip_shimmer_widget.dart';
+import 'package:aoun_app/presentation/widgets/shimmer/trip_shimmer_widget.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,20 +24,19 @@ class HomeDriverScreen extends StatefulWidget {
 }
 
 class _HomeDriverScreenState extends State<HomeDriverScreen> {
-  List<_SalesData> data = [
-    _SalesData('Monday', 35),
-    _SalesData('Tuesday', 28),
-    _SalesData('Wednesday', 34),
-    _SalesData('Thursday', 32),
-    _SalesData('Friday', 40),
-    _SalesData('Saturday', 40),
-    _SalesData('Sunday', 40),
-  ];
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
     context.read<ActiveTripRequestsCubit>().getActiveTripRequests();
     context.read<GetDriverDataCubit>().getDriverData(context);
+    context.read<DriverCreateTripOrNotCubit>().driverCreateTripOrNot();
+    context.read<DriverDashboardCubit>().getDashboard();
+
+    super.didChangeDependencies();
   }
 
   @override
@@ -42,7 +45,10 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
       appBar: AppBar(
         actions: [
           IconButton(
-            onPressed: () async {},
+            onPressed: () async {
+              context.read<DriverDashboardCubit>().getDashboard();
+              context.read<ActiveTripRequestsCubit>().getActiveTripRequests();
+            },
             icon: Icon(Iconsax.notification),
           ),
         ],
@@ -67,6 +73,8 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                         children: [
                           CircleAvatar(
                             minRadius: 35.w,
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primaryContainer,
                             backgroundImage: NetworkImage(
                                 "https://studentpathapitest.runasp.net/${state.driverdata.data!.nationalIdBackPath!.replaceAll(r'\\', '/')}"),
                           ),
@@ -135,7 +143,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
               Divider(thickness: 1),
               _drawercard(
                 icon: Iconsax.user,
-                title: "Profile",
+                title: S.of(context).home_driver_drawer_profile,
                 context: context,
                 onTap: () {
                   Navigator.pop(context);
@@ -145,47 +153,47 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
               ),
               _drawercard(
                 icon: Iconsax.wallet_1,
-                title: "Wallet & Earnings",
+                title: S.of(context).home_driver_drawer_wallet,
                 context: context,
                 onTap: () {
                   Navigator.pop(context);
-                  Navigator.pushNamed(
-                      context, AppRoutesName.userProfileScreenRoute);
+                  Navigator.pushNamed(context,
+                      AppRoutesName.driverWalletAndEarningsScreenRoute);
                 },
               ),
               _drawercard(
                 icon: Iconsax.clock,
-                title: "History trips",
+                title: S.of(context).home_driver_drawer_history,
                 context: context,
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.pushNamed(
-                      context, AppRoutesName.userProfileScreenRoute);
+                      context, AppRoutesName.driverHistoryTripsScreenRoute);
                 },
               ),
               _drawercard(
                 icon: Iconsax.shield_tick,
-                title: "safety",
+                title: S.of(context).home_driver_drawer_safety,
                 context: context,
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.pushNamed(
-                      context, AppRoutesName.userProfileScreenRoute);
+                      context, AppRoutesName.driverSafetyScreenRoute);
                 },
               ),
               _drawercard(
                 icon: Iconsax.support,
-                title: "Help & feedback",
+                title: S.of(context).home_driver_drawer_help,
                 context: context,
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.pushNamed(
-                      context, AppRoutesName.userProfileScreenRoute);
+                      context, AppRoutesName.driverHelpFeedbackScreenRoute);
                 },
               ),
               _drawercard(
                 icon: Iconsax.setting,
-                title: "Setting",
+                title: S.of(context).home_driver_drawer_settings,
                 context: context,
                 onTap: () {
                   Navigator.pop(context);
@@ -205,97 +213,471 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
           ),
           child: Column(
             children: [
-              Container(
-                height: 70.h,
-                width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.all(7.r),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primaryContainer,
-                  borderRadius: BorderRadius.circular(12.r),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Balance Your",
-                      style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                            fontSize: 14.sp,
+              BlocBuilder<DriverDashboardCubit, DriverDashboardState>(
+                builder: (context, state) {
+                  if (state is DriverDashboardSuccess) {
+                    return Builder(builder: (context) {
+                      return Column(
+                        children: [
+                          Container(
+                            height: 70.h,
+                            width: MediaQuery.of(context).size.width,
+                            padding: EdgeInsets.all(7.r),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primaryContainer,
+                              borderRadius: BorderRadius.circular(12.r),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  S.of(context).home_driver_balance_title,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelSmall!
+                                      .copyWith(
+                                        fontSize: 14.sp,
+                                      ),
+                                ),
+                                SizedBox(height: 5.h),
+                                Text(
+                                  "\$ ${state.dashboardModel.balance}",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleSmall
+                                      ?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18.sp,
+                                      ),
+                                ),
+                              ],
+                            ),
                           ),
-                    ),
-                    SizedBox(height: 5.h),
-                    Text(
-                      "\$ 144.05",
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.sp,
+                          SizedBox(height: 10.h),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              _InfoCard(
+                                title:
+                                    S.of(context).home_driver_earnings_summary,
+                                value:
+                                    "\$ ${state.dashboardModel.earningsSummary}",
+                              ),
+                              _InfoCard(
+                                title:
+                                    S.of(context).home_driver_completed_trips,
+                                value:
+                                    "${state.dashboardModel.completedTripsCount} trips",
+                              ),
+                            ],
                           ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 10.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _InfoCard(title: "Earnings summary", value: "\$ 2.1588,465"),
-                  _InfoCard(title: "Completed trip count", value: "123 trips"),
-                ],
-              ),
-              SizedBox(height: 10.h),
-              SizedBox(
-                height: 200.h,
-                child: SfCartesianChart(
-                  enableAxisAnimation: true,
-                  primaryXAxis: CategoryAxis(
-                    axisLine: AxisLine(width: 0),
-                    majorGridLines: MajorGridLines(width: 0),
-                    majorTickLines: MajorTickLines(width: 0),
-                    labelStyle:
-                        TextStyle(fontSize: 12.sp, color: Colors.teal[800]),
-                  ),
-                  primaryYAxis: NumericAxis(
-                    minimum: 0,
-                    maximum: 50,
-                    interval: 7,
-                    axisLine: AxisLine(width: 0),
-                    majorGridLines: MajorGridLines(color: Colors.grey.shade300),
-                    majorTickLines: MajorTickLines(width: 0),
-                    labelStyle: TextStyle(
-                      fontSize: 12.sp,
-                      color: Theme.of(context).secondaryHeaderColor,
-                    ),
-                  ),
-                  tooltipBehavior: TooltipBehavior(enable: true),
-                  series: <CartesianSeries<_SalesData, String>>[
-                    ColumnSeries<_SalesData, String>(
-                      width: 0.2,
-                      dataSource: data,
-                      xValueMapper: (_SalesData sales, _) => sales.year,
-                      yValueMapper: (_SalesData sales, _) => sales.sales,
-                      name: 'Sales',
-                      color: Theme.of(context).primaryColor,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(5),
-                        topRight: Radius.circular(5),
+                          SizedBox(height: 10.h),
+                          SizedBox(
+                            height: 200.h,
+                            child: SfCartesianChart(
+                              enableAxisAnimation: true,
+                              primaryXAxis: CategoryAxis(
+                                axisLine: AxisLine(width: 0),
+                                majorGridLines: MajorGridLines(width: 0),
+                                majorTickLines: MajorTickLines(width: 0),
+                                labelStyle: TextStyle(
+                                    fontSize: 12.sp, color: Colors.teal[800]),
+                              ),
+                              primaryYAxis: NumericAxis(
+                                minimum: 0,
+                                maximum: [
+                                      state.dashboardModel.weeklyStats!.monday!
+                                          .toDouble(),
+                                      state.dashboardModel.weeklyStats!.tuesday!
+                                          .toDouble(),
+                                      state.dashboardModel.weeklyStats!
+                                          .wednesday!
+                                          .toDouble(),
+                                      state
+                                          .dashboardModel.weeklyStats!.thursday!
+                                          .toDouble(),
+                                      state.dashboardModel.weeklyStats!.friday!
+                                          .toDouble(),
+                                      state
+                                          .dashboardModel.weeklyStats!.saturday!
+                                          .toDouble(),
+                                      state.dashboardModel.weeklyStats!.sunday!
+                                          .toDouble(),
+                                    ].reduce((a, b) => a > b ? a : b) +
+                                    5,
+                                interval: [
+                                      state.dashboardModel.weeklyStats!.monday!
+                                          .toDouble(),
+                                      state.dashboardModel.weeklyStats!.tuesday!
+                                          .toDouble(),
+                                      state.dashboardModel.weeklyStats!
+                                          .wednesday!
+                                          .toDouble(),
+                                      state
+                                          .dashboardModel.weeklyStats!.thursday!
+                                          .toDouble(),
+                                      state.dashboardModel.weeklyStats!.friday!
+                                          .toDouble(),
+                                      state
+                                          .dashboardModel.weeklyStats!.saturday!
+                                          .toDouble(),
+                                      state.dashboardModel.weeklyStats!.sunday!
+                                          .toDouble(),
+                                    ].reduce((a, b) => a < b ? a : b) +
+                                    1,
+                                axisLine: AxisLine(width: 0),
+                                majorGridLines:
+                                    MajorGridLines(color: Colors.grey.shade300),
+                                majorTickLines: MajorTickLines(width: 0),
+                                labelStyle: TextStyle(
+                                  fontSize: 12.sp,
+                                  color: Theme.of(context).secondaryHeaderColor,
+                                ),
+                              ),
+                              tooltipBehavior: TooltipBehavior(enable: true),
+                              series: <CartesianSeries<_SalesData, String>>[
+                                ColumnSeries<_SalesData, String>(
+                                  width: 0.2,
+                                  dataSource: [
+                                    _SalesData(
+                                        'Monday',
+                                        state.dashboardModel.weeklyStats!
+                                            .monday!),
+                                    _SalesData(
+                                        'Tuesday',
+                                        state.dashboardModel.weeklyStats!
+                                            .tuesday!),
+                                    _SalesData(
+                                        'Wednesday',
+                                        state.dashboardModel.weeklyStats!
+                                            .wednesday!),
+                                    _SalesData(
+                                        'Thursday',
+                                        state.dashboardModel.weeklyStats!
+                                            .thursday!),
+                                    _SalesData(
+                                        'Friday',
+                                        state.dashboardModel.weeklyStats!
+                                            .friday!),
+                                    _SalesData(
+                                        'Saturday',
+                                        state.dashboardModel.weeklyStats!
+                                            .saturday!),
+                                    _SalesData(
+                                        'Sunday',
+                                        state.dashboardModel.weeklyStats!
+                                            .sunday!),
+                                  ],
+                                  xValueMapper: (_SalesData sales, _) =>
+                                      sales.year,
+                                  yValueMapper: (_SalesData sales, _) =>
+                                      sales.sales,
+                                  name: 'Sales',
+                                  color: Theme.of(context).primaryColor,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(5),
+                                    topRight: Radius.circular(5),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    });
+                  } else {
+                    return Shimmer.fromColors(
+                      baseColor: Theme.of(context).colorScheme.primaryContainer,
+                      highlightColor: Theme.of(context).scaffoldBackgroundColor,
+                      enabled: true,
+                      child: Container(
+                        height: 350.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(7.r),
+                        ),
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 70.h,
+                              width: MediaQuery.of(context).size.width,
+                              padding: EdgeInsets.all(7.r),
+                              decoration: BoxDecoration(
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
+                                borderRadius: BorderRadius.circular(12.r),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    height: 15.h,
+                                    width: 30.w,
+                                    padding: EdgeInsets.all(7.r),
+                                    decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.r))),
+                                  ),
+                                  SizedBox(height: 5.h),
+                                  Container(
+                                    height: 15.h,
+                                    width: MediaQuery.of(context).size.width,
+                                    padding: EdgeInsets.all(7.r),
+                                    decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primaryContainer,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.r))),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 10.h),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width / 2 -
+                                      20,
+                                  height: 65.h,
+                                  padding: EdgeInsets.all(7.r),
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .primaryContainer,
+                                    borderRadius: BorderRadius.circular(12.r),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        height: 15.h,
+                                        width: 30.w,
+                                        padding: EdgeInsets.all(7.r),
+                                        decoration: BoxDecoration(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primaryContainer,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(5.r))),
+                                      ),
+                                      SizedBox(height: 5.h),
+                                      Container(
+                                        height: 15.h,
+                                        width: 30.w,
+                                        padding: EdgeInsets.all(7.r),
+                                        decoration: BoxDecoration(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primaryContainer,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(5.r))),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width / 2 -
+                                      20,
+                                  height: 65.h,
+                                  padding: EdgeInsets.all(7.r),
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .primaryContainer,
+                                    borderRadius: BorderRadius.circular(12.r),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        height: 15.h,
+                                        width: 30.w,
+                                        padding: EdgeInsets.all(7.r),
+                                        decoration: BoxDecoration(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primaryContainer,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(5.r))),
+                                      ),
+                                      SizedBox(height: 5.h),
+                                      Container(
+                                        height: 15.h,
+                                        width: 30.w,
+                                        padding: EdgeInsets.all(7.r),
+                                        decoration: BoxDecoration(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primaryContainer,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(5.r))),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 10.h),
+                            SizedBox(
+                              height: 200.h,
+                              child: SfCartesianChart(
+                                enableAxisAnimation: true,
+                                primaryXAxis: CategoryAxis(
+                                  axisLine: AxisLine(width: 0),
+                                  majorGridLines: MajorGridLines(width: 0),
+                                  majorTickLines: MajorTickLines(width: 0),
+                                ),
+                                primaryYAxis: NumericAxis(
+                                  minimum: 0,
+                                  maximum: 50,
+                                  interval: 7,
+                                  axisLine: AxisLine(width: 0),
+                                  majorTickLines: MajorTickLines(width: 0),
+                                ),
+                                series: <CartesianSeries<_SalesData, String>>[
+                                  ColumnSeries<_SalesData, String>(
+                                    width: 0.2,
+                                    dataSource: [
+                                      _SalesData('Monday', 35),
+                                      _SalesData('Tuesday', 28),
+                                      _SalesData('Wednesday', 34),
+                                      _SalesData('Thursday', 32),
+                                      _SalesData('Friday', 40),
+                                      _SalesData('Saturday', 40),
+                                      _SalesData('Sunday', 40),
+                                    ],
+                                    xValueMapper: (_SalesData sales, _) =>
+                                        sales.year,
+                                    yValueMapper: (_SalesData sales, _) =>
+                                        sales.sales,
+                                    color: Theme.of(context).primaryColor,
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(5),
+                                      topRight: Radius.circular(5),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    )
-                  ],
-                ),
+                    );
+                  }
+                },
               ),
               SizedBox(height: 20.h),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(
-                        context, AppRoutesName.driverCreateTripScreenRoute);
-                  },
-                  child: Text("Create a trip")),
+              BlocBuilder<DriverCreateTripOrNotCubit,
+                  DriverCreateTripOrNotState>(
+                builder: (context, state) {
+                  if (state is DriverCreateTripOrNotSuccess) {
+                    return InkWell(
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () => Navigator.pushNamed(
+                        context,
+                        AppRoutesName.createdTripDetailsScreenRoute,
+                        arguments: state.trip,
+                      ),
+                      child: SizedBox(
+                        height: 40.h,
+                        width: MediaQuery.of(context).size.width,
+                        child: CarouselSlider(
+                          items: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Column(
+                                  children: [
+                                    _CreatedTripDetailRow(
+                                      iconRotation: math.pi / 4,
+                                      label:
+                                          "${S.of(context).home_driver_trip_from}${state.trip.fromLocation!.displayName}",
+                                    ),
+                                    _CreatedTripDetailRow(
+                                      iconRotation: -3 * math.pi / 4,
+                                      label:
+                                          "${S.of(context).home_driver_trip_to}${state.trip.toLocation!.displayName}",
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                _CreatedTripDetailRow(
+                                  icon: Iconsax.money,
+                                  label:
+                                      "${S.of(context).home_driver_trip_price}${state.trip.pricePerSeat.toString()}",
+                                ),
+                                _CreatedTripDetailRow(
+                                  icon: Iconsax.user,
+                                  label:
+                                      "${S.of(context).home_driver_trip_seats}${state.trip.basicInfo?.availableSeats.toString()}",
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                _CreatedTripDetailRow(
+                                  icon: Iconsax.timer,
+                                  label:
+                                      "${S.of(context).home_driver_trip_departure}${state.trip.basicInfo?.formattedDepartureTime}",
+                                ),
+                              ],
+                            ),
+                          ],
+                          options: CarouselOptions(
+                            height: 120,
+                            autoPlay: true,
+                            autoPlayInterval: Duration(seconds: 3),
+                            autoPlayAnimationDuration:
+                                Duration(milliseconds: 600),
+                            autoPlayCurve: Curves.linear,
+                            enableInfiniteScroll: true,
+                            pauseAutoPlayOnTouch: false,
+                            pauseAutoPlayOnManualNavigate: false,
+                            viewportFraction: 1.0,
+                          ),
+                        ),
+                      ),
+                    );
+                  } else if (state is DriverCreateTripOrNotLoading) {
+                    return Text(S.of(context).home_driver_loading);
+                  } else {
+                    return ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          AppRoutesName.driverCreateTripScreenRoute,
+                        );
+                      },
+                      child: Text(S.of(context).home_driver_create_trip),
+                    );
+                  }
+                },
+              ),
               SizedBox(height: 20.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Resent orders",
+                    S.of(context).home_driver_recent_orders,
                     style: Theme.of(context).textTheme.titleSmall!.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -373,8 +755,10 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         onTap: () => Navigator.pushNamed(
-            context, AppRoutesName.driverCreateTripScreenRoute,
-            arguments: arguments),
+          context,
+          AppRoutesName.driverCreateTripScreenRoute,
+          arguments: arguments,
+        ),
         child: Container(
           height: 80.h,
           decoration: BoxDecoration(
@@ -468,6 +852,39 @@ class _TripDetails extends StatelessWidget {
         _TripDetailRow(
             icon: Iconsax.map_1,
             label: " Active passengers: ${model.activePassengers}"),
+      ],
+    );
+  }
+}
+
+class _CreatedTripDetailRow extends StatelessWidget {
+  final double? iconRotation;
+  final IconData icon;
+  final String label;
+
+  const _CreatedTripDetailRow({
+    this.iconRotation,
+    this.icon = Iconsax.arrow_right_1,
+    required this.label,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        iconRotation != null
+            ? Transform.rotate(
+                angle: iconRotation!,
+                child: Icon(icon, size: 20.w),
+              )
+            : Icon(icon, size: 17.w),
+        SizedBox(width: 2.w),
+        Text(
+          label,
+          style: Theme.of(context).textTheme.labelSmall,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
       ],
     );
   }

@@ -1,7 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/data/model/map%20models/route_model/route_model.dart';
-import 'package:aoun_app/presentation/user/transport/views/map_viewr_route_screen.dart';
+import 'package:aoun_app/presentation/user/transport/views/map_view_route_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

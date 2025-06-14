@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeUserScreen> {
                 actions: [
                   SizedBox(width: 13.w),
                   Text(
-                    "Welcome Mohamed ,",
+                    "Welcome Mohamed,",
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                   Spacer(
@@ -47,10 +47,8 @@ class _HomeScreenState extends State<HomeUserScreen> {
                     hoverColor: Colors.transparent,
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
-                    // onTap: () => Navigator.pushNamed(
-                    //     context, AppRoutesName.userNotificationScreenRoute),
-
-                    onTap: () async {},
+                    onTap: () => Navigator.pushNamed(
+                        context, AppRoutesName.userNotificationScreenRoute),
                     child: Icon(
                       Iconsax.notification,
                       color: Theme.of(context).primaryColor,
@@ -62,13 +60,8 @@ class _HomeScreenState extends State<HomeUserScreen> {
                     hoverColor: Colors.transparent,
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
-                    // onTap: () => Navigator.pushNamed(
-                    //     context, AppRoutesName.userProfileScreenRoute),
-
-                    onTap: () async {
-                      Navigator.pushNamed(
-                          context, AppRoutesName.homeDriverScreenRoute);
-                    },
+                    onTap: () => Navigator.pushNamed(
+                        context, AppRoutesName.userProfileScreenRoute),
                     child: CircleAvatar(
                       maxRadius: 13.w,
                     ),

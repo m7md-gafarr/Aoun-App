@@ -1,6 +1,8 @@
+import 'package:aoun_app/generated/l10n.dart';
+import 'package:flutter/widgets.dart';
+
 class RegisterDriverModel {
   final String title;
-
   final List<String> description;
   final bool isGallerySelectable;
 
@@ -10,99 +12,100 @@ class RegisterDriverModel {
     required this.isGallerySelectable,
   });
 
-  static RegisterDriverModel personalPicture() => RegisterDriverModel(
-        title: "Personal Picture",
+  static RegisterDriverModel personalPicture(BuildContext context) =>
+      RegisterDriverModel(
+        title: S.of(context).driver_register_personal_picture_title,
         description: [
-          "Take a recent, high-quality photo of yourself.",
-          "Your full face must be clearly visible, without sunglasses or hats.",
-          "Use a plain background and good lighting.",
+          S.of(context).driver_register_personal_picture_desc_1,
+          S.of(context).driver_register_personal_picture_desc_2,
+          S.of(context).driver_register_personal_picture_desc_3,
         ],
         isGallerySelectable: false,
       );
 
-  static List<RegisterDriverModel> driverLicense() => [
+  static List<RegisterDriverModel> driverLicense(BuildContext context) => [
         RegisterDriverModel(
-          title: "Driver License (Front)",
+          title: S.of(context).driver_register_license_front_title,
           description: [
-            "Capture the front side of your valid driver’s license.",
-            "Ensure the photo is not blurry and all text is readable.",
-            "Do not cover any part of the license with your fingers.",
+            S.of(context).driver_register_license_front_desc_1,
+            S.of(context).driver_register_license_front_desc_2,
+            S.of(context).driver_register_license_front_desc_3,
           ],
           isGallerySelectable: true,
         ),
         RegisterDriverModel(
-          title: "Driver License (Back)",
+          title: S.of(context).driver_register_license_back_title,
           description: [
-            "Capture the back side of your valid driver’s license.",
-            "Make sure the document is not expired.",
-            "Ensure all barcode and security features are visible.",
+            S.of(context).driver_register_license_back_desc_1,
+            S.of(context).driver_register_license_back_desc_2,
+            S.of(context).driver_register_license_back_desc_3,
           ],
           isGallerySelectable: true,
         ),
         RegisterDriverModel(
-          title: "Selfie with License",
+          title: S.of(context).driver_register_license_selfie_title,
           description: [
-            "Take a selfie holding your license clearly next to your face.",
-            "Make sure both your face and the license details are visible and clear.",
-            "Do not use any filters or image enhancements.",
-          ],
-          isGallerySelectable: true,
-        ),
-      ];
-
-  static List<RegisterDriverModel> personalDocuments() => [
-        RegisterDriverModel(
-          title: "National ID (Front)",
-          description: [
-            "Upload a high-resolution image of the front side of your National ID.",
-            "Make sure your name, photo, and ID number are clearly visible.",
-            "Avoid shadows or reflections on the card.",
-          ],
-          isGallerySelectable: true,
-        ),
-        RegisterDriverModel(
-          title: "National ID (Back)",
-          description: [
-            "Upload the back side of your National ID.",
-            "Ensure the address and serial number are readable.",
-            "Use natural light and place the card on a flat surface.",
-          ],
-          isGallerySelectable: true,
-        ),
-        RegisterDriverModel(
-          title: "Criminal Status Record",
-          description: [
-            "Upload your Criminal Status Record issued within the last 3 months.",
-            "Make sure all stamps and signatures are visible.",
-            "Ensure the document is fully scanned and not cropped.",
+            S.of(context).driver_register_license_selfie_desc_1,
+            S.of(context).driver_register_license_selfie_desc_2,
+            S.of(context).driver_register_license_selfie_desc_3,
           ],
           isGallerySelectable: true,
         ),
       ];
 
-  static List<RegisterDriverModel> vehicleInformation() => [
+  static List<RegisterDriverModel> personalDocuments(BuildContext context) => [
         RegisterDriverModel(
-          title: "Vehicle Picture",
+          title: S.of(context).driver_register_id_front_title,
           description: [
-            "Upload a full side view of your vehicle.",
-            "Ensure the license plate is visible.",
-            "Vehicle must be clean and undamaged.",
+            S.of(context).driver_register_id_front_desc_1,
+            S.of(context).driver_register_id_front_desc_2,
+            S.of(context).driver_register_id_front_desc_3,
           ],
           isGallerySelectable: true,
         ),
         RegisterDriverModel(
-          title: "Vehicle Registration (Front)",
+          title: S.of(context).driver_register_id_back_title,
           description: [
-            "Upload the front page of the official vehicle registration certificate.",
-            "All registration details must be visible and readable.",
+            S.of(context).driver_register_id_back_desc_1,
+            S.of(context).driver_register_id_back_desc_2,
+            S.of(context).driver_register_id_back_desc_3,
           ],
           isGallerySelectable: true,
         ),
         RegisterDriverModel(
-          title: "Vehicle Registration (Back)",
+          title: S.of(context).driver_register_criminal_record_title,
           description: [
-            "Upload the back page of your vehicle registration.",
-            "Ensure the chassis number and expiry date are clear.",
+            S.of(context).driver_register_criminal_record_desc_1,
+            S.of(context).driver_register_criminal_record_desc_2,
+            S.of(context).driver_register_criminal_record_desc_3,
+          ],
+          isGallerySelectable: true,
+        ),
+      ];
+
+  static List<RegisterDriverModel> vehicleInformation(BuildContext context) => [
+        RegisterDriverModel(
+          title: S.of(context).driver_register_vehicle_picture_title,
+          description: [
+            S.of(context).driver_register_vehicle_picture_desc_1,
+            S.of(context).driver_register_vehicle_picture_desc_2,
+            S.of(context).driver_register_vehicle_picture_desc_3,
+          ],
+          isGallerySelectable: true,
+        ),
+        RegisterDriverModel(
+          title: S.of(context).driver_register_vehicle_reg_front_title,
+          description: [
+            S.of(context).driver_register_vehicle_reg_front_desc_1,
+            S.of(context).driver_register_vehicle_reg_front_desc_2,
+          ],
+          isGallerySelectable: true,
+        ),
+        RegisterDriverModel(
+          title: S.of(context).driver_register_vehicle_reg_back_title,
+          description: [
+            S.of(context).driver_register_vehicle_reg_back_desc_1,
+            S.of(context).driver_register_vehicle_reg_back_desc_2,
           ],
           isGallerySelectable: true,
         ),

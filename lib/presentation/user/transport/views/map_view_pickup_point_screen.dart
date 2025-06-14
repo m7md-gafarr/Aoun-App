@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/core/constant/constant.dart';
 import 'package:aoun_app/core/utils/location/location_utils.dart';

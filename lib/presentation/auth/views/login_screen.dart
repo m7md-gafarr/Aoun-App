@@ -1,6 +1,8 @@
 import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/core/constant/constant.dart';
 import 'package:aoun_app/core/router/route_name.dart';
+import 'package:aoun_app/core/utils/dialog/dialog_helper.dart';
+import 'package:aoun_app/core/utils/location/location_Provider.dart';
 
 import 'package:aoun_app/core/utils/location/location_utils.dart';
 import 'package:aoun_app/data/model/auth%20models/user_auth_model/auth_model.dart';
@@ -8,7 +10,6 @@ import 'package:aoun_app/data/model/auth%20models/user_auth_model/auth_model.dar
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/auth/view_model/login_cubit/login_cubit.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart';
-import 'package:aoun_app/presentation/widgets/common/error_dialog_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -48,6 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    context.read<LocationProvider>().startListening(context);
     if (isUser == null) {
       isUser = ModalRoute.of(context)!.settings.arguments as String;
       _checkPermissionsLocation();
@@ -188,7 +190,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: BlocConsumer<LoginCubit, LoginState>(
                       listener: (context, state) {
                         if (state is LoginFailure) {
-                          ErrorDialogWidget(message: state.errorMessage)
+                          DialogHelper(context)
+                              .showErroeDialog(message: state.errorMessage)
                               .show(context);
                         } else if (state is LoginSuccess) {
                           state.type == "user"
@@ -221,59 +224,62 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   SizedBox(height: 30.h),
                   // Divider with "or continue with" text
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: 100.w,
-                        child: const Divider(),
-                      ),
-                      Text(S.of(context).login_or_continue_with,
-                          style: Theme.of(context).textTheme.bodyMedium),
-                      SizedBox(
-                        width: 100.w,
-                        child: const Divider(),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: MediaQuery.of(context).size.width / 15),
-                  // Social media login buttons
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Container(
-                        height: 50.w,
-                        width: 100.w,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Theme.of(context).colorScheme.outline),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(15))),
-                        child: Center(
-                          child: SvgPicture.asset(
-                            Assets.imageGoogle,
-                            height: 30.h,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 50.w,
-                        width: 100.w,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Theme.of(context).colorScheme.outline),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(15))),
-                        child: Center(
-                          child: SvgPicture.asset(
-                            Assets.imageFacebook,
-                            height: 30.h,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: MediaQuery.of(context).size.width / 13),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     SizedBox(
+                  //       width: 100.w,
+                  //       child: const Divider(),
+                  //     ),
+                  //     Text(S.of(context).login_or_continue_with,
+                  //         style: Theme.of(context).textTheme.bodyMedium),
+                  //     SizedBox(
+                  //       width: 100.w,
+                  //       child: const Divider(),
+                  //     ),
+                  //   ],
+                  // ),
+                  // SizedBox(height: MediaQuery.of(context).size.width / 15),
+                  // // Social media login buttons
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //   children: [
+                  //     Container(
+                  //       height: 50.w,
+                  //       width: 100.w,
+                  //       decoration: BoxDecoration(
+                  //           border: Border.all(
+                  //               color: Theme.of(context).colorScheme.outline),
+                  //           borderRadius:
+                  //               const BorderRadius.all(Radius.circular(15))),
+                  //       child: Center(
+                  //         child: SvgPicture.asset(
+                  //           Assets.imageGoogle,
+                  //           height: 30.h,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     Container(
+                  //       height: 50.w,
+                  //       width: 100.w,
+                  //       decoration: BoxDecoration(
+                  //           border: Border.all(
+                  //               color: Theme.of(context).colorScheme.outline),
+                  //           borderRadius:
+                  //               const BorderRadius.all(Radius.circular(15))),
+                  //       child: Center(
+                  //         child: Directionality(
+                  //           textDirection: TextDirection.ltr,
+                  //           child: SvgPicture.asset(
+                  //             Assets.imageFacebook,
+                  //             height: 35.h,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                  SizedBox(height: MediaQuery.of(context).size.width / 3),
                   // Sign up link for new users
                   RichText(
                     textAlign: TextAlign.center,

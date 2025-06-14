@@ -14,18 +14,24 @@ import 'package:aoun_app/presentation/auth/view_model/login_cubit/login_cubit.da
 import 'package:aoun_app/presentation/auth/view_model/user_register_cubit/register_cubit.dart';
 import 'package:aoun_app/presentation/auth/view_model/sendOTPForPasswordReset_cubit/send_otp_for_password_reset_cubit.dart';
 import 'package:aoun_app/presentation/auth/view_model/verifyOTP_cubit/verify_otp_cubit.dart';
-import 'package:aoun_app/presentation/driver/home/view_model/Textfeild%20Search%20location/textfeild_search_location_cubit.dart';
+import 'package:aoun_app/presentation/driver/history%20trips/view_model/driver_trips_history/driver_trips_history_cubit.dart';
+import 'package:aoun_app/presentation/driver/home/view_model/delete%20trip/deletetrip_cubit.dart';
+import 'package:aoun_app/presentation/driver/home/view_model/driver%20dashboard/driver_dashboard_cubit.dart';
+import 'package:aoun_app/presentation/driver/home/view_model/textfeild%20search%20location/textfeild_search_location_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/active%20trip%20request/active_trip_requests_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/amenities/amenities_cubit.dart';
+import 'package:aoun_app/presentation/driver/home/view_model/driver%20create%20trip%20or%20not/driver_create_trip_or_not_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/grate%20trip/create_trip_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/street%20name/street_name_cubit.dart';
+import 'package:aoun_app/presentation/driver/profile/view_model/driver_edit_profile_data/driver_edit_profile_data_cubit.dart';
 import 'package:aoun_app/presentation/driver/profile/view_model/get_driver_data/get_driver_data_cubit.dart';
-import 'package:aoun_app/presentation/user/transport/view_model/add%20new%20debit%20card/add_new_debit_card_cubit.dart';
-import 'package:aoun_app/presentation/user/transport/view_model/create%20request%20trip/create_request_trip_cubit.dart';
+import 'package:aoun_app/presentation/user/transport/view_model/add_new_debit_card/add_new_debit_card_cubit.dart';
+import 'package:aoun_app/presentation/user/transport/view_model/booking_trip/booking_trip_cubit.dart';
+import 'package:aoun_app/presentation/user/transport/view_model/create_request_trip/create_request_trip_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/get_trips/get_trips_cubit.dart';
-import 'package:aoun_app/presentation/user/transport/view_model/payment%20wallet/payment_wallet_cubit.dart';
-import 'package:aoun_app/presentation/user/transport/view_model/search%20trip/search_trip_cubit.dart';
-import 'package:aoun_app/presentation/user/transport/view_model/view%20debit%20card/view_all_debit_card_cubit.dart';
+import 'package:aoun_app/presentation/user/transport/view_model/payment_wallet/payment_wallet_cubit.dart';
+import 'package:aoun_app/presentation/user/transport/view_model/search_trip/search_trip_cubit.dart';
+import 'package:aoun_app/presentation/user/transport/view_model/view_debit_card/view_all_debit_card_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -76,12 +82,20 @@ void main() async {
         BlocProvider(create: (context) => CreateRequestTripCubit()),
         BlocProvider(create: (context) => GetDriverDataCubit()),
         BlocProvider(create: (context) => GetTripsCubit()),
+        BlocProvider(create: (context) => DeletetripCubit()),
+        BlocProvider(create: (context) => BookingTripCubit()),
+        BlocProvider(create: (context) => DriverDashboardCubit()),
+        BlocProvider(create: (context) => DriverTripsHistoryCubit()),
+        BlocProvider(create: (context) => DriverEditProfileDataCubit()),
+        BlocProvider(
+            create: (context) =>
+                DriverCreateTripOrNotCubit(CheckConnectionCubit())),
       ],
       child: Builder(
         builder: (context) => MultiProvider(
           providers: [
             ChangeNotifierProvider(
-              create: (context) => LocationProvider(context),
+              create: (_) => LocationProvider(),
             ),
             ChangeNotifierProvider(
               create: (_) => LanguageProvider(),
@@ -122,12 +136,9 @@ class AounApp extends StatelessWidget {
           initialRoute: AppRoutesName.splashScreenRoute,
           // home: MapScreen(),
 
-          // //Theme,
-          // theme: getThemeColorLight(context),
-
           theme: MediaQuery.of(context).platformBrightness == Brightness.dark
-              ? getThemeColorDark(context)
-              : getThemeColorLight(context),
+              ? getThemeColorDark(context, languageProvider.locale)
+              : getThemeColorLight(context, languageProvider.locale),
         );
       }),
     );

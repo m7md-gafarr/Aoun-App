@@ -1,4 +1,3 @@
-import 'package:aoun_app/presentation/widgets/alert_widget.dart';
 import 'package:aoun_app/data/model/country_model.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
@@ -64,9 +63,9 @@ bool validateOTP({
 
   if (RegExp(r'^(10|11|12|15)').hasMatch(cleanedPhoneNumber)) {
     if (cleanedPhoneNumber.length < 10) {
-      AlertDialogWidget(context, content: S.of(context).validation_phone_short);
+      // AlertDialogWidget(context, content: S.of(context).validation_phone_short);
     } else if (cleanedPhoneNumber.length > 10) {
-      AlertDialogWidget(context, content: S.of(context).validation_phone_long);
+      // AlertDialogWidget(context, content: S.of(context).validation_phone_long);
     } else {
       result = true;
     }

@@ -1,4 +1,5 @@
 import 'package:aoun_app/data/repositories/local/shared_pref.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class LanguageProvider extends ChangeNotifier {
@@ -7,7 +8,7 @@ class LanguageProvider extends ChangeNotifier {
   Locale? get locale => _locale;
 
   LanguageProvider() {
-    _locale = WidgetsBinding.instance.window.locale;
+    _locale = PlatformDispatcher.instance.locale;
     checkLanguage();
   }
 
@@ -18,9 +19,9 @@ class LanguageProvider extends ChangeNotifier {
     } else {
       if (local != _locale!.languageCode) {
         _locale = Locale(local);
-        notifyListeners();
       }
     }
+    notifyListeners();
   }
 
   Future<void> changeLanguage(String languageCode) async {

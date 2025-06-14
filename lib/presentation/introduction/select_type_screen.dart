@@ -7,6 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 
+/// SelectTypeScreen is the initial screen where users choose their role (Passenger or Driver)
+/// and authentication method (Sign In or Sign Up).
+///
+/// This screen features:
+/// - A background image
+/// - Welcome message
+/// - Sign In button with role selection modal
+/// - Sign Up button with role selection modal and terms acceptance
 class SelectTypeScreen extends StatelessWidget {
   const SelectTypeScreen({super.key});
 
@@ -14,6 +22,7 @@ class SelectTypeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        // Background container with decorative image
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage(
@@ -29,24 +38,32 @@ class SelectTypeScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  // Top spacing for status bar
                   SizedBox(height: 70.h),
+
+                  // Welcome header text
                   Text(
-                    "Welcome to  Aoun",
+                    S.of(context).select_type_welcome,
                     style: Theme.of(context).textTheme.headlineMedium!
                       ..copyWith(
                         color: AppColorLight.primaryColor,
                       ),
                   ),
                   SizedBox(height: 7.h),
-                  // Enter details text
+
+                  // Instruction text
                   Text(
-                    "Choose how you want to continue",
+                    S.of(context).select_type_instruction,
                     textAlign: TextAlign.start,
                     style: Theme.of(context).textTheme.labelMedium!.copyWith(
                           color: Colors.white,
                         ),
                   ),
+
+                  // Spacing before buttons
                   SizedBox(height: 440.h),
+
+                  // Sign In Button - Opens bottom sheet for role selection
                   ElevatedButton(
                     onPressed: () {
                       showModalBottomSheet(
@@ -62,14 +79,17 @@ class SelectTypeScreen extends StatelessWidget {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
+                              // Modal title
                               Text(
-                                "Sing In",
+                                S.of(context).select_type_sign_in,
                                 style: Theme.of(context).textTheme.titleSmall,
                               ),
+                              // Role selection buttons row
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
+                                  // Passenger sign in option
                                   selectType(
                                     context,
                                     icon: Iconsax.user,
@@ -81,8 +101,9 @@ class SelectTypeScreen extends StatelessWidget {
                                         arguments: "user",
                                       );
                                     },
-                                    text: "Passenger",
+                                    text: S.of(context).select_type_passenger,
                                   ),
+                                  // Driver sign in option
                                   selectType(
                                     context,
                                     icon: Iconsax.car,
@@ -94,7 +115,7 @@ class SelectTypeScreen extends StatelessWidget {
                                         arguments: "driver",
                                       );
                                     },
-                                    text: "Driver",
+                                    text: S.of(context).select_type_driver,
                                   ),
                                 ],
                               ),
@@ -103,10 +124,12 @@ class SelectTypeScreen extends StatelessWidget {
                         ),
                       );
                     },
-                    child: Text("Sing In"),
+                    child: Text(S.of(context).select_type_sign_in),
                   ),
 
                   SizedBox(height: 15.h),
+
+                  // Sign Up Button - Opens bottom sheet with role selection and terms
                   OutlinedButton(
                     onPressed: () {
                       showModalBottomSheet(
@@ -122,14 +145,17 @@ class SelectTypeScreen extends StatelessWidget {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
+                              // Modal title
                               Text(
-                                "Sing Up",
+                                S.of(context).select_type_sign_up,
                                 style: Theme.of(context).textTheme.titleSmall,
                               ),
+                              // Role selection buttons row
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
+                                  // Passenger sign up option
                                   selectType(
                                     context,
                                     icon: Iconsax.user,
@@ -140,8 +166,9 @@ class SelectTypeScreen extends StatelessWidget {
                                         AppRoutesName.userRegisterScreenRoute,
                                       );
                                     },
-                                    text: "Passenger",
+                                    text: S.of(context).select_type_passenger,
                                   ),
+                                  // Driver sign up option
                                   selectType(
                                     context,
                                     icon: Iconsax.car,
@@ -152,22 +179,25 @@ class SelectTypeScreen extends StatelessWidget {
                                         AppRoutesName.driverRegisterScreenRoute,
                                       );
                                     },
-                                    text: "Driver",
+                                    text: S.of(context).select_type_driver,
                                   ),
                                 ],
                               ),
+                              // Terms and Privacy Policy text
                               Padding(
                                 padding: const EdgeInsets.all(13.0),
                                 child: RichText(
                                   textAlign: TextAlign.center,
                                   text: TextSpan(
                                     children: [
+                                      // Terms of use agreement text
                                       TextSpan(
                                         text: S.of(context).joining_terms,
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodySmall,
                                       ),
+                                      // Clickable Terms of Use link
                                       TextSpan(
                                         text: S.of(context).terms_of_use,
                                         style: Theme.of(context)
@@ -184,12 +214,14 @@ class SelectTypeScreen extends StatelessWidget {
                                                     .homeUserScreenRoute);
                                           },
                                       ),
+                                      // Conjunction text
                                       TextSpan(
                                         text: S.of(context).and,
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodySmall,
                                       ),
+                                      // Clickable Privacy Policy link
                                       TextSpan(
                                         text: S.of(context).privacy_policy,
                                         style: Theme.of(context)
@@ -215,7 +247,7 @@ class SelectTypeScreen extends StatelessWidget {
                         ),
                       );
                     },
-                    child: Text("Sing Up"),
+                    child: Text(S.of(context).select_type_sign_up),
                   ),
                 ],
               ),
@@ -226,6 +258,15 @@ class SelectTypeScreen extends StatelessWidget {
     );
   }
 
+  /// Creates a selectable role type button with an icon and label
+  ///
+  /// Parameters:
+  /// - [context]: Build context for theming
+  /// - [text]: Label text for the role type
+  /// - [onTap]: Callback function when the role is selected
+  /// - [icon]: Icon to display above the role text
+  ///
+  /// Returns a styled container with icon and text, responding to tap gestures
   Widget selectType(
     BuildContext context, {
     required String text,
@@ -233,6 +274,7 @@ class SelectTypeScreen extends StatelessWidget {
     required IconData? icon,
   }) {
     return InkWell(
+      // Disable ripple effects for clean UI
       focusColor: Colors.transparent,
       hoverColor: Colors.transparent,
       splashColor: Colors.transparent,

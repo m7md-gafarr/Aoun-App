@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/data/model/driver_models/driver_model/driver_model.dart';
 import 'package:aoun_app/data/repositories/local/shared_pref.dart';
@@ -16,8 +14,8 @@ class GetDriverDataCubit extends Cubit<GetDriverDataState> {
 
   DriverModel? _cachedDriver;
 
-  getDriverData(BuildContext context) async {
-    if (_cachedDriver != null) {
+  getDriverData(BuildContext context, {bool forceRefresh = false}) async {
+    if (!forceRefresh && _cachedDriver != null) {
       emit(GetDriverDataSucess(_cachedDriver!));
       return;
     }

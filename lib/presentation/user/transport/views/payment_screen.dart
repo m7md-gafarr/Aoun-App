@@ -1,13 +1,16 @@
+import 'package:aoun_app/core/app_color/app_color_light.dart';
 import 'package:aoun_app/core/router/route_name.dart';
+import 'package:aoun_app/core/utils/dialog/dialog_helper.dart';
 import 'package:aoun_app/core/utils/open_url.dart';
-import 'package:aoun_app/presentation/user/transport/view_model/payment%20wallet/payment_wallet_cubit.dart';
-import 'package:aoun_app/presentation/user/transport/view_model/view%20debit%20card/view_all_debit_card_cubit.dart';
+import 'package:aoun_app/data/model/trip%20models/booking_trip/booking_response_trip_model.dart';
+import 'package:aoun_app/presentation/user/transport/view_model/payment_wallet/payment_wallet_cubit.dart';
+import 'package:aoun_app/presentation/user/transport/view_model/view_debit_card/view_all_debit_card_cubit.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart';
-import 'package:aoun_app/presentation/widgets/common/error_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:aoun_app/generated/l10n.dart';
 
 class PaymentScreen extends StatefulWidget {
   const PaymentScreen({super.key});
@@ -27,10 +30,20 @@ class _PaymentScreenState extends State<PaymentScreen>
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
     _textEditingController = TextEditingController();
-
     context.read<ViewAllDebitCardCubit>().fetchDebitcard();
-
     super.initState();
+  }
+
+  BookingResponseTripModel? _bookingResponseTripModel;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final arguments =
+        ModalRoute.of(context)!.settings.arguments as BookingResponseTripModel;
+    if (arguments != null) {
+      _bookingResponseTripModel = arguments;
+    }
   }
 
   @override
@@ -39,7 +52,7 @@ class _PaymentScreenState extends State<PaymentScreen>
       key: formKey,
       child: Scaffold(
         appBar: AppbarWidget(
-          title: "Payment",
+          title: S.of(context).payment_title,
           actions: [
             TextButton(
               onPressed: () {
@@ -47,7 +60,12 @@ class _PaymentScreenState extends State<PaymentScreen>
                 Navigator.pop(context);
                 Navigator.pop(context);
               },
-              child: Text("Cancel"),
+              child: Text(
+                S.of(context).payment_cancel,
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: AppColorLight.errorColor,
+                    ),
+              ),
             )
           ],
         ),
@@ -83,21 +101,21 @@ class _PaymentScreenState extends State<PaymentScreen>
                   child: BlocConsumer<PaymentWalletCubit, PaymentWalletState>(
                     listener: (context, state) {
                       if (state is PaymentWalletFailure) {
-                        ErrorDialogWidget(message: state.errorMessage)
-                            .show(context);
+                        DialogHelper(context)
+                            .showErroeDialog(message: state.errorMessage);
                       } else if (state is PaymentWalletSuccess) {
                         showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
                             title: Text(
-                              "Payment Started Successfully",
+                              S.of(context).payment_success_title,
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall!
                                   .copyWith(fontWeight: FontWeight.bold),
                             ),
                             content: Text(
-                              "You will now be redirected to complete the payment.\nA confirmation email has also been sent.",
+                              S.of(context).payment_success_message,
                               style: Theme.of(context).textTheme.labelMedium,
                             ),
                             actions: [
@@ -109,7 +127,7 @@ class _PaymentScreenState extends State<PaymentScreen>
                                     Uri.parse(state.url.toString()),
                                   );
                                 },
-                                child: Text("Proceed"),
+                                child: Text(S.of(context).payment_proceed),
                               ),
                             ],
                           ),
@@ -126,7 +144,7 @@ class _PaymentScreenState extends State<PaymentScreen>
                           ),
                         );
                       } else {
-                        return Text("Pay: 24 EG");
+                        return Text(S.of(context).payment_amount);
                       }
                     },
                   ),
@@ -167,8 +185,8 @@ class _PaymentScreenState extends State<PaymentScreen>
               fontSize: 15.sp,
             ),
         tabs: [
-          _buildTab(Iconsax.wallet, "Wallet"),
-          _buildTab(Iconsax.card, "Card"),
+          _buildTab(Iconsax.wallet, S.of(context).payment_wallet_tab),
+          _buildTab(Iconsax.card, S.of(context).payment_card_tab),
         ],
       ),
     );
@@ -194,7 +212,7 @@ class _PaymentScreenState extends State<PaymentScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 20.h),
-          Text("Pay from"),
+          Text(S.of(context).payment_pay_from),
           _buildCardSelector(),
         ],
       ),
@@ -216,7 +234,7 @@ class _PaymentScreenState extends State<PaymentScreen>
             child: Column(
               children: [
                 Text(
-                  "Pay from",
+                  S.of(context).payment_pay_from,
                   style: Theme.of(context).textTheme.labelMedium,
                 ),
                 SizedBox(height: 20.h),
@@ -254,7 +272,7 @@ class _PaymentScreenState extends State<PaymentScreen>
                         height: 210.h,
                         child: Center(
                             child: Text(
-                          "No Debit Card Found",
+                          S.of(context).payment_no_debit_card,
                           style: Theme.of(context).textTheme.titleMedium,
                         )),
                       );
@@ -309,7 +327,7 @@ class _PaymentScreenState extends State<PaymentScreen>
                   ),
                   VerticalDivider(width: 30.w),
                   Text(
-                    "loading",
+                    S.of(context).payment_loading,
                     style: Theme.of(context)
                         .textTheme
                         .titleSmall!
@@ -325,7 +343,7 @@ class _PaymentScreenState extends State<PaymentScreen>
               child: Row(
                 children: [
                   Text(
-                    "No cards available",
+                    S.of(context).payment_no_cards,
                     style: Theme.of(context)
                         .textTheme
                         .titleSmall!
@@ -391,7 +409,7 @@ class _PaymentScreenState extends State<PaymentScreen>
           Icon(Iconsax.add),
           SizedBox(width: 5.w),
           Text(
-            "Add a new card",
+            S.of(context).payment_add_new_card,
             style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                   color: Theme.of(context).primaryColor,
                 ),
@@ -408,25 +426,25 @@ class _PaymentScreenState extends State<PaymentScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 20.h),
-          Text("Wallet Number"),
+          Text(S.of(context).payment_wallet_number),
           TextFormField(
             controller: _textEditingController,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             keyboardType: TextInputType.phone,
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return "Phone number is required";
+                return S.of(context).payment_phone_required;
               }
 
               if (!value.startsWith('010') &&
                   !value.startsWith('011') &&
                   !value.startsWith('012') &&
                   !value.startsWith('015')) {
-                return "Phone number must start with 010, 011, 012, or 015";
+                return S.of(context).payment_phone_prefix;
               }
 
               if (value.length != 11) {
-                return "Phone number must be exactly 11 digits";
+                return S.of(context).payment_phone_length;
               }
 
               return null;
@@ -435,7 +453,7 @@ class _PaymentScreenState extends State<PaymentScreen>
             cursorColor: Theme.of(context).primaryColor,
             decoration: InputDecoration(
               errorMaxLines: 2,
-              hintText: "01X XXXX XXXX",
+              hintText: S.of(context).payment_phone_hint,
             ),
           ),
         ],
@@ -449,9 +467,9 @@ class _PaymentScreenState extends State<PaymentScreen>
       child: _buildContainer(
         child: Column(
           children: [
-            _buildSummaryRow("Number of seats", "3"),
+            _buildSummaryRow(S.of(context).payment_seats_count, "3"),
             SizedBox(height: 7.h),
-            _buildSummaryRow("Total amount", "3"),
+            _buildSummaryRow(S.of(context).payment_total_amount, "3"),
           ],
         ),
       ),

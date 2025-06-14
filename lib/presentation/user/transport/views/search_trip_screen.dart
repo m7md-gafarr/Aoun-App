@@ -1,22 +1,20 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:math' as math;
+import 'package:aoun_app/core/utils/dialog/dialog_helper.dart';
 import 'package:aoun_app/core/utils/location/location_Provider.dart';
 import 'package:aoun_app/core/utils/map/google_map.dart';
 import 'package:aoun_app/data/model/trip%20models/active_trip_requests/active_trip_requests.dart';
 import 'package:aoun_app/data/model/trip%20models/trip_location_model.dart';
 import 'package:aoun_app/data/model/trip%20models/trip_model/trip_model.dart';
 import 'package:aoun_app/generated/l10n.dart';
-import 'package:aoun_app/presentation/driver/home/view_model/Textfeild%20Search%20location/textfeild_search_location_cubit.dart';
+import 'package:aoun_app/presentation/driver/home/view_model/textfeild%20search%20location/textfeild_search_location_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/active%20trip%20request/active_trip_requests_cubit.dart';
-import 'package:aoun_app/presentation/user/transport/view_model/create%20request%20trip/create_request_trip_cubit.dart';
-import 'package:aoun_app/presentation/user/transport/view_model/search%20trip/search_trip_cubit.dart';
+import 'package:aoun_app/presentation/user/transport/view_model/create_request_trip/create_request_trip_cubit.dart';
+import 'package:aoun_app/presentation/user/transport/view_model/search_trip/search_trip_cubit.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart';
-import 'package:aoun_app/presentation/widgets/common/error_dialog_widget.dart';
-import 'package:aoun_app/presentation/widgets/common/placeautocomplete_shimmer_widget.dart';
-import 'package:aoun_app/presentation/widgets/common/success_dialog_widget.dart';
-import 'package:aoun_app/presentation/widgets/common/trip_shimmer_widget.dart';
-import 'package:aoun_app/presentation/widgets/specific/trip_card.dart';
+import 'package:aoun_app/presentation/widgets/shimmer/placeautocomplete_shimmer_widget.dart';
+import 'package:aoun_app/presentation/widgets/shimmer/trip_shimmer_widget.dart';
+import 'package:aoun_app/presentation/widgets/common/primary_trip_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -167,7 +165,7 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppbarWidget(
-        title: "Enter your route",
+        title: S.of(context).search_trip_title,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -179,7 +177,7 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
                 textInputAction: TextInputAction.search,
                 controller: _formController,
                 decoration: InputDecoration(
-                  hintText: "From",
+                  hintText: S.of(context).search_trip_from_hint,
                 ),
               ),
             ),
@@ -192,7 +190,7 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
                 controller: _toController,
                 focusNode: _focusNode,
                 decoration: InputDecoration(
-                  hintText: "To",
+                  hintText: S.of(context).search_trip_to_hint,
                 ),
               ),
             ),
@@ -290,7 +288,7 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
                     builder: (context, state) {
                       if (state is SearchTripInitial &&
                           !isSelectingSuggestion) {
-                        return Text("All trips");
+                        return Text(S.of(context).search_trip_all_trips);
                       } else if (state is SearchTripLoading) {
                         return ListView.builder(
                           shrinkWrap: true,
@@ -309,7 +307,9 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
                                 child: Column(
                                   children: [
                                     Text(
-                                        "No trips found for this destination.\nYou can set it as your active destination to get notified when a driver creates a trip.",
+                                        S
+                                            .of(context)
+                                            .search_trip_no_trips_message,
                                         textAlign: TextAlign.center,
                                         style: Theme.of(context)
                                             .textTheme
@@ -329,12 +329,14 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
                                         listener: (context, state) {
                                           if (state
                                               is CreateRequestTripFailure) {
-                                            ErrorDialogWidget(
-                                                    message: state.errorMessage)
-                                                .show(context);
+                                            DialogHelper(context)
+                                                .showErroeDialog(
+                                                    message:
+                                                        state.errorMessage);
                                           } else if (state
                                               is CreateRequestTripSuccess) {
-                                            SuccessDialogWidget(
+                                            DialogHelper(context)
+                                                .showSuccessDialog(
                                               message: state.message,
                                               title: S
                                                   .of(context)
@@ -350,7 +352,7 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
                                                       .ok_AlertDialogt),
                                                 ),
                                               ],
-                                            ).show(context);
+                                            );
                                           }
                                         },
                                         builder: (context, state) {
@@ -365,8 +367,9 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
                                               ),
                                             );
                                           } else {
-                                            return Text(
-                                                "Set Active Destination");
+                                            return Text(S
+                                                .of(context)
+                                                .search_trip_set_active_destination);
                                           }
                                         },
                                       ),
@@ -506,13 +509,16 @@ class _TripDetails extends StatelessWidget {
       children: [
         _TripDetailRow(
             iconRotation: math.pi / 4,
-            label: "From: ${model.fromLocation!.fullAddress}"),
+            label:
+                "${S.of(context).search_trip_from_label}${model.fromLocation!.fullAddress}"),
         _TripDetailRow(
             iconRotation: -3 * math.pi / 4,
-            label: "To: ${model.toLocation!.fullAddress}"),
+            label:
+                "${S.of(context).search_trip_to_label}${model.toLocation!.fullAddress}"),
         _TripDetailRow(
             icon: Iconsax.map_1,
-            label: " Active passengers: ${model.activePassengers}"),
+            label:
+                "${S.of(context).search_trip_active_passengers}${model.activePassengers}"),
       ],
     );
   }

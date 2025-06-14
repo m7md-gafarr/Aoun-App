@@ -1,19 +1,16 @@
-import 'dart:developer';
-
 import 'package:animations/animations.dart';
 import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/core/utils/map/google_map.dart';
 import 'package:aoun_app/data/model/map%20models/route_model/route_model.dart';
 import 'package:aoun_app/data/model/trip%20models/trip_model/trip_model.dart';
+import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/user/transport/views/map_view_pickup_point_screen.dart';
-import 'package:aoun_app/presentation/user/transport/views/map_viewr_route_screen.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart';
 import 'package:aoun_app/presentation/widgets/common/divider_widget.dart';
 import 'package:aoun_app/presentation/widgets/common/review_card_widget.dart';
 import 'package:aoun_app/presentation/widgets/common/title_Info_trip_widget.dart';
-import 'package:aoun_app/presentation/widgets/specific/trip_map.dart'
-    show TripMapWidget;
+import 'package:aoun_app/presentation/widgets/trip_map.dart' show TripMapWidget;
 import 'package:flutter/material.dart';
 import 'package:flutter_pannable_rating_bar/flutter_pannable_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -32,52 +29,62 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
   late TabController _tabController;
   late dynamic itemsInfotrip, itemsInfoDriver, ratings;
   RouteModel? routeModel;
+
   @override
   void initState() {
-    _tabController = TabController(length: 3, vsync: this);
     super.initState();
+    _tabController = TabController(length: 3, vsync: this);
     getRoute();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
     itemsInfotrip = [
       {
-        "title": "Departure date",
+        "title": S.of(context).trip_details_departure_date,
         "value": "${widget.tripModel!.basicInfo!.formattedDepartureTime}"
       },
       {
-        "title": "Estimated Distance",
+        "title": S.of(context).trip_details_estimated_distance,
         "value": "${widget.tripModel!.basicInfo!.formattedDistance}"
       },
       {
-        "title": "Estimated Arrival Time",
+        "title": S.of(context).trip_details_estimated_arrival,
         "value": "${widget.tripModel!.basicInfo!.formattedDuration}"
       },
       {
-        "title": "Available Seats",
-        "value": "${widget.tripModel!.basicInfo!.availableSeats} Seats"
+        "title": S.of(context).trip_details_available_seats,
+        "value":
+            "${widget.tripModel!.basicInfo!.availableSeats} ${S.of(context).trip_details_seats_suffix}"
       },
     ];
+
     itemsInfoDriver = [
       {
-        "title": "Car Model",
+        "title": S.of(context).trip_details_car_model,
         "value": "${widget.tripModel!.driverInfo!.vehicleInfo!.vehicleModel}"
       },
       {
-        "title": "Seats",
+        "title": S.of(context).trip_details_seats,
         "value": "${widget.tripModel!.driverInfo!.vehicleInfo!.seatingCapacity}"
       },
       {
-        "title": "License Plate",
+        "title": S.of(context).trip_details_license_plate,
         "value": "${widget.tripModel!.driverInfo!.vehicleInfo!.plateNumber}"
       },
       {
-        "title": "Mobile number",
+        "title": S.of(context).trip_details_mobile_number,
         "value": "${widget.tripModel!.driverInfo!.driverPhone}"
       },
     ];
+
     ratings = [
-      {"title": "Driving skills", "value": 1.0},
-      {"title": "Punctuality", "value": 0.2},
-      {"title": "Behavior", "value": 0.9},
-      {"title": "Pricing", "value": 0.75},
+      {"title": S.of(context).trip_details_rating_driving_skills, "value": 1.0},
+      {"title": S.of(context).trip_details_rating_punctuality, "value": 0.2},
+      {"title": S.of(context).trip_details_rating_behavior, "value": 0.9},
+      {"title": S.of(context).trip_details_rating_pricing, "value": 0.75},
     ];
   }
 
@@ -88,6 +95,7 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
       LatLng(widget.tripModel!.toLocation!.latitude!,
           widget.tripModel!.toLocation!.longitude!),
     );
+    if (!mounted) return;
     setState(() {
       routeModel = route;
     });
@@ -97,7 +105,7 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppbarWidget(
-        title: "Trip detail",
+        title: S.of(context).trip_details_title,
         actions: [
           IconButton(
             onPressed: () {},
@@ -161,7 +169,7 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "From",
+                              S.of(context).trip_details_from,
                               style: Theme.of(context).textTheme.labelSmall,
                             ),
                             Text(
@@ -170,7 +178,7 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
                             ),
                             SizedBox(height: 30.h),
                             Text(
-                              "To",
+                              S.of(context).trip_details_to,
                               style: Theme.of(context).textTheme.labelSmall,
                             ),
                             Text(
@@ -201,9 +209,21 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
                   isScrollable: true,
                   tabAlignment: TabAlignment.start,
                   tabs: [
-                    Tab(text: "Basic Trip Info".toUpperCase()),
-                    Tab(text: "Driver Info".toUpperCase()),
-                    Tab(text: "Additional Info".toUpperCase()),
+                    Tab(
+                        text: S
+                            .of(context)
+                            .trip_details_basic_info
+                            .toUpperCase()),
+                    Tab(
+                        text: S
+                            .of(context)
+                            .trip_details_driver_info
+                            .toUpperCase()),
+                    Tab(
+                        text: S
+                            .of(context)
+                            .trip_details_additional_info
+                            .toUpperCase()),
                   ],
                 ),
               ],
@@ -236,9 +256,12 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.pushNamed(
-                      context, AppRoutesName.bookTripScreenRoute);
+                    context,
+                    AppRoutesName.bookTripScreenRoute,
+                    arguments: [widget.tripModel, routeModel],
+                  );
                 },
-                child: Text("Book"),
+                child: Text(S.of(context).trip_details_book),
               ),
             )
           ],
@@ -254,7 +277,7 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TitleInfoTripWidget(title: "Pickup Point"),
+            TitleInfoTripWidget(title: S.of(context).trip_details_pickup_point),
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
@@ -264,7 +287,7 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
               ),
             ),
             Text(
-              "View in map",
+              S.of(context).trip_details_view_map,
               style: Theme.of(context)
                   .textTheme
                   .bodyMedium!
@@ -292,11 +315,11 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
               ),
             ),
             DividerWidget(),
-            TitleInfoTripWidget(title: "Driver Notes"),
+            TitleInfoTripWidget(title: S.of(context).trip_details_driver_notes),
             SizedBox(height: 7.h),
             _DriverNote(widget.tripModel!.additionalInfo!.notes!),
             DividerWidget(),
-            TitleInfoTripWidget(title: "Amenities"),
+            TitleInfoTripWidget(title: S.of(context).trip_details_amenities),
             Wrap(
               spacing: 0,
               runSpacing: 0,
@@ -312,7 +335,7 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
                     ),
                     child: Text(
                       widget.tripModel!.additionalInfo!.amenities![index],
-                      style: TextStyle(fontSize: 14.sp), // خط اختياري للتنسيق
+                      style: TextStyle(fontSize: 14.sp),
                     ),
                   ),
                 ),
@@ -375,7 +398,8 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
             DividerWidget(),
             Row(
               children: [
-                TitleInfoTripWidget(title: "Rating"),
+                TitleInfoTripWidget(
+                    title: S.of(context).trip_details_rating_title),
                 Spacer(),
                 PannableRatingBar(
                   rate: 3.5,
@@ -429,7 +453,7 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
               }),
             ),
             DividerWidget(),
-            TitleInfoTripWidget(title: "Last Reviews"),
+            TitleInfoTripWidget(title: S.of(context).trip_details_last_reviews),
             Column(
               children: List.generate(
                 5,
@@ -467,7 +491,8 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
               },
             ),
             DividerWidget(),
-            TitleInfoTripWidget(title: "Display Route in map"),
+            TitleInfoTripWidget(
+                title: S.of(context).trip_details_display_route),
             SizedBox(height: 20.h),
             TripMapWidget(routeModel: routeModel),
           ],

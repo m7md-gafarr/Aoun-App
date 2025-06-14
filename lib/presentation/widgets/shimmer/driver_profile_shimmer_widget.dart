@@ -1,4 +1,4 @@
-import 'package:aoun_app/presentation/widgets/common/review_card_shimmer_widget.dart';
+import 'package:aoun_app/presentation/widgets/shimmer/review_card_shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pannable_rating_bar/flutter_pannable_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

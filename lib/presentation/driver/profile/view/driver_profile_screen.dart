@@ -1,14 +1,12 @@
-import 'dart:developer';
-
 import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/data/model/driver_models/driver_model/driver_model.dart';
+import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/driver/profile/view_model/get_driver_data/get_driver_data_cubit.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart';
-import 'package:aoun_app/presentation/widgets/common/driver_profile_shimmer_widget.dart';
+import 'package:aoun_app/presentation/widgets/shimmer/driver_profile_shimmer_widget.dart';
 import 'package:aoun_app/presentation/widgets/common/review_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_pannable_rating_bar/flutter_pannable_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -30,15 +28,21 @@ class _DriverProfileScreenState extends State<DriverProfileScreen>
       length: 2,
       vsync: this,
     );
-    context.read<GetDriverDataCubit>().getDriverData(context);
+
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    context.read<GetDriverDataCubit>().getDriverData(context);
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppbarWidget(
-        title: "Profile",
+        title: S.of(context).driver_profile_title,
       ),
       body: BlocBuilder<GetDriverDataCubit, GetDriverDataState>(
         builder: (context, state) {
@@ -54,7 +58,8 @@ class _DriverProfileScreenState extends State<DriverProfileScreen>
                       SizedBox(height: 10.h),
                       CircleAvatar(
                         maxRadius: 45.w,
-                        backgroundColor: Colors.blueGrey,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.primaryContainer,
                         backgroundImage: NetworkImage(
                             "https://studentpathapitest.runasp.net/${state.driverdata.data!.nationalIdBackPath!.replaceAll(r'\\', '/')}"),
                       ),
@@ -105,11 +110,13 @@ class _DriverProfileScreenState extends State<DriverProfileScreen>
                                 "https://studentpathapitest.runasp.net/${state.driverdata.data!.nationalIdBackPath!.replaceAll(r'\\', '/')}",
                                 state.driverdata.data!.userName,
                                 state.driverdata.data!.email,
+                                state.driverdata.data!.phoneNumber,
+                                state.driverdata.data!.age,
                               ]);
                         },
                         style: ElevatedButton.styleFrom(
-                            fixedSize: Size(150.w, double.infinity)),
-                        child: Text("Edit profile"),
+                            fixedSize: Size(210.w, double.infinity)),
+                        child: Text(S.of(context).driver_profile_edit_button),
                       ),
                       SizedBox(height: 10.h),
                       Padding(
@@ -133,8 +140,16 @@ class _DriverProfileScreenState extends State<DriverProfileScreen>
                           isScrollable: true,
                           tabAlignment: TabAlignment.center,
                           tabs: [
-                            Tab(text: "Overview".toUpperCase()),
-                            Tab(text: "Vehicle data".toUpperCase()),
+                            Tab(
+                                text: S
+                                    .of(context)
+                                    .driver_profile_overview_tab
+                                    .toUpperCase()),
+                            Tab(
+                                text: S
+                                    .of(context)
+                                    .driver_profile_vehicle_data_tab
+                                    .toUpperCase()),
                           ],
                         ),
                       ),
@@ -158,15 +173,15 @@ class _DriverProfileScreenState extends State<DriverProfileScreen>
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               _InfoCard(
-                                title: "Rating",
+                                title: S.of(context).driver_profile_rating,
                                 value: "4.0",
                               ),
                               _InfoCard(
-                                title: "Satisfy",
+                                title: S.of(context).driver_profile_satisfy,
                                 value: "60%",
                               ),
                               _InfoCard(
-                                title: "Cancel",
+                                title: S.of(context).driver_profile_cancel,
                                 value: "8%",
                               ),
                             ],
@@ -206,7 +221,7 @@ class _DriverProfileScreenState extends State<DriverProfileScreen>
             children: [
               vehicleDocumentCard(
                 context,
-                text: "Vehicle picture",
+                text: S.of(context).driver_profile_vehicle_picture,
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   image: NetworkImage(
@@ -215,7 +230,7 @@ class _DriverProfileScreenState extends State<DriverProfileScreen>
               ),
               vehicleDocumentCard(
                 context,
-                text: "Vehicle registration certificate",
+                text: S.of(context).driver_profile_registration_certificate,
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   image: NetworkImage(
@@ -224,7 +239,7 @@ class _DriverProfileScreenState extends State<DriverProfileScreen>
               ),
               vehicleDocumentCard(
                 context,
-                text: "Back side of certificate",
+                text: S.of(context).driver_profile_certificate_back,
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   image: NetworkImage(
@@ -236,23 +251,23 @@ class _DriverProfileScreenState extends State<DriverProfileScreen>
           SizedBox(height: 7.h),
           Column(children: [
             vehicleInfo(
-                title: "Plate Number",
+                title: S.of(context).driver_profile_plate_number,
                 value: driverModel.data!.vehicleInfo![0].plateNumber!),
             vehicleInfo(
-                title: "Production Year",
+                title: S.of(context).driver_profile_production_year,
                 value: driverModel.data!.vehicleInfo![0].productionYear!
                     .toString()),
             vehicleInfo(
-                title: "Vehicle Color",
+                title: S.of(context).driver_profile_vehicle_color,
                 value: driverModel.data!.vehicleInfo![0].vehicleColor!),
             vehicleInfo(
-                title: "Vehicle Model",
+                title: S.of(context).driver_profile_vehicle_model,
                 value: driverModel.data!.vehicleInfo![0].vehicleModel!),
             vehicleInfo(
-                title: "Vehicle Brand",
+                title: S.of(context).driver_profile_vehicle_brand,
                 value: driverModel.data!.vehicleInfo![0].vehicleBrand!),
             vehicleInfo(
-                title: "Number of Seats",
+                title: S.of(context).driver_profile_seats,
                 value: driverModel.data!.vehicleInfo![0].seatingCapacity!
                     .toString()),
           ])
@@ -269,7 +284,7 @@ class _DriverProfileScreenState extends State<DriverProfileScreen>
             height: 100.h,
             width: 100.w,
             decoration: BoxDecoration(
-              color: Colors.blueGrey,
+              color: Theme.of(context).colorScheme.primaryContainer,
               borderRadius: BorderRadius.all(Radius.circular(10.r)),
               image: image,
             ),

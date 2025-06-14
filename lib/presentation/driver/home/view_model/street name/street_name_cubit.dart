@@ -31,4 +31,32 @@ class StreetNameCubit extends Cubit<StreetNameState> {
       emit(StreetNameFailure(e.toString()));
     }
   }
+
+  getFullName(LatLng selectedLocation, BuildContext context) async {
+    emit(StreetNameLoading());
+    try {
+      placemark = await LocationService.getAddressFromCoordinates(
+        context,
+        selectedLocation.latitude,
+        selectedLocation.longitude,
+      );
+
+      var addressParts = [
+        placemark!.name,
+        placemark!.subThoroughfare,
+        placemark!.thoroughfare,
+        placemark!.subLocality,
+        placemark!.locality,
+        placemark!.administrativeArea,
+        placemark!.postalCode,
+        placemark!.country,
+      ].where((element) => element != null && element.isNotEmpty).toList();
+
+      String fullAddress = addressParts.join(', ');
+
+      emit(StreetNameSuccess(fullAddress));
+    } catch (e) {
+      emit(StreetNameFailure(e.toString()));
+    }
+  }
 }

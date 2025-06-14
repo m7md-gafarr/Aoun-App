@@ -15,7 +15,7 @@ class SnackbarHelper {
         if (leading != null) leading,
         Expanded(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
@@ -57,7 +57,7 @@ class SnackbarHelper {
     final Color textColor = Theme.of(context).colorScheme.onError;
 
     final snackBarContent = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(

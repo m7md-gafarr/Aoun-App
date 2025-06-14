@@ -1,9 +1,11 @@
+import 'package:aoun_app/data/model/trip%20models/booking_trip/booking_request_trip_model.dart';
 import 'package:aoun_app/data/model/trip%20models/get_trip_route/get_trip_route.dart';
 import 'package:aoun_app/data/model/trip%20models/greate_trip_model/greate_trip_model.dart';
 import 'package:aoun_app/data/model/trip%20models/trip_location_model.dart';
 import 'package:aoun_app/data/repositories/local/shared_pref.dart';
 import 'package:aoun_app/data/repositories/remote/api_helper.dart';
 import 'package:aoun_app/data/repositories/remote/api_response_handler.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -97,6 +99,16 @@ class TripRepository {
     );
   }
 
+  Future<ApiResponse<Map<String, dynamic>>> bookingTrip(
+      BookingTripRequestModel bookTrioModel) async {
+    String token = await getToken();
+    return await ApiHelper().post<Map<String, dynamic>>(
+      url: "$_apiUrl/Booking/book",
+      body: bookTrioModel.toJson(),
+      headers: _headers(token),
+    );
+  }
+
   Future<ApiResponse<Map<String, dynamic>>> createTripRequest(
       TripLocationModel fromLocation, TripLocationModel toLocation) async {
     String token = await getToken();
@@ -108,5 +120,36 @@ class TripRepository {
       },
       headers: _headers(token),
     );
+  }
+
+  Future<ApiResponse<Map<String, dynamic>>> deleteTrip(
+      {required String id}) async {
+    String token = await getToken();
+    return await ApiHelper().delete<Map<String, dynamic>>(
+        url: "$_apiUrl/Trips/$id", headers: _headers(token));
+  }
+
+  Future<ApiResponse<Map<String, dynamic>>> cancelTrip(
+      {required String tripId}) async {
+    String token = await getToken();
+    return await ApiHelper().patch<Map<String, dynamic>>(
+      url: "$_apiUrl/Trips/$tripId/status",
+      body: {
+        "newStatus": 3,
+      },
+      headers: _headers(token),
+    );
+  }
+
+  Future<ApiResponse<Map<String, dynamic>>> getDriverTrips() async {
+    String? token = await SharedPreferencesService().getToken();
+    return await ApiHelper().get<Map<String, dynamic>>(
+        url: "$_apiUrl/Trips/driver",
+        options: Options(
+          headers: {
+            "accept": "*/*",
+            "Authorization": "Bearer $token",
+          },
+        ));
   }
 }

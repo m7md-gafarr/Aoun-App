@@ -71,4 +71,5 @@ class AppRoutesName {
   static const driverCreateTripScreenRoute = "/driverCreateTripScreenRoute";
   static const driverSelectRouteOnMapScreenRoute =
       "/driverSelectRouteOnMapScreenRoute";
+  static const createdTripDetailsScreenRoute = "/createdTripDetailsScreenRoute";
 }

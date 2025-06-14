@@ -10,9 +10,9 @@ class ApiHelper {
     ),
   );
 
-  Future<ApiResponse<T>> get<T>({required String url}) async {
+  Future<ApiResponse<T>> get<T>({required String url, Options? options}) async {
     try {
-      Response response = await dio.get(url);
+      Response response = await dio.get(url, options: options);
 
       if (response.data == null) {
         return ApiResponse<T>(
@@ -52,7 +52,7 @@ class ApiHelper {
 
   Future<ApiResponse<T>> put<T>({
     required String url,
-    required Map<String, dynamic> body,
+    required dynamic body,
     required Map<String, String> headers,
   }) async {
     try {
@@ -61,6 +61,45 @@ class ApiHelper {
         data: body,
         options: Options(headers: headers),
       );
+
+      return ApiResponseHandler.handleSuccess<T>(response);
+    } on DioException catch (e) {
+      return ApiResponseHandler.handleDioError<T>(e);
+    } catch (e) {
+      return ApiResponseHandler.handleGenericError<T>(e);
+    }
+  }
+
+  Future<ApiResponse<T>> patch<T>({
+    required String url,
+    required dynamic body,
+    required Map<String, String> headers,
+  }) async {
+    try {
+      Response response = await dio.put(
+        url,
+        data: body,
+        options: Options(headers: headers),
+      );
+
+      return ApiResponseHandler.handleSuccess<T>(response);
+    } on DioException catch (e) {
+      return ApiResponseHandler.handleDioError<T>(e);
+    } catch (e) {
+      return ApiResponseHandler.handleGenericError<T>(e);
+    }
+  }
+
+  Future<ApiResponse<T>> delete<T>({
+    required String url,
+    required Map<String, String> headers,
+  }) async {
+    try {
+      Response response = await dio.delete(
+        url,
+        options: Options(headers: headers),
+      );
+
       return ApiResponseHandler.handleSuccess<T>(response);
     } on DioException catch (e) {
       return ApiResponseHandler.handleDioError<T>(e);

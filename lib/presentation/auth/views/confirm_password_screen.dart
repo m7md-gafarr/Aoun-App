@@ -1,11 +1,11 @@
 import 'package:aoun_app/core/router/route_name.dart';
+import 'package:aoun_app/core/utils/dialog/dialog_helper.dart';
 import 'package:aoun_app/data/model/auth%20models/user_auth_model/auth_model.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/auth/view_model/confirmPassword_cubit/confirm_password_cubit.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart'
     show AppbarWidget;
-import 'package:aoun_app/presentation/widgets/common/error_dialog_widget.dart';
-import 'package:aoun_app/presentation/widgets/common/success_dialog_widget.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -165,10 +165,10 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
                         ConfirmPasswordState>(
                       listener: (context, state) {
                         if (state is ConfirmPasswordFailure) {
-                          ErrorDialogWidget(message: state.errorMessage)
-                              .show(context);
+                          DialogHelper(context)
+                              .showErroeDialog(message: state.errorMessage);
                         } else if (state is ConfirmPasswordSuccess) {
-                          SuccessDialogWidget(
+                          DialogHelper(context).showSuccessDialog(
                             message: state.message,
                             title: S.of(context).confirmed_successfully,
                             actions: [
@@ -184,7 +184,7 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
                                 child: Text(S.of(context).sign_in),
                               ),
                             ],
-                          ).show(context);
+                          );
                         }
                       },
                       builder: (context, state) {

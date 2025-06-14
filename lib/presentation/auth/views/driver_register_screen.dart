@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:aoun_app/core/constant/constant.dart';
 import 'package:aoun_app/core/router/route_name.dart';
+import 'package:aoun_app/core/utils/dialog/dialog_helper.dart';
 import 'package:aoun_app/core/utils/location/location_Provider.dart';
 import 'package:aoun_app/core/utils/snakbar/snackebar_helper.dart';
 import 'package:aoun_app/data/model/auth%20models/driver_auth_model/driver_auth_model.dart';
@@ -12,8 +13,7 @@ import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/auth/view_model/driver_register_cubit/register_cubit.dart';
 import 'package:aoun_app/presentation/auth/views/driver_image_register_detail.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart';
-import 'package:aoun_app/presentation/widgets/common/error_dialog_widget.dart';
-import 'package:aoun_app/presentation/widgets/common/success_dialog_widget.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -113,6 +113,12 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    context.read<LocationProvider>().startListening(context);
+    super.didChangeDependencies();
+  }
+
+  @override
   void dispose() {
     _pageController.dispose();
     _phoneController.dispose();
@@ -137,7 +143,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppbarWidget(
-        title: "Create Driver account",
+        title: S.of(context).driver_register_title,
       ),
       body: Stack(
         children: [
@@ -208,7 +214,8 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                         } else {
                           SnackbarHelper.showError(
                             context,
-                            title: "Personal picture required",
+                            title:
+                                S.of(context).driver_register_picture_required,
                           );
                         }
                       }
@@ -224,8 +231,9 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                         } else {
                           SnackbarHelper.showError(
                             context,
-                            title:
-                                "Please upload all required license images before continuing.",
+                            title: S
+                                .of(context)
+                                .driver_register_license_images_required,
                           );
                         }
                       }
@@ -241,8 +249,9 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                         } else {
                           SnackbarHelper.showError(
                             context,
-                            title:
-                                "Please upload all required document images before continuing.",
+                            title: S
+                                .of(context)
+                                .driver_register_documents_required,
                           );
                         }
                       }
@@ -258,8 +267,9 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                         } else {
                           SnackbarHelper.showError(
                             context,
-                            title:
-                                "Please upload all required vehicle images before continuing.",
+                            title: S
+                                .of(context)
+                                .driver_register_vehicle_images_required,
                           );
                         }
                       }
@@ -345,10 +355,10 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                 child: BlocConsumer<DriverRegisterCubit, DriverRegisterState>(
                   listener: (context, state) {
                     if (state is DriverRegisterFailure) {
-                      ErrorDialogWidget(message: state.errorMessage)
-                          .show(context);
+                      DialogHelper(context)
+                          .showErroeDialog(message: state.errorMessage);
                     } else if (state is DriverRegisterSuccess) {
-                      SuccessDialogWidget(
+                      DialogHelper(context).showSuccessDialog(
                         message:
                             "Your account has been successfully registered and is now under review.\nThe review process may take between 5 to 10 hours.\nThank you for your patience!",
                         title: S.of(context).confirmed_successfully,
@@ -365,7 +375,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                             child: Text(S.of(context).ok_AlertDialogt),
                           ),
                         ],
-                      ).show(context);
+                      );
                     }
                   },
                   builder: (context, state) {
@@ -378,7 +388,9 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                         ),
                       );
                     } else {
-                      return Text(_currentPage == 5 ? "Sign In" : "Next");
+                      return Text(_currentPage == 5
+                          ? S.of(context).driver_register_sign_in
+                          : S.of(context).driver_register_next);
                     }
                   },
                 ),
@@ -401,7 +413,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
             children: [
               SizedBox(height: 30.h),
               Text(
-                "Personal information",
+                S.of(context).driver_register_personal_info_title,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               SizedBox(height: 20.h),
@@ -412,7 +424,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => DriverImageDetailScreen(
-                          model: RegisterDriverModel.personalPicture(),
+                          model: RegisterDriverModel.personalPicture(context),
                         ),
                       ),
                     );
@@ -423,7 +435,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                       });
                     }
                   },
-                  title: "Personal picture",
+                  title: S.of(context).driver_register_personal_picture,
                   imageFile: _personalImageFile,
                 ),
               ),
@@ -434,7 +446,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                 cursorColor: Theme.of(context).primaryColor,
                 decoration: InputDecoration(
                   errorMaxLines: 2,
-                  hintText: "Full name",
+                  hintText: S.of(context).full_name,
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -452,7 +464,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                 cursorColor: Theme.of(context).primaryColor,
                 decoration: InputDecoration(
                   errorMaxLines: 2,
-                  hintText: "Email",
+                  hintText: S.of(context).email,
                 ),
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
@@ -527,7 +539,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                 readOnly: true,
                 cursorColor: Theme.of(context).primaryColor,
                 decoration: InputDecoration(
-                  hintText: "Date of birth",
+                  hintText: S.of(context).date_of_birth,
                 ),
               ),
               SizedBox(height: 15.h),
@@ -568,7 +580,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
             children: [
               SizedBox(height: 30.h),
               Text(
-                "Driver License",
+                S.of(context).driver_register_license_title,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               SizedBox(height: 20.h),
@@ -583,7 +595,8 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => DriverImageDetailScreen(
-                            model: RegisterDriverModel.driverLicense()[0],
+                            model:
+                                RegisterDriverModel.driverLicense(context)[0],
                           ),
                         ),
                       );
@@ -595,7 +608,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                       }
                     },
                     imageFile: _driverLicenseFront,
-                    title: "Driver license",
+                    title: S.of(context).driver_register_license_title,
                   ),
                   _containerAddImageWidget(
                     onTap: () async {
@@ -603,7 +616,8 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => DriverImageDetailScreen(
-                            model: RegisterDriverModel.driverLicense()[1],
+                            model:
+                                RegisterDriverModel.driverLicense(context)[1],
                           ),
                         ),
                       );
@@ -615,7 +629,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                       }
                     },
                     imageFile: _driverLicenseBack,
-                    title: "Back side of license",
+                    title: S.of(context).driver_register_license_title,
                   ),
                   _containerAddImageWidget(
                       onTap: () async {
@@ -623,7 +637,8 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => DriverImageDetailScreen(
-                              model: RegisterDriverModel.driverLicense()[2],
+                              model:
+                                  RegisterDriverModel.driverLicense(context)[2],
                             ),
                           ),
                         );
@@ -635,7 +650,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                         }
                       },
                       imageFile: _selfieWithLicense,
-                      title: "Selfie with license"),
+                      title: S.of(context).driver_register_license_title),
                 ],
               )),
               SizedBox(height: 40.h),
@@ -645,20 +660,22 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                 cursorColor: Theme.of(context).primaryColor,
                 decoration: InputDecoration(
                   errorMaxLines: 2,
-                  hintText: "License number",
+                  hintText: S.of(context).driver_register_license_number,
                 ),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return "Please enter an License number.";
+                    return S
+                        .of(context)
+                        .driver_register_license_number_required;
                   }
 
                   if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                    return "License number must contain only digits.";
+                    return S.of(context).driver_register_license_digits_only;
                   }
 
                   if (value.length != 14) {
-                    return "License number must be 14 digits long.";
+                    return S.of(context).driver_register_license_length;
                   }
 
                   return null;
@@ -672,7 +689,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                 readOnly: true,
                 cursorColor: Theme.of(context).primaryColor,
                 decoration: InputDecoration(
-                  hintText: "Expiration date",
+                  hintText: S.of(context).driver_register_expiration_date,
                 ),
                 onTap: () async {
                   DateTime? pickedDate = await showDatePicker(
@@ -686,10 +703,6 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                     setState(() {
                       _dateExpirationDateController.text =
                           "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
-
-                      if (DateTime.now().month < pickedDate.month ||
-                          (DateTime.now().month == pickedDate.month &&
-                              DateTime.now().day < pickedDate.day)) {}
                     });
                   }
                 },
@@ -722,7 +735,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
             children: [
               SizedBox(height: 30.h),
               Text(
-                "Personal documents",
+                S.of(context).driver_register_documents_title,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               SizedBox(height: 20.h),
@@ -737,7 +750,8 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => DriverImageDetailScreen(
-                            model: RegisterDriverModel.personalDocuments()[0],
+                            model: RegisterDriverModel.personalDocuments(
+                                context)[0],
                           ),
                         ),
                       );
@@ -749,7 +763,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                       }
                     },
                     imageFile: _nationalID,
-                    title: "National ID",
+                    title: S.of(context).driver_register_national_id,
                   ),
                   _containerAddImageWidget(
                       onTap: () async {
@@ -757,7 +771,8 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => DriverImageDetailScreen(
-                              model: RegisterDriverModel.personalDocuments()[1],
+                              model: RegisterDriverModel.personalDocuments(
+                                  context)[1],
                             ),
                           ),
                         );
@@ -769,14 +784,15 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                         }
                       },
                       imageFile: _nationalIDBack,
-                      title: "Back Side of ID"),
+                      title: S.of(context).driver_register_id_back),
                   _containerAddImageWidget(
                       onTap: () async {
                         final File? image = await Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => DriverImageDetailScreen(
-                              model: RegisterDriverModel.personalDocuments()[2],
+                              model: RegisterDriverModel.personalDocuments(
+                                  context)[2],
                             ),
                           ),
                         );
@@ -788,7 +804,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                         }
                       },
                       imageFile: _criminalStatusRecord,
-                      title: "Criminal Status Record"),
+                      title: S.of(context).driver_register_criminal_record),
                 ],
               )),
               SizedBox(height: 40.h),
@@ -799,20 +815,20 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                 cursorColor: Theme.of(context).primaryColor,
                 decoration: InputDecoration(
                   errorMaxLines: 2,
-                  hintText: "ID number",
+                  hintText: S.of(context).driver_register_id_number,
                 ),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return "Please enter an ID number.";
+                    return S.of(context).driver_register_id_required;
                   }
 
                   if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                    return "ID number must contain only digits.";
+                    return S.of(context).driver_register_id_digits_only;
                   }
 
                   if (value.length != 14) {
-                    return "ID number must be 14 digits long.";
+                    return S.of(context).driver_register_id_length;
                   }
 
                   return null;
@@ -837,7 +853,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
             children: [
               SizedBox(height: 30.h),
               Text(
-                "Vehicle information",
+                S.of(context).driver_register_vehicle_title,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               SizedBox(height: 20.h),
@@ -852,8 +868,8 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => DriverImageDetailScreen(
-                              model:
-                                  RegisterDriverModel.vehicleInformation()[0],
+                              model: RegisterDriverModel.vehicleInformation(
+                                  context)[0],
                             ),
                           ),
                         );
@@ -864,15 +880,15 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                         }
                       },
                       imageFile: _vehiclePicture,
-                      title: "Vehicle picture"),
+                      title: S.of(context).driver_register_vehicle_picture),
                   _containerAddImageWidget(
                       onTap: () async {
                         final File? image = await Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => DriverImageDetailScreen(
-                              model:
-                                  RegisterDriverModel.vehicleInformation()[1],
+                              model: RegisterDriverModel.vehicleInformation(
+                                  context)[1],
                             ),
                           ),
                         );
@@ -883,15 +899,15 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                         }
                       },
                       imageFile: _vehicleRegistrationCertificate,
-                      title: "Vehicle registration certificate"),
+                      title: S.of(context).driver_register_vehicle_certificate),
                   _containerAddImageWidget(
                       onTap: () async {
                         final File? image = await Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => DriverImageDetailScreen(
-                              model:
-                                  RegisterDriverModel.vehicleInformation()[2],
+                              model: RegisterDriverModel.vehicleInformation(
+                                  context)[2],
                             ),
                           ),
                         );
@@ -902,7 +918,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                         }
                       },
                       imageFile: _vehicleRegistrationBack,
-                      title: "Back side of certificate"),
+                      title: S.of(context).driver_register_certificate_back),
                 ],
               )),
               SizedBox(height: 40.h),
@@ -911,11 +927,11 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                 cursorColor: Theme.of(context).primaryColor,
                 decoration: InputDecoration(
                   errorMaxLines: 2,
-                  hintText: "Vehicle brand",
+                  hintText: S.of(context).driver_register_vehicle_brand,
                 ),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return "Please enter the vehicle brand.";
+                    return S.of(context).driver_register_brand_required;
                   }
                   return null;
                 },
@@ -927,11 +943,11 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                 cursorColor: Theme.of(context).primaryColor,
                 decoration: InputDecoration(
                   errorMaxLines: 2,
-                  hintText: "Vehicle model",
+                  hintText: S.of(context).driver_register_vehicle_model,
                 ),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return "Please enter the vehicle model.";
+                    return S.of(context).driver_register_model_required;
                   }
                   return null;
                 },
@@ -943,11 +959,11 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                 cursorColor: Theme.of(context).primaryColor,
                 decoration: InputDecoration(
                   errorMaxLines: 2,
-                  hintText: "Vehicle color",
+                  hintText: S.of(context).driver_register_vehicle_color,
                 ),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return "Please enter the vehicle color.";
+                    return S.of(context).driver_register_color_required;
                   }
                   return null;
                 },
@@ -960,18 +976,18 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                 cursorColor: Theme.of(context).primaryColor,
                 decoration: InputDecoration(
                   errorMaxLines: 2,
-                  hintText: "Production year",
+                  hintText: S.of(context).driver_register_production_year,
                 ),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return "Please enter the production year.";
+                    return S.of(context).driver_register_year_required;
                   }
                   final year = int.tryParse(value);
                   if (year == null ||
                       year < 2000 ||
                       year > DateTime.now().year) {
-                    return "Enter a valid year between 2000 and ${DateTime.now().year}.";
+                    return "${S.of(context).driver_register_year_range} ${DateTime.now().year}.";
                   }
                   return null;
                 },
@@ -983,30 +999,30 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                 cursorColor: Theme.of(context).primaryColor,
                 decoration: InputDecoration(
                   errorMaxLines: 2,
-                  hintText: "Plate number",
+                  hintText: S.of(context).driver_register_plate_number,
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return "Please enter license number";
+                    return S.of(context).driver_register_plate_required;
                   }
 
                   final letters = value.replaceAll(RegExp(r'[^a-zA-Zء-ي]'), '');
                   final numbers = value.replaceAll(RegExp(r'[^0-9]'), '');
 
                   if (value.length > 7) {
-                    return "The license number should not exceed 7 characters.";
+                    return S.of(context).driver_register_plate_length;
                   }
 
                   if (!RegExp(r'^[a-zA-Zء-ي]+[0-9]+$').hasMatch(value)) {
-                    return "The license number must start with letters followed by digits.";
+                    return S.of(context).driver_register_plate_format;
                   }
 
                   if (letters.length > 3) {
-                    return "The license number should not have more than 3 letters.";
+                    return S.of(context).driver_register_plate_letters;
                   }
 
                   if (numbers.length > 4) {
-                    return "The license number should not have more than 4 digits.";
+                    return S.of(context).driver_register_plate_digits;
                   }
 
                   return null;
@@ -1019,16 +1035,16 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                 cursorColor: Theme.of(context).primaryColor,
                 decoration: InputDecoration(
                   errorMaxLines: 2,
-                  hintText: "Number seats",
+                  hintText: S.of(context).driver_register_seats_number,
                 ),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return "Please enter number of seats.";
+                    return S.of(context).driver_register_seats_required;
                   }
                   final seats = int.tryParse(value);
                   if (seats == null || seats < 1 || seats > 20) {
-                    return "Enter a valid number between 1 and 20.";
+                    return S.of(context).driver_register_seats_range;
                   }
                   return null;
                 },
@@ -1053,7 +1069,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
             children: [
               SizedBox(height: 30.h),
               Text(
-                "Login information",
+                S.of(context).driver_register_login_title,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               SizedBox(height: 20.h),
@@ -1109,7 +1125,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return "S.of(context).please_confirm_password";
+                    return S.of(context).enter_password;
                   } else if (value != _passwordController.text) {
                     return S.of(context).passwords_do_not_match;
                   }
@@ -1172,32 +1188,6 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
             )
           ],
         ),
-        // Visibility(
-        //   visible: imageFile == null ? false : true,
-        //   child: Positioned(
-        //     top: -15,
-        //     right: -15,
-        //     child: InkWell(
-        //       onTap: onTap,
-        //       child: Container(
-        //         height: 30.h,
-        //         width: 30.h,
-        //         decoration: BoxDecoration(
-        //           color: Theme.of(context).primaryColor,
-        //           border: Border.all(
-        //             color: Theme.of(context).scaffoldBackgroundColor,
-        //             width: 2.5,
-        //           ),
-        //           borderRadius: BorderRadius.circular(50.r),
-        //         ),
-        //         child: Icon(
-        //           Iconsax.add,
-        //           color: Theme.of(context).scaffoldBackgroundColor,
-        //         ),
-        //       ),
-        //     ),
-        //   ),
-        // ),
       ],
     );
   }

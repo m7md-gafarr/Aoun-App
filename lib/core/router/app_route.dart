@@ -1,9 +1,13 @@
 import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/presentation/driver/help%20and%20feedback/view/help_and_feedback_screen.dart';
+import 'package:aoun_app/presentation/driver/history%20trips/view/driver_history_trips.dart';
+import 'package:aoun_app/presentation/driver/home/view/created_trip_details_screen.dart';
 import 'package:aoun_app/presentation/driver/home/view/select_route_on_map_screen.dart';
 import 'package:aoun_app/presentation/driver/profile/view/driver_edit_profile.dart';
 import 'package:aoun_app/presentation/driver/profile/view/driver_profile_screen.dart';
+import 'package:aoun_app/presentation/driver/safety/view/driver_safety_screen.dart';
 import 'package:aoun_app/presentation/driver/setting/view/driver_setting_screen.dart';
+import 'package:aoun_app/presentation/driver/wallet%20and%20earings/view/wallet_and_earnings_screen.dart';
 
 import 'package:aoun_app/presentation/introduction/select_type_screen.dart';
 import 'package:aoun_app/presentation/auth/views/confirm_password_screen.dart';
@@ -25,7 +29,7 @@ import 'package:aoun_app/presentation/user/profile/view/user_profile_screen.dart
 import 'package:aoun_app/presentation/user/transport/views/add_new_card_screen.dart';
 import 'package:aoun_app/presentation/user/transport/views/book_trip_screen.dart';
 import 'package:aoun_app/presentation/user/transport/views/map_select_route_screen.dart';
-import 'package:aoun_app/presentation/user/transport/views/map_viewr_route_screen.dart';
+import 'package:aoun_app/presentation/user/transport/views/map_view_route_screen.dart';
 import 'package:aoun_app/presentation/user/transport/views/payment_screen.dart';
 import 'package:aoun_app/presentation/user/transport/views/search_trip_screen.dart'
     show SearchTripScreen;
@@ -224,6 +228,11 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => SelectRouteOnMapScreen(),
         );
+      case AppRoutesName.createdTripDetailsScreenRoute:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (context) => CreatedTripDetailsScreen(),
+        );
 
       // Driver profile
       case AppRoutesName.driverProfileScreenRoute:
@@ -246,21 +255,25 @@ class AppRouter {
           settings: settings,
           builder: (context) => DriverEditProfile(),
         );
+      case AppRoutesName.driverWalletAndEarningsScreenRoute:
+        return MaterialPageRoute(
+          builder: (context) => DriverWalletAndEarningsScreen(),
+        );
 
-      // case AppRoutesName.driverHistoryTripsScreenRoute:
-      //   return MaterialPageRoute(
-      //     builder: (context) => DriverHistoryTripsScreen(),
-      //   );
+      case AppRoutesName.driverHistoryTripsScreenRoute:
+        return MaterialPageRoute(
+          builder: (context) => DriverHistoryTripsScreen(),
+        );
 
       // case AppRoutesName.notificationScreenRoute:
       //   return MaterialPageRoute(
       //     builder: (context) => NotificationScreen(),
       //   );
 
-      // case AppRoutesName.safetyScreenRoute:
-      //   return MaterialPageRoute(
-      //     builder: (context) => SafetyScreen(),
-      //   );
+      case AppRoutesName.driverSafetyScreenRoute:
+        return MaterialPageRoute(
+          builder: (context) => DriverSafetyScreen(),
+        );
 
       case AppRoutesName.driverHelpFeedbackScreenRoute:
         return MaterialPageRoute(

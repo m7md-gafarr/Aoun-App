@@ -12,10 +12,6 @@ class LocationProvider with ChangeNotifier {
   Position? get position => _position;
   Placemark? get placemark => _placemark;
 
-  LocationProvider(BuildContext context) {
-    startListening(context);
-  }
-
   void startListening(BuildContext context) async {
     _positionStream = LocationService.getLocationStream(context).listen(
       (Position newPosition) async {

@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'package:animations/animations.dart';
 import 'package:aoun_app/data/model/trip%20models/trip_model/trip_model.dart';
+import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/user/transport/views/trip_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -69,10 +70,12 @@ class _TripDetails extends StatelessWidget {
       children: [
         _TripDetailRow(
             iconRotation: math.pi / 4,
-            label: "From: ${trip.fromLocation!.fullAddress}"),
+            label:
+                "${S.of(context).trip_from_label}${trip.fromLocation!.fullAddress}"),
         _TripDetailRow(
             iconRotation: -3 * math.pi / 4,
-            label: "To: ${trip.fromLocation!.fullAddress}"),
+            label:
+                "${S.of(context).trip_to_label}${trip.fromLocation!.fullAddress}"),
         _TripDetailRow(
             icon: Iconsax.clock,
             label: " ${trip.basicInfo!.formattedDepartureTime}"),
@@ -125,7 +128,7 @@ class _TripPrice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      "\$${price.toInt()}",
+      "${S.of(context).trip_currency_symbol}${price.toInt()}",
       style: Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 17.sp),
     );
   }

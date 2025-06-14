@@ -13,6 +13,7 @@ class TripModel {
   AdditionalInfo? additionalInfo;
   double? pricePerSeat;
   DateTime? createdAt;
+  int? status;
 
   TripModel({
     this.id,
@@ -23,6 +24,7 @@ class TripModel {
     this.additionalInfo,
     this.pricePerSeat,
     this.createdAt,
+    this.status,
   });
 
   factory TripModel.fromJson(Map<String, dynamic> json) => TripModel(
@@ -49,6 +51,7 @@ class TripModel {
         createdAt: json['createdAt'] == null
             ? null
             : DateTime.parse(json['createdAt'] as String),
+        status: json['status'] as int?,
       );
 
   Map<String, dynamic> toJson() => {
@@ -60,5 +63,6 @@ class TripModel {
         'additionalInfo': additionalInfo?.toJson(),
         'pricePerSeat': pricePerSeat,
         'createdAt': createdAt?.toIso8601String(),
+        'status': status,
       };
 }

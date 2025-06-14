@@ -1,18 +1,21 @@
-import 'dart:developer';
-
 import 'package:animations/animations.dart';
+import 'package:aoun_app/core/utils/dialog/dialog_helper.dart';
 import 'package:aoun_app/core/utils/snakbar/snackebar_helper.dart';
 import 'package:aoun_app/data/model/trip%20models/get_trip_route/get_trip_route.dart';
 import 'package:aoun_app/data/model/trip%20models/greate_trip_model/greate_trip_model.dart';
 import 'package:aoun_app/data/model/trip%20models/trip_location_model.dart';
 import 'package:aoun_app/data/repositories/remote/trip_repository.dart';
+import 'package:aoun_app/generated/l10n.dart';
+import 'package:aoun_app/presentation/driver/history%20trips/view/driver_history_trips.dart';
+import 'package:aoun_app/presentation/driver/history%20trips/view_model/driver_trips_history/driver_trips_history_cubit.dart';
+import 'package:aoun_app/presentation/driver/history%20trips/view_model/driver_trips_history/driver_trips_history_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view/select_route_on_map_screen.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/amenities/amenities_cubit.dart';
+import 'package:aoun_app/presentation/driver/home/view_model/driver%20create%20trip%20or%20not/driver_create_trip_or_not_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/grate%20trip/create_trip_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/views/trip_details_screen.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart';
 import 'package:aoun_app/presentation/widgets/common/divider_widget.dart';
-import 'package:aoun_app/presentation/widgets/common/error_dialog_widget.dart';
 import 'package:aoun_app/presentation/widgets/common/title_section_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,7 +39,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
       TextEditingController();
   final TextEditingController driverNotesController = TextEditingController();
   final TextEditingController departureTimeController = TextEditingController();
-
+  GetTripRoute? tripRoute;
   DateTime? selectedDepartureTime;
   @override
   void initState() {
@@ -52,12 +55,33 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     final arguments = ModalRoute.of(context)!.settings.arguments;
+    if (arguments != null && arguments is List && arguments.length >= 2) {
+      formLocatiomModel = arguments[0];
+      fromLocation = formLocatiomModel!.fullAddress;
+      toLocatiomModel = arguments[1];
+      toLocation = toLocatiomModel!.fullAddress;
+    }
+    if (tripRoute == null &&
+        formLocatiomModel != null &&
+        toLocatiomModel != null) {
+      getRoute();
+    }
+  }
 
+  getRoute() async {
+    tripRoute = await TripRepository().getTripRoute(
+        LatLng(formLocatiomModel!.latitude!, formLocatiomModel!.longitude!),
+        LatLng(toLocatiomModel!.latitude!, toLocatiomModel!.longitude!));
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppbarWidget(
-        title: "Create trip",
+        title: S.of(context).create_trip_title,
       ),
       body: Form(
         key: keyForm,
@@ -114,7 +138,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "From",
+                            S.of(context).create_trip_from_label,
                             style: Theme.of(context).textTheme.labelSmall,
                           ),
                           OpenContainer(
@@ -139,6 +163,11 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                                   formLocatiomModel = result[1];
                                   setState(() {});
                                 }
+                                if (tripRoute == null &&
+                                    formLocatiomModel != null &&
+                                    toLocatiomModel != null) {
+                                  getRoute();
+                                }
                               },
                               child: fromLocation == null
                                   ? Row(
@@ -149,7 +178,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                                         ),
                                         SizedBox(width: 5.w),
                                         Text(
-                                          "Choose in map",
+                                          S.of(context).create_trip_choose_map,
                                           style: Theme.of(context)
                                               .textTheme
                                               .titleSmall!
@@ -180,7 +209,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                           ),
                           SizedBox(height: 30.h),
                           Text(
-                            "To",
+                            S.of(context).create_trip_to_label,
                             style: Theme.of(context).textTheme.labelSmall,
                           ),
                           OpenContainer(
@@ -205,6 +234,11 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                                   toLocatiomModel = result[1];
                                   setState(() {});
                                 }
+                                if (tripRoute == null &&
+                                    formLocatiomModel != null &&
+                                    toLocatiomModel != null) {
+                                  getRoute();
+                                }
                               },
                               child: toLocation == null
                                   ? Row(
@@ -215,7 +249,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                                         ),
                                         SizedBox(width: 5.w),
                                         Text(
-                                          "Choose in map",
+                                          S.of(context).create_trip_choose_map,
                                           style: Theme.of(context)
                                               .textTheme
                                               .titleSmall!
@@ -256,12 +290,14 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter available seats';
+                      return S
+                          .of(context)
+                          .create_trip_available_seats_validation;
                     }
                     return null;
                   },
                   decoration: InputDecoration(
-                    hintText: "Available Seats",
+                    hintText: S.of(context).create_trip_available_seats_hint,
                   ),
                 ),
                 SizedBox(height: 15.h),
@@ -271,12 +307,12 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter the price';
+                      return S.of(context).create_trip_price_validation;
                     }
                     return null;
                   },
                   decoration: InputDecoration(
-                    hintText: "Price of Seat",
+                    hintText: S.of(context).create_trip_price_hint,
                   ),
                 ),
                 SizedBox(height: 15.h),
@@ -317,16 +353,19 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please select time';
+                      return S
+                          .of(context)
+                          .create_trip_departure_time_validation;
                     }
                     return null;
                   },
                   decoration: InputDecoration(
-                    hintText: "Departure Time",
+                    hintText: S.of(context).create_trip_departure_time_hint,
                   ),
                 ),
                 DividerWidget(),
-                TitleSectionWidget(text: "Driver Notes"),
+                TitleSectionWidget(
+                    text: S.of(context).create_trip_driver_notes_title),
                 SizedBox(height: 15.h),
                 TextFormField(
                   controller: driverNotesController,
@@ -334,7 +373,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                   keyboardType: TextInputType.text,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your note';
+                      return S.of(context).create_trip_driver_notes_validation;
                     }
                     return null;
                   },
@@ -342,12 +381,13 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                   cursorColor: Theme.of(context).primaryColor,
                   decoration: InputDecoration(
                     errorMaxLines: 2,
-                    hintText: "Write your notes if you have any.",
+                    hintText: S.of(context).create_trip_driver_notes_hint,
                     hintStyle: Theme.of(context).textTheme.labelMedium,
                   ),
                 ),
                 DividerWidget(),
-                TitleSectionWidget(text: "Amenities"),
+                TitleSectionWidget(
+                    text: S.of(context).create_trip_amenities_title),
                 BlocBuilder<AmenitiesCubit, AmenitiesState>(
                   builder: (context, state) {
                     return Column(
@@ -371,14 +411,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                     if (fromLocation != null || toLocation != null) {
                       if (keyForm.currentState!.validate()) {
                         keyForm.currentState!.save();
-                        GetTripRoute tripRoute = await TripRepository()
-                            .getTripRoute(
-                                LatLng(formLocatiomModel!.latitude!,
-                                    formLocatiomModel!.longitude!),
-                                LatLng(toLocatiomModel!.latitude!,
-                                    toLocatiomModel!.longitude!));
-                        log(convertSecondsToTimeSpan(
-                            tripRoute.routes![0].duration!));
+
                         Map<String, bool> amenities =
                             context.read<AmenitiesCubit>().getAmenities();
                         final trip = CreateTripModel(
@@ -397,9 +430,9 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                           hasFreeWater: amenities['hasFreeWater'],
                           hasMusic: amenities['hasMusic'],
                           estimatedDistance:
-                              tripRoute.routes![0].distanceMeters,
+                              tripRoute!.routes![0].distanceMeters,
                           estimatedDuration: convertSecondsToTimeSpan(
-                              tripRoute.routes![0].duration!),
+                              tripRoute!.routes![0].duration!),
                         );
 
                         context
@@ -409,17 +442,23 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                     } else {
                       SnackbarHelper.showError(
                         context,
-                        title: "Must select distance",
+                        title: S.of(context).create_trip_distance_error,
                       );
                     }
                   },
                   child: BlocConsumer<CreateTripCubit, CreateTripState>(
                     listener: (context, state) async {
                       if (state is CreateTripFailure) {
-                        ErrorDialogWidget(message: state.errorMessage)
-                            .show(context);
+                        DialogHelper(context)
+                            .showErroeDialog(message: state.errorMessage);
                       } else if (state is CreateTripSuccess) {
                         Navigator.pop(context);
+                        context
+                            .read<DriverCreateTripOrNotCubit>()
+                            .driverCreateTripOrNot();
+                        context
+                            .read<DriverTripsHistoryCubit>()
+                            .getDriverTrips(forceRefresh: true);
                       }
                     },
                     builder: (context, state) {
@@ -432,7 +471,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                           ),
                         );
                       } else {
-                        return Text("Confirm publish trip");
+                        return Text(S.of(context).create_trip_confirm_button);
                       }
                     },
                   ),
@@ -457,17 +496,17 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
   String _getAmenityLabel(String key) {
     switch (key) {
       case "hasWiFi":
-        return "Wi-Fi";
+        return S.of(context).create_trip_wifi;
       case "hasPhoneCharger":
-        return "Phone Charger";
+        return S.of(context).create_trip_phone_charger;
       case "hasAirConditioning":
-        return "Air Conditioning";
+        return S.of(context).create_trip_air_conditioning;
       case "hasChildSeat":
-        return "Child Seat";
+        return S.of(context).create_trip_child_seat;
       case "hasFreeWater":
-        return "Free Water";
+        return S.of(context).create_trip_free_water;
       case "hasMusic":
-        return "USB/AUX for Music";
+        return S.of(context).create_trip_music;
       default:
         return key;
     }

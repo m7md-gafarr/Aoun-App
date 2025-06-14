@@ -2,8 +2,11 @@ import 'package:dio/dio.dart';
 
 class ApiResponse<T> {
   final bool success;
+
   final T? data;
+
   final String errors;
+
   final int? statusCode;
 
   ApiResponse({
@@ -34,6 +37,7 @@ class ApiResponseHandler {
   static ApiResponse<T> handleDioError<T>(DioException e) {
     final responseData = e.response?.data;
     final statusCode = e.response?.statusCode;
+    // Authentication error handling (currently commented out)
     // if (statusCode == 401) {
     //   return ApiResponse<T>(
     //     success: false,
@@ -48,6 +52,13 @@ class ApiResponseHandler {
     );
   }
 
+  /// Handles generic errors not specific to Dio
+  ///
+  /// Parameters:
+  /// - [e]: The error that occurred
+  ///
+  /// Returns:
+  /// - [ApiResponse<T>] with generic error message
   static ApiResponse<T> handleGenericError<T>(dynamic e) {
     return ApiResponse<T>(
       success: false,
@@ -55,6 +66,19 @@ class ApiResponseHandler {
     );
   }
 
+  /// Determines if the response indicates a successful operation
+  ///
+  /// Checks multiple success indicators:
+  /// - Explicit success flags
+  /// - Status indicators
+  /// - Message content
+  /// - Response structure
+  ///
+  /// Parameters:
+  /// - [data]: The response data to check
+  ///
+  /// Returns:
+  /// - true if the response indicates success, false otherwise
   static bool _isSuccess(dynamic data) {
     if (data is Map<String, dynamic>) {
       if (data.containsKey('success') && data['success'] == true) {
@@ -63,12 +87,15 @@ class ApiResponseHandler {
       if (data.containsKey('successed') && data['successed'] == true) {
         return true;
       }
+
       if (data.containsKey('status') && data['status'] == 'OK') {
         return true;
       }
+
       if (data.containsKey('routes')) {
         return true;
       }
+
       if (data.containsKey('message')) {
         final msg = data['message'].toString().toLowerCase();
 
@@ -81,20 +108,36 @@ class ApiResponseHandler {
         }
       }
     } else if (data is List) {
+      // Lists are considered successful responses
       return true;
     }
     return false;
   }
 
+  /// Extracts error messages from the response data
+  ///
+  /// Handles multiple error formats:
+  /// - String errors
+  /// - Error objects
+  /// - Array of errors
+  /// - Status-based errors
+  ///
+  /// Parameters:
+  /// - [data]: The response data to extract errors from
+  ///
+  /// Returns:
+  /// - Formatted error message string
   static String _extractErrors(dynamic data) {
     if (data == null) return 'No error details provided by the server';
 
     try {
+      // Handle string errors
       if (data is String) {
         return data;
       }
 
       if (data is Map<String, dynamic>) {
+        // Handle explicit error format
         if (data.containsKey('successed') &&
             data['successed'] == false &&
             data.containsKey('errors')) {
@@ -106,18 +149,21 @@ class ApiResponseHandler {
           }
         }
 
+        // Handle status-based errors
         if (data.containsKey('status') &&
             data['status'] == 'failed' &&
             data.containsKey('message')) {
           return data['message'].toString();
         }
 
+        // Handle message-based errors
         if (data.containsKey('message')) {
           return data['message'].toString();
         }
 
         return 'Unknown server error: ${data.toString()}';
       }
+      // Handle list responses
       if (data is List) {
         if (data.isEmpty) {
           return 'No active trip requests found';
