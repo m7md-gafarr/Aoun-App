@@ -1,7 +1,7 @@
 import 'weekly_stats.dart';
 
 class DriverDashboardModel {
-  int? balance;
+  double? balance;
   double? earningsSummary;
   int? completedTripsCount;
   WeeklyStats? weeklyStats;
@@ -15,7 +15,7 @@ class DriverDashboardModel {
 
   factory DriverDashboardModel.fromJson(Map<String, dynamic> json) {
     return DriverDashboardModel(
-      balance: json['balance'] as int?,
+      balance: (json['balance'] as num?)?.toDouble(),
       earningsSummary: (json['earningsSummary'] as num?)?.toDouble(),
       completedTripsCount: json['completedTripsCount'] as int?,
       weeklyStats: json['weeklyStats'] == null

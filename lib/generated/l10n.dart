@@ -3507,6 +3507,19 @@ class S {
       args: [count],
     );
   }
+
+  /// `{count, plural, =0{No trips} =1{1 trip} other{{count} trips}}`
+  String trip(num count) {
+    return Intl.plural(
+      count,
+      zero: 'No trips',
+      one: '1 trip',
+      other: '$count trips',
+      name: 'trip',
+      desc: 'Number of trip in English',
+      args: [count],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

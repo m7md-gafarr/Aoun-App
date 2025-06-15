@@ -52,13 +52,6 @@ class ApiResponseHandler {
     );
   }
 
-  /// Handles generic errors not specific to Dio
-  ///
-  /// Parameters:
-  /// - [e]: The error that occurred
-  ///
-  /// Returns:
-  /// - [ApiResponse<T>] with generic error message
   static ApiResponse<T> handleGenericError<T>(dynamic e) {
     return ApiResponse<T>(
       success: false,
@@ -66,19 +59,6 @@ class ApiResponseHandler {
     );
   }
 
-  /// Determines if the response indicates a successful operation
-  ///
-  /// Checks multiple success indicators:
-  /// - Explicit success flags
-  /// - Status indicators
-  /// - Message content
-  /// - Response structure
-  ///
-  /// Parameters:
-  /// - [data]: The response data to check
-  ///
-  /// Returns:
-  /// - true if the response indicates success, false otherwise
   static bool _isSuccess(dynamic data) {
     if (data is Map<String, dynamic>) {
       if (data.containsKey('success') && data['success'] == true) {
@@ -101,8 +81,10 @@ class ApiResponseHandler {
 
         if (msg.contains('saved') ||
             msg.contains('created') ||
+            msg.contains('successfully') ||
             msg.contains('submitted') ||
             msg.contains('success') ||
+            msg.contains('updated') ||
             msg.contains('done')) {
           return true;
         }
@@ -114,21 +96,9 @@ class ApiResponseHandler {
     return false;
   }
 
-  /// Extracts error messages from the response data
-  ///
-  /// Handles multiple error formats:
-  /// - String errors
-  /// - Error objects
-  /// - Array of errors
-  /// - Status-based errors
-  ///
-  /// Parameters:
-  /// - [data]: The response data to extract errors from
-  ///
-  /// Returns:
-  /// - Formatted error message string
   static String _extractErrors(dynamic data) {
-    if (data == null) return 'No error details provided by the server';
+    if (data == null || data.toString().trim().isEmpty)
+      return 'No error details provided by the server';
 
     try {
       // Handle string errors

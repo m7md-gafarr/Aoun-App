@@ -22,7 +22,6 @@ class GetTripsCubit extends Cubit<GetTripsState> {
           emit(GetTripsSuccess([]));
         } else {
           List<TripModel> list = [];
-
           for (var element in response.data!['data']!) {
             list.add(TripModel.fromJson(element));
           }

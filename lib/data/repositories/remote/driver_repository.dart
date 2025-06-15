@@ -78,11 +78,9 @@ class DriverRepository {
     try {
       return await ApiHelper().get<Map<String, dynamic>>(
         url: "$_apiUrl/Driver/dashboard",
-        options: Options(
-          headers: {
-            "Authorization": "Bearer $token",
-          },
-        ),
+        headers: {
+          "Authorization": "Bearer $token",
+        },
       );
     } on DioException catch (e) {
       return ApiResponseHandler.handleDioError<Map<String, dynamic>>(e);

@@ -369,5 +369,12 @@
     "placeholders": {
       "count": {}
     }
+  },
+  "trip": "{count, plural, =0{No trips} =1{1 trip} other{{count} trips}}",
+  "@trip": {
+    "description": "Number of trip in English",
+    "placeholders": {
+      "count": {}
+    }
   }
 }

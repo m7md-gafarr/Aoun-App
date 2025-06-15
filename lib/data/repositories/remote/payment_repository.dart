@@ -1,3 +1,4 @@
+import 'package:aoun_app/data/repositories/local/shared_pref.dart';
 import 'package:aoun_app/data/repositories/remote/api_helper.dart';
 import 'package:aoun_app/data/repositories/remote/api_response_handler.dart';
 import 'package:dio/dio.dart';
@@ -112,6 +113,46 @@ class PaymentRepository {
       return ApiResponseHandler.handleDioError(e);
     } catch (e) {
       return ApiResponseHandler.handleGenericError(e);
+    }
+  }
+
+  Future<ApiResponse<Map<String, dynamic>>> transactions() async {
+    String? token = await SharedPreferencesService().getToken();
+
+    try {
+      return await ApiHelper().get<Map<String, dynamic>>(
+        url: "$_apiUrl/Driver/wallet-transactions",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Authorization": "Bearer $token"
+        },
+      );
+    } on DioException catch (e) {
+      return ApiResponseHandler.handleDioError<Map<String, dynamic>>(e);
+    } catch (e) {
+      return ApiResponseHandler.handleGenericError<Map<String, dynamic>>(e);
+    }
+  }
+
+  Future<ApiResponse<Map<String, dynamic>>> withdrawFromWallet(
+      {required int amount}) async {
+    String? token = await SharedPreferencesService().getToken();
+
+    try {
+      return await ApiHelper().post<Map<String, dynamic>>(
+        url: "$_apiUrl/Driver/withdraw-from-wallet",
+        body: {"amount": amount},
+        headers: {
+          'Content-Type': 'application/json',
+          "Accept": "application/json",
+          "Authorization": "Bearer $token"
+        },
+      );
+    } on DioException catch (e) {
+      return ApiResponseHandler.handleDioError<Map<String, dynamic>>(e);
+    } catch (e) {
+      return ApiResponseHandler.handleGenericError<Map<String, dynamic>>(e);
     }
   }
 }

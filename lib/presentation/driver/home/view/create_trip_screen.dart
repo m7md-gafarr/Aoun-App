@@ -6,14 +6,13 @@ import 'package:aoun_app/data/model/trip%20models/greate_trip_model/greate_trip_
 import 'package:aoun_app/data/model/trip%20models/trip_location_model.dart';
 import 'package:aoun_app/data/repositories/remote/trip_repository.dart';
 import 'package:aoun_app/generated/l10n.dart';
-import 'package:aoun_app/presentation/driver/history%20trips/view/driver_history_trips.dart';
-import 'package:aoun_app/presentation/driver/history%20trips/view_model/driver_trips_history/driver_trips_history_cubit.dart';
 import 'package:aoun_app/presentation/driver/history%20trips/view_model/driver_trips_history/driver_trips_history_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view/select_route_on_map_screen.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/amenities/amenities_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/driver%20create%20trip%20or%20not/driver_create_trip_or_not_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/grate%20trip/create_trip_cubit.dart';
-import 'package:aoun_app/presentation/user/transport/views/trip_details_screen.dart';
+import 'package:aoun_app/presentation/driver/profile/view_model/get_driver_data/get_driver_data_cubit.dart';
+import 'package:aoun_app/presentation/user/transport/view/trip_details_screen.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart';
 import 'package:aoun_app/presentation/widgets/common/divider_widget.dart';
 import 'package:aoun_app/presentation/widgets/common/title_section_widget.dart';
@@ -41,6 +40,8 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
   final TextEditingController departureTimeController = TextEditingController();
   GetTripRoute? tripRoute;
   DateTime? selectedDepartureTime;
+
+  int? seatingCapacity;
   @override
   void initState() {
     super.initState();
@@ -69,6 +70,12 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
         toLocatiomModel != null) {
       getRoute();
     }
+    seatingCapacity = context
+        .read<GetDriverDataCubit>()
+        .driverdata
+        .data!
+        .vehicleInfo![0]
+        .seatingCapacity;
   }
 
   getRoute() async {
@@ -293,10 +300,16 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                       return S
                           .of(context)
                           .create_trip_available_seats_validation;
+                    } else if (int.parse(value) > seatingCapacity!) {
+                      return "Available seats must not exceed vehicle capacity ($seatingCapacity)";
+                    } else if (int.parse(value) == 0) {
+                      return "Available seats must be greater than 0";
                     }
+
                     return null;
                   },
                   decoration: InputDecoration(
+                    errorMaxLines: 2,
                     hintText: S.of(context).create_trip_available_seats_hint,
                   ),
                 ),

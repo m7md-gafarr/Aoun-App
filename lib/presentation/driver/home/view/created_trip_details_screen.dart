@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:aoun_app/core/app_color/app_color_light.dart';
 import 'package:aoun_app/data/model/driver_models/driver_craeted_trip/driver_trip_created/driver_trip_created_model.dart';
 import 'package:aoun_app/generated/l10n.dart';
-import 'package:aoun_app/presentation/driver/home/view_model/delete%20trip/deletetrip_cubit.dart';
+import 'package:aoun_app/presentation/driver/history%20trips/view_model/driver_trips_history/driver_trips_history_cubit.dart';
+import 'package:aoun_app/presentation/driver/home/view_model/cancel_trip/cancel_trip_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/driver%20create%20trip%20or%20not/driver_create_trip_or_not_cubit.dart';
-import 'package:aoun_app/presentation/user/transport/views/trip_details_screen.dart';
+import 'package:aoun_app/presentation/user/transport/view/trip_details_screen.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart';
 import 'package:aoun_app/presentation/widgets/common/divider_widget.dart';
 import 'package:flutter/material.dart';
@@ -49,6 +52,7 @@ class _CreateTripScreenState extends State<CreatedTripDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    log(MediaQuery.of(context).platformBrightness.toString());
     return Scaffold(
       appBar: AppbarWidget(
         title: S.of(context).trip_details_title,
@@ -172,48 +176,94 @@ class _CreateTripScreenState extends State<CreatedTripDetailsScreen> {
                     .format(tripModel!.createdAt!),
               ),
               DividerWidget(),
-              Text(
-                "You can cancel the trip anytime up to 1 hour before the departure time.\n"
-                "Canceling after that may affect your integrity score.",
-                style: Theme.of(context).textTheme.labelSmall,
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(
-                height: 7.h,
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  context
-                      .read<DeletetripCubit>()
-                      .deleteTrip(tripModel!.id.toString());
-                },
-                style: Theme.of(context).elevatedButtonTheme.style!.copyWith(
-                    backgroundColor:
-                        WidgetStatePropertyAll(AppColorLight.errorColor)),
-                child: BlocConsumer<DeletetripCubit, DeletetripState>(
-                  listener: (context, state) {
-                    if (state is DeletetripSuccess) {
-                      context
-                          .read<DriverCreateTripOrNotCubit>()
-                          .driverCreateTripOrNot();
-                      Navigator.pop(context);
-                    }
-                  },
-                  builder: (context, state) {
-                    if (state is DeletetripLoading) {
-                      return SizedBox(
-                        height: 30,
-                        width: 30,
-                        child: CircularProgressIndicator(
-                          color: Theme.of(context).scaffoldBackgroundColor,
+              tripModel!.status! == 3
+                  ? Column(
+                      children: [
+                        Text(
+                          "You can cancel the trip anytime up to 1 hour before the departure time.\n"
+                          "Canceling after that may affect your integrity score.",
+                          style: Theme.of(context).textTheme.labelSmall,
+                          textAlign: TextAlign.center,
                         ),
-                      );
-                    } else {
-                      return Text("Canceled trip");
-                    }
-                  },
-                ),
-              ),
+                        SizedBox(
+                          height: 7.h,
+                        ),
+                        ElevatedButton(
+                          onPressed: () async {
+                            context
+                                .read<CancelTripCubit>()
+                                .cancelTrip(tripModel!.id.toString());
+                          },
+                          style: Theme.of(context)
+                              .elevatedButtonTheme
+                              .style!
+                              .copyWith(
+                                  backgroundColor: WidgetStatePropertyAll(
+                                      AppColorLight.errorColor)),
+                          child: BlocConsumer<CancelTripCubit, CancelTripState>(
+                            listener: (context, state) {
+                              if (state is CancelTripSuccess) {
+                                context
+                                    .read<DriverCreateTripOrNotCubit>()
+                                    .driverCreateTripOrNot();
+                                context
+                                    .read<DriverTripsHistoryCubit>()
+                                    .getDriverTrips(forceRefresh: true);
+                                Navigator.pop(context);
+                              }
+                            },
+                            builder: (context, state) {
+                              if (state is CancelTripLoading) {
+                                return SizedBox(
+                                  height: 30,
+                                  width: 30,
+                                  child: CircularProgressIndicator(
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
+                                  ),
+                                );
+                              } else {
+                                return Text("Canceled trip");
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    )
+                  : ElevatedButton(
+                      onPressed: () async {
+                        // context
+                        //     .read<CancelTripCubit>()
+                        //     .cancelTrip(tripModel!.id.toString());
+                      },
+                      child: BlocConsumer<CancelTripCubit, CancelTripState>(
+                        listener: (context, state) {
+                          if (state is CancelTripSuccess) {
+                            context
+                                .read<DriverCreateTripOrNotCubit>()
+                                .driverCreateTripOrNot();
+                            context
+                                .read<DriverTripsHistoryCubit>()
+                                .getDriverTrips(forceRefresh: true);
+                            Navigator.pop(context);
+                          }
+                        },
+                        builder: (context, state) {
+                          if (state is CancelTripLoading) {
+                            return SizedBox(
+                              height: 30,
+                              width: 30,
+                              child: CircularProgressIndicator(
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
+                              ),
+                            );
+                          } else {
+                            return Text("Finish trip");
+                          }
+                        },
+                      ),
+                    ),
               SizedBox(height: 15.h),
             ],
           ),

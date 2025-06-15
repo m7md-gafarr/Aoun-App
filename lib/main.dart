@@ -1,6 +1,7 @@
 import 'package:aoun_app/core/Theme/app_theme_dark.dart';
 import 'package:aoun_app/core/router/app_route.dart';
 import 'package:aoun_app/core/router/route_name.dart';
+import 'package:aoun_app/core/utils/Theme/theme_provider.dart';
 import 'package:aoun_app/core/utils/check_connection/check_connection_cubit.dart';
 import 'package:aoun_app/core/utils/language/language.dart';
 import 'package:aoun_app/core/utils/location/location_Provider.dart';
@@ -15,6 +16,7 @@ import 'package:aoun_app/presentation/auth/view_model/user_register_cubit/regist
 import 'package:aoun_app/presentation/auth/view_model/sendOTPForPasswordReset_cubit/send_otp_for_password_reset_cubit.dart';
 import 'package:aoun_app/presentation/auth/view_model/verifyOTP_cubit/verify_otp_cubit.dart';
 import 'package:aoun_app/presentation/driver/history%20trips/view_model/driver_trips_history/driver_trips_history_cubit.dart';
+import 'package:aoun_app/presentation/driver/home/view_model/cancel_trip/cancel_trip_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/delete%20trip/deletetrip_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/driver%20dashboard/driver_dashboard_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/textfeild%20search%20location/textfeild_search_location_cubit.dart';
@@ -25,6 +27,8 @@ import 'package:aoun_app/presentation/driver/home/view_model/grate%20trip/create
 import 'package:aoun_app/presentation/driver/home/view_model/street%20name/street_name_cubit.dart';
 import 'package:aoun_app/presentation/driver/profile/view_model/driver_edit_profile_data/driver_edit_profile_data_cubit.dart';
 import 'package:aoun_app/presentation/driver/profile/view_model/get_driver_data/get_driver_data_cubit.dart';
+import 'package:aoun_app/presentation/driver/wallet%20and%20earings/view_model/transactions/transactions_cubit.dart';
+import 'package:aoun_app/presentation/driver/wallet%20and%20earings/view_model/withdraw_from_wallet/withdraw_from_wallet_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/add_new_debit_card/add_new_debit_card_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/booking_trip/booking_trip_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/create_request_trip/create_request_trip_cubit.dart';
@@ -82,7 +86,10 @@ void main() async {
         BlocProvider(create: (context) => CreateRequestTripCubit()),
         BlocProvider(create: (context) => GetDriverDataCubit()),
         BlocProvider(create: (context) => GetTripsCubit()),
+        BlocProvider(create: (context) => CancelTripCubit()),
         BlocProvider(create: (context) => DeletetripCubit()),
+        BlocProvider(create: (context) => TransactionsCubit()),
+        BlocProvider(create: (context) => WithdrawFromWalletCubit()),
         BlocProvider(create: (context) => BookingTripCubit()),
         BlocProvider(create: (context) => DriverDashboardCubit()),
         BlocProvider(create: (context) => DriverTripsHistoryCubit()),
@@ -99,6 +106,9 @@ void main() async {
             ),
             ChangeNotifierProvider(
               create: (_) => LanguageProvider(),
+            ),
+            ChangeNotifierProvider(
+              create: (_) => ThemeProvider(),
             ),
           ],
           child: AounApp(
@@ -117,30 +127,29 @@ class AounApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       builder: (_, child) => Consumer<LanguageProvider>(
-          builder: (context, languageProvider, child) {
-        return MaterialApp(
-          locale: languageProvider.locale,
-          localizationsDelegates: const [
-            S.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: [
-            ...S.delegate.supportedLocales,
-          ],
-          debugShowCheckedModeBanner: false,
-          onGenerateRoute: appRouter.generate_route,
-
-          //Route,
-          initialRoute: AppRoutesName.splashScreenRoute,
-          // home: MapScreen(),
-
-          theme: MediaQuery.of(context).platformBrightness == Brightness.dark
-              ? getThemeColorDark(context, languageProvider.locale)
-              : getThemeColorLight(context, languageProvider.locale),
-        );
-      }),
+        builder: (context, languageProvider, child) {
+          return Consumer<ThemeProvider>(
+            builder: (context, themeProvider, _) {
+              return MaterialApp(
+                locale: languageProvider.locale,
+                localizationsDelegates: const [
+                  S.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: S.delegate.supportedLocales,
+                debugShowCheckedModeBanner: false,
+                onGenerateRoute: appRouter.generate_route,
+                initialRoute: AppRoutesName.splashScreenRoute,
+                themeMode: themeProvider.themeMode,
+                theme: getThemeColorLight(context, languageProvider.locale),
+                darkTheme: getThemeColorDark(context, languageProvider.locale),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

@@ -5,7 +5,7 @@ import 'package:aoun_app/core/utils/map/google_map.dart';
 import 'package:aoun_app/data/model/map%20models/route_model/route_model.dart';
 import 'package:aoun_app/data/model/trip%20models/trip_model/trip_model.dart';
 import 'package:aoun_app/generated/l10n.dart';
-import 'package:aoun_app/presentation/user/transport/views/map_view_pickup_point_screen.dart';
+import 'package:aoun_app/presentation/user/transport/view/map_view_pickup_point_screen.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart';
 import 'package:aoun_app/presentation/widgets/common/divider_widget.dart';
 import 'package:aoun_app/presentation/widgets/common/review_card_widget.dart';

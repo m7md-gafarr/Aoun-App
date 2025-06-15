@@ -21,11 +21,16 @@ class DriverSafetyScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(S.of(context).driver_safety_emergency_title,
-                  style: Theme.of(context).textTheme.titleMedium),
+              Text(
+                S.of(context).driver_safety_emergency_title,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleSmall!
+                    .copyWith(fontWeight: FontWeight.bold),
+              ),
               SizedBox(height: 5.h),
               Text(S.of(context).driver_safety_emergency_subtitle,
-                  style: Theme.of(context).textTheme.bodyLarge),
+                  style: Theme.of(context).textTheme.bodyMedium),
               SizedBox(height: 10.h),
               ElevatedButton(
                 onPressed: () async {
@@ -44,25 +49,38 @@ class DriverSafetyScreen extends StatelessWidget {
                 child: Text(S.of(context).driver_safety_call_now),
               ),
               DividerWidget(),
-              Text(S.of(context).driver_safety_verification_title,
-                  style: Theme.of(context).textTheme.titleMedium),
+              Text(
+                S.of(context).driver_safety_verification_title,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleSmall!
+                    .copyWith(fontWeight: FontWeight.bold),
+              ),
               SizedBox(height: 5.h),
               Text(S.of(context).driver_safety_verification_subtitle,
-                  style: Theme.of(context).textTheme.bodyLarge),
+                  style: Theme.of(context).textTheme.bodyMedium),
               DividerWidget(),
-              Text(S.of(context).driver_safety_tips_title,
-                  style: Theme.of(context).textTheme.titleMedium),
+              Text(
+                S.of(context).driver_safety_tips_title,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleSmall!
+                    .copyWith(fontWeight: FontWeight.bold),
+              ),
               SizedBox(height: 5.h),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(Iconsax.tick_circle),
+                  Icon(
+                    Iconsax.tick_circle,
+                    size: 22.w,
+                  ),
                   SizedBox(width: 5.w),
                   Expanded(
                     child: Text(
                       S.of(context).driver_safety_tip_check_plate,
                       softWrap: true,
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
                 ],
@@ -71,13 +89,16 @@ class DriverSafetyScreen extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(Iconsax.tick_circle),
+                  Icon(
+                    Iconsax.tick_circle,
+                    size: 22.w,
+                  ),
                   SizedBox(width: 5.w),
                   Expanded(
                     child: Text(
                       S.of(context).driver_safety_tip_share_trip,
                       softWrap: true,
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
                 ],
@@ -86,23 +107,31 @@ class DriverSafetyScreen extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(Iconsax.tick_circle),
+                  Icon(
+                    Iconsax.tick_circle,
+                    size: 22.w,
+                  ),
                   SizedBox(width: 5.w),
                   Expanded(
                     child: Text(
                       S.of(context).driver_safety_tip_seatbelt,
                       softWrap: true,
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
                 ],
               ),
               DividerWidget(),
-              Text(S.of(context).driver_safety_help_title,
-                  style: Theme.of(context).textTheme.titleMedium),
+              Text(
+                S.of(context).driver_safety_help_title,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleSmall!
+                    .copyWith(fontWeight: FontWeight.bold),
+              ),
               SizedBox(height: 5.h),
               Text(S.of(context).driver_safety_help_subtitle,
-                  style: Theme.of(context).textTheme.bodyLarge),
+                  style: Theme.of(context).textTheme.bodyMedium),
               SizedBox(height: 10.h),
               ElevatedButton(
                 onPressed: () async {

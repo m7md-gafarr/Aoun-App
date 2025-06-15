@@ -144,12 +144,11 @@ class TripRepository {
   Future<ApiResponse<Map<String, dynamic>>> getDriverTrips() async {
     String? token = await SharedPreferencesService().getToken();
     return await ApiHelper().get<Map<String, dynamic>>(
-        url: "$_apiUrl/Trips/driver",
-        options: Options(
-          headers: {
-            "accept": "*/*",
-            "Authorization": "Bearer $token",
-          },
-        ));
+      url: "$_apiUrl/Trips/driver",
+      headers: {
+        "accept": "*/*",
+        "Authorization": "Bearer $token",
+      },
+    );
   }
 }

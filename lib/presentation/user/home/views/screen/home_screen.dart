@@ -1,6 +1,6 @@
 import 'package:aoun_app/core/router/route_name.dart';
 
-import 'package:aoun_app/presentation/user/transport/views/transport_screen.dart';
+import 'package:aoun_app/presentation/user/transport/view/transport_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

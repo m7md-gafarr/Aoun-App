@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:aoun_app/data/repositories/remote/api_response_handler.dart';
 import 'package:dio/dio.dart';
 
@@ -10,9 +12,13 @@ class ApiHelper {
     ),
   );
 
-  Future<ApiResponse<T>> get<T>({required String url, Options? options}) async {
+  Future<ApiResponse<T>> get<T>(
+      {required String url, Map<String, String>? headers}) async {
     try {
-      Response response = await dio.get(url, options: options);
+      Response response = await dio.get(
+        url,
+        options: Options(headers: headers),
+      );
 
       if (response.data == null) {
         return ApiResponse<T>(
@@ -76,12 +82,12 @@ class ApiHelper {
     required Map<String, String> headers,
   }) async {
     try {
-      Response response = await dio.put(
+      Response response = await dio.patch(
         url,
         data: body,
         options: Options(headers: headers),
       );
-
+      log(response.toString());
       return ApiResponseHandler.handleSuccess<T>(response);
     } on DioException catch (e) {
       return ApiResponseHandler.handleDioError<T>(e);

@@ -2,6 +2,7 @@ import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart';
 import 'package:aoun_app/presentation/widgets/common/divider_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HelpAndFeedbackScreen extends StatelessWidget {
   const HelpAndFeedbackScreen({super.key});
@@ -13,8 +14,13 @@ class HelpAndFeedbackScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 13.0),
         child: ListView(
           children: [
-            Text(S.of(context).help_feedback_faqs_title,
-                style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              S.of(context).help_feedback_faqs_title,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleSmall!
+                  .copyWith(fontWeight: FontWeight.bold),
+            ),
             ExpansionTile(
               leading: Icon(
                 Icons.help_outline,
@@ -22,13 +28,16 @@ class HelpAndFeedbackScreen extends StatelessWidget {
               ),
               title: Text(
                 S.of(context).help_feedback_how_to_use_question,
-                style: Theme.of(context).textTheme.titleSmall,
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      fontSize: 16.sp,
+                    ),
               ),
               children: [
                 Padding(
                   padding: EdgeInsets.all(16.0),
                   child: Text(
                     S.of(context).help_feedback_how_to_use_answer,
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ),
               ],
@@ -41,13 +50,16 @@ class HelpAndFeedbackScreen extends StatelessWidget {
               ),
               title: Text(
                 S.of(context).help_feedback_report_problem_question,
-                style: Theme.of(context).textTheme.titleSmall,
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      fontSize: 16.sp,
+                    ),
               ),
               children: [
                 Padding(
                   padding: EdgeInsets.all(16.0),
                   child: Text(
                     S.of(context).help_feedback_report_problem_answer,
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ),
               ],
@@ -59,7 +71,9 @@ class HelpAndFeedbackScreen extends StatelessWidget {
               ),
               title: Text(
                 S.of(context).help_feedback_contact_support_question,
-                style: Theme.of(context).textTheme.titleSmall,
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      fontSize: 16.sp,
+                    ),
               ),
               children: [
                 Padding(
@@ -77,13 +91,16 @@ class HelpAndFeedbackScreen extends StatelessWidget {
               ),
               title: Text(
                 S.of(context).help_feedback_language_theme_question,
-                style: Theme.of(context).textTheme.titleSmall,
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      fontSize: 16.sp,
+                    ),
               ),
               children: [
                 Padding(
                   padding: EdgeInsets.all(16.0),
                   child: Text(
                     S.of(context).help_feedback_language_theme_answer,
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ),
               ],
@@ -95,13 +112,16 @@ class HelpAndFeedbackScreen extends StatelessWidget {
               ),
               title: Text(
                 S.of(context).help_feedback_safety_info_question,
-                style: Theme.of(context).textTheme.titleSmall,
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      fontSize: 16.sp,
+                    ),
               ),
               children: [
                 Padding(
                   padding: EdgeInsets.all(16.0),
                   child: Text(
                     S.of(context).help_feedback_safety_info_answer,
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ),
               ],
@@ -109,7 +129,10 @@ class HelpAndFeedbackScreen extends StatelessWidget {
             DividerWidget(),
             Text(
               S.of(context).help_feedback_contact_support_title,
-              style: Theme.of(context).textTheme.titleMedium,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleSmall!
+                  .copyWith(fontWeight: FontWeight.bold),
             ),
             ListTile(
               leading: Icon(
@@ -118,7 +141,9 @@ class HelpAndFeedbackScreen extends StatelessWidget {
               ),
               title: Text(
                 S.of(context).help_feedback_support_email,
-                style: Theme.of(context).textTheme.titleSmall,
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      fontSize: 16.sp,
+                    ),
               ),
             ),
             ListTile(
@@ -129,7 +154,9 @@ class HelpAndFeedbackScreen extends StatelessWidget {
               title: Text(
                 textDirection: TextDirection.ltr,
                 S.of(context).help_feedback_support_phone,
-                style: Theme.of(context).textTheme.titleSmall,
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      fontSize: 16.sp,
+                    ),
               ),
             ),
           ],

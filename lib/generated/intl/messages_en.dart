@@ -25,6 +25,9 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m1(count) =>
       "${Intl.plural(count, zero: 'No seats', one: '1 seat', other: '${count} seats')}";
 
+  static String m2(count) =>
+      "${Intl.plural(count, zero: 'No trips', one: '1 trip', other: '${count} trips')}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "account_created_message": MessageLookupByLibrary.simpleMessage(
@@ -843,6 +846,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "transport_no_trips": MessageLookupByLibrary.simpleMessage(
       "No trips found.",
     ),
+    "trip": m2,
     "trip_currency_symbol": MessageLookupByLibrary.simpleMessage("\$"),
     "trip_details_additional_info": MessageLookupByLibrary.simpleMessage(
       "Additional Info",

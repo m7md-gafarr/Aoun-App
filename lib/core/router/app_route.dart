@@ -26,14 +26,14 @@ import 'package:animations/animations.dart';
 import 'package:aoun_app/presentation/user/notification/view/user_notification_screen.dart';
 import 'package:aoun_app/presentation/user/profile/view/user_edit_profile_screen.dart';
 import 'package:aoun_app/presentation/user/profile/view/user_profile_screen.dart';
-import 'package:aoun_app/presentation/user/transport/views/add_new_card_screen.dart';
-import 'package:aoun_app/presentation/user/transport/views/book_trip_screen.dart';
-import 'package:aoun_app/presentation/user/transport/views/map_select_route_screen.dart';
-import 'package:aoun_app/presentation/user/transport/views/map_view_route_screen.dart';
-import 'package:aoun_app/presentation/user/transport/views/payment_screen.dart';
-import 'package:aoun_app/presentation/user/transport/views/search_trip_screen.dart'
+import 'package:aoun_app/presentation/user/transport/view/add_new_card_screen.dart';
+import 'package:aoun_app/presentation/user/transport/view/book_trip_screen.dart';
+import 'package:aoun_app/presentation/user/transport/view/map_select_route_screen.dart';
+import 'package:aoun_app/presentation/user/transport/view/map_view_route_screen.dart';
+import 'package:aoun_app/presentation/user/transport/view/payment_screen.dart';
+import 'package:aoun_app/presentation/user/transport/view/search_trip_screen.dart'
     show SearchTripScreen;
-import 'package:aoun_app/presentation/user/transport/views/trip_details_screen.dart';
+import 'package:aoun_app/presentation/user/transport/view/trip_details_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../presentation/auth/views/complet_user_data_screen.dart';

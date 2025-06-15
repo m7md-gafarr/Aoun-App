@@ -45,10 +45,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
       appBar: AppBar(
         actions: [
           IconButton(
-            onPressed: () async {
-              context.read<DriverDashboardCubit>().getDashboard();
-              context.read<ActiveTripRequestsCubit>().getActiveTripRequests();
-            },
+            onPressed: () async {},
             icon: Icon(Iconsax.notification),
           ),
         ],
@@ -244,7 +241,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                                 ),
                                 SizedBox(height: 5.h),
                                 Text(
-                                  "\$ ${state.dashboardModel.balance}",
+                                  "\$ ${state.dashboardModel.balance!.toStringAsFixed(1)}",
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleSmall
@@ -264,13 +261,13 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                                 title:
                                     S.of(context).home_driver_earnings_summary,
                                 value:
-                                    "\$ ${state.dashboardModel.earningsSummary}",
+                                    "\$ ${state.dashboardModel.earningsSummary!.toStringAsFixed(1)}",
                               ),
                               _InfoCard(
                                 title:
                                     S.of(context).home_driver_completed_trips,
-                                value:
-                                    "${state.dashboardModel.completedTripsCount} trips",
+                                value: S.of(context).trip(
+                                    state.dashboardModel.completedTripsCount!),
                               ),
                             ],
                           ),
@@ -287,7 +284,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                                     fontSize: 12.sp, color: Colors.teal[800]),
                               ),
                               primaryYAxis: NumericAxis(
-                                minimum: 0,
+                                minimum: 1,
                                 maximum: [
                                       state.dashboardModel.weeklyStats!.monday!
                                           .toDouble(),
@@ -405,8 +402,6 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                               width: MediaQuery.of(context).size.width,
                               padding: EdgeInsets.all(7.r),
                               decoration: BoxDecoration(
-                                color:
-                                    Theme.of(context).scaffoldBackgroundColor,
                                 borderRadius: BorderRadius.circular(12.r),
                               ),
                               child: Column(
@@ -415,7 +410,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                                 children: [
                                   Container(
                                     height: 15.h,
-                                    width: 30.w,
+                                    width: 100.w,
                                     padding: EdgeInsets.all(7.r),
                                     decoration: BoxDecoration(
                                         color: Theme.of(context)
@@ -426,7 +421,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                                   SizedBox(height: 5.h),
                                   Container(
                                     height: 15.h,
-                                    width: MediaQuery.of(context).size.width,
+                                    width: 200.w,
                                     padding: EdgeInsets.all(7.r),
                                     decoration: BoxDecoration(
                                         color: Theme.of(context)
@@ -448,9 +443,6 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                                   height: 65.h,
                                   padding: EdgeInsets.all(7.r),
                                   decoration: BoxDecoration(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .primaryContainer,
                                     borderRadius: BorderRadius.circular(12.r),
                                   ),
                                   child: Column(
@@ -460,7 +452,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                                     children: [
                                       Container(
                                         height: 15.h,
-                                        width: 30.w,
+                                        width: 80.w,
                                         padding: EdgeInsets.all(7.r),
                                         decoration: BoxDecoration(
                                             color: Theme.of(context)
@@ -472,7 +464,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                                       SizedBox(height: 5.h),
                                       Container(
                                         height: 15.h,
-                                        width: 30.w,
+                                        width: 130.w,
                                         padding: EdgeInsets.all(7.r),
                                         decoration: BoxDecoration(
                                             color: Theme.of(context)
@@ -490,9 +482,6 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                                   height: 65.h,
                                   padding: EdgeInsets.all(7.r),
                                   decoration: BoxDecoration(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .primaryContainer,
                                     borderRadius: BorderRadius.circular(12.r),
                                   ),
                                   child: Column(
@@ -502,7 +491,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                                     children: [
                                       Container(
                                         height: 15.h,
-                                        width: 30.w,
+                                        width: 80.w,
                                         padding: EdgeInsets.all(7.r),
                                         decoration: BoxDecoration(
                                             color: Theme.of(context)
@@ -514,7 +503,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                                       SizedBox(height: 5.h),
                                       Container(
                                         height: 15.h,
-                                        width: 30.w,
+                                        width: 130.w,
                                         padding: EdgeInsets.all(7.r),
                                         decoration: BoxDecoration(
                                             color: Theme.of(context)

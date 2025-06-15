@@ -8,7 +8,7 @@ import 'package:aoun_app/data/model/map%20models/route_model/route_model.dart';
 import 'package:aoun_app/data/model/trip%20models/booking_trip/booking_request_trip_model.dart';
 import 'package:aoun_app/data/model/trip%20models/trip_model/trip_model.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/booking_trip/booking_trip_cubit.dart';
-import 'package:aoun_app/presentation/user/transport/views/map_select_meeting_point_meet.dart';
+import 'package:aoun_app/presentation/user/transport/view/map_select_meeting_point_meet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

@@ -1,5 +1,6 @@
 import 'package:aoun_app/core/app_color/app_color_light.dart';
 import 'package:aoun_app/core/router/route_name.dart';
+import 'package:aoun_app/core/utils/Theme/theme_provider.dart';
 import 'package:aoun_app/core/utils/language/language.dart';
 import 'package:aoun_app/data/repositories/local/shared_pref.dart';
 import 'package:aoun_app/generated/l10n.dart';
@@ -17,6 +18,8 @@ class DriverSettingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final langProvider = Provider.of<LanguageProvider>(context);
     final currentLang = langProvider.locale?.languageCode ?? "en";
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    final currentTheme = themeProvider.themeMode.name.toString();
     return Scaffold(
       appBar: AppbarWidget(title: S.of(context).driver_settings_title),
       body: SingleChildScrollView(
@@ -35,50 +38,74 @@ class DriverSettingScreen extends StatelessWidget {
                       context, AppRoutesName.resetPasswordScreenRoute);
                 },
                 child: Text(S.of(context).driver_settings_change_password,
-                    style: Theme.of(context).textTheme.titleMedium),
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall!
+                        .copyWith(fontWeight: FontWeight.bold)),
               ),
               SizedBox(height: 10.h),
               DividerWidget(),
               ListTile(
                 contentPadding: EdgeInsets.all(0),
                 title: Text(S.of(context).driver_settings_language,
-                    style: Theme.of(context).textTheme.titleMedium),
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall!
+                        .copyWith(fontWeight: FontWeight.bold)),
                 trailing: InkWell(
-                    focusColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    onTap: () =>
-                        _showLanguageBottomSheet(context, langProvider),
-                    child: Consumer(
-                      builder: (context, value, child) => Text(
-                          currentLang.toUpperCase(),
-                          style: Theme.of(context).textTheme.titleSmall),
-                    )),
+                  focusColor: Colors.transparent,
+                  hoverColor: Colors.transparent,
+                  splashColor: Colors.transparent,
+                  onTap: () => _showLanguageBottomSheet(context, langProvider),
+                  child: Consumer<LanguageProvider>(
+                    builder: (context, value, child) => Text(
+                        currentLang.toUpperCase(),
+                        style: Theme.of(context).textTheme.titleSmall),
+                  ),
+                ),
               ),
               DividerWidget(),
               ListTile(
                 contentPadding: EdgeInsets.all(0),
                 title: Text(S.of(context).driver_settings_theme,
-                    style: Theme.of(context).textTheme.titleMedium),
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall!
+                        .copyWith(fontWeight: FontWeight.bold)),
                 trailing: InkWell(
                   focusColor: Colors.transparent,
                   hoverColor: Colors.transparent,
                   splashColor: Colors.transparent,
-                  onTap: () {},
-                  child: Text(S.of(context).driver_settings_dark_mode,
-                      style: Theme.of(context).textTheme.titleSmall),
+                  onTap: () => _showThemeBottomSheet(context, themeProvider),
+                  child: Consumer<ThemeProvider>(
+                    builder: (context, value, child) => Text(
+                        currentTheme.toUpperCase(),
+                        style: Theme.of(context).textTheme.titleSmall),
+                  ),
                 ),
               ),
               DividerWidget(),
               SizedBox(height: 10.h),
               Text(S.of(context).driver_settings_contact_us,
-                  style: Theme.of(context).textTheme.titleMedium),
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleSmall!
+                      .copyWith(fontWeight: FontWeight.bold)),
               Text(S.of(context).driver_settings_terms,
-                  style: Theme.of(context).textTheme.titleMedium),
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleSmall!
+                      .copyWith(fontWeight: FontWeight.bold)),
               Text(S.of(context).driver_settings_privacy,
-                  style: Theme.of(context).textTheme.titleMedium),
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleSmall!
+                      .copyWith(fontWeight: FontWeight.bold)),
               Text(S.of(context).driver_settings_rate,
-                  style: Theme.of(context).textTheme.titleMedium),
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleSmall!
+                      .copyWith(fontWeight: FontWeight.bold)),
               SizedBox(height: 10.h),
               DividerWidget(),
               InkWell(
@@ -92,15 +119,53 @@ class DriverSettingScreen extends StatelessWidget {
                 },
                 child: Text(
                   S.of(context).driver_settings_logout,
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        color: AppColorLight.errorColor,
-                      ),
+                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      color: AppColorLight.errorColor,
+                      fontWeight: FontWeight.bold),
                 ),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  void _showThemeBottomSheet(BuildContext context, ThemeProvider provider) {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (_) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: Icon(
+                Iconsax.sun_1,
+                color: Theme.of(context).primaryColor,
+              ),
+              title: Text("Light"),
+              onTap: () {
+                provider.changeTheme(ThemeMode.light);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                Iconsax.moon,
+                color: Theme.of(context).primaryColor,
+              ),
+              title: Text("Dark"),
+              onTap: () {
+                provider.changeTheme(ThemeMode.dark);
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 

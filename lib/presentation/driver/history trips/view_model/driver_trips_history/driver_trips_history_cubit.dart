@@ -25,6 +25,7 @@ class DriverTripsHistoryCubit extends Cubit<DriverTripsHistoryState> {
         if (response.data!['data'] == null || response.data!['data']!.isEmpty) {
           emit(DriverTripsHistorySuccess([]));
         } else {
+          _list.clear();
           for (var element in response.data!['data']!) {
             _list.add(TripModel.fromJson(element));
           }

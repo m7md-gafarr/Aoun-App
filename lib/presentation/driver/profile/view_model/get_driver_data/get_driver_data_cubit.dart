@@ -13,6 +13,7 @@ class GetDriverDataCubit extends Cubit<GetDriverDataState> {
   GetDriverDataCubit() : super(GetDriverDataInitial());
 
   DriverModel? _cachedDriver;
+  DriverModel get driverdata => _cachedDriver!;
 
   getDriverData(BuildContext context, {bool forceRefresh = false}) async {
     if (!forceRefresh && _cachedDriver != null) {
