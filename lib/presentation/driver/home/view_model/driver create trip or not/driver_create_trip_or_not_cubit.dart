@@ -1,8 +1,5 @@
-import 'dart:developer';
-
 import 'package:aoun_app/core/utils/check_connection/check_connection_cubit.dart';
 import 'package:aoun_app/data/model/driver_models/driver_craeted_trip/driver_trip_created/driver_trip_created_model.dart';
-import 'package:aoun_app/data/model/trip%20models/trip_location_model.dart';
 import 'package:aoun_app/data/repositories/remote/api_response_handler.dart';
 import 'package:aoun_app/data/repositories/remote/driver_repository.dart';
 import 'package:bloc/bloc.dart';

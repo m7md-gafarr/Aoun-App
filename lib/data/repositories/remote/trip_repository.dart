@@ -1,12 +1,16 @@
-import 'package:aoun_app/data/model/trip%20models/booking_trip/booking_request_trip_model.dart';
+import 'package:aoun_app/core/utils/extract_user_info_from_token.dart';
+import 'package:aoun_app/core/utils/location/location_Provider.dart';
+import 'package:aoun_app/data/model/trip%20models/booking_trip/booking_request_trip/booking_request_trip_model/booking_request_trip_model.dart';
 import 'package:aoun_app/data/model/trip%20models/get_trip_route/get_trip_route.dart';
 import 'package:aoun_app/data/model/trip%20models/greate_trip_model/greate_trip_model.dart';
 import 'package:aoun_app/data/model/trip%20models/trip_location_model.dart';
 import 'package:aoun_app/data/repositories/local/shared_pref.dart';
 import 'package:aoun_app/data/repositories/remote/api_helper.dart';
 import 'package:aoun_app/data/repositories/remote/api_response_handler.dart';
-import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class TripRepository {
@@ -50,6 +54,25 @@ class TripRepository {
       {required bool includePast}) async {
     return await ApiHelper().get<Map<String, dynamic>>(
       url: "$_apiUrl/Trips?includePast=$includePast",
+    );
+  }
+
+  Future<ApiResponse<Map<String, dynamic>>> getRecommendationTrips(
+      BuildContext context) async {
+    String token = await getToken();
+    String userId = extractUserInfoFromToken().extractUserIdFromToken(token);
+    Position? position = await context.read<LocationProvider>().position;
+    return await ApiHelper().post<Map<String, dynamic>>(
+      url: "$_apiUrl/Recommendation/get",
+      body: {
+        "userId": userId,
+        "latitude": position!.latitude,
+        "longitude": position.longitude
+      },
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "*/*",
+      },
     );
   }
 
@@ -100,7 +123,7 @@ class TripRepository {
   }
 
   Future<ApiResponse<Map<String, dynamic>>> bookingTrip(
-      BookingTripRequestModel bookTrioModel) async {
+      BookingRequestTripModel bookTrioModel) async {
     String token = await getToken();
     return await ApiHelper().post<Map<String, dynamic>>(
       url: "$_apiUrl/Booking/book",
@@ -136,6 +159,18 @@ class TripRepository {
       url: "$_apiUrl/Trips/$tripId/status",
       body: {
         "newStatus": 3,
+      },
+      headers: _headers(token),
+    );
+  }
+
+  Future<ApiResponse<Map<String, dynamic>>> completeTrip(
+      {required int tripId}) async {
+    String token = await getToken();
+    return await ApiHelper().post<Map<String, dynamic>>(
+      url: "$_apiUrl/Trips/CompleteTrip",
+      body: {
+        "tripId": tripId,
       },
       headers: _headers(token),
     );

@@ -68,8 +68,11 @@ class ApiResponseHandler {
         return true;
       }
 
-      if (data.containsKey('status') && data['status'] == 'OK') {
-        return true;
+      if (data.containsKey('status')) {
+        final status = data['status'];
+        if (status == 'OK' || status == 'ZERO_RESULTS') {
+          return true;
+        }
       }
 
       if (data.containsKey('routes')) {
@@ -88,6 +91,11 @@ class ApiResponseHandler {
             msg.contains('done')) {
           return true;
         }
+      }
+      if (data.containsKey('customerId') &&
+          data.containsKey('ephemeralKeySecret') &&
+          data.containsKey('paymentIntentClientSecret')) {
+        return true;
       }
     } else if (data is List) {
       // Lists are considered successful responses

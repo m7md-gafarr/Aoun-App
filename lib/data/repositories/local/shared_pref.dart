@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// SharedPreferencesService manages persistent key-value storage for app settings and user state.

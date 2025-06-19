@@ -5,8 +5,10 @@ import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/core/utils/snakbar/snackebar_helper.dart';
 import 'package:aoun_app/data/model/map%20models/route_model/route_model.dart';
-import 'package:aoun_app/data/model/trip%20models/booking_trip/booking_request_trip_model.dart';
+import 'package:aoun_app/data/model/trip%20models/booking_trip/booking_request_trip/booking_request_trip_model/booking_request_trip_model.dart';
+import 'package:aoun_app/data/model/trip%20models/booking_trip/booking_request_trip/booking_request_trip_model/meeting_point.dart';
 import 'package:aoun_app/data/model/trip%20models/trip_model/trip_model.dart';
+import 'package:aoun_app/presentation/user/history%20booking/view_model/user_booking_history/user_booking_history_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/booking_trip/booking_trip_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view/map_select_meeting_point_meet.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +33,7 @@ class _BookTripScreenState extends State<BookTripScreen> {
   TripModel? _tripModel;
   RouteModel? _routeModel;
   TextEditingController noteController = TextEditingController();
-  dynamic meetPointSelected;
+  LatLng? meetPointSelected;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -62,11 +64,13 @@ class _BookTripScreenState extends State<BookTripScreen> {
                 onPressed: () {
                   if (meetPointSelected != null) {
                     context.read<BookingTripCubit>().bookingTrip(
-                          BookingTripRequestModel(
-                            tripId: _tripModel!.id,
-                            numberOfSeats: _selectedSeats,
-                            note: noteController.text,
-                          ),
+                          BookingRequestTripModel(
+                              tripId: _tripModel!.id,
+                              numberOfSeats: _selectedSeats,
+                              note: noteController.text,
+                              meetingPoint: MeetingPoint(
+                                  latitude: meetPointSelected!.latitude,
+                                  longitude: meetPointSelected!.longitude)),
                         );
                   } else {
                     SnackbarHelper.showError(
@@ -78,6 +82,9 @@ class _BookTripScreenState extends State<BookTripScreen> {
                 child: BlocConsumer<BookingTripCubit, BookingTripState>(
                   listener: (context, state) {
                     if (state is BookingTripSucess) {
+                      context
+                          .read<UserBookingHistoryCubit>()
+                          .getBookingTrips(forceRefresh: true);
                       Navigator.pushNamed(
                         context,
                         AppRoutesName.paymentScreenRoute,

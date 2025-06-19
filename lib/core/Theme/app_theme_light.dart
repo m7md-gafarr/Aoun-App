@@ -163,6 +163,7 @@ ThemeData getThemeColorLight(BuildContext context, Locale? locale) => ThemeData(
           fontWeight: FontWeight.normal,
           // fontFamily: isRTL(context) ? fontArabic : fontEnglish,
         ),
+        suffixIconColor: AppColorLight.textTertiary,
         errorStyle: TextStyle(
           color: AppColorLight.errorColor,
           // fontFamily: isRTL(context) ? fontArabic : fontEnglish,

@@ -8,6 +8,9 @@ import 'package:aoun_app/presentation/driver/profile/view/driver_profile_screen.
 import 'package:aoun_app/presentation/driver/safety/view/driver_safety_screen.dart';
 import 'package:aoun_app/presentation/driver/setting/view/driver_setting_screen.dart';
 import 'package:aoun_app/presentation/driver/wallet%20and%20earings/view/wallet_and_earnings_screen.dart';
+import 'package:aoun_app/presentation/info_pages/contact_us_page.dart';
+import 'package:aoun_app/presentation/info_pages/privacy_policy_page.dart';
+import 'package:aoun_app/presentation/info_pages/terms_conditions_page.dart';
 
 import 'package:aoun_app/presentation/introduction/select_type_screen.dart';
 import 'package:aoun_app/presentation/auth/views/confirm_password_screen.dart';
@@ -17,7 +20,8 @@ import 'package:aoun_app/presentation/driver/home/view/create_trip_screen.dart';
 import 'package:aoun_app/presentation/driver/home/view/home_driver_screen.dart';
 import 'package:aoun_app/presentation/auth/views/driver_introduction_screen.dart';
 import 'package:aoun_app/presentation/auth/views/driver_register_screen.dart';
-import 'package:aoun_app/presentation/user/home/views/screen/home_screen.dart';
+import 'package:aoun_app/presentation/user/history%20booking/view/user_history_booking.dart';
+import 'package:aoun_app/presentation/user/home/view/screen/home_screen.dart';
 import 'package:aoun_app/presentation/introduction/introduction_screen.dart';
 import 'package:aoun_app/presentation/auth/views/login_screen.dart';
 import 'package:aoun_app/presentation/auth/views/otp_screen.dart';
@@ -34,6 +38,7 @@ import 'package:aoun_app/presentation/user/transport/view/payment_screen.dart';
 import 'package:aoun_app/presentation/user/transport/view/search_trip_screen.dart'
     show SearchTripScreen;
 import 'package:aoun_app/presentation/user/transport/view/trip_details_screen.dart';
+import 'package:aoun_app/presentation/user/transactions/view/UserTransactionsScreen.dart';
 import 'package:flutter/material.dart';
 
 import '../../presentation/auth/views/complet_user_data_screen.dart';
@@ -140,14 +145,26 @@ class AppRouter {
       //  Transport route
       case AppRoutesName.tripDetailsScreenRoute:
         return MaterialPageRoute(builder: (context) => TripDetailsScreen());
+
       case AppRoutesName.mapViewRouteScreenRoute:
         return MaterialPageRoute(builder: (context) => MapViewRouteScreen());
+
+      case AppRoutesName.userTransactionsScreenRoute:
+        return MaterialPageRoute(
+            builder: (context) => UserTransactionsScreen());
+
+      case AppRoutesName.userHistoryBokkingScreenRoute:
+        return MaterialPageRoute(
+            builder: (context) => UserHistoryBokkingScreen());
+
       case AppRoutesName.mapSelectRouteScreenRoute:
         return MaterialPageRoute(
             builder: (context) => const MapSelectRouteScreen());
+
       case AppRoutesName.searchTripScreenRoute:
         return MaterialPageRoute(
             builder: (context) => const SearchTripScreen());
+
       case AppRoutesName.bookTripScreenRoute:
         return PageRouteBuilder(
           settings: settings,
@@ -184,9 +201,15 @@ class AppRouter {
 
       //  Profile route
       case AppRoutesName.userProfileScreenRoute:
-        return MaterialPageRoute(builder: (context) => UserProfileScreen());
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (context) => UserProfileScreen(),
+        );
       case AppRoutesName.userEditProfileScreenRoute:
-        return MaterialPageRoute(builder: (context) => UserEditProfileScreen());
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (context) => UserEditProfileScreen(),
+        );
 
       //  Notification route
       case AppRoutesName.userNotificationScreenRoute:
@@ -283,6 +306,20 @@ class AppRouter {
       case AppRoutesName.driverSettingScreenRoute:
         return MaterialPageRoute(
           builder: (context) => DriverSettingScreen(),
+        );
+      //todo:   info_pages
+
+      case AppRoutesName.contactUsScreenRoute:
+        return MaterialPageRoute(
+          builder: (context) => ContactUsScreen(),
+        );
+      case AppRoutesName.privacyPolicyScreenRoute:
+        return MaterialPageRoute(
+          builder: (context) => PrivacyPolicyScreen(),
+        );
+      case AppRoutesName.termsConditionsScreenRoute:
+        return MaterialPageRoute(
+          builder: (context) => TermsConditionsScreen(),
         );
 
       default:

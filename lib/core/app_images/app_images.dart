@@ -6,6 +6,46 @@ class Assets {
   /// assets/image/DebitCard.svg
   static const String imageDebitCard = "assets/image/DebitCard.svg";
 
+  /// Assets for imageDialogDialogFaliure
+  /// assets/image/dialog/dialogFaliure.svg
+  static const String imageDialogDialogFaliure =
+      "assets/image/dialog/dialogFaliure.svg";
+
+  /// Assets for imageDialogDialogSuccess
+  /// assets/image/dialog/dialogSuccess.svg
+  static const String imageDialogDialogSuccess =
+      "assets/image/dialog/dialogSuccess.svg";
+
+  /// Assets for imageEmptyImageEmptyActivePassenger
+  /// assets/image/empty_image/empty_active_passenger.svg
+  static const String imageEmptyImageEmptyActivePassenger =
+      "assets/image/empty_image/empty_active_passenger.svg";
+
+  /// Assets for imageEmptyImageEmptyHistorydata
+  /// assets/image/empty_image/empty_historydata.svg
+  static const String imageEmptyImageEmptyHistorydata =
+      "assets/image/empty_image/empty_historydata.svg";
+
+  /// Assets for imageEmptyImageEmptyRecommendation
+  /// assets/image/empty_image/empty_recommendation.svg
+  static const String imageEmptyImageEmptyRecommendation =
+      "assets/image/empty_image/empty_recommendation.svg";
+
+  /// Assets for imageEmptyImageEmptySearch
+  /// assets/image/empty_image/empty_search.svg
+  static const String imageEmptyImageEmptySearch =
+      "assets/image/empty_image/empty_search.svg";
+
+  /// Assets for imageEmptyImageEmptyTransaction
+  /// assets/image/empty_image/empty_transaction.svg
+  static const String imageEmptyImageEmptyTransaction =
+      "assets/image/empty_image/empty_transaction.svg";
+
+  /// Assets for imageEmptyImageEmptyTrip
+  /// assets/image/empty_image/empty_trip.svg
+  static const String imageEmptyImageEmptyTrip =
+      "assets/image/empty_image/empty_trip.svg";
+
   /// Assets for imageFacebook
   /// assets/image/facebook.svg
   static const String imageFacebook = "assets/image/facebook.svg";
@@ -77,4 +117,12 @@ class Assets {
   /// assets/image/map_maker/MyMakerLocation.svg
   static const String imageMapMakerMyMakerLocation =
       "assets/image/map_maker/MyMakerLocation.svg";
+
+  /// Assets for imageRibbons
+  /// assets/image/Ribbons.svg
+  static const String imageRibbons = "assets/image/Ribbons.svg";
+
+  /// Assets for imageUser
+  /// assets/image/user.png
+  static const String imageUser = "assets/image/user.png";
 }

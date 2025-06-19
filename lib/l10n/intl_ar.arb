@@ -349,8 +349,13 @@
   "payment_phone_hint": "01X XXXX XXXX",
   "payment_seats_count": "عدد المقاعد",
   "payment_total_amount": "المبلغ الإجمالي",
-  "payment_success_title": "تم بدء الدفع بنجاح",
-  "payment_success_message": "سيتم توجيهك الآن لإكمال عملية الدفع.\nتم إرسال بريد إلكتروني للتأكيد أيضًا.",
+  "payment_receipt_title": "إيصال الدفع",
+  "payment_success_title": "تم الدفع بنجاح",
+  "payment_success_description": "تمت عملية الدفع لمقهى ستاربكس بنجاح",
+  "payment_total_payment": "إجمالي الدفع",
+  "payment_total_seats": "إجمالي المقاعد",
+  "payment_done_button": "تم",
+  "payment_pay_again_button": "ادفع مرة أخرى",
   "payment_proceed": "متابعة",
   "payment_amount": "ادفع: 24 جنيه",
   "search_trip_title": "أدخل مسارك",
@@ -376,5 +381,11 @@
     "placeholders": {
       "count": {}
     }
-  }
+  },
+  "user_profile_transactions": "المعاملات",
+  "user_profile_booking_history": "سجل الحجوزات",
+  "user_profile_theme_light": "فاتح",
+  "user_profile_theme_dark": "داكن",
+  "paymob_payment_title": "دفع بايموب",
+  "paymob_error_message": "خطأ"
 }

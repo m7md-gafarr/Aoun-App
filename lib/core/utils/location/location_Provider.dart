@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:aoun_app/core/utils/location/location_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -16,8 +17,12 @@ class LocationProvider with ChangeNotifier {
     _positionStream = LocationService.getLocationStream(context).listen(
       (Position newPosition) async {
         _position = newPosition;
+
         _placemark = await LocationService.getAddressFromCoordinates(
-            context, newPosition.latitude, newPosition.longitude);
+          context,
+          newPosition.latitude,
+          newPosition.longitude,
+        );
 
         notifyListeners();
       },

@@ -51,12 +51,17 @@ class DriverRepository {
       );
 
       if (driverModel.data!.imgUrl != null) {
-        body.files.add(MapEntry(
-          "PersonalPhoto",
-          await MultipartFile.fromFile(driverModel.data!.imgUrl!,
-              filename: "personal_picture.jpg"),
-        ));
+        body.files.add(
+          MapEntry(
+            "PersonalPhoto",
+            await MultipartFile.fromFile(
+              driverModel.data!.imgUrl!,
+              filename: "personal_picture.jpg",
+            ),
+          ),
+        );
       }
+
       return await ApiHelper().put<Map<String, dynamic>>(
         url: "$_apiUrl/Driver/EditDriver/$userID",
         body: body,

@@ -721,12 +721,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "payment_amount": MessageLookupByLibrary.simpleMessage("ادفع: 24 جنيه"),
     "payment_cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
     "payment_card_tab": MessageLookupByLibrary.simpleMessage("البطاقة"),
+    "payment_done_button": MessageLookupByLibrary.simpleMessage("تم"),
     "payment_loading": MessageLookupByLibrary.simpleMessage("جاري التحميل"),
     "payment_no_cards": MessageLookupByLibrary.simpleMessage(
       "لا توجد بطاقات متاحة",
     ),
     "payment_no_debit_card": MessageLookupByLibrary.simpleMessage(
       "لم يتم العثور على بطاقة خصم",
+    ),
+    "payment_pay_again_button": MessageLookupByLibrary.simpleMessage(
+      "ادفع مرة أخرى",
     ),
     "payment_pay_from": MessageLookupByLibrary.simpleMessage("ادفع من"),
     "payment_phone_hint": MessageLookupByLibrary.simpleMessage("01X XXXX XXXX"),
@@ -740,21 +744,32 @@ class MessageLookup extends MessageLookupByLibrary {
       "رقم الهاتف مطلوب",
     ),
     "payment_proceed": MessageLookupByLibrary.simpleMessage("متابعة"),
+    "payment_receipt_title": MessageLookupByLibrary.simpleMessage(
+      "إيصال الدفع",
+    ),
     "payment_seats_count": MessageLookupByLibrary.simpleMessage("عدد المقاعد"),
-    "payment_success_message": MessageLookupByLibrary.simpleMessage(
-      "سيتم توجيهك الآن لإكمال عملية الدفع.\nتم إرسال بريد إلكتروني للتأكيد أيضًا.",
+    "payment_success_description": MessageLookupByLibrary.simpleMessage(
+      "تمت عملية الدفع لمقهى ستاربكس بنجاح",
     ),
     "payment_success_title": MessageLookupByLibrary.simpleMessage(
-      "تم بدء الدفع بنجاح",
+      "تم الدفع بنجاح",
     ),
     "payment_title": MessageLookupByLibrary.simpleMessage("الدفع"),
     "payment_total_amount": MessageLookupByLibrary.simpleMessage(
       "المبلغ الإجمالي",
     ),
+    "payment_total_payment": MessageLookupByLibrary.simpleMessage(
+      "إجمالي الدفع",
+    ),
+    "payment_total_seats": MessageLookupByLibrary.simpleMessage(
+      "إجمالي المقاعد",
+    ),
     "payment_wallet_number": MessageLookupByLibrary.simpleMessage(
       "رقم المحفظة",
     ),
     "payment_wallet_tab": MessageLookupByLibrary.simpleMessage("المحفظة"),
+    "paymob_error_message": MessageLookupByLibrary.simpleMessage("خطأ"),
+    "paymob_payment_title": MessageLookupByLibrary.simpleMessage("دفع بايموب"),
     "phone_number_required": MessageLookupByLibrary.simpleMessage(
       "رقم الهاتف مطلوب",
     ),
@@ -921,6 +936,14 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "trip_from_label": MessageLookupByLibrary.simpleMessage("من: "),
     "trip_to_label": MessageLookupByLibrary.simpleMessage("إلى: "),
+    "user_profile_booking_history": MessageLookupByLibrary.simpleMessage(
+      "سجل الحجوزات",
+    ),
+    "user_profile_theme_dark": MessageLookupByLibrary.simpleMessage("داكن"),
+    "user_profile_theme_light": MessageLookupByLibrary.simpleMessage("فاتح"),
+    "user_profile_transactions": MessageLookupByLibrary.simpleMessage(
+      "المعاملات",
+    ),
     "validation_invalid_number": MessageLookupByLibrary.simpleMessage(
       "رقم غير صالح لهذه الدولة.",
     ),

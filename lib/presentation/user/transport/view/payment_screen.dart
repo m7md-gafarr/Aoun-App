@@ -1,8 +1,10 @@
 import 'package:aoun_app/core/app_color/app_color_light.dart';
 import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/core/utils/dialog/dialog_helper.dart';
-import 'package:aoun_app/core/utils/open_url.dart';
 import 'package:aoun_app/data/model/trip%20models/booking_trip/booking_response_trip_model.dart';
+import 'package:aoun_app/presentation/user/transport/view/WebViewPaymob.dart';
+import 'package:aoun_app/presentation/user/transport/view/payment_success.dart';
+import 'package:aoun_app/presentation/user/transport/view_model/payment_card/payment_card_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/payment_wallet/payment_wallet_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/view_debit_card/view_all_debit_card_cubit.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart';
@@ -88,65 +90,140 @@ class _PaymentScreenState extends State<PaymentScreen>
                   ),
                 ),
                 _buildWalletSummary(),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_tabController.index == 0) {
-                      if (formKey.currentState!.validate()) {
-                        formKey.currentState!.save();
-                        context.read<PaymentWalletCubit>().paymentWallet(
-                            _textEditingController.value.text, 350);
-                      }
-                    }
-                  },
-                  child: BlocConsumer<PaymentWalletCubit, PaymentWalletState>(
-                    listener: (context, state) {
-                      if (state is PaymentWalletFailure) {
-                        DialogHelper(context)
-                            .showErroeDialog(message: state.errorMessage);
-                      } else if (state is PaymentWalletSuccess) {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: Text(
-                              S.of(context).payment_success_title,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall!
-                                  .copyWith(fontWeight: FontWeight.bold),
-                            ),
-                            content: Text(
-                              S.of(context).payment_success_message,
-                              style: Theme.of(context).textTheme.labelMedium,
-                            ),
-                            actions: [
-                              ElevatedButton(
-                                onPressed: () async {
-                                  Navigator.of(context)
-                                      .pop(); // Close dialog first
-                                  await OpenUrlUtils.launchInBrowserView(
-                                    Uri.parse(state.url.toString()),
-                                  );
-                                },
-                                child: Text(S.of(context).payment_proceed),
+                MultiBlocListener(
+                  listeners: [
+                    BlocListener<PaymentCardCubit, PaymentCardState>(
+                      listener: (context, state) {
+                        if (state is PaymentCardFailure) {
+                          DialogHelper(context).showErroeDialog(
+                            message: state.errorMessage,
+                          );
+                        } else if (state is PaymentCardSuccess) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PaymentSuccessScreen(
+                                model: _bookingResponseTripModel,
                               ),
-                            ],
-                          ),
-                        );
+                            ),
+                          );
+                          // DialogHelper(context).showSuccessDialog(
+                          //   title: S.of(context).payment_success_title,
+                          //   message:
+                          //       "Your payment has been successfully completed. Thank you for using Aoun. You can now proceed with your trip.",
+                          //   actions: [
+                          //     ElevatedButton(
+                          //       onPressed: () {
+                          //         Navigator.of(context).pop();
+                          //         Navigator.of(context).pop();
+                          //         Navigator.of(context).pop();
+                          //       },
+                          //       child: Text("Cancel"),
+                          //     ),
+                          //   ],
+                          // );
+                        }
+                      },
+                    ),
+                    BlocListener<PaymentWalletCubit, PaymentWalletState>(
+                      listener: (context, state) {
+                        if (state is PaymentWalletFailure) {
+                          DialogHelper(context).showErroeDialog(
+                            message: state.errorMessage,
+                          );
+                        } else if (state is PaymentWalletSuccess) {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text(S.of(context).payment_success_title),
+                              content:
+                                  Text(S.of(context).payment_success_message),
+                              actions: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => PaymobWebView(
+                                          iFrameUrl: state.url.toString(),
+                                          bookingResponseTripModel:
+                                              _bookingResponseTripModel!,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: Text(S.of(context).payment_proceed),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ],
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      if (_tabController.index == 0) {
+                        if (formKey.currentState!.validate()) {
+                          formKey.currentState!.save();
+                          await context
+                              .read<PaymentWalletCubit>()
+                              .paymentWallet(
+                                amount: _bookingResponseTripModel!.totalPrice!
+                                    .toInt(),
+                                bookingId: _bookingResponseTripModel!.bookingId!
+                                    .toInt(),
+                                walletId: _textEditingController.value.text,
+                              );
+                        }
+                      } else if (_tabController.index == 1) {
+                        await context.read<PaymentCardCubit>().makePayment(
+                              context,
+                              amount: _bookingResponseTripModel!.totalPrice!
+                                  .toInt(),
+                              bookingId:
+                                  _bookingResponseTripModel!.bookingId!.toInt(),
+                            );
                       }
                     },
-                    builder: (context, state) {
-                      if (state is PaymentWalletLoading) {
-                        return SizedBox(
-                          height: 30,
-                          width: 30,
-                          child: CircularProgressIndicator(
-                            color: Theme.of(context).scaffoldBackgroundColor,
+                    child: _tabController.index == 0
+                        ? BlocBuilder<PaymentWalletCubit, PaymentWalletState>(
+                            builder: (context, state) {
+                              if (state is PaymentWalletLoading) {
+                                return SizedBox(
+                                  height: 30,
+                                  width: 30,
+                                  child: CircularProgressIndicator(
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
+                                  ),
+                                );
+                              } else {
+                                return Text(
+                                  "Pay \$${_bookingResponseTripModel!.totalPrice}",
+                                );
+                              }
+                            },
+                          )
+                        : BlocBuilder<PaymentCardCubit, PaymentCardState>(
+                            builder: (context, state) {
+                              if (state is PaymentCardLoading) {
+                                return SizedBox(
+                                  height: 30,
+                                  width: 30,
+                                  child: CircularProgressIndicator(
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
+                                  ),
+                                );
+                              } else {
+                                return Text(
+                                  "Pay \$${_bookingResponseTripModel!.totalPrice}",
+                                );
+                              }
+                            },
                           ),
-                        );
-                      } else {
-                        return Text(S.of(context).payment_amount);
-                      }
-                    },
                   ),
                 ),
               ],
@@ -467,9 +544,11 @@ class _PaymentScreenState extends State<PaymentScreen>
       child: _buildContainer(
         child: Column(
           children: [
-            _buildSummaryRow(S.of(context).payment_seats_count, "3"),
+            _buildSummaryRow(S.of(context).payment_seats_count,
+                _bookingResponseTripModel!.totalSeats.toString()),
             SizedBox(height: 7.h),
-            _buildSummaryRow(S.of(context).payment_total_amount, "3"),
+            _buildSummaryRow(S.of(context).payment_total_amount,
+                _bookingResponseTripModel!.totalPrice.toString()),
           ],
         ),
       ),

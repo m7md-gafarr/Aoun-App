@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math' as math;
+import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/core/utils/dialog/dialog_helper.dart';
 import 'package:aoun_app/core/utils/location/location_Provider.dart';
 import 'package:aoun_app/core/utils/map/google_map.dart';
@@ -10,8 +11,10 @@ import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/textfeild%20search%20location/textfeild_search_location_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/active%20trip%20request/active_trip_requests_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/create_request_trip/create_request_trip_cubit.dart';
+import 'package:aoun_app/presentation/user/transport/view_model/recommendation_trip/recommendation_trip_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/search_trip/search_trip_cubit.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart';
+import 'package:aoun_app/presentation/widgets/common/empty_data.dart';
 import 'package:aoun_app/presentation/widgets/shimmer/placeautocomplete_shimmer_widget.dart';
 import 'package:aoun_app/presentation/widgets/shimmer/trip_shimmer_widget.dart';
 import 'package:aoun_app/presentation/widgets/common/primary_trip_widget.dart';
@@ -50,6 +53,7 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
     context.read<ActiveTripRequestsCubit>().getActiveTripRequests();
     context.read<SearchTripCubit>().emitInitial();
     context.read<TextfeildSearchLocationCubit>().emitInitial();
+
     _onChanged();
     super.initState();
   }
@@ -148,6 +152,12 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
     setState(() {
       isSelectingSuggestion = false;
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    context.read<RecommendationTripCubit>().getTrips(context);
+    super.didChangeDependencies();
   }
 
   @override
@@ -281,14 +291,92 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
                         PlaceAutocompleteShimmerWidget(),
                     itemCount: 5,
                   );
-                } else if (state is TextfeildSearchLocationFailure) {
-                  return Text(state.errorMessage);
+                } else if (state is TextfeildSearchLocationIsEmpity) {
+                  return Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.search_off,
+                          size: 48,
+                          color: Colors.grey,
+                        ),
+                        SizedBox(height: 12),
+                        Text(
+                          "No results found for the entered location.",
+                          style:
+                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: Colors.grey,
+                                  ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  );
                 } else {
                   return BlocBuilder<SearchTripCubit, SearchTripState>(
                     builder: (context, state) {
                       if (state is SearchTripInitial &&
                           !isSelectingSuggestion) {
-                        return Text(S.of(context).search_trip_all_trips);
+                        return BlocBuilder<RecommendationTripCubit,
+                            RecommendationTripState>(
+                          builder: (context, state) {
+                            if (state is RecommendationTripSuccess) {
+                              if (state.tripModel.isNotEmpty) {
+                                return Column(
+                                  children: [
+                                    Text(
+                                      "Suggested trips based on your location",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelSmall,
+                                    ),
+                                    SizedBox(
+                                      height: 5.h,
+                                    ),
+                                    ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: state.tripModel.length,
+                                      itemBuilder: (context, index) =>
+                                          TripWidget(
+                                        trip: state.tripModel[index],
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              } else {
+                                return Padding(
+                                  padding: const EdgeInsets.all(13.0),
+                                  child: EmptyDataWidget(
+                                    image: Assets
+                                        .imageEmptyImageEmptyRecommendation,
+                                    text:
+                                        "We're still gathering recommendations for you. Stay tuned!",
+                                  ),
+                                );
+                              }
+                            } else {
+                              return Column(
+                                children: [
+                                  Text(
+                                    "Suggested trips based on your location",
+                                    style:
+                                        Theme.of(context).textTheme.labelSmall,
+                                  ),
+                                  SizedBox(
+                                    height: 5.h,
+                                  ),
+                                  ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: 5,
+                                    itemBuilder: (context, index) =>
+                                        TripShimmerWidget(),
+                                  ),
+                                ],
+                              );
+                            }
+                          },
+                        );
                       } else if (state is SearchTripLoading) {
                         return ListView.builder(
                           shrinkWrap: true,
@@ -375,17 +463,25 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
                                       ),
                                     ),
                                     SizedBox(height: 20.h),
-                                    ListView.builder(
-                                      shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      itemCount: state.tripList.length,
-                                      itemBuilder: (context, index) {
-                                        return _recentOrderWidget(
-                                          context,
-                                          state.tripList[index],
-                                        );
-                                      },
-                                    ),
+                                    state.tripList.isEmpty
+                                        ? EmptyDataWidget(
+                                            image: Assets
+                                                .imageEmptyImageEmptyActivePassenger,
+                                            text:
+                                                "There are no active passengers at the moment.",
+                                          )
+                                        : ListView.builder(
+                                            shrinkWrap: true,
+                                            physics:
+                                                NeverScrollableScrollPhysics(),
+                                            itemCount: state.tripList.length,
+                                            itemBuilder: (context, index) {
+                                              return _recentOrderWidget(
+                                                context,
+                                                state.tripList[index],
+                                              );
+                                            },
+                                          ),
                                   ],
                                 ),
                               );
@@ -412,7 +508,7 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
                           },
                         );
                       } else {
-                        return SizedBox();
+                        return SizedBox.shrink();
                       }
                     },
                   );

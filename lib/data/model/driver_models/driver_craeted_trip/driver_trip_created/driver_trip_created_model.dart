@@ -1,3 +1,4 @@
+import 'package:aoun_app/data/model/driver_models/driver_craeted_trip/driver_trip_created/booking.dart';
 import 'package:aoun_app/data/model/trip%20models/trip_location_model.dart';
 
 import 'additional_info.dart';
@@ -6,6 +7,7 @@ import 'driver_info.dart';
 
 class DriverTripCreatedModel {
   int? id;
+
   TripLocationModel? fromLocation;
   TripLocationModel? toLocation;
   BasicInfo? basicInfo;
@@ -14,6 +16,7 @@ class DriverTripCreatedModel {
   double? pricePerSeat;
   DateTime? createdAt;
   int? status;
+  List<BookingModel>? bookings;
 
   DriverTripCreatedModel({
     this.id,
@@ -25,6 +28,7 @@ class DriverTripCreatedModel {
     this.pricePerSeat,
     this.createdAt,
     this.status,
+    this.bookings,
   });
 
   factory DriverTripCreatedModel.fromJson(Map<String, dynamic> json) {
@@ -53,6 +57,10 @@ class DriverTripCreatedModel {
           ? null
           : DateTime.parse(json['createdAt'] as String),
       status: json['status'] as int?,
+      bookings: json['bookings'] == null
+          ? null
+          : List<BookingModel>.from(
+              (json['bookings'] as List).map((x) => BookingModel.fromJson(x))),
     );
   }
 
@@ -66,5 +74,6 @@ class DriverTripCreatedModel {
         'pricePerSeat': pricePerSeat,
         'createdAt': createdAt?.toIso8601String(),
         'status': status,
+        'bookings': bookings?.map((e) => e.toJson()).toList(),
       };
 }

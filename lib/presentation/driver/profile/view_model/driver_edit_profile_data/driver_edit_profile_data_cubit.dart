@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:aoun_app/data/model/driver_models/driver_model/driver_model.dart';
 import 'package:aoun_app/data/repositories/remote/api_response_handler.dart';
 import 'package:aoun_app/data/repositories/remote/driver_repository.dart';
@@ -20,6 +22,7 @@ class DriverEditProfileDataCubit extends Cubit<DriverEditProfileDataState> {
         emit(DriverEditProfileDataSuccess());
       } else {
         String error = response.errors;
+        log(error.toString());
         emit(DriverEditProfileDataFaliure(error));
       }
     } on DioException catch (e) {

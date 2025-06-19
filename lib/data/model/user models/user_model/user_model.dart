@@ -6,13 +6,14 @@ class UserModel {
   dynamic imgUrl;
   int? age;
 
-  UserModel(
-      {this.userName,
-      this.email,
-      this.phoneNumber,
-      this.imgUrl,
-      this.age,
-      this.id});
+  UserModel({
+    this.userName,
+    this.email,
+    this.phoneNumber,
+    this.imgUrl,
+    this.age,
+    this.id,
+  });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
         userName: json['userName'] as String?,

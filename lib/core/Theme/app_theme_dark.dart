@@ -67,7 +67,8 @@ ThemeData getThemeColorDark(BuildContext context, Locale? locale) => ThemeData(
           textStyle: WidgetStatePropertyAll(
             TextStyle(
               letterSpacing: .7,
-              // fontFamily: isRTL(context) ? fontArabic : fontEnglish,
+              fontFamily:
+                  locale?.languageCode == 'ar' ? fontArabic : fontEnglish,
               fontSize: 18.sp,
               fontWeight: FontWeight.w500,
             ),
@@ -80,7 +81,15 @@ ThemeData getThemeColorDark(BuildContext context, Locale? locale) => ThemeData(
           backgroundColor: WidgetStateProperty.all(Colors.transparent),
         ),
       ),
-
+      checkboxTheme: CheckboxThemeData(
+        side: BorderSide(
+          color: AppColorDark.primaryColor,
+        ),
+        checkColor: WidgetStatePropertyAll(
+          AppColorDark.primaryColor,
+        ),
+        fillColor: WidgetStatePropertyAll(AppColorDark.backgroundColor),
+      ),
       //Icon
       iconTheme: IconThemeData(
         color: AppColorDark.iconPrimaryColor,

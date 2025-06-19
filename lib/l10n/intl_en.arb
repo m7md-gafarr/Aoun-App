@@ -349,7 +349,6 @@
   "payment_phone_hint": "01X XXXX XXXX",
   "payment_seats_count": "Number of seats",
   "payment_total_amount": "Total amount",
-  "payment_success_title": "Payment Started Successfully",
   "payment_success_message": "You will now be redirected to complete the payment.\nA confirmation email has also been sent.",
   "payment_proceed": "Proceed",
   "payment_amount": "Pay: 24 EG",
@@ -376,5 +375,18 @@
     "placeholders": {
       "count": {}
     }
-  }
+  },
+  "user_profile_transactions": "Transactions",
+  "user_profile_booking_history": "Booking history",
+  "user_profile_theme_light": "Light",
+  "user_profile_theme_dark": "Dark",
+  "payment_receipt_title": "Payment Receipt",
+  "payment_success_title": "Payment Success",
+  "payment_success_description": "Your payment for Starbucks Coffee has been successfully done",
+  "payment_total_payment": "Total Payment",
+  "payment_total_seats": "Total Seats",
+  "payment_done_button": "Done",
+  "payment_pay_again_button": "Pay again",
+  "paymob_payment_title": "Paymob Payment",
+  "paymob_error_message": "error"
 }

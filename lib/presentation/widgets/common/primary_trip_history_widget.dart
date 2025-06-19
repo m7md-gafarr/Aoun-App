@@ -86,7 +86,7 @@ class _TripDetails extends StatelessWidget {
             label: "From: ${tripModel.fromLocation!.fullAddress}"),
         _TripDetailRow(
             iconRotation: -3 * math.pi / 4,
-            label: "To: ${tripModel.fromLocation!.fullAddress}"),
+            label: "To: ${tripModel.toLocation!.fullAddress}"),
         Row(
           children: [
             Icon(Iconsax.status, size: 17.w),

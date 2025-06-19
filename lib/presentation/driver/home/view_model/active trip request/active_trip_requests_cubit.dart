@@ -14,7 +14,7 @@ class ActiveTripRequestsCubit extends Cubit<ActiveTripRequestsState> {
 
   getActiveTripRequests() async {
     try {
-      emit(ActiveTripRequestsInitial());
+      emit(ActiveTripRequestsLoading());
 
       ApiResponse<Map<String, dynamic>> response =
           await TripRepository().getActiveTripRequests();

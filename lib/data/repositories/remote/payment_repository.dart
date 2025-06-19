@@ -1,3 +1,4 @@
+import 'package:aoun_app/core/utils/extract_user_info_from_token.dart';
 import 'package:aoun_app/data/repositories/local/shared_pref.dart';
 import 'package:aoun_app/data/repositories/remote/api_helper.dart';
 import 'package:aoun_app/data/repositories/remote/api_response_handler.dart';
@@ -13,77 +14,71 @@ class PaymentRepository {
     "Accept": "application/json",
   };
 
+  Future<String> getToken() async {
+    String? token = await SharedPreferencesService().getToken();
+    if (token != null && token.isNotEmpty) {
+      return token;
+    } else {
+      return "";
+    }
+  }
+
   Future<ApiResponse<Map<String, dynamic>>> payWithWallet({
+    required int bookingId,
     required String walletId,
     required int amount,
     required String email,
   }) async {
-    return _handleRequest(
-      body: {
-        "walletId": walletId,
-        "amount": amount,
-        "email": email,
-      },
-      endpoint: '$_apiUrl/Paymob/Wallet',
-    );
-  }
-
-  Future<ApiResponse<Map<String, dynamic>>> registerUser(
-    String name,
-    String email,
-  ) async {
-    return _handleRequest(
-      body: {
-        'name': name,
-        'email': email,
-      },
-      endpoint: '$_apiUrl/Payments/register-user',
-    );
-  }
-
-  Future<String?> createPaymentMethod() async {
     try {
-      final paymentMethod = await Stripe.instance.createPaymentMethod(
-        params: PaymentMethodParams.card(
-          paymentMethodData: PaymentMethodData(),
-        ),
+      String? token = await SharedPreferencesService().getToken();
+      return await ApiHelper().post(
+        url: '$_apiUrl/Paymob/Wallet',
+        body: {
+          "bookingId": bookingId,
+          "walletId": walletId,
+          "amount": amount,
+          "email": email,
+        },
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": " */*",
+          "Authorization": "Bearer $token"
+        },
       );
-
-      return paymentMethod.id;
+    } on DioException catch (e) {
+      return ApiResponseHandler.handleDioError(e);
     } catch (e) {
-      ApiResponseHandler.handleGenericError(e.toString());
+      return ApiResponseHandler.handleGenericError(e);
     }
-    return null;
   }
 
-  Future<ApiResponse<Map<String, dynamic>>> sendPaymentMethodToBackend(
-    String customerId,
-    String paymentMethodId,
-  ) async {
-    return _handleRequest(
-      body: {
-        'customerId': customerId,
-        'paymentMethodId': paymentMethodId,
-      },
-      endpoint: '$_apiUrl/Payments/add-card',
-    );
-  }
-
-  Future<ApiResponse<Map<String, dynamic>>> createPaymentIntent({
+  Future<ApiResponse<Map<String, dynamic>>> payWithCard({
     required int amount,
-    required String currency,
-    required String customerId,
-    required String paymentMethodId,
+    required int bookingId,
   }) async {
-    return _handleRequest(
-      body: {
-        'amount': amount,
-        'currency': currency,
-        'customerId': customerId,
-        'paymentMethodId': paymentMethodId,
-      },
-      endpoint: '$_apiUrl/Payments/create-payment-intent',
-    );
+    String token = await getToken();
+    String email = extractUserInfoFromToken().extractUserEmailFromToken(token);
+    try {
+      String? token = await SharedPreferencesService().getToken();
+      return await ApiHelper().post(
+        url: '$_apiUrl/Payments/create-payment-intent',
+        body: {
+          'amount': amount,
+          'currency': "EGP",
+          'email': email,
+          'bookingId': bookingId,
+        },
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": " */*",
+          "Authorization": "Bearer $token"
+        },
+      );
+    } on DioException catch (e) {
+      return ApiResponseHandler.handleDioError(e);
+    } catch (e) {
+      return ApiResponseHandler.handleGenericError(e);
+    }
   }
 
   Future<void> confirmPayment(String clientSecret) async {
@@ -102,6 +97,7 @@ class PaymentRepository {
   Future<ApiResponse<Map<String, dynamic>>> _handleRequest({
     required String endpoint,
     required Map<String, dynamic> body,
+    Map<String, dynamic>? headers,
   }) async {
     try {
       return await ApiHelper().post(
@@ -154,5 +150,49 @@ class PaymentRepository {
     } catch (e) {
       return ApiResponseHandler.handleGenericError<Map<String, dynamic>>(e);
     }
+  }
+
+  // not need
+  Future<ApiResponse<Map<String, dynamic>>> registerUser(
+    String name,
+    String email,
+  ) async {
+    return _handleRequest(
+      body: {
+        'name': name,
+        'email': email,
+      },
+      endpoint: '$_apiUrl/Payments/register-user',
+    );
+  }
+
+  // not need
+  Future<String?> createPaymentMethod() async {
+    try {
+      final paymentMethod = await Stripe.instance.createPaymentMethod(
+        params: PaymentMethodParams.card(
+          paymentMethodData: PaymentMethodData(),
+        ),
+      );
+
+      return paymentMethod.id;
+    } catch (e) {
+      ApiResponseHandler.handleGenericError(e.toString());
+    }
+    return null;
+  }
+
+  // not need
+  Future<ApiResponse<Map<String, dynamic>>> sendPaymentMethodToBackend(
+    String customerId,
+    String paymentMethodId,
+  ) async {
+    return _handleRequest(
+      body: {
+        'customerId': customerId,
+        'paymentMethodId': paymentMethodId,
+      },
+      endpoint: '$_apiUrl/Payments/add-card',
+    );
   }
 }

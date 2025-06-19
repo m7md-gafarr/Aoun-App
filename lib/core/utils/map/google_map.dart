@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:math';
 import 'dart:ui' as ui;
 import 'package:aoun_app/data/model/map%20models/palce_autocomplete_model/palce_autocomplete_model.dart';
@@ -14,6 +13,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class GoogleMapUtils {
   final Dio dio = Dio();
   final String? _apiKey = dotenv.env['SERVICE_MAP_API_KEY'];
+
   static CameraPosition intialCameraPosition = CameraPosition(
     target: LatLng(26.74869101049492, 29.91485567756057),
     zoom: 5.65,

@@ -12,7 +12,7 @@ class GetTripsCubit extends Cubit<GetTripsState> {
 
   getTrips({required bool includePast}) async {
     try {
-      emit(GetTripsInitial());
+      emit(GetTripsLoading());
 
       ApiResponse<Map<String, dynamic>> response =
           await TripRepository().getTrips(includePast: includePast);

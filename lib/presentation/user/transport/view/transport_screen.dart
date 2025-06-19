@@ -1,10 +1,13 @@
+import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/core/utils/location/location_Provider.dart';
 import 'package:aoun_app/data/model/payment%20models/debit_card_model/debit_card_model.dart';
 import 'package:aoun_app/data/repositories/local/hive.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/get_trips/get_trips_cubit.dart';
+import 'package:aoun_app/presentation/user/transport/view_model/recommendation_trip/recommendation_trip_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/view_debit_card/view_all_debit_card_cubit.dart';
+import 'package:aoun_app/presentation/widgets/common/empty_data.dart';
 import 'package:aoun_app/presentation/widgets/shimmer/trip_shimmer_widget.dart';
 import 'package:aoun_app/presentation/widgets/user/empty_debit_card.dart';
 import 'package:aoun_app/presentation/widgets/common/primary_trip_widget.dart';
@@ -31,12 +34,14 @@ class _TransportScreenState extends State<TransportScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        context.read<GetTripsCubit>().getTrips(includePast: false);
-        context.read<ViewAllDebitCardCubit>().fetchDebitcard();
-      }
-    });
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        if (mounted) {
+          context.read<GetTripsCubit>().getTrips(includePast: false);
+          context.read<ViewAllDebitCardCubit>().fetchDebitcard();
+        }
+      },
+    );
   }
 
   @override
@@ -190,7 +195,8 @@ class _TransportScreenState extends State<TransportScreen> {
             ),
             Positioned(
               top: 70.h,
-              left: isRTL(context) ? -22.w : 0,
+              left: isRTL(context) ? -22.w : null,
+              right: isRTL(context) ? null : -22.w,
               child: _buildSwapButton(context),
             ),
           ],
@@ -277,7 +283,10 @@ class _TransportScreenState extends State<TransportScreen> {
             );
           } else {
             return SliverToBoxAdapter(
-              child: Center(child: Text(S.of(context).transport_no_trips)),
+              child: EmptyDataWidget(
+                image: Assets.imageEmptyImageEmptyTrip,
+                text: "Oops! There's nothing here yet.",
+              ),
             );
           }
         } else {

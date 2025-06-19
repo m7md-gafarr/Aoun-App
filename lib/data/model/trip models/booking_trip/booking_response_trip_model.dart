@@ -16,10 +16,10 @@ class BookingResponseTripModel {
   factory BookingResponseTripModel.fromJson(Map<String, dynamic> json) {
     return BookingResponseTripModel(
       bookingStatus: json['bookingStatus'] as String?,
-      bookingId: json['bookingId'] as int?,
-      totalSeats: json['totalSeats'] as int?,
-      availableSeats: json['availableSeats'] as int?,
-      totalPrice: json['totalPrice'] as int?,
+      bookingId: (json['bookingId'] as num?)?.toInt(),
+      totalSeats: (json['totalSeats'] as num?)?.toInt(),
+      availableSeats: (json['availableSeats'] as num?)?.toInt(),
+      totalPrice: (json['totalPrice'] as num?)?.toInt(),
     );
   }
 

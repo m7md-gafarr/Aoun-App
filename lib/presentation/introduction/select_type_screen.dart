@@ -209,9 +209,10 @@ class SelectTypeScreen extends StatelessWidget {
                                         recognizer: TapGestureRecognizer()
                                           ..onTap = () {
                                             Navigator.pushNamed(
-                                                context,
-                                                AppRoutesName
-                                                    .homeUserScreenRoute);
+                                              context,
+                                              AppRoutesName
+                                                  .termsConditionsScreenRoute,
+                                            );
                                           },
                                       ),
                                       // Conjunction text
@@ -235,7 +236,7 @@ class SelectTypeScreen extends StatelessWidget {
                                             Navigator.pushNamed(
                                                 context,
                                                 AppRoutesName
-                                                    .homeUserScreenRoute);
+                                                    .privacyPolicyScreenRoute);
                                           },
                                       ),
                                     ],

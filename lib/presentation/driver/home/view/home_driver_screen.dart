@@ -1,12 +1,15 @@
 import 'dart:math' as math;
+import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/core/constant/constant.dart';
 import 'package:aoun_app/core/router/route_name.dart';
+import 'package:aoun_app/core/utils/location/location_Provider.dart';
 import 'package:aoun_app/data/model/trip%20models/active_trip_requests/active_trip_requests.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/active%20trip%20request/active_trip_requests_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/driver%20create%20trip%20or%20not/driver_create_trip_or_not_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/driver%20dashboard/driver_dashboard_cubit.dart';
 import 'package:aoun_app/presentation/driver/profile/view_model/get_driver_data/get_driver_data_cubit.dart';
+import 'package:aoun_app/presentation/widgets/common/empty_data.dart';
 import 'package:aoun_app/presentation/widgets/shimmer/trip_shimmer_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +34,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
 
   @override
   void didChangeDependencies() {
+    context.read<LocationProvider>().startListening(context);
     context.read<ActiveTripRequestsCubit>().getActiveTripRequests();
     context.read<GetDriverDataCubit>().getDriverData(context);
     context.read<DriverCreateTripOrNotCubit>().driverCreateTripOrNot();
@@ -73,7 +77,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                             backgroundColor:
                                 Theme.of(context).colorScheme.primaryContainer,
                             backgroundImage: NetworkImage(
-                                "https://studentpathapitest.runasp.net/${state.driverdata.data!.nationalIdBackPath!.replaceAll(r'\\', '/')}"),
+                                "https://studentpathapitest.runasp.net/${state.driverdata.data!.nationalIdFrontPath!.replaceAll(r'\\', '/')}"),
                           ),
                           SizedBox(height: 7.h),
                           Text(
@@ -676,21 +680,27 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
               BlocBuilder<ActiveTripRequestsCubit, ActiveTripRequestsState>(
                 builder: (context, state) {
                   if (state is ActiveTripRequestsSuccess) {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: state.tripList.length,
-                      itemBuilder: (context, index) {
-                        return _recentOrderWidget(
-                          context,
-                          state.tripList[index],
-                          [
-                            state.tripList[index].fromLocation,
-                            state.tripList[index].toLocation,
-                          ],
-                        );
-                      },
-                    );
+                    return state.tripList.isEmpty
+                        ? EmptyDataWidget(
+                            image: Assets.imageEmptyImageEmptyActivePassenger,
+                            text:
+                                "There are no active passengers at the moment.",
+                          )
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: state.tripList.length,
+                            itemBuilder: (context, index) {
+                              return _recentOrderWidget(
+                                context,
+                                state.tripList[index],
+                                [
+                                  state.tripList[index].fromLocation,
+                                  state.tripList[index].toLocation,
+                                ],
+                              );
+                            },
+                          );
                   } else {
                     return ListView.builder(
                       shrinkWrap: true,

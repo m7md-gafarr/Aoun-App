@@ -86,26 +86,42 @@ class DriverSettingScreen extends StatelessWidget {
               ),
               DividerWidget(),
               SizedBox(height: 10.h),
-              Text(S.of(context).driver_settings_contact_us,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleSmall!
-                      .copyWith(fontWeight: FontWeight.bold)),
-              Text(S.of(context).driver_settings_terms,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleSmall!
-                      .copyWith(fontWeight: FontWeight.bold)),
-              Text(S.of(context).driver_settings_privacy,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleSmall!
-                      .copyWith(fontWeight: FontWeight.bold)),
-              Text(S.of(context).driver_settings_rate,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleSmall!
-                      .copyWith(fontWeight: FontWeight.bold)),
+              InkWell(
+                focusColor: Colors.transparent,
+                hoverColor: Colors.transparent,
+                splashColor: Colors.transparent,
+                onTap: () => Navigator.pushNamed(
+                    context, AppRoutesName.contactUsScreenRoute),
+                child: Text(S.of(context).driver_settings_contact_us,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall!
+                        .copyWith(fontWeight: FontWeight.bold)),
+              ),
+              InkWell(
+                focusColor: Colors.transparent,
+                hoverColor: Colors.transparent,
+                splashColor: Colors.transparent,
+                onTap: () => Navigator.pushNamed(
+                    context, AppRoutesName.termsConditionsScreenRoute),
+                child: Text(S.of(context).driver_settings_terms,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall!
+                        .copyWith(fontWeight: FontWeight.bold)),
+              ),
+              InkWell(
+                focusColor: Colors.transparent,
+                hoverColor: Colors.transparent,
+                splashColor: Colors.transparent,
+                onTap: () => Navigator.pushNamed(
+                    context, AppRoutesName.privacyPolicyScreenRoute),
+                child: Text(S.of(context).driver_settings_privacy,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall!
+                        .copyWith(fontWeight: FontWeight.bold)),
+              ),
               SizedBox(height: 10.h),
               DividerWidget(),
               InkWell(

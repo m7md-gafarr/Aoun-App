@@ -11,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'dart:io';
 
 class DriverEditProfile extends StatefulWidget {
   const DriverEditProfile({super.key});
@@ -24,7 +25,7 @@ class _DriverEditProfileState extends State<DriverEditProfile> {
   late TextEditingController _fullNameController;
   late TextEditingController _emailController;
   late TextEditingController _phoneController;
-
+  String? _phoneNumber;
   XFile? _personalImageFile;
 
   GlobalKey<FormState> formKey = GlobalKey();
@@ -43,7 +44,7 @@ class _DriverEditProfileState extends State<DriverEditProfile> {
     list = ModalRoute.of(context)!.settings.arguments;
     _fullNameController.text = list[1];
     _emailController.text = list[2];
-    _phoneController.text = list[3].substring(1);
+    _phoneController.text = list[3].substring(3);
   }
 
   @override
@@ -92,7 +93,10 @@ class _DriverEditProfileState extends State<DriverEditProfile> {
                       shape: BoxShape.circle,
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: NetworkImage(list[0]),
+                        image: _personalImageFile?.path == null
+                            ? NetworkImage(list[0]) as ImageProvider
+                            : FileImage(File(_personalImageFile!.path))
+                                as ImageProvider,
                       ),
                     ),
                     child: Stack(
@@ -154,23 +158,22 @@ class _DriverEditProfileState extends State<DriverEditProfile> {
                 Directionality(
                   textDirection: TextDirection.ltr,
                   child: IntlPhoneField(
+                    initialCountryCode: 'EG',
+                    languageCode: "en",
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    controller: _phoneController,
+                    decoration: InputDecoration(
+                      hintText: S.of(context).login_phone_number,
+                    ),
                     onChanged: (phone) {
-                      _phoneController.text = phone.completeNumber;
+                      _phoneNumber = phone.completeNumber;
                     },
                     validator: (value) {
                       if (value == null) {
                         return S.of(context).phone_number_required;
                       }
-
                       return null;
                     },
-                    languageCode: "en",
-                    controller: _phoneController,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    decoration: InputDecoration(
-                      hintText: S.of(context).login_phone_number,
-                    ),
-                    initialCountryCode: 'EG',
                   ),
                 ),
                 SizedBox(height: 20.h),
@@ -181,7 +184,7 @@ class _DriverEditProfileState extends State<DriverEditProfile> {
                             data: Data(
                               imgUrl: _personalImageFile?.path,
                               userName: _fullNameController.text,
-                              phoneNumber: _phoneController.text,
+                              phoneNumber: _phoneNumber,
                             ),
                           ),
                         );
@@ -191,8 +194,8 @@ class _DriverEditProfileState extends State<DriverEditProfile> {
                     listener: (context, state) {
                       if (state is DriverEditProfileDataSuccess) {
                         DialogHelper(context).showSuccessDialog(
-                          message: "message",
-                          title: "title",
+                          message: "Updated Successfully",
+                          title: "",
                           actions: [
                             TextButton(
                                 onPressed: () {

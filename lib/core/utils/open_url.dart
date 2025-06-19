@@ -5,9 +5,7 @@ class OpenUrlUtils {
     if (!await launchUrl(
       url,
       mode: LaunchMode.externalApplication,
-    )) {
-      throw Exception('Could not launch $url');
-    }
+    )) {}
   }
 
   static Future<void> launchInBrowserView(Uri url) async {

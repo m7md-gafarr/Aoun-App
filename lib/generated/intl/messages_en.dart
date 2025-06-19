@@ -727,12 +727,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "payment_amount": MessageLookupByLibrary.simpleMessage("Pay: 24 EG"),
     "payment_cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "payment_card_tab": MessageLookupByLibrary.simpleMessage("Card"),
+    "payment_done_button": MessageLookupByLibrary.simpleMessage("Done"),
     "payment_loading": MessageLookupByLibrary.simpleMessage("loading"),
     "payment_no_cards": MessageLookupByLibrary.simpleMessage(
       "No cards available",
     ),
     "payment_no_debit_card": MessageLookupByLibrary.simpleMessage(
       "No Debit Card Found",
+    ),
+    "payment_pay_again_button": MessageLookupByLibrary.simpleMessage(
+      "Pay again",
     ),
     "payment_pay_from": MessageLookupByLibrary.simpleMessage("Pay from"),
     "payment_phone_hint": MessageLookupByLibrary.simpleMessage("01X XXXX XXXX"),
@@ -746,23 +750,37 @@ class MessageLookup extends MessageLookupByLibrary {
       "Phone number is required",
     ),
     "payment_proceed": MessageLookupByLibrary.simpleMessage("Proceed"),
+    "payment_receipt_title": MessageLookupByLibrary.simpleMessage(
+      "Payment Receipt",
+    ),
     "payment_seats_count": MessageLookupByLibrary.simpleMessage(
       "Number of seats",
+    ),
+    "payment_success_description": MessageLookupByLibrary.simpleMessage(
+      "Your payment for Starbucks Coffee has been successfully done",
     ),
     "payment_success_message": MessageLookupByLibrary.simpleMessage(
       "You will now be redirected to complete the payment.\nA confirmation email has also been sent.",
     ),
     "payment_success_title": MessageLookupByLibrary.simpleMessage(
-      "Payment Started Successfully",
+      "Payment Success",
     ),
     "payment_title": MessageLookupByLibrary.simpleMessage("Payment"),
     "payment_total_amount": MessageLookupByLibrary.simpleMessage(
       "Total amount",
     ),
+    "payment_total_payment": MessageLookupByLibrary.simpleMessage(
+      "Total Payment",
+    ),
+    "payment_total_seats": MessageLookupByLibrary.simpleMessage("Total Seats"),
     "payment_wallet_number": MessageLookupByLibrary.simpleMessage(
       "Wallet Number",
     ),
     "payment_wallet_tab": MessageLookupByLibrary.simpleMessage("Wallet"),
+    "paymob_error_message": MessageLookupByLibrary.simpleMessage("error"),
+    "paymob_payment_title": MessageLookupByLibrary.simpleMessage(
+      "Paymob Payment",
+    ),
     "phone_number_required": MessageLookupByLibrary.simpleMessage(
       "Phone number is required",
     ),
@@ -929,6 +947,14 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "trip_from_label": MessageLookupByLibrary.simpleMessage("From: "),
     "trip_to_label": MessageLookupByLibrary.simpleMessage("To: "),
+    "user_profile_booking_history": MessageLookupByLibrary.simpleMessage(
+      "Booking history",
+    ),
+    "user_profile_theme_dark": MessageLookupByLibrary.simpleMessage("Dark"),
+    "user_profile_theme_light": MessageLookupByLibrary.simpleMessage("Light"),
+    "user_profile_transactions": MessageLookupByLibrary.simpleMessage(
+      "Transactions",
+    ),
     "validation_invalid_number": MessageLookupByLibrary.simpleMessage(
       "Invalid number for this country.",
     ),

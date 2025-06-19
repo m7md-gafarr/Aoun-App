@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:aoun_app/core/utils/snakbar/snackebar_helper.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';

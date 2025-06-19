@@ -3375,16 +3375,6 @@ class S {
     );
   }
 
-  /// `Payment Started Successfully`
-  String get payment_success_title {
-    return Intl.message(
-      'Payment Started Successfully',
-      name: 'payment_success_title',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `You will now be redirected to complete the payment.\nA confirmation email has also been sent.`
   String get payment_success_message {
     return Intl.message(
@@ -3518,6 +3508,136 @@ class S {
       name: 'trip',
       desc: 'Number of trip in English',
       args: [count],
+    );
+  }
+
+  /// `Transactions`
+  String get user_profile_transactions {
+    return Intl.message(
+      'Transactions',
+      name: 'user_profile_transactions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Booking history`
+  String get user_profile_booking_history {
+    return Intl.message(
+      'Booking history',
+      name: 'user_profile_booking_history',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Light`
+  String get user_profile_theme_light {
+    return Intl.message(
+      'Light',
+      name: 'user_profile_theme_light',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dark`
+  String get user_profile_theme_dark {
+    return Intl.message(
+      'Dark',
+      name: 'user_profile_theme_dark',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Payment Receipt`
+  String get payment_receipt_title {
+    return Intl.message(
+      'Payment Receipt',
+      name: 'payment_receipt_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Payment Success`
+  String get payment_success_title {
+    return Intl.message(
+      'Payment Success',
+      name: 'payment_success_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your payment for Starbucks Coffee has been successfully done`
+  String get payment_success_description {
+    return Intl.message(
+      'Your payment for Starbucks Coffee has been successfully done',
+      name: 'payment_success_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Payment`
+  String get payment_total_payment {
+    return Intl.message(
+      'Total Payment',
+      name: 'payment_total_payment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Seats`
+  String get payment_total_seats {
+    return Intl.message(
+      'Total Seats',
+      name: 'payment_total_seats',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Done`
+  String get payment_done_button {
+    return Intl.message(
+      'Done',
+      name: 'payment_done_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pay again`
+  String get payment_pay_again_button {
+    return Intl.message(
+      'Pay again',
+      name: 'payment_pay_again_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Paymob Payment`
+  String get paymob_payment_title {
+    return Intl.message(
+      'Paymob Payment',
+      name: 'paymob_payment_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `error`
+  String get paymob_error_message {
+    return Intl.message(
+      'error',
+      name: 'paymob_error_message',
+      desc: '',
+      args: [],
     );
   }
 }

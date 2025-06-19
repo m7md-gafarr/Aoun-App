@@ -35,7 +35,7 @@ class TransactionWidget extends StatelessWidget {
           child: Icon(
             getStatusTransaction(model.operation!)[1] == 0
                 ? Iconsax.arrow_down
-                : Iconsax.arrow_up,
+                : Iconsax.arrow_up_3,
             color: getStatusTransaction(model.operation!)[0],
           ),
         ),

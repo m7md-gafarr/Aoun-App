@@ -1,11 +1,12 @@
-import 'dart:developer';
-
 import 'package:aoun_app/core/app_color/app_color_light.dart';
+import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/data/model/driver_models/driver_craeted_trip/driver_trip_created/driver_trip_created_model.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/driver/history%20trips/view_model/driver_trips_history/driver_trips_history_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/cancel_trip/cancel_trip_cubit.dart';
+import 'package:aoun_app/presentation/driver/home/view_model/complete_trip/complete_trip_cubit.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/driver%20create%20trip%20or%20not/driver_create_trip_or_not_cubit.dart';
+import 'package:aoun_app/presentation/driver/home/view_model/driver%20dashboard/driver_dashboard_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view/trip_details_screen.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart';
 import 'package:aoun_app/presentation/widgets/common/divider_widget.dart';
@@ -23,6 +24,11 @@ class CreatedTripDetailsScreen extends StatefulWidget {
 
 class _CreateTripScreenState extends State<CreatedTripDetailsScreen> {
   DriverTripCreatedModel? tripModel;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   void didChangeDependencies() {
@@ -52,7 +58,6 @@ class _CreateTripScreenState extends State<CreatedTripDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    log(MediaQuery.of(context).platformBrightness.toString());
     return Scaffold(
       appBar: AppbarWidget(
         title: S.of(context).trip_details_title,
@@ -112,16 +117,21 @@ class _CreateTripScreenState extends State<CreatedTripDetailsScreen> {
                           S.of(context).trip_details_from,
                           style: Theme.of(context).textTheme.labelSmall,
                         ),
-                        Text(
-                          tripModel!.fromLocation!.fullAddress!,
-                          softWrap: true,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style:
-                              Theme.of(context).textTheme.titleSmall!.copyWith(
-                                    color: Theme.of(context).primaryColor,
-                                    fontSize: 17.sp,
-                                  ),
+                        SizedBox(
+                          width: 285.w,
+                          child: Text(
+                            tripModel!.fromLocation!.fullAddress!,
+                            softWrap: true,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall!
+                                .copyWith(
+                                  color: Theme.of(context).primaryColor,
+                                  fontSize: 17.sp,
+                                ),
+                          ),
                         ),
                         SizedBox(height: 30.h),
                         Text(
@@ -143,6 +153,55 @@ class _CreateTripScreenState extends State<CreatedTripDetailsScreen> {
                                   fontSize: 17.sp,
                                 ),
                           ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              DividerWidget(),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 13.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Bookings Passengers",
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall!
+                          .copyWith(fontSize: 15.sp),
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          tripModel!.bookings!.length.toString(),
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .copyWith(
+                                  fontSize: 15.sp,
+                                  color:
+                                      Theme.of(context).secondaryHeaderColor),
+                        ),
+                        Text(
+                          " from ",
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .copyWith(
+                                  fontSize: 15.sp,
+                                  color: Theme.of(context).primaryColor),
+                        ),
+                        Text(
+                          "${tripModel!.basicInfo!.availableSeats}",
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .copyWith(
+                                  fontSize: 15.sp,
+                                  color:
+                                      Theme.of(context).secondaryHeaderColor),
                         ),
                       ],
                     ),
@@ -176,7 +235,7 @@ class _CreateTripScreenState extends State<CreatedTripDetailsScreen> {
                     .format(tripModel!.createdAt!),
               ),
               DividerWidget(),
-              tripModel!.status! == 3
+              tripModel!.status! == 0
                   ? Column(
                       children: [
                         Text(
@@ -232,16 +291,17 @@ class _CreateTripScreenState extends State<CreatedTripDetailsScreen> {
                     )
                   : ElevatedButton(
                       onPressed: () async {
-                        // context
-                        //     .read<CancelTripCubit>()
-                        //     .cancelTrip(tripModel!.id.toString());
+                        context
+                            .read<CompleteTripCubit>()
+                            .completeTrip(tripModel!.id!);
                       },
-                      child: BlocConsumer<CancelTripCubit, CancelTripState>(
+                      child: BlocConsumer<CompleteTripCubit, CompleteTripState>(
                         listener: (context, state) {
-                          if (state is CancelTripSuccess) {
+                          if (state is CompleteTripSuccess) {
                             context
                                 .read<DriverCreateTripOrNotCubit>()
                                 .driverCreateTripOrNot();
+                            context.read<DriverDashboardCubit>().getDashboard();
                             context
                                 .read<DriverTripsHistoryCubit>()
                                 .getDriverTrips(forceRefresh: true);
@@ -249,7 +309,7 @@ class _CreateTripScreenState extends State<CreatedTripDetailsScreen> {
                           }
                         },
                         builder: (context, state) {
-                          if (state is CancelTripLoading) {
+                          if (state is CompleteTripLoading) {
                             return SizedBox(
                               height: 30,
                               width: 30,

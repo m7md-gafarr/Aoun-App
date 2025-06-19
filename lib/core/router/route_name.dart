@@ -37,6 +37,8 @@ class AppRoutesName {
 
   // Notification user screen
   static const userNotificationScreenRoute = "/userNotificationScreenRoute";
+  static const userTransactionsScreenRoute = "/userTransactionsScreenRoute";
+  static const userHistoryBokkingScreenRoute = "/userHistoryBokkingScreenRoute";
 
   /////////////////////////////////////////////////////////
   //TODO: Driver Routes
@@ -72,4 +74,9 @@ class AppRoutesName {
   static const driverSelectRouteOnMapScreenRoute =
       "/driverSelectRouteOnMapScreenRoute";
   static const createdTripDetailsScreenRoute = "/createdTripDetailsScreenRoute";
+
+  //todo:   info_pages
+  static const contactUsScreenRoute = "/contactUs";
+  static const privacyPolicyScreenRoute = "/privacyPolicy";
+  static const termsConditionsScreenRoute = "/termsAndConditions";
 }

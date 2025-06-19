@@ -1,4 +1,5 @@
 import 'package:animations/animations.dart';
+import 'package:aoun_app/core/app_color/app_color_dark.dart';
 import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/core/utils/map/google_map.dart';
@@ -123,6 +124,7 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 13.0),
                   child: Container(
+                    height: 180.h,
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.primaryContainer,
@@ -144,8 +146,8 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
                             children: [
                               _buildCircle(Theme.of(context).primaryColor),
                               SizedBox(
-                                width: 0,
-                                height: 65.h,
+                                width: 0, /////////////////////////
+                                height: 80.h,
                                 child: CustomPaint(
                                   painter: DottedGradientLinePainter(
                                     gradient: LinearGradient(
@@ -172,18 +174,24 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
                               S.of(context).trip_details_from,
                               style: Theme.of(context).textTheme.labelSmall,
                             ),
-                            Text(
-                              "${widget.tripModel!.fromLocation!.fullAddress}",
-                              style: Theme.of(context).textTheme.titleSmall,
+                            SizedBox(
+                              width: 280.w,
+                              child: Text(
+                                "${widget.tripModel!.fromLocation!.fullAddress}",
+                                style: Theme.of(context).textTheme.titleSmall,
+                              ),
                             ),
-                            SizedBox(height: 30.h),
+                            SizedBox(height: 42.h),
                             Text(
                               S.of(context).trip_details_to,
                               style: Theme.of(context).textTheme.labelSmall,
                             ),
-                            Text(
-                              "${widget.tripModel!.toLocation!.fullAddress}",
-                              style: Theme.of(context).textTheme.titleSmall,
+                            SizedBox(
+                              width: 280.w,
+                              child: Text(
+                                "${widget.tripModel!.toLocation!.fullAddress}",
+                                style: Theme.of(context).textTheme.titleSmall,
+                              ),
                             ),
                           ],
                         ),
@@ -251,19 +259,27 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
               style: Theme.of(context).textTheme.titleLarge,
             ),
             Spacer(),
-            SizedBox(
-              width: 140.w,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(
-                    context,
-                    AppRoutesName.bookTripScreenRoute,
-                    arguments: [widget.tripModel, routeModel],
-                  );
-                },
-                child: Text(S.of(context).trip_details_book),
-              ),
-            )
+            widget.tripModel!.basicInfo!.availableSeats != 0
+                ? SizedBox(
+                    width: 140.w,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          AppRoutesName.bookTripScreenRoute,
+                          arguments: [widget.tripModel, routeModel],
+                        );
+                      },
+                      child: Text(S.of(context).trip_details_book),
+                    ),
+                  )
+                : Text(
+                    "Completed Booking",
+                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                          color: AppColorDark.errorColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  )
           ],
         ),
       ),
