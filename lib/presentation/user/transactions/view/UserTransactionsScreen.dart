@@ -1,5 +1,6 @@
 import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/data/model/user%20models/user_transactaion/user_transaction_response_model/user_transaction_response_model.dart';
+import 'package:aoun_app/generated/l10n.dart';
 
 import 'package:aoun_app/presentation/user/transactions/view_model/transactions/transactions_cubit.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart';
@@ -36,7 +37,7 @@ class _DriverWalletAndEarningsScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppbarWidget(
-        title: "Transaction",
+        title: S.of(context).user_transactions_title,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 13.0),
@@ -75,7 +76,9 @@ class _DriverWalletAndEarningsScreenState
                                 ),
                                 EmptyDataWidget(
                                   image: Assets.imageEmptyImageEmptyTransaction,
-                                  text: "You don't have any transactions yet.",
+                                  text: S
+                                      .of(context)
+                                      .user_transactions_no_transactions,
                                 ),
                               ],
                             ),

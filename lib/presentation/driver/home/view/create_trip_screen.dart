@@ -1,4 +1,5 @@
 import 'package:animations/animations.dart';
+import 'package:aoun_app/core/constant/constant.dart';
 import 'package:aoun_app/core/utils/dialog/dialog_helper.dart';
 import 'package:aoun_app/core/utils/snakbar/snackebar_helper.dart';
 import 'package:aoun_app/data/model/trip%20models/get_trip_route/get_trip_route.dart';
@@ -99,6 +100,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
+                  height: 180.h,
                   padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.primaryContainer,
@@ -115,13 +117,13 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                   child: Row(
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(bottom: 23.h),
+                        padding: EdgeInsets.only(top: 3.h),
                         child: Column(
                           children: [
                             _buildCircle(Theme.of(context).primaryColor),
                             SizedBox(
                               width: 0,
-                              height: 65.h,
+                              height: 80.h,
                               child: CustomPaint(
                                 painter: DottedGradientLinePainter(
                                   gradient: LinearGradient(
@@ -198,7 +200,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                                       ],
                                     )
                                   : SizedBox(
-                                      width: 288.w,
+                                      width: 280.w,
                                       child: Text(
                                         fromLocation!,
                                         overflow: TextOverflow.ellipsis,
@@ -208,13 +210,17 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                                             .copyWith(
                                               color: Theme.of(context)
                                                   .primaryColor,
-                                              fontSize: 16.sp,
+                                              fontSize: 17.sp,
+                                              fontFamily:
+                                                  isArabicText(fromLocation!)
+                                                      ? fontArabic
+                                                      : fontEnglish,
                                             ),
                                       ),
                                     ),
                             ),
                           ),
-                          SizedBox(height: 30.h),
+                          SizedBox(height: 50.h),
                           Text(
                             S.of(context).create_trip_to_label,
                             style: Theme.of(context).textTheme.labelSmall,
@@ -269,7 +275,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                                       ],
                                     )
                                   : SizedBox(
-                                      width: 288.w,
+                                      width: 280.w,
                                       child: Text(
                                         toLocation!,
                                         overflow: TextOverflow.ellipsis,
@@ -279,7 +285,11 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                                             .copyWith(
                                               color: Theme.of(context)
                                                   .primaryColor,
-                                              fontSize: 16.sp,
+                                              fontSize: 17.sp,
+                                              fontFamily:
+                                                  isArabicText(toLocation!)
+                                                      ? fontArabic
+                                                      : fontEnglish,
                                             ),
                                       ),
                                     ),

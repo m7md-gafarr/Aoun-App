@@ -28,3 +28,8 @@ class ScaleSize {
 
 const userModePassenger = "passenger";
 const userModeDriver = "Driver";
+
+bool isArabicText(String text) {
+  final arabicRegExp = RegExp(r'[\u0600-\u06FF]');
+  return arabicRegExp.hasMatch(text);
+}

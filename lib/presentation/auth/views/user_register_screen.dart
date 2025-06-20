@@ -2,6 +2,7 @@ import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/core/utils/dialog/dialog_helper.dart';
 import 'package:aoun_app/core/utils/location/location_Provider.dart';
 import 'package:aoun_app/core/utils/location/location_utils.dart';
+import 'package:aoun_app/core/utils/validation_utils.dart';
 import 'package:aoun_app/data/model/auth%20models/user_auth_model/auth_model.dart';
 import 'package:aoun_app/data/model/auth%20models/user_auth_model/location.dart';
 import 'package:aoun_app/generated/l10n.dart';
@@ -32,6 +33,7 @@ class _RegisterScreenState extends State<UserRegisterScreen> {
   late TextEditingController _dateController;
   late TextEditingController _fullNameController;
   late TextEditingController _emailController;
+  late TextEditingController _phoneController;
 
   late TextEditingController _passwordController;
 
@@ -42,12 +44,13 @@ class _RegisterScreenState extends State<UserRegisterScreen> {
   Placemark? _placemark;
   int _age = 0;
   String? phoneNumber;
+
   @override
   void initState() {
     _dateController = TextEditingController();
     _fullNameController = TextEditingController();
     _emailController = TextEditingController();
-
+    _phoneController = TextEditingController();
     _passwordController = TextEditingController();
     _getLocation();
     super.initState();
@@ -76,6 +79,7 @@ class _RegisterScreenState extends State<UserRegisterScreen> {
     _dateController.dispose();
     _fullNameController.dispose();
     _emailController.dispose();
+    _phoneController.dispose();
     _passwordController.dispose();
 
     super.dispose();
@@ -175,7 +179,7 @@ class _RegisterScreenState extends State<UserRegisterScreen> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return S.of(context).select_birthdate;
-                      } else if (_age < 5) {
+                      } else if (_age < 18) {
                         return S.of(context).age_validation;
                       }
                       return null;
@@ -215,8 +219,16 @@ class _RegisterScreenState extends State<UserRegisterScreen> {
                   Directionality(
                     textDirection: TextDirection.ltr,
                     child: IntlPhoneField(
+                      keyboardType: TextInputType.phone,
                       onChanged: (phone) {
-                        phoneNumber = phone.completeNumber;
+                        final normalized = normalizePhone(phone.completeNumber);
+                        phoneNumber = normalized;
+
+                        _phoneController.value = TextEditingValue(
+                          text: normalized,
+                          selection: TextSelection.collapsed(
+                              offset: normalized.length),
+                        );
                       },
                       validator: (value) {
                         if (value == null) {
@@ -226,6 +238,7 @@ class _RegisterScreenState extends State<UserRegisterScreen> {
                         return null;
                       },
                       languageCode: "en",
+                      controller: _phoneController,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       decoration: InputDecoration(
                         hintText: S.of(context).login_phone_number,
@@ -282,7 +295,7 @@ class _RegisterScreenState extends State<UserRegisterScreen> {
                                 gender: _selectedGender,
                                 registrationDate: DateTime.now(),
                                 age: _age,
-                                phoneNumber: phoneNumber?.trim() ?? '',
+                                phoneNumber: "+20${phoneNumber}" ?? '',
                               ),
                               LocationModel(
                                 city: Provider.of<LocationProvider>(
@@ -325,7 +338,15 @@ class _RegisterScreenState extends State<UserRegisterScreen> {
                                     (route) => false,
                                   );
                                 },
-                                child: Text(S.of(context).ok_AlertDialogt),
+                                child: Text(
+                                  S.of(context).ok_AlertDialogt,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(
+                                          color:
+                                              Theme.of(context).primaryColor),
+                                ),
                               ),
                             ],
                           );

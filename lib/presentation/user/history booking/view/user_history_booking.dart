@@ -1,5 +1,6 @@
 import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/data/model/user%20models/user_booking/user_response_bookings_model/user_response_bookings_model.dart';
+import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/user/history%20booking/view_model/user_booking_history/user_booking_history_cubit.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart';
 import 'package:aoun_app/presentation/widgets/common/empty_data.dart';
@@ -29,7 +30,7 @@ class _DriverHistoryTripsScreenState extends State<UserHistoryBokkingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppbarWidget(
-        title: "Booking history",
+        title: S.of(context).user_history_booking_title,
       ),
       body: BlocBuilder<UserBookingHistoryCubit, UserBookingHistoryState>(
         builder: (context, state) {
@@ -45,7 +46,7 @@ class _DriverHistoryTripsScreenState extends State<UserHistoryBokkingScreen> {
                           ),
                           EmptyDataWidget(
                             image: Assets.imageEmptyImageEmptyHistorydata,
-                            text: "There are no history trip at the moment.",
+                            text: S.of(context).user_history_booking_no_history,
                           ),
                         ],
                       ),
@@ -136,6 +137,21 @@ class _TripDetails extends StatelessWidget {
       {required this.tripModel,
       required this.status,
       required this.colorStatus});
+  static String getStatusText(BuildContext context, String status) {
+    switch (status) {
+      case "Planned":
+        return S.of(context).trip_status_planned;
+      case "Active":
+        return S.of(context).trip_status_active;
+      case "Completed":
+        return S.of(context).trip_status_completed;
+      case "Canceled":
+        return S.of(context).trip_status_canceled;
+      default:
+        return S.of(context).trip_status_unknown;
+    }
+  }
+
   UserResponseBookingsModel tripModel;
   String status;
   Color colorStatus;
@@ -147,10 +163,12 @@ class _TripDetails extends StatelessWidget {
       children: [
         _TripDetailRow(
             iconRotation: math.pi / 4,
-            label: "From: ${tripModel.fromLocation!.fullAddress}"),
+            label:
+                "${S.of(context).user_history_booking_from_label}${tripModel.fromLocation!.fullAddress}"),
         _TripDetailRow(
             iconRotation: -3 * math.pi / 4,
-            label: "To: ${tripModel.toLocation!.fullAddress}"),
+            label:
+                "${S.of(context).user_history_booking_to_label}${tripModel.toLocation!.fullAddress}"),
         Row(
           children: [
             SizedBox(
@@ -160,13 +178,13 @@ class _TripDetails extends StatelessWidget {
                   Icon(Iconsax.status, size: 17.w),
                   SizedBox(width: 2.w),
                   Text(
-                    "Status: ",
+                    S.of(context).user_history_booking_status_label,
                     style: Theme.of(context).textTheme.labelSmall,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    status,
+                    getStatusText(context, status),
                     style: Theme.of(context)
                         .textTheme
                         .labelSmall!
@@ -182,7 +200,7 @@ class _TripDetails extends StatelessWidget {
                 Icon(Iconsax.people, size: 17.w),
                 SizedBox(width: 2.w),
                 Text(
-                  "Total seats: ",
+                  S.of(context).user_history_booking_total_seats_label,
                   style: Theme.of(context).textTheme.labelSmall,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

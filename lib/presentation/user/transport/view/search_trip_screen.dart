@@ -303,7 +303,7 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
                         ),
                         SizedBox(height: 12),
                         Text(
-                          "No results found for the entered location.",
+                          S.of(context).search_trip_no_results_found,
                           style:
                               Theme.of(context).textTheme.bodyMedium?.copyWith(
                                     color: Colors.grey,
@@ -326,7 +326,9 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
                                 return Column(
                                   children: [
                                     Text(
-                                      "Suggested trips based on your location",
+                                      S
+                                          .of(context)
+                                          .search_trip_suggested_trips_title,
                                       style: Theme.of(context)
                                           .textTheme
                                           .labelSmall,
@@ -350,8 +352,9 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
                                   child: EmptyDataWidget(
                                     image: Assets
                                         .imageEmptyImageEmptyRecommendation,
-                                    text:
-                                        "We're still gathering recommendations for you. Stay tuned!",
+                                    text: S
+                                        .of(context)
+                                        .search_trip_gathering_recommendations,
                                   ),
                                 );
                               }
@@ -359,7 +362,9 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
                               return Column(
                                 children: [
                                   Text(
-                                    "Suggested trips based on your location",
+                                    S
+                                        .of(context)
+                                        .search_trip_suggested_trips_title,
                                     style:
                                         Theme.of(context).textTheme.labelSmall,
                                   ),
@@ -425,7 +430,8 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
                                               is CreateRequestTripSuccess) {
                                             DialogHelper(context)
                                                 .showSuccessDialog(
-                                              message: state.message,
+                                              message:
+                                                  S.of(context).search_trip_active_destination_success,
                                               title: S
                                                   .of(context)
                                                   .confirmed_successfully,
@@ -435,9 +441,18 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
                                                     Navigator.pop(context);
                                                     Navigator.pop(context);
                                                   },
-                                                  child: Text(S
-                                                      .of(context)
-                                                      .ok_AlertDialogt),
+                                                  child: Text(
+                                                    S
+                                                        .of(context)
+                                                        .ok_AlertDialogt,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyLarge!
+                                                        .copyWith(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .primaryColor),
+                                                  ),
                                                 ),
                                               ],
                                             );
@@ -467,8 +482,9 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
                                         ? EmptyDataWidget(
                                             image: Assets
                                                 .imageEmptyImageEmptyActivePassenger,
-                                            text:
-                                                "There are no active passengers at the moment.",
+                                            text: S
+                                                .of(context)
+                                                .search_trip_no_active_passengers,
                                           )
                                         : ListView.builder(
                                             shrinkWrap: true,

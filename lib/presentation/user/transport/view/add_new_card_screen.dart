@@ -66,7 +66,7 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppbarWidget(title: "Add new card"),
+      appBar: AppbarWidget(title: S.of(context).add_new_card_title),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 13.0),
         child: Column(
@@ -105,16 +105,16 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
             _buildTextField(
               (value) {
                 if (value == null || value.isEmpty) {
-                  return "Enter card number";
+                  return S.of(context).add_new_card_number_required;
                 } else if (value.length != 19) {
-                  return "Invalid card number lengt";
+                  return S.of(context).add_new_card_number_invalid_length;
                 }
 
                 return null;
               },
               _focusNodes['number']!,
               Iconsax.card,
-              "Card number",
+              S.of(context).add_new_card_number_hint,
               TextInputType.number,
               (value) {
                 setState(() {
@@ -131,22 +131,23 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
             _buildTextField(
               (value) {
                 if (value == null || value.isEmpty) {
-                  return "Enter full name";
+                  return S.of(context).add_new_card_full_name_required;
                 } else if (!RegExp(r'^[A-Za-z]+(?: [A-Za-z]+){2}$')
                     .hasMatch(value)) {
-                  return "Invalid name format";
+                  return S.of(context).add_new_card_full_name_invalid_format;
                 }
 
                 return null;
               },
               _focusNodes['name']!,
               Iconsax.user,
-              "Full name",
+              S.of(context).add_new_card_full_name_hint,
               TextInputType.name,
               (value) {
                 setState(() {
-                  _fullnameText =
-                      value.isEmpty ? "CARDHOLDER" : value.toUpperCase();
+                  _fullnameText = value.isEmpty
+                      ? S.of(context).add_new_card_cardholder_default
+                      : value.toUpperCase();
                 });
               },
               [],
@@ -203,16 +204,16 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
                   child: _buildTextField(
                     (value) {
                       if (value == null || value.isEmpty) {
-                        return "Please enter CVV";
+                        return S.of(context).add_new_card_cvv_required;
                       }
                       if (!RegExp(r'^\d{3}$').hasMatch(value)) {
-                        return "CVV must be 3 digits";
+                        return S.of(context).add_new_card_cvv_invalid;
                       }
                       return null;
                     },
                     _focusNodes['cvv']!,
                     Iconsax.lock_1,
-                    "CVV",
+                    S.of(context).add_new_card_cvv_hint,
                     TextInputType.number,
                     (value) {
                       setState(() {
@@ -247,7 +248,7 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
                 listener: (context, state) {
                   if (state is AddNewDebitCardSuccess) {
                     DialogHelper(context).showSuccessDialog(
-                      message: "Success Add Card",
+                      message: S.of(context).add_new_card_success_message,
                       title: S.of(context).confirmed_successfully,
                       actions: [
                         TextButton(
@@ -255,7 +256,14 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
                             Navigator.pop(context);
                             Navigator.pop(context);
                           },
-                          child: Text(S.of(context).ok_AlertDialogt),
+                          child: Text(
+                            S.of(context).ok_AlertDialogt,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                    color: Theme.of(context).primaryColor),
+                          ),
                         ),
                       ],
                     );
@@ -273,7 +281,7 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
                       ),
                     );
                   } else {
-                    return Text("Add card");
+                    return Text(S.of(context).add_new_card_add_button);
                   }
                 },
               ),

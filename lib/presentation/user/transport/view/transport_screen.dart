@@ -179,9 +179,11 @@ class _TransportScreenState extends State<TransportScreen> {
                     return _buildLocationField(
                       context,
                       icon: Iconsax.location,
-                      text:
-                          "${provider.placemark?.subAdministrativeArea}, ${provider.placemark?.locality}" ??
-                              S.of(context).transport_location_loading,
+                      text: (provider.placemark?.subAdministrativeArea !=
+                                  null &&
+                              provider.placemark?.locality != null)
+                          ? "${provider.placemark!.subAdministrativeArea}, ${provider.placemark!.locality}"
+                          : S.of(context).transport_location_loading,
                     );
                   },
                 ),

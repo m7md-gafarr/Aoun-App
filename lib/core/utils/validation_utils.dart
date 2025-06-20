@@ -73,3 +73,17 @@ bool validateOTP({
 
   return result;
 }
+
+String normalizePhone(String rawPhone) {
+  String digitsOnly = rawPhone.replaceAll(RegExp(r'\D'), '');
+
+  if (digitsOnly.startsWith('20')) {
+    digitsOnly = digitsOnly.substring(2);
+  } else if (digitsOnly.startsWith('00')) {
+    digitsOnly = digitsOnly.substring(4);
+  } else if (digitsOnly.startsWith('0')) {
+    digitsOnly = digitsOnly.substring(1);
+  }
+
+  return digitsOnly;
+}

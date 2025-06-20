@@ -1,4 +1,5 @@
 import 'package:aoun_app/core/utils/dialog/dialog_helper.dart';
+import 'package:aoun_app/core/utils/validation_utils.dart';
 import 'package:aoun_app/data/model/driver_models/driver_model/data.dart';
 import 'package:aoun_app/data/model/driver_models/driver_model/driver_model.dart';
 import 'package:aoun_app/generated/l10n.dart';
@@ -44,7 +45,8 @@ class _DriverEditProfileState extends State<DriverEditProfile> {
     list = ModalRoute.of(context)!.settings.arguments;
     _fullNameController.text = list[1];
     _emailController.text = list[2];
-    _phoneController.text = list[3].substring(3);
+    _phoneController.text = normalizePhone(list[3]);
+    _phoneNumber = _phoneController.text;
   }
 
   @override
@@ -161,12 +163,21 @@ class _DriverEditProfileState extends State<DriverEditProfile> {
                     initialCountryCode: 'EG',
                     languageCode: "en",
                     autovalidateMode: AutovalidateMode.onUserInteraction,
+                    keyboardType: TextInputType.phone,
                     controller: _phoneController,
                     decoration: InputDecoration(
                       hintText: S.of(context).login_phone_number,
                     ),
                     onChanged: (phone) {
-                      _phoneNumber = phone.completeNumber;
+                      final normalized = normalizePhone(phone.completeNumber);
+
+                      _phoneController.value = TextEditingValue(
+                        text: normalized,
+                        selection:
+                            TextSelection.collapsed(offset: normalized.length),
+                      );
+
+                      _phoneNumber = normalized;
                     },
                     validator: (value) {
                       if (value == null) {
@@ -207,7 +218,17 @@ class _DriverEditProfileState extends State<DriverEditProfile> {
                                   Navigator.pop(context);
                                   Navigator.pop(context);
                                 },
-                                child: Text("Ok"))
+                                child: Text(
+                                  S
+                                      .of(context)
+                                      .user_edit_profile_update_success_ok,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(
+                                          color:
+                                              Theme.of(context).primaryColor),
+                                ))
                           ],
                         );
                       }

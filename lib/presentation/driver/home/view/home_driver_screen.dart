@@ -284,11 +284,18 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                                 axisLine: AxisLine(width: 0),
                                 majorGridLines: MajorGridLines(width: 0),
                                 majorTickLines: MajorTickLines(width: 0),
+                                maximumLabels: 7,
+                                labelRotation: -45,
+                                labelIntersectAction:
+                                    AxisLabelIntersectAction.rotate45,
+                                labelPlacement: LabelPlacement.betweenTicks,
                                 labelStyle: TextStyle(
-                                    fontSize: 12.sp, color: Colors.teal[800]),
+                                  fontSize: 12.sp,
+                                  color: Theme.of(context).secondaryHeaderColor,
+                                ),
                               ),
                               primaryYAxis: NumericAxis(
-                                minimum: 1,
+                                minimum: 0,
                                 maximum: [
                                       state.dashboardModel.weeklyStats!.monday!
                                           .toDouble(),
@@ -344,31 +351,31 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                                   width: 0.2,
                                   dataSource: [
                                     _SalesData(
-                                        'Monday',
+                                        S.of(context).home_driver_monday,
                                         state.dashboardModel.weeklyStats!
                                             .monday!),
                                     _SalesData(
-                                        'Tuesday',
+                                        S.of(context).home_driver_tuesday,
                                         state.dashboardModel.weeklyStats!
                                             .tuesday!),
                                     _SalesData(
-                                        'Wednesday',
+                                        S.of(context).home_driver_wednesday,
                                         state.dashboardModel.weeklyStats!
                                             .wednesday!),
                                     _SalesData(
-                                        'Thursday',
+                                        S.of(context).home_driver_thursday,
                                         state.dashboardModel.weeklyStats!
                                             .thursday!),
                                     _SalesData(
-                                        'Friday',
+                                        S.of(context).home_driver_friday,
                                         state.dashboardModel.weeklyStats!
                                             .friday!),
                                     _SalesData(
-                                        'Saturday',
+                                        S.of(context).home_driver_saturday,
                                         state.dashboardModel.weeklyStats!
                                             .saturday!),
                                     _SalesData(
-                                        'Sunday',
+                                        S.of(context).home_driver_sunday,
                                         state.dashboardModel.weeklyStats!
                                             .sunday!),
                                   ],
@@ -376,7 +383,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                                       sales.year,
                                   yValueMapper: (_SalesData sales, _) =>
                                       sales.sales,
-                                  name: 'Sales',
+                                  name: S.of(context).home_driver_chart_sales,
                                   color: Theme.of(context).primaryColor,
                                   borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(5),
@@ -395,7 +402,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                       highlightColor: Theme.of(context).scaffoldBackgroundColor,
                       enabled: true,
                       child: Container(
-                        height: 350.h,
+                        height: 360.h,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7.r),
                         ),
@@ -651,7 +658,103 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                       ),
                     );
                   } else if (state is DriverCreateTripOrNotLoading) {
-                    return Text(S.of(context).home_driver_loading);
+                    return Shimmer.fromColors(
+                      baseColor: Theme.of(context).colorScheme.primaryContainer,
+                      highlightColor: Theme.of(context).scaffoldBackgroundColor,
+                      enabled: true,
+                      child: SizedBox(
+                        height: 40.h,
+                        width: MediaQuery.of(context).size.width,
+                        child: CarouselSlider(
+                          items: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Column(
+                                  children: [
+                                    Container(
+                                      width: 100.w,
+                                      height: 14.h,
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primaryContainer,
+                                        borderRadius:
+                                            BorderRadius.circular(4.r),
+                                      ),
+                                    ),
+                                    SizedBox(height: 5.h),
+                                    Container(
+                                      width: 150.w,
+                                      height: 14.h,
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primaryContainer,
+                                        borderRadius:
+                                            BorderRadius.circular(4.r),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Container(
+                                  width: 100.w,
+                                  height: 14.h,
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .primaryContainer,
+                                    borderRadius: BorderRadius.circular(4.r),
+                                  ),
+                                ),
+                                Container(
+                                  width: 100.w,
+                                  height: 14.h,
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .primaryContainer,
+                                    borderRadius: BorderRadius.circular(4.r),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Container(
+                                  width: 100.w,
+                                  height: 14.h,
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .primaryContainer,
+                                    borderRadius: BorderRadius.circular(4.r),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                          options: CarouselOptions(
+                            height: 120,
+                            autoPlay: true,
+                            autoPlayInterval: Duration(seconds: 3),
+                            autoPlayAnimationDuration:
+                                Duration(milliseconds: 600),
+                            autoPlayCurve: Curves.linear,
+                            enableInfiniteScroll: true,
+                            pauseAutoPlayOnTouch: false,
+                            pauseAutoPlayOnManualNavigate: false,
+                            viewportFraction: 1.0,
+                          ),
+                        ),
+                      ),
+                    );
                   } else {
                     return ElevatedButton(
                       onPressed: () {
@@ -684,7 +787,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                         ? EmptyDataWidget(
                             image: Assets.imageEmptyImageEmptyActivePassenger,
                             text:
-                                "There are no active passengers at the moment.",
+                                S.of(context).home_driver_no_active_passengers,
                           )
                         : ListView.builder(
                             shrinkWrap: true,
@@ -784,7 +887,6 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
               Icon(isRTL(context)
                   ? Iconsax.arrow_left_2
                   : Iconsax.arrow_right_3),
-              SizedBox(width: 7.w),
             ],
           ),
         ),
@@ -844,13 +946,16 @@ class _TripDetails extends StatelessWidget {
       children: [
         _TripDetailRow(
             iconRotation: math.pi / 4,
-            label: "From: ${model.fromLocation!.fullAddress}"),
+            label:
+                "${S.of(context).home_driver_from_label}${model.fromLocation!.fullAddress}"),
         _TripDetailRow(
             iconRotation: -3 * math.pi / 4,
-            label: "To: ${model.toLocation!.fullAddress}"),
+            label:
+                "${S.of(context).home_driver_to_label}${model.toLocation!.fullAddress}"),
         _TripDetailRow(
             icon: Iconsax.map_1,
-            label: " Active passengers: ${model.activePassengers}"),
+            label:
+                "${S.of(context).home_driver_active_passengers_label}${model.activePassengers}"),
       ],
     );
   }
@@ -880,7 +985,9 @@ class _CreatedTripDetailRow extends StatelessWidget {
         SizedBox(width: 2.w),
         Text(
           label,
-          style: Theme.of(context).textTheme.labelSmall,
+          style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                fontFamily: isArabicText(label) ? fontArabic : fontEnglish,
+              ),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
@@ -915,7 +1022,9 @@ class _TripDetailRow extends StatelessWidget {
           width: 220.w,
           child: Text(
             label,
-            style: Theme.of(context).textTheme.labelSmall,
+            style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                  fontFamily: isArabicText(label) ? fontArabic : fontEnglish,
+                ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),

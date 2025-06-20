@@ -1,6 +1,7 @@
 import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/core/utils/location/location_Provider.dart';
+import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/user/profile/view_model/get_user_info/get_user_info_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view/transport_screen.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/recommendation_trip/recommendation_trip_cubit.dart';
@@ -58,7 +59,7 @@ class _HomeScreenState extends State<HomeUserScreen> {
                       if (state is GetUserInfoInitialSuccess) {
                         final user = state.userModel;
                         return Text(
-                          "Welcome, ${user.userName}",
+                          S.of(context).home_user_welcome(user.userName!),
                           style: Theme.of(context).textTheme.titleSmall,
                         );
                       } else {
@@ -90,7 +91,11 @@ class _HomeScreenState extends State<HomeUserScreen> {
                     hoverColor: Colors.transparent,
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
-                    onTap: () {},
+                    onTap: () {
+                      print(Localizations.localeOf(context)
+                          .languageCode
+                          .toString());
+                    },
                     child: Icon(
                       Iconsax.notification,
                       color: Theme.of(context).primaryColor,

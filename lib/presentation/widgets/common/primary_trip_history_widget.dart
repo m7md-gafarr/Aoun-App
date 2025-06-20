@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:aoun_app/data/model/trip%20models/trip_model/trip_model.dart';
+import 'package:aoun_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
@@ -13,18 +14,18 @@ class TripHistoryWidget extends StatelessWidget {
 
   TripModel tripModel;
 
-  List<dynamic> getTripStatus(int status) {
+  List<dynamic> getTripStatus(BuildContext context, int status) {
     switch (status) {
       case 0: // Planned
-        return [const Color(0xFFC0C0C0), "Planned"];
+        return [const Color(0xFFC0C0C0), S.of(context).trip_status_planned];
       case 1: // Active
-        return [const Color(0xFFF9A825), "Active"];
+        return [const Color(0xFFF9A825), S.of(context).trip_status_active];
       case 2: // Completed
-        return [const Color(0xFF4CAF50), "Completed"];
+        return [const Color(0xFF4CAF50), S.of(context).trip_status_completed];
       case 3: // Canceled
-        return [const Color(0xFFE53935), "Canceled"];
+        return [const Color(0xFFE53935), S.of(context).trip_status_canceled];
       default:
-        return [Colors.grey, "Unknown"];
+        return [Colors.grey, S.of(context).trip_status_unknown];
     }
   }
 
@@ -46,8 +47,8 @@ class TripHistoryWidget extends StatelessWidget {
             SizedBox(width: 7.w),
             _TripDetails(
               tripModel: tripModel,
-              status: getTripStatus(tripModel.status!)[1],
-              colorStatus: getTripStatus(tripModel.status!)[0],
+              status: getTripStatus(context, tripModel.status!)[1],
+              colorStatus: getTripStatus(context, tripModel.status!)[0],
             ),
           ],
         ),
@@ -75,6 +76,7 @@ class _TripDetails extends StatelessWidget {
   TripModel tripModel;
   String status;
   Color colorStatus;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -83,16 +85,18 @@ class _TripDetails extends StatelessWidget {
       children: [
         _TripDetailRow(
             iconRotation: math.pi / 4,
-            label: "From: ${tripModel.fromLocation!.fullAddress}"),
+            label:
+                "${S.of(context).user_history_booking_from_label}${tripModel.fromLocation!.fullAddress}"),
         _TripDetailRow(
             iconRotation: -3 * math.pi / 4,
-            label: "To: ${tripModel.toLocation!.fullAddress}"),
+            label:
+                "${S.of(context).user_history_booking_to_label}${tripModel.toLocation!.fullAddress}"),
         Row(
           children: [
             Icon(Iconsax.status, size: 17.w),
             SizedBox(width: 2.w),
             Text(
-              "Status: ",
+              S.of(context).user_history_booking_status_label,
               style: Theme.of(context).textTheme.labelSmall,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,

@@ -22,10 +22,12 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m0(year) => "Enter a valid year between 2000 and ${year}.";
 
-  static String m1(count) =>
-      "${Intl.plural(count, zero: 'No seats', one: '1 seat', other: '${count} seats')}";
+  static String m1(userName) => "Welcome, ${userName}";
 
   static String m2(count) =>
+      "${Intl.plural(count, zero: 'No seats', one: '1 seat', other: '${count} seats')}";
+
+  static String m3(count) =>
       "${Intl.plural(count, zero: 'No trips', one: '1 trip', other: '${count} trips')}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -36,8 +38,62 @@ class MessageLookup extends MessageLookupByLibrary {
     "activities_opportunities": MessageLookupByLibrary.simpleMessage(
       "Activities & Opportunities",
     ),
+    "add_new_card_add_button": MessageLookupByLibrary.simpleMessage("Add card"),
+    "add_new_card_authorized_signature": MessageLookupByLibrary.simpleMessage(
+      "Authorized Signature",
+    ),
+    "add_new_card_cardholder_default": MessageLookupByLibrary.simpleMessage(
+      "CARDHOLDER",
+    ),
+    "add_new_card_cvv_hint": MessageLookupByLibrary.simpleMessage("CVV"),
+    "add_new_card_cvv_invalid": MessageLookupByLibrary.simpleMessage(
+      "CVV must be 3 digits",
+    ),
+    "add_new_card_cvv_required": MessageLookupByLibrary.simpleMessage(
+      "Please enter CVV",
+    ),
+    "add_new_card_expiry_expired": MessageLookupByLibrary.simpleMessage(
+      "Card expired",
+    ),
+    "add_new_card_expiry_hint": MessageLookupByLibrary.simpleMessage("MM/YY"),
+    "add_new_card_expiry_invalid_digits": MessageLookupByLibrary.simpleMessage(
+      "Enter 4 digits (MMYY)",
+    ),
+    "add_new_card_expiry_invalid_month": MessageLookupByLibrary.simpleMessage(
+      "Invalid month",
+    ),
+    "add_new_card_expiry_required": MessageLookupByLibrary.simpleMessage(
+      "Please enter expiry date",
+    ),
+    "add_new_card_full_name_hint": MessageLookupByLibrary.simpleMessage(
+      "Full name",
+    ),
+    "add_new_card_full_name_invalid_format":
+        MessageLookupByLibrary.simpleMessage("Invalid name format"),
+    "add_new_card_full_name_required": MessageLookupByLibrary.simpleMessage(
+      "Enter full name",
+    ),
+    "add_new_card_number_hint": MessageLookupByLibrary.simpleMessage(
+      "Card number",
+    ),
+    "add_new_card_number_invalid_length": MessageLookupByLibrary.simpleMessage(
+      "Invalid card number length",
+    ),
+    "add_new_card_number_required": MessageLookupByLibrary.simpleMessage(
+      "Enter card number",
+    ),
+    "add_new_card_success_message": MessageLookupByLibrary.simpleMessage(
+      "Success Add Card",
+    ),
+    "add_new_card_title": MessageLookupByLibrary.simpleMessage("Add new card"),
+    "add_new_card_valid_thru_label": MessageLookupByLibrary.simpleMessage(
+      "VALID\nTHRU",
+    ),
+    "add_new_card_website_url": MessageLookupByLibrary.simpleMessage(
+      "http://www.Aoun.com",
+    ),
     "age_validation": MessageLookupByLibrary.simpleMessage(
-      "Age must be at least 5 years old",
+      "Age must be at least 18 years old",
     ),
     "already_have_account": MessageLookupByLibrary.simpleMessage(
       "Already have an account? ",
@@ -71,6 +127,33 @@ class MessageLookup extends MessageLookupByLibrary {
     "confirmed_successfully": MessageLookupByLibrary.simpleMessage(
       "Confirmed successfully!",
     ),
+    "contact_us_address_hint": MessageLookupByLibrary.simpleMessage(
+      "Your Address",
+    ),
+    "contact_us_email_hint": MessageLookupByLibrary.simpleMessage("Your Email"),
+    "contact_us_email_invalid": MessageLookupByLibrary.simpleMessage(
+      "Enter a valid email",
+    ),
+    "contact_us_email_required": MessageLookupByLibrary.simpleMessage(
+      "Please enter your email",
+    ),
+    "contact_us_message_hint": MessageLookupByLibrary.simpleMessage(
+      "Your Message...",
+    ),
+    "contact_us_message_required": MessageLookupByLibrary.simpleMessage(
+      "Please enter your message",
+    ),
+    "contact_us_message_sent": MessageLookupByLibrary.simpleMessage(
+      "Message sent!",
+    ),
+    "contact_us_phone_hint": MessageLookupByLibrary.simpleMessage("Your Phone"),
+    "contact_us_phone_required": MessageLookupByLibrary.simpleMessage(
+      "Please enter your phone number",
+    ),
+    "contact_us_send_button": MessageLookupByLibrary.simpleMessage(
+      "Send Message",
+    ),
+    "contact_us_title": MessageLookupByLibrary.simpleMessage("Contact Us"),
     "create_account": MessageLookupByLibrary.simpleMessage("Create Account"),
     "create_new_password": MessageLookupByLibrary.simpleMessage(
       "Create New Password",
@@ -134,6 +217,44 @@ class MessageLookup extends MessageLookupByLibrary {
     "create_trip_title": MessageLookupByLibrary.simpleMessage("Create trip"),
     "create_trip_to_label": MessageLookupByLibrary.simpleMessage("To"),
     "create_trip_wifi": MessageLookupByLibrary.simpleMessage("Wi-Fi"),
+    "created_trip_bookings_passengers": MessageLookupByLibrary.simpleMessage(
+      "Bookings Passengers",
+    ),
+    "created_trip_cancel_info": MessageLookupByLibrary.simpleMessage(
+      "You can cancel the trip anytime up to 1 hour before the departure time.\nCanceling after that may affect your integrity score.",
+    ),
+    "created_trip_canceled_trip": MessageLookupByLibrary.simpleMessage(
+      "Cancel trip",
+    ),
+    "created_trip_confirm_cancel_button": MessageLookupByLibrary.simpleMessage(
+      "Confirm cancel",
+    ),
+    "created_trip_confirm_cancel_content": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to cancel this trip?",
+    ),
+    "created_trip_confirm_cancel_title": MessageLookupByLibrary.simpleMessage(
+      "Confirm Cancellation",
+    ),
+    "created_trip_finish_trip": MessageLookupByLibrary.simpleMessage(
+      "Finish trip",
+    ),
+    "created_trip_from": MessageLookupByLibrary.simpleMessage("from"),
+    "created_trip_status": MessageLookupByLibrary.simpleMessage("Status"),
+    "created_trip_status_active": MessageLookupByLibrary.simpleMessage(
+      "Active",
+    ),
+    "created_trip_status_canceled": MessageLookupByLibrary.simpleMessage(
+      "Canceled",
+    ),
+    "created_trip_status_completed": MessageLookupByLibrary.simpleMessage(
+      "Completed",
+    ),
+    "created_trip_status_planned": MessageLookupByLibrary.simpleMessage(
+      "Planned",
+    ),
+    "created_trip_status_unknown": MessageLookupByLibrary.simpleMessage(
+      "Unknown",
+    ),
     "date_of_birth": MessageLookupByLibrary.simpleMessage("Date of birth"),
     "did_not_receive_code": MessageLookupByLibrary.simpleMessage(
       "Didn\'t receive the code?",
@@ -149,6 +270,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "driver_edit_profile_update_button": MessageLookupByLibrary.simpleMessage(
       "Update",
+    ),
+    "driver_history_trips_no_history": MessageLookupByLibrary.simpleMessage(
+      "There are no history trip at the moment.",
+    ),
+    "driver_history_trips_title": MessageLookupByLibrary.simpleMessage(
+      "History trips",
     ),
     "driver_image_choose_gallery": MessageLookupByLibrary.simpleMessage(
       "Choose from Gallery",
@@ -526,6 +653,59 @@ class MessageLookup extends MessageLookupByLibrary {
     "driver_settings_title": MessageLookupByLibrary.simpleMessage(
       "Account settings",
     ),
+    "driver_wallet_earnings_amount_exceeds":
+        MessageLookupByLibrary.simpleMessage(
+          "Amount exceeds your available balance",
+        ),
+    "driver_wallet_earnings_amount_hint": MessageLookupByLibrary.simpleMessage(
+      "Enter the amount to withdraw",
+    ),
+    "driver_wallet_earnings_amount_min": MessageLookupByLibrary.simpleMessage(
+      "Amount must be greater than 0",
+    ),
+    "driver_wallet_earnings_amount_required":
+        MessageLookupByLibrary.simpleMessage("Please enter the amount"),
+    "driver_wallet_earnings_balance": MessageLookupByLibrary.simpleMessage(
+      "Balance Your",
+    ),
+    "driver_wallet_earnings_card_number": MessageLookupByLibrary.simpleMessage(
+      "Card number",
+    ),
+    "driver_wallet_earnings_card_number_digits":
+        MessageLookupByLibrary.simpleMessage("Only numbers are allowed"),
+    "driver_wallet_earnings_card_number_length":
+        MessageLookupByLibrary.simpleMessage("Card number must be 16 digits"),
+    "driver_wallet_earnings_card_number_required":
+        MessageLookupByLibrary.simpleMessage("Please enter the card number"),
+    "driver_wallet_earnings_last_transaction":
+        MessageLookupByLibrary.simpleMessage("Last Transaction"),
+    "driver_wallet_earnings_no_transactions":
+        MessageLookupByLibrary.simpleMessage(
+          "You don\'t have any transactions yet.",
+        ),
+    "driver_wallet_earnings_title": MessageLookupByLibrary.simpleMessage(
+      "Wallet and earnings",
+    ),
+    "driver_wallet_earnings_withdraw": MessageLookupByLibrary.simpleMessage(
+      "Withdraw",
+    ),
+    "driver_wallet_earnings_withdrawal": MessageLookupByLibrary.simpleMessage(
+      "Withdrawal",
+    ),
+    "driver_wallet_earnings_withdrawal_request":
+        MessageLookupByLibrary.simpleMessage(
+          "Withdrawal Request (Wednesdays only)",
+        ),
+    "driver_wallet_earnings_withdrawal_success_message":
+        MessageLookupByLibrary.simpleMessage(
+          "Your withdrawal has been completed successfully.",
+        ),
+    "driver_wallet_earnings_withdrawal_success_title":
+        MessageLookupByLibrary.simpleMessage("Success"),
+    "driver_wallet_earnings_withdrawal_wednesday_only":
+        MessageLookupByLibrary.simpleMessage(
+          "Withdrawal is only allowed on Wednesdays.",
+        ),
     "egypt": MessageLookupByLibrary.simpleMessage("Egypt"),
     "email": MessageLookupByLibrary.simpleMessage("Email"),
     "email_already_exists": MessageLookupByLibrary.simpleMessage(
@@ -551,10 +731,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Find Nearby Housing",
     ),
     "full_name": MessageLookupByLibrary.simpleMessage("Full Name"),
-    "help_feedback_contact_support_answer":
-        MessageLookupByLibrary.simpleMessage(
-          "Tap \'Contact Support\' below or email us at support@aounapp.com.",
-        ),
+    "help_feedback_contact_support_answer": MessageLookupByLibrary.simpleMessage(
+      "Tap \'Contact Support\' below or email us at umssthasystem@gmail.com.",
+    ),
     "help_feedback_contact_support_question":
         MessageLookupByLibrary.simpleMessage("How to contact support?"),
     "help_feedback_contact_support_title": MessageLookupByLibrary.simpleMessage(
@@ -586,7 +765,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Where to find safety info?",
     ),
     "help_feedback_support_email": MessageLookupByLibrary.simpleMessage(
-      "support@aounapp.com",
+      "umssthasystem@gmail.com",
     ),
     "help_feedback_support_phone": MessageLookupByLibrary.simpleMessage(
       "+20 101 3379 651",
@@ -594,9 +773,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "help_feedback_title": MessageLookupByLibrary.simpleMessage(
       "Help & Feedback",
     ),
+    "home_driver_active_passengers_label": MessageLookupByLibrary.simpleMessage(
+      "Active passengers: ",
+    ),
     "home_driver_balance_title": MessageLookupByLibrary.simpleMessage(
       "Balance Your",
     ),
+    "home_driver_chart_sales": MessageLookupByLibrary.simpleMessage("Sales"),
     "home_driver_completed_trips": MessageLookupByLibrary.simpleMessage(
       "Completed trip count",
     ),
@@ -622,10 +805,20 @@ class MessageLookup extends MessageLookupByLibrary {
     "home_driver_earnings_summary": MessageLookupByLibrary.simpleMessage(
       "Earnings summary",
     ),
+    "home_driver_friday": MessageLookupByLibrary.simpleMessage("Friday"),
+    "home_driver_from_label": MessageLookupByLibrary.simpleMessage("From: "),
     "home_driver_loading": MessageLookupByLibrary.simpleMessage("Loading"),
+    "home_driver_monday": MessageLookupByLibrary.simpleMessage("Monday"),
+    "home_driver_no_active_passengers": MessageLookupByLibrary.simpleMessage(
+      "There are no active passengers at the moment.",
+    ),
     "home_driver_recent_orders": MessageLookupByLibrary.simpleMessage(
       "Recent orders",
     ),
+    "home_driver_saturday": MessageLookupByLibrary.simpleMessage("Saturday"),
+    "home_driver_sunday": MessageLookupByLibrary.simpleMessage("Sunday"),
+    "home_driver_thursday": MessageLookupByLibrary.simpleMessage("Thursday"),
+    "home_driver_to_label": MessageLookupByLibrary.simpleMessage("To: "),
     "home_driver_trip_departure": MessageLookupByLibrary.simpleMessage(
       "Departure Time: ",
     ),
@@ -637,6 +830,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Available Seats: ",
     ),
     "home_driver_trip_to": MessageLookupByLibrary.simpleMessage("To: "),
+    "home_driver_tuesday": MessageLookupByLibrary.simpleMessage("Tuesday"),
+    "home_driver_wednesday": MessageLookupByLibrary.simpleMessage("Wednesday"),
+    "home_user_welcome": m1,
     "intro_activities_text": MessageLookupByLibrary.simpleMessage(
       "Join student activities, attend sessions, or explore job opportunities alongside your studies.",
     ),
@@ -727,8 +923,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "payment_amount": MessageLookupByLibrary.simpleMessage("Pay: 24 EG"),
     "payment_cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "payment_card_tab": MessageLookupByLibrary.simpleMessage("Card"),
+    "payment_complete_payment_message": MessageLookupByLibrary.simpleMessage(
+      "You will now be redirected to complete the payment.\nA confirmation email has also been sent.",
+    ),
+    "payment_complete_payment_title": MessageLookupByLibrary.simpleMessage(
+      "Complete Payment",
+    ),
     "payment_done_button": MessageLookupByLibrary.simpleMessage("Done"),
     "payment_loading": MessageLookupByLibrary.simpleMessage("loading"),
+    "payment_no_card_added": MessageLookupByLibrary.simpleMessage(
+      "It looks like you haven\'t added a card yet. Add one now to continue.",
+    ),
     "payment_no_cards": MessageLookupByLibrary.simpleMessage(
       "No cards available",
     ),
@@ -736,8 +941,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "No Debit Card Found",
     ),
     "payment_pay_again_button": MessageLookupByLibrary.simpleMessage(
-      "Pay again",
+      "Book again",
     ),
+    "payment_pay_amount": MessageLookupByLibrary.simpleMessage("Pay"),
     "payment_pay_from": MessageLookupByLibrary.simpleMessage("Pay from"),
     "payment_phone_hint": MessageLookupByLibrary.simpleMessage("01X XXXX XXXX"),
     "payment_phone_length": MessageLookupByLibrary.simpleMessage(
@@ -757,10 +963,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Number of seats",
     ),
     "payment_success_description": MessageLookupByLibrary.simpleMessage(
-      "Your payment for Starbucks Coffee has been successfully done",
-    ),
-    "payment_success_message": MessageLookupByLibrary.simpleMessage(
-      "You will now be redirected to complete the payment.\nA confirmation email has also been sent.",
+      "Your payment for Aoun was successful.",
     ),
     "payment_success_title": MessageLookupByLibrary.simpleMessage(
       "Payment Success",
@@ -788,6 +991,72 @@ class MessageLookup extends MessageLookupByLibrary {
       "Please enter your name",
     ),
     "privacy_policy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
+    "privacy_policy_acknowledgment_content": MessageLookupByLibrary.simpleMessage(
+      "By using the services or registering, downloading, or entering the websites and/or the apps, you acknowledge that you are or have had the opportunity to become aware of this policy, including the processing (including collecting, using, disclosing, retaining, or disposing) of your information.\n\nThe information Auan holds about you may be held and processed on computer and/or paper files. If you provide Auan with any information regarding another person, it is your responsibility to make them aware of this policy.\n\nIf you have any questions or comments regarding privacy issues, please contact us at legal@swvl.com.",
+    ),
+    "privacy_policy_acknowledgment_title": MessageLookupByLibrary.simpleMessage(
+      "User\'s Acknowledgement of This Policy",
+    ),
+    "privacy_policy_contact_content": MessageLookupByLibrary.simpleMessage(
+      "If you have any questions or comments regarding privacy issues, please contact us:",
+    ),
+    "privacy_policy_contact_email": MessageLookupByLibrary.simpleMessage(
+      "umssthasystem@gmail.com",
+    ),
+    "privacy_policy_contact_title": MessageLookupByLibrary.simpleMessage(
+      "Contact Us",
+    ),
+    "privacy_policy_cookies_content": MessageLookupByLibrary.simpleMessage(
+      "The websites use cookies and related technologies for:\n• Site functionality\n• Analytics\n• Advertising\n\nThe use of these technologies can involve the processing of personal data. For more information about how we use cookies and related technologies, and your choices regarding cookies, please refer to our Cookies Notice.",
+    ),
+    "privacy_policy_cookies_title": MessageLookupByLibrary.simpleMessage(
+      "Cookies and Web Technologies",
+    ),
+    "privacy_policy_header": MessageLookupByLibrary.simpleMessage(
+      "Understanding Our Commitment to Your Privacy",
+    ),
+    "privacy_policy_introduction": MessageLookupByLibrary.simpleMessage(
+      "Auan Inc., its respective subsidiaries, affiliates, associated companies, and jointly controlled entities (collectively \"Auan,\" \"we,\" \"our,\" or \"us\") appreciate your need for protection of your personal data and are committed to protecting and respecting the privacy of all persons contacting, visiting, or otherwise submitting information to Auan.\n\nThis Privacy Policy describes how Auan collects, uses, processes, and discloses your Personal Data through the use of Auan\'s Apps and Websites, products, features, and other services globally. This Policy applies to passengers, agents, vendors, suppliers, partners, contractors, and service providers.",
+    ),
+    "privacy_policy_location_content": MessageLookupByLibrary.simpleMessage(
+      "Your Personal Information may be disclosed to other Auan entities and third parties (including service providers) in jurisdictions including, but not limited to: British Virgin Islands, Egypt, Kenya, Pakistan, and United Arab Emirates.\n\nThe data that Auan collects from you may be transferred to and stored in a country that is not considered to offer an adequate level of protection under your local laws. It may also be processed by staff operating outside of your country of residence.\n\nBy submitting your Personal Information, you acknowledge and, where necessary under local laws, agree to this transfer, storage, or processing.",
+    ),
+    "privacy_policy_location_title": MessageLookupByLibrary.simpleMessage(
+      "Location of Your Information",
+    ),
+    "privacy_policy_others_info_content": MessageLookupByLibrary.simpleMessage(
+      "• We collect information that passengers provide about captains, and vice versa, including ratings, complaints, and postings on forums or message boards\n• Auan may receive information about you from affiliated websites or services\n• We work with third parties (business partners, subcontractors, payment processors, advertising networks, analytics providers, search information providers, and credit reference agencies) and may receive information about you from them\n• Where third parties collect information about you and share it with us, you should refer to their separately maintained privacy policies",
+    ),
+    "privacy_policy_others_info_title": MessageLookupByLibrary.simpleMessage(
+      "Information Provided by Others",
+    ),
+    "privacy_policy_security_content": MessageLookupByLibrary.simpleMessage(
+      "Auan has implemented administrative, physical, and electronic measures designed to protect your information from unauthorized access, modification, and unavailability.\n\nWe will comply with applicable law in the event of any breach of security, confidentiality, or integrity of your Personal Data and, where appropriate or required by law, notify you via email, text, or website posting in the most expedient time possible.\n\nAlthough guaranteed security does not exist either on or off the Internet, we make commercially reasonable efforts to ensure the collection and security of information are consistent with this Policy and all applicable laws and regulations.",
+    ),
+    "privacy_policy_security_title": MessageLookupByLibrary.simpleMessage(
+      "Security of Your Information",
+    ),
+    "privacy_policy_service_use_content": MessageLookupByLibrary.simpleMessage(
+      "• Geolocation Data: If you access the apps through a mobile device, we may collect GPS coordinates of your trip (including pickup and drop-off data and route information) or similar location information.\n\n• Contacts: We may access your calendar or contacts with your permission.\n\n• Transaction Data: We collect information created during your interactions with services, including:\n  - Date and time of orders\n  - Captain acceptance and arrival\n  - Service completion details\n  - Distance traveled\n  - Amount charged (base fee, tip, additional fees)\n  - Promotional code usage",
+    ),
+    "privacy_policy_service_use_title": MessageLookupByLibrary.simpleMessage(
+      "Information Collected Through Service Use",
+    ),
+    "privacy_policy_title": MessageLookupByLibrary.simpleMessage(
+      "Privacy Policy",
+    ),
+    "privacy_policy_types_info_content": MessageLookupByLibrary.simpleMessage(
+      "Auan collects both \"Personal Information\" and \"Anonymous Information\" about you:\n\n• Personal Information: Information that can be used to identify you, such as your full name, email address, phone number, payment method, password, mailing address, IP address, profile picture, location, as well as information that is linked to such information.\n\n• Anonymous Information: Information that we cannot use to identify you and is not linked to information that can be used to do so. It includes passively collected information about your activities on the websites or apps, such as use and usage data.\n\nWe also passively collect certain information from your devices, such as your IP address, screen resolution information, geographic location, Wi-Fi information, browser information, unique device identifier (UDID) and/or your mobile operating system.",
+    ),
+    "privacy_policy_types_info_title": MessageLookupByLibrary.simpleMessage(
+      "Types of Information We Collect",
+    ),
+    "privacy_policy_voluntary_info_content": MessageLookupByLibrary.simpleMessage(
+      "We collect information that you provide to us during your use of the Services:\n\n• Personal information during registration: full name, email address, phone number, payment method, billing information, profile picture, and profile information\n• Communications with us or with captains (emails, in-app messages, photos, text messages, written instructions)\n• User preference information: marketing preferences, communication preferences, home address, work address, favorites, and survey responses\n• Information provided to customer support via email, phone, apps, SMS, social media messaging, or other channels\n• Posts on forums or message boards, including Auan\'s social media pages\n• Data provided in promotions, competitions, feedback forms, or service-related issues\n\nNote: Some information is mandatory to create an account and use our Services.",
+    ),
+    "privacy_policy_voluntary_info_title": MessageLookupByLibrary.simpleMessage(
+      "Voluntarily Submitted Information",
+    ),
     "registration_successful": MessageLookupByLibrary.simpleMessage(
       "Your account has been created successfully. Please check your email to activate your account before logging in.",
     ),
@@ -808,24 +1077,39 @@ class MessageLookup extends MessageLookupByLibrary {
       "Safe & Easy Rides",
     ),
     "saudi_Arabia": MessageLookupByLibrary.simpleMessage("Saudi Arabia"),
+    "search_trip_active_destination_success":
+        MessageLookupByLibrary.simpleMessage(
+          "You\'ve been set as active for this destination.",
+        ),
     "search_trip_active_passengers": MessageLookupByLibrary.simpleMessage(
       "Active passengers: ",
     ),
     "search_trip_all_trips": MessageLookupByLibrary.simpleMessage("All trips"),
     "search_trip_from_hint": MessageLookupByLibrary.simpleMessage("From"),
     "search_trip_from_label": MessageLookupByLibrary.simpleMessage("From: "),
+    "search_trip_gathering_recommendations":
+        MessageLookupByLibrary.simpleMessage(
+          "We\'re still gathering recommendations for you. Stay tuned!",
+        ),
+    "search_trip_no_active_passengers": MessageLookupByLibrary.simpleMessage(
+      "There are no active passengers at the moment.",
+    ),
+    "search_trip_no_results_found": MessageLookupByLibrary.simpleMessage(
+      "No results found for the entered location.",
+    ),
     "search_trip_no_trips_message": MessageLookupByLibrary.simpleMessage(
       "No trips found for this destination.\nYou can set it as your active destination to get notified when a driver creates a trip.",
     ),
     "search_trip_set_active_destination": MessageLookupByLibrary.simpleMessage(
       "Set Active Destination",
     ),
-    "search_trip_title": MessageLookupByLibrary.simpleMessage(
-      "Enter your route",
+    "search_trip_suggested_trips_title": MessageLookupByLibrary.simpleMessage(
+      "Suggested trips based on your location",
     ),
+    "search_trip_title": MessageLookupByLibrary.simpleMessage("Search Trip"),
     "search_trip_to_hint": MessageLookupByLibrary.simpleMessage("To"),
     "search_trip_to_label": MessageLookupByLibrary.simpleMessage("To: "),
-    "seats": m1,
+    "seats": m2,
     "select_birthdate": MessageLookupByLibrary.simpleMessage(
       "Please select a Birthdate",
     ),
@@ -849,6 +1133,72 @@ class MessageLookup extends MessageLookupByLibrary {
     "sign_in": MessageLookupByLibrary.simpleMessage("Sign In"),
     "sign_up": MessageLookupByLibrary.simpleMessage("Sign Up"),
     "sudan": MessageLookupByLibrary.simpleMessage("Sudan"),
+    "terms_conditions_acknowledgment": MessageLookupByLibrary.simpleMessage(
+      "By continuing to use Auan Services, you acknowledge that you have read, understood, and agree to be bound by these Terms.",
+    ),
+    "terms_conditions_amendments_content": MessageLookupByLibrary.simpleMessage(
+      "Supplemental terms may apply to certain Auan Services, such as policies for a particular event, activity, or promotion, and such supplemental terms will be disclosed to you in connection with the applicable Auan Services. Supplemental terms are in addition to, and shall be deemed a part of, the Terms for the purposes and period of the applicable Auan Services.\n\nAuan may amend the Terms related to the Auan Services from time to time. Amendments will be effective upon Auan posting such updated Terms at this location or the amended policies or supplemental terms on the applicable Service. Your continued access or use of the Auan Services after such posting constitutes your consent to be bound by the Terms, as amended.\n\nOur collection and use of your personal information is provided in Auan\'s Privacy Policy, which can be accessed at https://swvl.com/privacy_policy.",
+    ),
+    "terms_conditions_amendments_title": MessageLookupByLibrary.simpleMessage(
+      "Amendments and Supplemental Terms",
+    ),
+    "terms_conditions_contractual_relationship_content":
+        MessageLookupByLibrary.simpleMessage(
+          "These Terms of Use (\"Terms\") govern the access or use by you, an individual, from within any country in the world (excluding the United States and its territories and possessions and Mainland China) of applications, websites, content, call center, technology platform, e-payment services, products, and services (collectively, the \"Auan Services\") made available by Auan Inc.\n\nThese Terms constitute a legally binding agreement between you and your local Auan entity. Please read these Terms carefully before accessing or using the Auan Services. If you do not agree to be bound by the Terms, you may not use or access the Auan Services.\n\nYour access and use of the Auan Services constitutes your agreement to be bound by these Terms, which establishes a contractual relationship between you, Auan, and your local Auan entity. These Terms expressly supersede prior agreements or arrangements with you.\n\nAuan may immediately terminate these Terms or any of the Auan Services with respect to you, or generally cease offering or deny access to the Auan Services or any portion thereof, at any time for any reason.",
+        ),
+    "terms_conditions_contractual_relationship_title":
+        MessageLookupByLibrary.simpleMessage("Contractual Relationship"),
+    "terms_conditions_header": MessageLookupByLibrary.simpleMessage(
+      "Terms of Use",
+    ),
+    "terms_conditions_introduction": MessageLookupByLibrary.simpleMessage(
+      "These Terms of Use govern your access and use of Auan Services made available by Auan Inc., a private limited liability company established in the British Virgin Islands.\n\nBy accessing or using the Auan Services, you agree to be bound by these Terms, which establish a contractual relationship between you and Auan. Please read these Terms carefully before using our services.",
+    ),
+    "terms_conditions_license_content": MessageLookupByLibrary.simpleMessage(
+      "Subject to your compliance with these Terms, Auan grants you a limited, non-exclusive, non-sublicensable, non-assignable, revocable, and non-transferable license to:\n\n• Access and use the Applications on your personal device solely in connection with your use of the Auan Services\n\n• Access and use any content, information, and related materials that may be made available through the Auan Services, in each case solely for your personal and non-commercial use\n\nAny rights not expressly granted herein are reserved by Auan and Auan\'s licensors.",
+    ),
+    "terms_conditions_license_title": MessageLookupByLibrary.simpleMessage(
+      "License",
+    ),
+    "terms_conditions_need_help_content": MessageLookupByLibrary.simpleMessage(
+      "If you have any questions about these Terms of Use or need assistance with our services, please contact our support team.",
+    ),
+    "terms_conditions_need_help_title": MessageLookupByLibrary.simpleMessage(
+      "Need Help?",
+    ),
+    "terms_conditions_ownership_content": MessageLookupByLibrary.simpleMessage(
+      "The Auan Services and all rights therein are and shall remain Auan\'s property or the property of Auan\'s licensors. Neither these Terms nor your use of the Auan Services convey or grant to you any rights:\n\n• In or related to the Auan Services except for the limited license granted above\n\n• To use or reference in any manner Auan\'s company names, logos, product and service names, trademarks, or service marks or those of Auan\'s licensors irrespective of whether or not they are registered or unregistered",
+    ),
+    "terms_conditions_ownership_title": MessageLookupByLibrary.simpleMessage(
+      "Ownership",
+    ),
+    "terms_conditions_provision_content": MessageLookupByLibrary.simpleMessage(
+      "You acknowledge that portions of the Auan Services may be made available under Auan\'s various brands or request options associated with transportation, including the transportation request brands currently referred to as \"Premium\" and \"Economy.\"\n\nYou also acknowledge that the Auan Services may be made available under such brands or request options by or in connection with:\n\n• Certain of Auan\'s Affiliates\n• Independent Third Party Providers, including transportation network company drivers, transportation charter permit holders, or holders of similar transportation permits, authorizations, or licenses",
+    ),
+    "terms_conditions_provision_title": MessageLookupByLibrary.simpleMessage(
+      "Provision of Auan Services",
+    ),
+    "terms_conditions_restrictions_content": MessageLookupByLibrary.simpleMessage(
+      "You specifically agree not to, without the prior explicit written consent of Auan:\n\n• Remove any copyright, trademark, or other proprietary notices from any portion of the Auan Services\n\n• Reproduce, modify, prepare derivative works based upon, distribute, license, lease, sell, resell, transfer, publicly display, publicly perform, transmit, stream, broadcast, or otherwise exploit the Auan Services except as expressly permitted by Auan\n\n• Decompile, reverse engineer, or disassemble the Auan Services\n\n• Link to, mirror, or frame any portion of the Auan Services\n\n• Cause or launch any programs or scripts for the purpose of scraping, indexing, surveying, or otherwise data mining any portion of the Auan Services\n\n• Attempt to gain unauthorized access to or impair any aspect of the Auan Services or its related systems or networks",
+    ),
+    "terms_conditions_restrictions_title": MessageLookupByLibrary.simpleMessage(
+      "Restrictions",
+    ),
+    "terms_conditions_services_content": MessageLookupByLibrary.simpleMessage(
+      "The Auan Services constitute a technology platform that enables users of Auan\'s mobile applications or websites provided as part of the Auan Services (each, an \"Application\") to arrange and schedule transportation services with independent third-party providers of such services, including independent third-party transportation providers under agreement with Auan or certain of Auan\'s Affiliates (\"Third Party Providers\").\n\nUnless otherwise agreed by Auan in a separate written agreement with you, the Auan Services are made available solely for your personal and non-commercial use. Each service provided by a Third Party Provider to you shall constitute a separate legal agreement between you and the Third Party Provider.\n\nYou acknowledge that Auan does not provide any form of transportation services or function as a transportation carrier or service provider or own any vehicles for transportation and that all such transportation services are provided by Third Party Providers who are not employed by Auan or any of its Affiliates nor operate under their control.",
+    ),
+    "terms_conditions_services_title": MessageLookupByLibrary.simpleMessage(
+      "The Auan Services",
+    ),
+    "terms_conditions_third_party_content": MessageLookupByLibrary.simpleMessage(
+      "The Auan Services may be made available or accessed in connection with third-party services and content (including advertising) that Auan does not control. You acknowledge that different terms of use and privacy policies may apply to your use of such third-party services and content.\n\nAuan does not endorse such third-party services and content, and in no event shall Auan be responsible or liable for any products or services of such third-party providers.\n\nAdditionally, Apple Inc., Google, Inc., or the provider of any other applicable mobile operating system and/or their applicable international subsidiaries and affiliates will be third-party beneficiaries to these Terms if you access the Auan Services using Applications developed for Apple iOS, Android, or any other applicable operating system-powered mobile devices, respectively.",
+    ),
+    "terms_conditions_third_party_title": MessageLookupByLibrary.simpleMessage(
+      "Third Party Services and Content",
+    ),
+    "terms_conditions_title": MessageLookupByLibrary.simpleMessage(
+      "Terms & Conditions",
+    ),
     "terms_of_use": MessageLookupByLibrary.simpleMessage(" Terms of Use "),
     "transport_add_new_card": MessageLookupByLibrary.simpleMessage(
       "Add New Card",
@@ -864,7 +1214,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "transport_no_trips": MessageLookupByLibrary.simpleMessage(
       "No trips found.",
     ),
-    "trip": m2,
+    "trip": m3,
     "trip_currency_symbol": MessageLookupByLibrary.simpleMessage("\$"),
     "trip_details_additional_info": MessageLookupByLibrary.simpleMessage(
       "Additional Info",
@@ -878,6 +1228,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "trip_details_book": MessageLookupByLibrary.simpleMessage("Book"),
     "trip_details_car_model": MessageLookupByLibrary.simpleMessage("Car Model"),
+    "trip_details_completed_booking": MessageLookupByLibrary.simpleMessage(
+      "Completed Booking",
+    ),
     "trip_details_created_at": MessageLookupByLibrary.simpleMessage(
       "Created At",
     ),
@@ -946,7 +1299,34 @@ class MessageLookup extends MessageLookupByLibrary {
       "View in map",
     ),
     "trip_from_label": MessageLookupByLibrary.simpleMessage("From: "),
+    "trip_status_active": MessageLookupByLibrary.simpleMessage("Active"),
+    "trip_status_canceled": MessageLookupByLibrary.simpleMessage("Canceled"),
+    "trip_status_completed": MessageLookupByLibrary.simpleMessage("Completed"),
+    "trip_status_planned": MessageLookupByLibrary.simpleMessage("Planned"),
+    "trip_status_unknown": MessageLookupByLibrary.simpleMessage("Unknown"),
     "trip_to_label": MessageLookupByLibrary.simpleMessage("To: "),
+    "user_edit_profile_update_success_ok": MessageLookupByLibrary.simpleMessage(
+      "Ok",
+    ),
+    "user_edit_profile_update_success_title":
+        MessageLookupByLibrary.simpleMessage("Updated Successfully"),
+    "user_history_booking_from_label": MessageLookupByLibrary.simpleMessage(
+      "From: ",
+    ),
+    "user_history_booking_no_history": MessageLookupByLibrary.simpleMessage(
+      "There are no history trip at the moment.",
+    ),
+    "user_history_booking_status_label": MessageLookupByLibrary.simpleMessage(
+      "Status: ",
+    ),
+    "user_history_booking_title": MessageLookupByLibrary.simpleMessage(
+      "Booking history",
+    ),
+    "user_history_booking_to_label": MessageLookupByLibrary.simpleMessage(
+      "To: ",
+    ),
+    "user_history_booking_total_seats_label":
+        MessageLookupByLibrary.simpleMessage("Total seats: "),
     "user_profile_booking_history": MessageLookupByLibrary.simpleMessage(
       "Booking history",
     ),
@@ -954,6 +1334,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "user_profile_theme_light": MessageLookupByLibrary.simpleMessage("Light"),
     "user_profile_transactions": MessageLookupByLibrary.simpleMessage(
       "Transactions",
+    ),
+    "user_transactions_no_transactions": MessageLookupByLibrary.simpleMessage(
+      "You don\'t have any transactions yet.",
+    ),
+    "user_transactions_title": MessageLookupByLibrary.simpleMessage(
+      "Transaction",
     ),
     "validation_invalid_number": MessageLookupByLibrary.simpleMessage(
       "Invalid number for this country.",

@@ -30,6 +30,7 @@ import 'package:aoun_app/presentation/driver/profile/view_model/driver_edit_prof
 import 'package:aoun_app/presentation/driver/profile/view_model/get_driver_data/get_driver_data_cubit.dart';
 import 'package:aoun_app/presentation/driver/wallet%20and%20earings/view_model/transactions/transactions_cubit.dart';
 import 'package:aoun_app/presentation/driver/wallet%20and%20earings/view_model/withdraw_from_wallet/withdraw_from_wallet_cubit.dart';
+import 'package:aoun_app/presentation/info_pages/view_model/contant_us/contant_us_cubit.dart';
 import 'package:aoun_app/presentation/user/history%20booking/view_model/user_booking_history/user_booking_history_cubit.dart';
 import 'package:aoun_app/presentation/user/profile/view_model/get_user_info/get_user_info_cubit.dart';
 import 'package:aoun_app/presentation/user/profile/view_model/user_edit_profile_data/user_edit_profile_data_cubit.dart';
@@ -98,6 +99,7 @@ void main() async {
         BlocProvider(create: (context) => TransactionsCubit()),
         BlocProvider(create: (context) => WithdrawFromWalletCubit()),
         BlocProvider(create: (context) => BookingTripCubit()),
+        BlocProvider(create: (context) => ContantUsCubit()),
         BlocProvider(create: (context) => UserEditProfileDataCubit()),
         BlocProvider(create: (context) => GetUserInfoCubit()),
         BlocProvider(create: (context) => DriverDashboardCubit()),

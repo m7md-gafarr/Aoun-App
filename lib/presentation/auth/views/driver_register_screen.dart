@@ -5,6 +5,7 @@ import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/core/utils/dialog/dialog_helper.dart';
 import 'package:aoun_app/core/utils/location/location_Provider.dart';
 import 'package:aoun_app/core/utils/snakbar/snackebar_helper.dart';
+import 'package:aoun_app/core/utils/validation_utils.dart';
 import 'package:aoun_app/data/model/auth%20models/driver_auth_model/driver_auth_model.dart';
 import 'package:aoun_app/data/model/auth%20models/driver_auth_model/locations_json.dart';
 import 'package:aoun_app/data/model/auth%20models/driver_auth_model/vehicle_info_json.dart';
@@ -66,6 +67,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
   File? _vehicleRegistrationBack;
   int? _selectedGender;
   int _age = 0;
+  String? phoneNumber;
 
   void _goToNextStep() {
     _pageController.nextPage(
@@ -207,6 +209,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                 onPressed: () {
                   switch (_currentPage - 1) {
                     case 0: // Personal Information
+                      print(phoneNumber);
                       if (personalInformationFormKey.currentState!.validate()) {
                         if (_personalImageFile?.path != null) {
                           personalInformationFormKey.currentState!.save();
@@ -285,7 +288,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                                 password: _passwordController.text.trim(),
                                 confirmedPassword:
                                     _confirmPasswordController.text.trim(),
-                                phoneNumber: _phoneController.text.trim(),
+                                phoneNumber: "+20${phoneNumber}" ?? '',
                                 idNumber: _idController.text.trim(),
                                 drivingLicense: _licenseController.text.trim(),
                                 licenseNumber:
@@ -547,6 +550,18 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                 textDirection: TextDirection.ltr,
                 child: IntlPhoneField(
                   controller: _phoneController,
+                  keyboardType: TextInputType.phone,
+                  onChanged: (phone) {
+                    final normalized = normalizePhone(phone.completeNumber);
+
+                    _phoneController.value = TextEditingValue(
+                      text: normalized,
+                      selection:
+                          TextSelection.collapsed(offset: normalized.length),
+                    );
+
+                    phoneNumber = normalized;
+                  },
                   validator: (value) {
                     if (value == null || value.number.isEmpty) {
                       return S.of(context).phone_number_required;

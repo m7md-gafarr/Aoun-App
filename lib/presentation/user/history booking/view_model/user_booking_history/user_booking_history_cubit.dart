@@ -1,6 +1,5 @@
 import 'package:aoun_app/data/model/user%20models/user_booking/user_response_bookings_model/user_response_bookings_model.dart';
 import 'package:aoun_app/data/repositories/remote/api_response_handler.dart';
-import 'package:aoun_app/data/repositories/remote/trip_repository.dart';
 import 'package:aoun_app/data/repositories/remote/user_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
@@ -15,7 +14,7 @@ class UserBookingHistoryCubit extends Cubit<UserBookingHistoryState> {
 
   getBookingTrips({bool forceRefresh = false}) async {
     if (!forceRefresh && _list.isNotEmpty) {
-      emit(UserBookingHistorySuccess(_list.reversed.toList()));
+      emit(UserBookingHistorySuccess(_list.toList()));
       return;
     }
 
@@ -34,7 +33,7 @@ class UserBookingHistoryCubit extends Cubit<UserBookingHistoryState> {
             _list.add(UserResponseBookingsModel.fromJson(element));
           }
 
-          emit(UserBookingHistorySuccess(_list.reversed.toList()));
+          emit(UserBookingHistorySuccess(_list.toList()));
         }
       } else {
         String error = response.errors;

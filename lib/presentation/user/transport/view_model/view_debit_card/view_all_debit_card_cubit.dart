@@ -7,16 +7,18 @@ part 'view_all_debit_card_state.dart';
 
 class ViewAllDebitCardCubit extends Cubit<ViewAllDebitCardState> {
   ViewAllDebitCardCubit() : super(ViewAllDebitCardInitial());
+  List<DebitCardModel>? _list;
 
+  List<DebitCardModel> get listCards => _list!;
   fetchDebitcard() async {
     emit(ViewAllDebitCardLoading());
     try {
-      List<DebitCardModel> list = await HiveService().getAllDebitCard();
+      _list = await HiveService().getAllDebitCard();
 
-      if (list.isEmpty) {
+      if (_list!.isEmpty) {
         emit(ViewAllDebitCardNull());
       } else {
-        emit(ViewAllDebitCardSuccess(list));
+        emit(ViewAllDebitCardSuccess(_list!));
       }
     } catch (e) {
       emit(ViewAllDebitCardFailure(e.toString()));

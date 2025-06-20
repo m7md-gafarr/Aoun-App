@@ -26,11 +26,11 @@ class PaymentSuccessScreen extends StatelessWidget {
             Positioned(
               top: 70.h,
               right: isRTL(context)
-                  ? MediaQuery.of(context).size.width / 3.2
+                  ? MediaQuery.of(context).size.width / 2.5
                   : null,
               left: isRTL(context)
                   ? null
-                  : MediaQuery.of(context).size.width / 3.2,
+                  : MediaQuery.of(context).size.width / 2.5,
               child: Text(
                 S.of(context).payment_receipt_title,
                 style: Theme.of(context)

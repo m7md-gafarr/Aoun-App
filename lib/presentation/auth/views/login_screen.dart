@@ -174,53 +174,51 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   SizedBox(height: 30.h),
                   // Login button
-                  ElevatedButton(
-                    onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        formKey.currentState!.save();
-                        context.read<LoginCubit>().loginUser(
-                              UserAuthModel(
-                                email: _emailController.text.trim(),
-                                password: _passwordController.text.trim(),
-                              ),
-                              context,
-                            );
+                  BlocConsumer<LoginCubit, LoginState>(
+                    listener: (context, state) {
+                      if (state is LoginFailure) {
+                        DialogHelper(context)
+                            .showErroeDialog(message: state.errorMessage);
+                      } else if (state is LoginSuccess) {
+                        state.type == "user"
+                            ? Navigator.pushNamedAndRemoveUntil(
+                                context,
+                                AppRoutesName.homeUserScreenRoute,
+                                (route) => false,
+                              )
+                            : Navigator.pushNamedAndRemoveUntil(
+                                context,
+                                AppRoutesName.homeDriverScreenRoute,
+                                (route) => false,
+                              );
                       }
                     },
-                    child: BlocConsumer<LoginCubit, LoginState>(
-                      listener: (context, state) {
-                        if (state is LoginFailure) {
-                          DialogHelper(context)
-                              .showErroeDialog(message: state.errorMessage)
-                              .show(context);
-                        } else if (state is LoginSuccess) {
-                          state.type == "user"
-                              ? Navigator.pushNamedAndRemoveUntil(
+                    builder: (context, state) {
+                      return ElevatedButton(
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            formKey.currentState!.save();
+                            context.read<LoginCubit>().loginUser(
+                                  UserAuthModel(
+                                    email: _emailController.text.trim(),
+                                    password: _passwordController.text.trim(),
+                                  ),
                                   context,
-                                  AppRoutesName.homeUserScreenRoute,
-                                  (route) => false,
-                                )
-                              : Navigator.pushNamedAndRemoveUntil(
-                                  context,
-                                  AppRoutesName.homeDriverScreenRoute,
-                                  (route) => false,
                                 );
-                        }
-                      },
-                      builder: (context, state) {
-                        if (state is LoginLoading) {
-                          return SizedBox(
-                            height: 30,
-                            width: 30,
-                            child: CircularProgressIndicator(
-                              color: Theme.of(context).scaffoldBackgroundColor,
-                            ),
-                          );
-                        } else {
-                          return Text(S.of(context).sign_in);
-                        }
-                      },
-                    ),
+                          }
+                        },
+                        child: state is LoginLoading
+                            ? SizedBox(
+                                height: 30,
+                                width: 30,
+                                child: CircularProgressIndicator(
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                ),
+                              )
+                            : Text(S.of(context).sign_in),
+                      );
+                    },
                   ),
                   SizedBox(height: 30.h),
                   // Divider with "or continue with" text

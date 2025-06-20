@@ -1,3 +1,4 @@
+import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pannable_rating_bar/flutter_pannable_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,6 +16,7 @@ class ReviewCardWidget extends StatelessWidget {
             children: [
               CircleAvatar(
                 maxRadius: 23.w,
+                backgroundImage: AssetImage(Assets.imageUser),
               ),
               SizedBox(width: 10.w),
               Column(
@@ -24,7 +26,7 @@ class ReviewCardWidget extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        "Stephanie",
+                        "Ali Mohamed",
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium!
@@ -32,7 +34,7 @@ class ReviewCardWidget extends StatelessWidget {
                       ),
                       SizedBox(width: 5.w),
                       Text(
-                        "October, 2019",
+                        "June, 2025",
                         style: Theme.of(context).textTheme.labelSmall,
                       )
                     ],

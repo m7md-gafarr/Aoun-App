@@ -1,3 +1,4 @@
+import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/widgets/shimmer/transaction_shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -45,7 +46,7 @@ class DriverWalletAndEarningsShimmer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Last Transaction",
+                S.of(context).driver_wallet_earnings_last_transaction,
                 style: Theme.of(context).textTheme.titleSmall!.copyWith(
                       fontWeight: FontWeight.bold,
                     ),

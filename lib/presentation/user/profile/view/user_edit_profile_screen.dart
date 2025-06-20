@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/core/utils/dialog/dialog_helper.dart';
+import 'package:aoun_app/core/utils/validation_utils.dart';
 import 'package:aoun_app/data/model/user%20models/user_model/user_model.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/driver/profile/view_model/get_driver_data/get_driver_data_cubit.dart';
@@ -44,7 +45,7 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
     list = ModalRoute.of(context)!.settings.arguments;
     _fullNameController.text = list[1];
     _emailController.text = list[2];
-    _phoneController.text = list[3];
+    _phoneController.text = normalizePhone(list[3]);
     _phoneNumber = _phoneController.text;
   }
 
@@ -175,7 +176,15 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                       hintText: S.of(context).login_phone_number,
                     ),
                     onChanged: (phone) {
-                      _phoneNumber = phone.completeNumber;
+                      final normalized = normalizePhone(phone.completeNumber);
+
+                      _phoneController.value = TextEditingValue(
+                        text: normalized,
+                        selection:
+                            TextSelection.collapsed(offset: normalized.length),
+                      );
+
+                      _phoneNumber = normalized;
                     },
                     validator: (value) {
                       if (value == null) {
@@ -192,7 +201,7 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                           UserModel(
                             email: _emailController.text,
                             userName: _fullNameController.text,
-                            phoneNumber: _phoneNumber,
+                            phoneNumber: "+20${_phoneNumber}",
                             imgUrl: _personalImageFile?.path,
                           ),
                         );
@@ -205,8 +214,10 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                             .read<GetUserInfoCubit>()
                             .getUserInformation(context, forceRefresh: true);
                         DialogHelper(context).showSuccessDialog(
-                          message: "Updated Successfully",
-                          title: "",
+                          message: "",
+                          title: S
+                              .of(context)
+                              .user_edit_profile_update_success_title,
                           actions: [
                             TextButton(
                                 onPressed: () {
@@ -218,7 +229,17 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                                   Navigator.pop(context);
                                   Navigator.pop(context);
                                 },
-                                child: Text("Ok"))
+                                child: Text(
+                                  S
+                                      .of(context)
+                                      .user_edit_profile_update_success_ok,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(
+                                          color:
+                                              Theme.of(context).primaryColor),
+                                ))
                           ],
                         );
                       }

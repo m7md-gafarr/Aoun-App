@@ -1,5 +1,5 @@
 import 'package:aoun_app/core/app_color/app_color_light.dart';
-import 'package:aoun_app/core/router/route_name.dart';
+import 'package:aoun_app/core/constant/constant.dart';
 import 'package:aoun_app/data/model/driver_models/driver_craeted_trip/driver_trip_created/driver_trip_created_model.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/driver/history%20trips/view_model/driver_trips_history/driver_trips_history_cubit.dart';
@@ -44,15 +44,27 @@ class _CreateTripScreenState extends State<CreatedTripDetailsScreen> {
   List<dynamic> getTripStatus(int status) {
     switch (status) {
       case 0: // Planned
-        return [const Color(0xFFC0C0C0), "Planned"];
+        return [
+          const Color(0xFFC0C0C0),
+          S.of(context).created_trip_status_planned
+        ];
       case 1: // Active
-        return [const Color(0xFFF9A825), "Active"];
+        return [
+          const Color(0xFFF9A825),
+          S.of(context).created_trip_status_active
+        ];
       case 2: // Completed
-        return [const Color(0xFF4CAF50), "Completed"];
+        return [
+          const Color(0xFF4CAF50),
+          S.of(context).created_trip_status_completed
+        ];
       case 3: // Canceled
-        return [const Color(0xFFE53935), "Canceled"];
+        return [
+          const Color(0xFFE53935),
+          S.of(context).created_trip_status_canceled
+        ];
       default:
-        return [Colors.grey, "Unknown"];
+        return [Colors.grey, S.of(context).created_trip_status_unknown];
     }
   }
 
@@ -69,6 +81,7 @@ class _CreateTripScreenState extends State<CreatedTripDetailsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
+                height: 180.h,
                 padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.primaryContainer,
@@ -85,13 +98,13 @@ class _CreateTripScreenState extends State<CreatedTripDetailsScreen> {
                 child: Row(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(bottom: 23.h),
+                      padding: EdgeInsets.only(top: 2.h),
                       child: Column(
                         children: [
                           _buildCircle(Theme.of(context).primaryColor),
                           SizedBox(
                             width: 0,
-                            height: 65.h,
+                            height: 80.h,
                             child: CustomPaint(
                               painter: DottedGradientLinePainter(
                                 gradient: LinearGradient(
@@ -118,7 +131,7 @@ class _CreateTripScreenState extends State<CreatedTripDetailsScreen> {
                           style: Theme.of(context).textTheme.labelSmall,
                         ),
                         SizedBox(
-                          width: 285.w,
+                          width: 280.w,
                           child: Text(
                             tripModel!.fromLocation!.fullAddress!,
                             softWrap: true,
@@ -130,10 +143,14 @@ class _CreateTripScreenState extends State<CreatedTripDetailsScreen> {
                                 .copyWith(
                                   color: Theme.of(context).primaryColor,
                                   fontSize: 17.sp,
+                                  fontFamily: isArabicText(
+                                          tripModel!.fromLocation!.fullAddress!)
+                                      ? fontArabic
+                                      : fontEnglish,
                                 ),
                           ),
                         ),
-                        SizedBox(height: 30.h),
+                        SizedBox(height: 50.h),
                         Text(
                           S.of(context).trip_details_to,
                           style: Theme.of(context).textTheme.labelSmall,
@@ -151,6 +168,10 @@ class _CreateTripScreenState extends State<CreatedTripDetailsScreen> {
                                 .copyWith(
                                   color: Theme.of(context).primaryColor,
                                   fontSize: 17.sp,
+                                  fontFamily: isArabicText(
+                                          tripModel!.fromLocation!.fullAddress!)
+                                      ? fontArabic
+                                      : fontEnglish,
                                 ),
                           ),
                         ),
@@ -166,7 +187,7 @@ class _CreateTripScreenState extends State<CreatedTripDetailsScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Bookings Passengers",
+                      S.of(context).created_trip_bookings_passengers,
                       style: Theme.of(context)
                           .textTheme
                           .titleSmall!
@@ -185,7 +206,7 @@ class _CreateTripScreenState extends State<CreatedTripDetailsScreen> {
                                       Theme.of(context).secondaryHeaderColor),
                         ),
                         Text(
-                          " from ",
+                          " " + S.of(context).created_trip_from + " ",
                           style: Theme.of(context)
                               .textTheme
                               .titleSmall!
@@ -210,7 +231,7 @@ class _CreateTripScreenState extends State<CreatedTripDetailsScreen> {
               ),
               DividerWidget(),
               tripInfo(
-                title: "Status",
+                title: S.of(context).created_trip_status,
                 value: getTripStatus(tripModel!.status!)[1],
               ),
               tripInfo(
@@ -239,19 +260,77 @@ class _CreateTripScreenState extends State<CreatedTripDetailsScreen> {
                   ? Column(
                       children: [
                         Text(
-                          "You can cancel the trip anytime up to 1 hour before the departure time.\n"
-                          "Canceling after that may affect your integrity score.",
+                          S.of(context).created_trip_cancel_info,
                           style: Theme.of(context).textTheme.labelSmall,
                           textAlign: TextAlign.center,
                         ),
-                        SizedBox(
-                          height: 7.h,
-                        ),
+                        SizedBox(height: 7.h),
                         ElevatedButton(
                           onPressed: () async {
-                            context
-                                .read<CancelTripCubit>()
-                                .cancelTrip(tripModel!.id.toString());
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: Text(
+                                  S
+                                      .of(context)
+                                      .created_trip_confirm_cancel_title,
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium,
+                                ),
+                                content: Text(S
+                                    .of(context)
+                                    .created_trip_confirm_cancel_content),
+                                actions: [
+                                  ElevatedButton(
+                                    onPressed: () async {
+                                      context
+                                          .read<CancelTripCubit>()
+                                          .cancelTrip(tripModel!.id.toString());
+                                    },
+                                    style: Theme.of(context)
+                                        .elevatedButtonTheme
+                                        .style!
+                                        .copyWith(
+                                            backgroundColor:
+                                                WidgetStatePropertyAll(
+                                                    AppColorLight.errorColor)),
+                                    child: BlocConsumer<CancelTripCubit,
+                                        CancelTripState>(
+                                      listener: (context, state) {
+                                        if (state is CancelTripSuccess) {
+                                          context
+                                              .read<
+                                                  DriverCreateTripOrNotCubit>()
+                                              .driverCreateTripOrNot();
+                                          context
+                                              .read<DriverTripsHistoryCubit>()
+                                              .getDriverTrips(
+                                                  forceRefresh: true);
+                                          Navigator.pop(context);
+                                          Navigator.pop(context);
+                                        }
+                                      },
+                                      builder: (context, state) {
+                                        if (state is CancelTripLoading) {
+                                          return SizedBox(
+                                            height: 30,
+                                            width: 30,
+                                            child: CircularProgressIndicator(
+                                              color: Theme.of(context)
+                                                  .scaffoldBackgroundColor,
+                                            ),
+                                          );
+                                        } else {
+                                          return Text(S
+                                              .of(context)
+                                              .created_trip_confirm_cancel_button);
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
                           },
                           style: Theme.of(context)
                               .elevatedButtonTheme
@@ -259,33 +338,7 @@ class _CreateTripScreenState extends State<CreatedTripDetailsScreen> {
                               .copyWith(
                                   backgroundColor: WidgetStatePropertyAll(
                                       AppColorLight.errorColor)),
-                          child: BlocConsumer<CancelTripCubit, CancelTripState>(
-                            listener: (context, state) {
-                              if (state is CancelTripSuccess) {
-                                context
-                                    .read<DriverCreateTripOrNotCubit>()
-                                    .driverCreateTripOrNot();
-                                context
-                                    .read<DriverTripsHistoryCubit>()
-                                    .getDriverTrips(forceRefresh: true);
-                                Navigator.pop(context);
-                              }
-                            },
-                            builder: (context, state) {
-                              if (state is CancelTripLoading) {
-                                return SizedBox(
-                                  height: 30,
-                                  width: 30,
-                                  child: CircularProgressIndicator(
-                                    color: Theme.of(context)
-                                        .scaffoldBackgroundColor,
-                                  ),
-                                );
-                              } else {
-                                return Text("Canceled trip");
-                              }
-                            },
-                          ),
+                          child: Text(S.of(context).created_trip_canceled_trip),
                         ),
                       ],
                     )
@@ -319,7 +372,7 @@ class _CreateTripScreenState extends State<CreatedTripDetailsScreen> {
                               ),
                             );
                           } else {
-                            return Text("Finish trip");
+                            return Text(S.of(context).created_trip_finish_trip);
                           }
                         },
                       ),

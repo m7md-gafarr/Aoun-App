@@ -25,7 +25,10 @@ class DialogHelper {
               .titleSmall!
               .copyWith(fontWeight: FontWeight.bold),
         ),
-        content: Text(message),
+        content: Text(
+          message,
+          textAlign: TextAlign.center,
+        ),
         actions: actions,
       ),
     );
@@ -45,7 +48,13 @@ class DialogHelper {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text(S.of(context).cancel),
+            child: Text(
+              S.of(context).cancel,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge!
+                  .copyWith(color: Theme.of(context).primaryColor),
+            ),
           ),
         ],
       ),

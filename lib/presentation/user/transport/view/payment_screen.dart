@@ -1,6 +1,7 @@
 import 'package:aoun_app/core/app_color/app_color_light.dart';
 import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/core/utils/dialog/dialog_helper.dart';
+import 'package:aoun_app/data/model/payment%20models/debit_card_model/debit_card_model.dart';
 import 'package:aoun_app/data/model/trip%20models/booking_trip/booking_response_trip_model.dart';
 import 'package:aoun_app/presentation/user/transport/view/WebViewPaymob.dart';
 import 'package:aoun_app/presentation/user/transport/view/payment_success.dart';
@@ -107,21 +108,6 @@ class _PaymentScreenState extends State<PaymentScreen>
                               ),
                             ),
                           );
-                          // DialogHelper(context).showSuccessDialog(
-                          //   title: S.of(context).payment_success_title,
-                          //   message:
-                          //       "Your payment has been successfully completed. Thank you for using Aoun. You can now proceed with your trip.",
-                          //   actions: [
-                          //     ElevatedButton(
-                          //       onPressed: () {
-                          //         Navigator.of(context).pop();
-                          //         Navigator.of(context).pop();
-                          //         Navigator.of(context).pop();
-                          //       },
-                          //       child: Text("Cancel"),
-                          //     ),
-                          //   ],
-                          // );
                         }
                       },
                     ),
@@ -135,9 +121,11 @@ class _PaymentScreenState extends State<PaymentScreen>
                           showDialog(
                             context: context,
                             builder: (context) => AlertDialog(
-                              title: Text(S.of(context).payment_success_title),
-                              content:
-                                  Text(S.of(context).payment_success_message),
+                              title: Text(
+                                  S.of(context).payment_complete_payment_title),
+                              content: Text(
+                                S.of(context).payment_complete_payment_message,
+                              ),
                               actions: [
                                 ElevatedButton(
                                   onPressed: () {
@@ -178,6 +166,14 @@ class _PaymentScreenState extends State<PaymentScreen>
                               );
                         }
                       } else if (_tabController.index == 1) {
+                        List<DebitCardModel> list =
+                            context.read<ViewAllDebitCardCubit>().listCards;
+                        if (list.isEmpty) {
+                          DialogHelper(context).showErroeDialog(
+                            message: S.of(context).payment_no_card_added,
+                          );
+                          return;
+                        }
                         await context.read<PaymentCardCubit>().makePayment(
                               context,
                               amount: _bookingResponseTripModel!.totalPrice!
@@ -219,7 +215,7 @@ class _PaymentScreenState extends State<PaymentScreen>
                                 );
                               } else {
                                 return Text(
-                                  "Pay \$${_bookingResponseTripModel!.totalPrice}",
+                                  "${S.of(context).payment_pay_amount} \$${_bookingResponseTripModel!.totalPrice}",
                                 );
                               }
                             },

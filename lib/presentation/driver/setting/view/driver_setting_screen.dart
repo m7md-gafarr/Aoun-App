@@ -1,4 +1,5 @@
 import 'package:aoun_app/core/app_color/app_color_light.dart';
+import 'package:aoun_app/core/constant/constant.dart';
 import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/core/utils/Theme/theme_provider.dart';
 import 'package:aoun_app/core/utils/language/language.dart';
@@ -29,22 +30,6 @@ class DriverSettingScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 10.h),
-              InkWell(
-                focusColor: Colors.transparent,
-                hoverColor: Colors.transparent,
-                splashColor: Colors.transparent,
-                onTap: () {
-                  Navigator.pushNamed(
-                      context, AppRoutesName.resetPasswordScreenRoute);
-                },
-                child: Text(S.of(context).driver_settings_change_password,
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall!
-                        .copyWith(fontWeight: FontWeight.bold)),
-              ),
-              SizedBox(height: 10.h),
-              DividerWidget(),
               ListTile(
                 contentPadding: EdgeInsets.all(0),
                 title: Text(S.of(context).driver_settings_language,
@@ -117,6 +102,22 @@ class DriverSettingScreen extends StatelessWidget {
                 onTap: () => Navigator.pushNamed(
                     context, AppRoutesName.privacyPolicyScreenRoute),
                 child: Text(S.of(context).driver_settings_privacy,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall!
+                        .copyWith(fontWeight: FontWeight.bold)),
+              ),
+              SizedBox(height: 10.h),
+              DividerWidget(),
+              InkWell(
+                focusColor: Colors.transparent,
+                hoverColor: Colors.transparent,
+                splashColor: Colors.transparent,
+                onTap: () {
+                  Navigator.pushNamed(
+                      context, AppRoutesName.resetPasswordScreenRoute);
+                },
+                child: Text(S.of(context).driver_settings_change_password,
                     style: Theme.of(context)
                         .textTheme
                         .titleSmall!
@@ -201,7 +202,15 @@ class DriverSettingScreen extends StatelessWidget {
                 Iconsax.language_circle,
                 color: Theme.of(context).primaryColor,
               ),
-              title: Text(S.of(context).driver_settings_language_english),
+              title: Text(
+                S.of(context).driver_settings_language_english,
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      fontFamily: isArabicText(
+                              S.of(context).driver_settings_language_english)
+                          ? fontArabic
+                          : fontEnglish,
+                    ),
+              ),
               onTap: () {
                 provider.changeLanguage("en");
                 Navigator.pop(context);
@@ -212,7 +221,15 @@ class DriverSettingScreen extends StatelessWidget {
                 Iconsax.language_circle,
                 color: Theme.of(context).primaryColor,
               ),
-              title: Text(S.of(context).driver_settings_language_arabic),
+              title: Text(
+                S.of(context).driver_settings_language_arabic,
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      fontFamily: isArabicText(
+                              S.of(context).driver_settings_language_arabic)
+                          ? fontArabic
+                          : fontEnglish,
+                    ),
+              ),
               onTap: () {
                 provider.changeLanguage("ar");
                 Navigator.pop(context);

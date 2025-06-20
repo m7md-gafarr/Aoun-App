@@ -1,6 +1,5 @@
-import 'dart:developer';
-
 import 'package:aoun_app/core/app_images/app_images.dart';
+import 'package:aoun_app/core/utils/dialog/dialog_helper.dart';
 import 'package:aoun_app/core/utils/snakbar/snackebar_helper.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/driver/home/view_model/driver%20dashboard/driver_dashboard_cubit.dart';
@@ -57,7 +56,7 @@ class _DriverWalletAndEarningsScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppbarWidget(
-        title: "Wallet and earnings",
+        title: S.of(context).driver_wallet_earnings_title,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 13.0),
@@ -71,7 +70,7 @@ class _DriverWalletAndEarningsScreenState
                       children: [
                         SizedBox(height: 20.h),
                         Text(
-                          "Balance Your",
+                          S.of(context).driver_wallet_earnings_balance,
                           style: Theme.of(context).textTheme.titleSmall,
                         ),
                         SizedBox(height: 5.h),
@@ -84,14 +83,17 @@ class _DriverWalletAndEarningsScreenState
                           onPressed: () async {
                             await bottomSheet(state.balance);
                           },
-                          child: Text("Withdrawal"),
+                          child: Text(
+                              S.of(context).driver_wallet_earnings_withdrawal),
                         ),
                         SizedBox(height: 15.h),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Last Transaction",
+                              S
+                                  .of(context)
+                                  .driver_wallet_earnings_last_transaction,
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall!
@@ -119,7 +121,7 @@ class _DriverWalletAndEarningsScreenState
                       children: [
                         SizedBox(height: 20.h),
                         Text(
-                          "Balance Your",
+                          S.of(context).driver_wallet_earnings_balance,
                           style: Theme.of(context).textTheme.titleSmall,
                         ),
                         SizedBox(height: 5.h),
@@ -132,14 +134,17 @@ class _DriverWalletAndEarningsScreenState
                           onPressed: () async {
                             await bottomSheet(state.balance);
                           },
-                          child: Text("Withdrawal"),
+                          child: Text(
+                              S.of(context).driver_wallet_earnings_withdrawal),
                         ),
                         SizedBox(height: 15.h),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Last Transaction",
+                              S
+                                  .of(context)
+                                  .driver_wallet_earnings_last_transaction,
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall!
@@ -160,7 +165,9 @@ class _DriverWalletAndEarningsScreenState
                                 ),
                                 EmptyDataWidget(
                                   image: Assets.imageEmptyImageEmptyTransaction,
-                                  text: "You don't have any transactions yet.",
+                                  text: S
+                                      .of(context)
+                                      .driver_wallet_earnings_no_transactions,
                                 ),
                               ],
                             ),
@@ -200,18 +207,20 @@ class _DriverWalletAndEarningsScreenState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 20.h),
-          Text("Card number"),
+          Text(S.of(context).driver_wallet_earnings_card_number),
           TextFormField(
             controller: cardEditingController,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             keyboardType: TextInputType.number,
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Please enter the card number';
+                return S
+                    .of(context)
+                    .driver_wallet_earnings_card_number_required;
               } else if (value.replaceAll(' ', '').length != 16) {
-                return 'Card number must be 16 digits';
+                return S.of(context).driver_wallet_earnings_card_number_length;
               } else if (!RegExp(r'^[0-9 ]+$').hasMatch(value)) {
-                return 'Only numbers are allowed';
+                return S.of(context).driver_wallet_earnings_card_number_digits;
               }
               return null;
             },
@@ -290,7 +299,7 @@ class _DriverWalletAndEarningsScreenState
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
-                "Withdrawal Request (Wednesdays only)",
+                S.of(context).driver_wallet_earnings_withdrawal_request,
                 style: Theme.of(context).textTheme.labelMedium,
               ),
               SizedBox(height: 16.h),
@@ -300,16 +309,16 @@ class _DriverWalletAndEarningsScreenState
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return "Please enter the amount";
+                    return S.of(context).driver_wallet_earnings_amount_required;
                   } else if (double.parse(value) <= 0) {
-                    return "Amount must be greater than 0";
+                    return S.of(context).driver_wallet_earnings_amount_min;
                   } else if (double.parse(value) > balance) {
-                    return "Amount exceeds your available balance";
+                    return S.of(context).driver_wallet_earnings_amount_exceeds;
                   }
                   return null;
                 },
                 decoration: InputDecoration(
-                  hintText: "Enter the amount to withdraw",
+                  hintText: S.of(context).driver_wallet_earnings_amount_hint,
                 ),
               ),
               SizedBox(height: 16.h),
@@ -369,7 +378,9 @@ class _DriverWalletAndEarningsScreenState
                       if (today.weekday != DateTime.wednesday) {
                         Navigator.pop(context);
                         SnackbarHelper.showError(context,
-                            title: "Withdrawal is only allowed on Wednesdays.");
+                            title: S
+                                .of(context)
+                                .driver_wallet_earnings_withdrawal_wednesday_only);
 
                         return;
                       }
@@ -391,8 +402,31 @@ class _DriverWalletAndEarningsScreenState
                             .transactions(forceRefresh: true);
                         context.read<DriverDashboardCubit>().getDashboard();
                         Navigator.pop(context);
-                      } else if (state is WithdrawFromWalletFailure) {
-                        log(state.errorMessage);
+                        DialogHelper(context).showSuccessDialog(
+                          message: S
+                              .of(context)
+                              .driver_wallet_earnings_withdrawal_success_message,
+                          title: S
+                              .of(context)
+                              .driver_wallet_earnings_withdrawal_success_title,
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text(
+                                  S
+                                      .of(context)
+                                      .user_edit_profile_update_success_ok,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(
+                                          color:
+                                              Theme.of(context).primaryColor),
+                                ))
+                          ],
+                        );
                       }
                     },
                     builder: (context, state) {
@@ -405,7 +439,8 @@ class _DriverWalletAndEarningsScreenState
                           ),
                         );
                       } else {
-                        return Text("Withdraw");
+                        return Text(
+                            S.of(context).driver_wallet_earnings_withdraw);
                       }
                     },
                   ),

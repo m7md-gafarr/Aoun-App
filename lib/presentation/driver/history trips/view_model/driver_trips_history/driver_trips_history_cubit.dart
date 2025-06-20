@@ -9,7 +9,9 @@ part 'driver_trips_history_state.dart';
 
 class DriverTripsHistoryCubit extends Cubit<DriverTripsHistoryState> {
   DriverTripsHistoryCubit() : super(DriverTripsHistoryInitial());
+
   List<TripModel> _list = [];
+
   getDriverTrips({bool forceRefresh = false}) async {
     if (!forceRefresh && _list.isNotEmpty) {
       emit(DriverTripsHistorySuccess(_list.reversed.toList()));

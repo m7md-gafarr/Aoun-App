@@ -820,10 +820,10 @@ class S {
     );
   }
 
-  /// `Age must be at least 5 years old`
+  /// `Age must be at least 18 years old`
   String get age_validation {
     return Intl.message(
-      'Age must be at least 5 years old',
+      'Age must be at least 18 years old',
       name: 'age_validation',
       desc: '',
       args: [],
@@ -920,10 +920,10 @@ class S {
     );
   }
 
-  /// `Tap 'Contact Support' below or email us at support@aounapp.com.`
+  /// `Tap 'Contact Support' below or email us at umssthasystem@gmail.com.`
   String get help_feedback_contact_support_answer {
     return Intl.message(
-      'Tap \'Contact Support\' below or email us at support@aounapp.com.',
+      'Tap \'Contact Support\' below or email us at umssthasystem@gmail.com.',
       name: 'help_feedback_contact_support_answer',
       desc: '',
       args: [],
@@ -980,10 +980,10 @@ class S {
     );
   }
 
-  /// `support@aounapp.com`
+  /// `umssthasystem@gmail.com`
   String get help_feedback_support_email {
     return Intl.message(
-      'support@aounapp.com',
+      'umssthasystem@gmail.com',
       name: 'help_feedback_support_email',
       desc: '',
       args: [],
@@ -3375,16 +3375,6 @@ class S {
     );
   }
 
-  /// `You will now be redirected to complete the payment.\nA confirmation email has also been sent.`
-  String get payment_success_message {
-    return Intl.message(
-      'You will now be redirected to complete the payment.\nA confirmation email has also been sent.',
-      name: 'payment_success_message',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Proceed`
   String get payment_proceed {
     return Intl.message('Proceed', name: 'payment_proceed', desc: '', args: []);
@@ -3400,10 +3390,10 @@ class S {
     );
   }
 
-  /// `Enter your route`
+  /// `Search Trip`
   String get search_trip_title {
     return Intl.message(
-      'Enter your route',
+      'Search Trip',
       name: 'search_trip_title',
       desc: '',
       args: [],
@@ -3561,20 +3551,10 @@ class S {
     );
   }
 
-  /// `Payment Success`
-  String get payment_success_title {
-    return Intl.message(
-      'Payment Success',
-      name: 'payment_success_title',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Your payment for Starbucks Coffee has been successfully done`
+  /// `Your payment for Aoun was successful.`
   String get payment_success_description {
     return Intl.message(
-      'Your payment for Starbucks Coffee has been successfully done',
+      'Your payment for Aoun was successful.',
       name: 'payment_success_description',
       desc: '',
       args: [],
@@ -3611,10 +3591,10 @@ class S {
     );
   }
 
-  /// `Pay again`
+  /// `Book again`
   String get payment_pay_again_button {
     return Intl.message(
-      'Pay again',
+      'Book again',
       name: 'payment_pay_again_button',
       desc: '',
       args: [],
@@ -3636,6 +3616,1486 @@ class S {
     return Intl.message(
       'error',
       name: 'paymob_error_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Updated Successfully`
+  String get user_edit_profile_update_success_title {
+    return Intl.message(
+      'Updated Successfully',
+      name: 'user_edit_profile_update_success_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ok`
+  String get user_edit_profile_update_success_ok {
+    return Intl.message(
+      'Ok',
+      name: 'user_edit_profile_update_success_ok',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contact Us`
+  String get contact_us_title {
+    return Intl.message(
+      'Contact Us',
+      name: 'contact_us_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your Email`
+  String get contact_us_email_hint {
+    return Intl.message(
+      'Your Email',
+      name: 'contact_us_email_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your email`
+  String get contact_us_email_required {
+    return Intl.message(
+      'Please enter your email',
+      name: 'contact_us_email_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter a valid email`
+  String get contact_us_email_invalid {
+    return Intl.message(
+      'Enter a valid email',
+      name: 'contact_us_email_invalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your Phone`
+  String get contact_us_phone_hint {
+    return Intl.message(
+      'Your Phone',
+      name: 'contact_us_phone_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your phone number`
+  String get contact_us_phone_required {
+    return Intl.message(
+      'Please enter your phone number',
+      name: 'contact_us_phone_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your Address`
+  String get contact_us_address_hint {
+    return Intl.message(
+      'Your Address',
+      name: 'contact_us_address_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your Message...`
+  String get contact_us_message_hint {
+    return Intl.message(
+      'Your Message...',
+      name: 'contact_us_message_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your message`
+  String get contact_us_message_required {
+    return Intl.message(
+      'Please enter your message',
+      name: 'contact_us_message_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Message sent!`
+  String get contact_us_message_sent {
+    return Intl.message(
+      'Message sent!',
+      name: 'contact_us_message_sent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send Message`
+  String get contact_us_send_button {
+    return Intl.message(
+      'Send Message',
+      name: 'contact_us_send_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Terms & Conditions`
+  String get terms_conditions_title {
+    return Intl.message(
+      'Terms & Conditions',
+      name: 'terms_conditions_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Terms of Use`
+  String get terms_conditions_header {
+    return Intl.message(
+      'Terms of Use',
+      name: 'terms_conditions_header',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `These Terms of Use govern your access and use of Auan Services made available by Auan Inc., a private limited liability company established in the British Virgin Islands.\n\nBy accessing or using the Auan Services, you agree to be bound by these Terms, which establish a contractual relationship between you and Auan. Please read these Terms carefully before using our services.`
+  String get terms_conditions_introduction {
+    return Intl.message(
+      'These Terms of Use govern your access and use of Auan Services made available by Auan Inc., a private limited liability company established in the British Virgin Islands.\n\nBy accessing or using the Auan Services, you agree to be bound by these Terms, which establish a contractual relationship between you and Auan. Please read these Terms carefully before using our services.',
+      name: 'terms_conditions_introduction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contractual Relationship`
+  String get terms_conditions_contractual_relationship_title {
+    return Intl.message(
+      'Contractual Relationship',
+      name: 'terms_conditions_contractual_relationship_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `These Terms of Use ("Terms") govern the access or use by you, an individual, from within any country in the world (excluding the United States and its territories and possessions and Mainland China) of applications, websites, content, call center, technology platform, e-payment services, products, and services (collectively, the "Auan Services") made available by Auan Inc.\n\nThese Terms constitute a legally binding agreement between you and your local Auan entity. Please read these Terms carefully before accessing or using the Auan Services. If you do not agree to be bound by the Terms, you may not use or access the Auan Services.\n\nYour access and use of the Auan Services constitutes your agreement to be bound by these Terms, which establishes a contractual relationship between you, Auan, and your local Auan entity. These Terms expressly supersede prior agreements or arrangements with you.\n\nAuan may immediately terminate these Terms or any of the Auan Services with respect to you, or generally cease offering or deny access to the Auan Services or any portion thereof, at any time for any reason.`
+  String get terms_conditions_contractual_relationship_content {
+    return Intl.message(
+      'These Terms of Use ("Terms") govern the access or use by you, an individual, from within any country in the world (excluding the United States and its territories and possessions and Mainland China) of applications, websites, content, call center, technology platform, e-payment services, products, and services (collectively, the "Auan Services") made available by Auan Inc.\n\nThese Terms constitute a legally binding agreement between you and your local Auan entity. Please read these Terms carefully before accessing or using the Auan Services. If you do not agree to be bound by the Terms, you may not use or access the Auan Services.\n\nYour access and use of the Auan Services constitutes your agreement to be bound by these Terms, which establishes a contractual relationship between you, Auan, and your local Auan entity. These Terms expressly supersede prior agreements or arrangements with you.\n\nAuan may immediately terminate these Terms or any of the Auan Services with respect to you, or generally cease offering or deny access to the Auan Services or any portion thereof, at any time for any reason.',
+      name: 'terms_conditions_contractual_relationship_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amendments and Supplemental Terms`
+  String get terms_conditions_amendments_title {
+    return Intl.message(
+      'Amendments and Supplemental Terms',
+      name: 'terms_conditions_amendments_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Supplemental terms may apply to certain Auan Services, such as policies for a particular event, activity, or promotion, and such supplemental terms will be disclosed to you in connection with the applicable Auan Services. Supplemental terms are in addition to, and shall be deemed a part of, the Terms for the purposes and period of the applicable Auan Services.\n\nAuan may amend the Terms related to the Auan Services from time to time. Amendments will be effective upon Auan posting such updated Terms at this location or the amended policies or supplemental terms on the applicable Service. Your continued access or use of the Auan Services after such posting constitutes your consent to be bound by the Terms, as amended.\n\nOur collection and use of your personal information is provided in Auan's Privacy Policy, which can be accessed at https://swvl.com/privacy_policy.`
+  String get terms_conditions_amendments_content {
+    return Intl.message(
+      'Supplemental terms may apply to certain Auan Services, such as policies for a particular event, activity, or promotion, and such supplemental terms will be disclosed to you in connection with the applicable Auan Services. Supplemental terms are in addition to, and shall be deemed a part of, the Terms for the purposes and period of the applicable Auan Services.\n\nAuan may amend the Terms related to the Auan Services from time to time. Amendments will be effective upon Auan posting such updated Terms at this location or the amended policies or supplemental terms on the applicable Service. Your continued access or use of the Auan Services after such posting constitutes your consent to be bound by the Terms, as amended.\n\nOur collection and use of your personal information is provided in Auan\'s Privacy Policy, which can be accessed at https://swvl.com/privacy_policy.',
+      name: 'terms_conditions_amendments_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The Auan Services`
+  String get terms_conditions_services_title {
+    return Intl.message(
+      'The Auan Services',
+      name: 'terms_conditions_services_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The Auan Services constitute a technology platform that enables users of Auan's mobile applications or websites provided as part of the Auan Services (each, an "Application") to arrange and schedule transportation services with independent third-party providers of such services, including independent third-party transportation providers under agreement with Auan or certain of Auan's Affiliates ("Third Party Providers").\n\nUnless otherwise agreed by Auan in a separate written agreement with you, the Auan Services are made available solely for your personal and non-commercial use. Each service provided by a Third Party Provider to you shall constitute a separate legal agreement between you and the Third Party Provider.\n\nYou acknowledge that Auan does not provide any form of transportation services or function as a transportation carrier or service provider or own any vehicles for transportation and that all such transportation services are provided by Third Party Providers who are not employed by Auan or any of its Affiliates nor operate under their control.`
+  String get terms_conditions_services_content {
+    return Intl.message(
+      'The Auan Services constitute a technology platform that enables users of Auan\'s mobile applications or websites provided as part of the Auan Services (each, an "Application") to arrange and schedule transportation services with independent third-party providers of such services, including independent third-party transportation providers under agreement with Auan or certain of Auan\'s Affiliates ("Third Party Providers").\n\nUnless otherwise agreed by Auan in a separate written agreement with you, the Auan Services are made available solely for your personal and non-commercial use. Each service provided by a Third Party Provider to you shall constitute a separate legal agreement between you and the Third Party Provider.\n\nYou acknowledge that Auan does not provide any form of transportation services or function as a transportation carrier or service provider or own any vehicles for transportation and that all such transportation services are provided by Third Party Providers who are not employed by Auan or any of its Affiliates nor operate under their control.',
+      name: 'terms_conditions_services_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `License`
+  String get terms_conditions_license_title {
+    return Intl.message(
+      'License',
+      name: 'terms_conditions_license_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Subject to your compliance with these Terms, Auan grants you a limited, non-exclusive, non-sublicensable, non-assignable, revocable, and non-transferable license to:\n\n• Access and use the Applications on your personal device solely in connection with your use of the Auan Services\n\n• Access and use any content, information, and related materials that may be made available through the Auan Services, in each case solely for your personal and non-commercial use\n\nAny rights not expressly granted herein are reserved by Auan and Auan's licensors.`
+  String get terms_conditions_license_content {
+    return Intl.message(
+      'Subject to your compliance with these Terms, Auan grants you a limited, non-exclusive, non-sublicensable, non-assignable, revocable, and non-transferable license to:\n\n• Access and use the Applications on your personal device solely in connection with your use of the Auan Services\n\n• Access and use any content, information, and related materials that may be made available through the Auan Services, in each case solely for your personal and non-commercial use\n\nAny rights not expressly granted herein are reserved by Auan and Auan\'s licensors.',
+      name: 'terms_conditions_license_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Restrictions`
+  String get terms_conditions_restrictions_title {
+    return Intl.message(
+      'Restrictions',
+      name: 'terms_conditions_restrictions_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You specifically agree not to, without the prior explicit written consent of Auan:\n\n• Remove any copyright, trademark, or other proprietary notices from any portion of the Auan Services\n\n• Reproduce, modify, prepare derivative works based upon, distribute, license, lease, sell, resell, transfer, publicly display, publicly perform, transmit, stream, broadcast, or otherwise exploit the Auan Services except as expressly permitted by Auan\n\n• Decompile, reverse engineer, or disassemble the Auan Services\n\n• Link to, mirror, or frame any portion of the Auan Services\n\n• Cause or launch any programs or scripts for the purpose of scraping, indexing, surveying, or otherwise data mining any portion of the Auan Services\n\n• Attempt to gain unauthorized access to or impair any aspect of the Auan Services or its related systems or networks`
+  String get terms_conditions_restrictions_content {
+    return Intl.message(
+      'You specifically agree not to, without the prior explicit written consent of Auan:\n\n• Remove any copyright, trademark, or other proprietary notices from any portion of the Auan Services\n\n• Reproduce, modify, prepare derivative works based upon, distribute, license, lease, sell, resell, transfer, publicly display, publicly perform, transmit, stream, broadcast, or otherwise exploit the Auan Services except as expressly permitted by Auan\n\n• Decompile, reverse engineer, or disassemble the Auan Services\n\n• Link to, mirror, or frame any portion of the Auan Services\n\n• Cause or launch any programs or scripts for the purpose of scraping, indexing, surveying, or otherwise data mining any portion of the Auan Services\n\n• Attempt to gain unauthorized access to or impair any aspect of the Auan Services or its related systems or networks',
+      name: 'terms_conditions_restrictions_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Provision of Auan Services`
+  String get terms_conditions_provision_title {
+    return Intl.message(
+      'Provision of Auan Services',
+      name: 'terms_conditions_provision_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You acknowledge that portions of the Auan Services may be made available under Auan's various brands or request options associated with transportation, including the transportation request brands currently referred to as "Premium" and "Economy."\n\nYou also acknowledge that the Auan Services may be made available under such brands or request options by or in connection with:\n\n• Certain of Auan's Affiliates\n• Independent Third Party Providers, including transportation network company drivers, transportation charter permit holders, or holders of similar transportation permits, authorizations, or licenses`
+  String get terms_conditions_provision_content {
+    return Intl.message(
+      'You acknowledge that portions of the Auan Services may be made available under Auan\'s various brands or request options associated with transportation, including the transportation request brands currently referred to as "Premium" and "Economy."\n\nYou also acknowledge that the Auan Services may be made available under such brands or request options by or in connection with:\n\n• Certain of Auan\'s Affiliates\n• Independent Third Party Providers, including transportation network company drivers, transportation charter permit holders, or holders of similar transportation permits, authorizations, or licenses',
+      name: 'terms_conditions_provision_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Third Party Services and Content`
+  String get terms_conditions_third_party_title {
+    return Intl.message(
+      'Third Party Services and Content',
+      name: 'terms_conditions_third_party_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The Auan Services may be made available or accessed in connection with third-party services and content (including advertising) that Auan does not control. You acknowledge that different terms of use and privacy policies may apply to your use of such third-party services and content.\n\nAuan does not endorse such third-party services and content, and in no event shall Auan be responsible or liable for any products or services of such third-party providers.\n\nAdditionally, Apple Inc., Google, Inc., or the provider of any other applicable mobile operating system and/or their applicable international subsidiaries and affiliates will be third-party beneficiaries to these Terms if you access the Auan Services using Applications developed for Apple iOS, Android, or any other applicable operating system-powered mobile devices, respectively.`
+  String get terms_conditions_third_party_content {
+    return Intl.message(
+      'The Auan Services may be made available or accessed in connection with third-party services and content (including advertising) that Auan does not control. You acknowledge that different terms of use and privacy policies may apply to your use of such third-party services and content.\n\nAuan does not endorse such third-party services and content, and in no event shall Auan be responsible or liable for any products or services of such third-party providers.\n\nAdditionally, Apple Inc., Google, Inc., or the provider of any other applicable mobile operating system and/or their applicable international subsidiaries and affiliates will be third-party beneficiaries to these Terms if you access the Auan Services using Applications developed for Apple iOS, Android, or any other applicable operating system-powered mobile devices, respectively.',
+      name: 'terms_conditions_third_party_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ownership`
+  String get terms_conditions_ownership_title {
+    return Intl.message(
+      'Ownership',
+      name: 'terms_conditions_ownership_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The Auan Services and all rights therein are and shall remain Auan's property or the property of Auan's licensors. Neither these Terms nor your use of the Auan Services convey or grant to you any rights:\n\n• In or related to the Auan Services except for the limited license granted above\n\n• To use or reference in any manner Auan's company names, logos, product and service names, trademarks, or service marks or those of Auan's licensors irrespective of whether or not they are registered or unregistered`
+  String get terms_conditions_ownership_content {
+    return Intl.message(
+      'The Auan Services and all rights therein are and shall remain Auan\'s property or the property of Auan\'s licensors. Neither these Terms nor your use of the Auan Services convey or grant to you any rights:\n\n• In or related to the Auan Services except for the limited license granted above\n\n• To use or reference in any manner Auan\'s company names, logos, product and service names, trademarks, or service marks or those of Auan\'s licensors irrespective of whether or not they are registered or unregistered',
+      name: 'terms_conditions_ownership_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Need Help?`
+  String get terms_conditions_need_help_title {
+    return Intl.message(
+      'Need Help?',
+      name: 'terms_conditions_need_help_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `If you have any questions about these Terms of Use or need assistance with our services, please contact our support team.`
+  String get terms_conditions_need_help_content {
+    return Intl.message(
+      'If you have any questions about these Terms of Use or need assistance with our services, please contact our support team.',
+      name: 'terms_conditions_need_help_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `By continuing to use Auan Services, you acknowledge that you have read, understood, and agree to be bound by these Terms.`
+  String get terms_conditions_acknowledgment {
+    return Intl.message(
+      'By continuing to use Auan Services, you acknowledge that you have read, understood, and agree to be bound by these Terms.',
+      name: 'terms_conditions_acknowledgment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Privacy Policy`
+  String get privacy_policy_title {
+    return Intl.message(
+      'Privacy Policy',
+      name: 'privacy_policy_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Understanding Our Commitment to Your Privacy`
+  String get privacy_policy_header {
+    return Intl.message(
+      'Understanding Our Commitment to Your Privacy',
+      name: 'privacy_policy_header',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Auan Inc., its respective subsidiaries, affiliates, associated companies, and jointly controlled entities (collectively "Auan," "we," "our," or "us") appreciate your need for protection of your personal data and are committed to protecting and respecting the privacy of all persons contacting, visiting, or otherwise submitting information to Auan.\n\nThis Privacy Policy describes how Auan collects, uses, processes, and discloses your Personal Data through the use of Auan's Apps and Websites, products, features, and other services globally. This Policy applies to passengers, agents, vendors, suppliers, partners, contractors, and service providers.`
+  String get privacy_policy_introduction {
+    return Intl.message(
+      'Auan Inc., its respective subsidiaries, affiliates, associated companies, and jointly controlled entities (collectively "Auan," "we," "our," or "us") appreciate your need for protection of your personal data and are committed to protecting and respecting the privacy of all persons contacting, visiting, or otherwise submitting information to Auan.\n\nThis Privacy Policy describes how Auan collects, uses, processes, and discloses your Personal Data through the use of Auan\'s Apps and Websites, products, features, and other services globally. This Policy applies to passengers, agents, vendors, suppliers, partners, contractors, and service providers.',
+      name: 'privacy_policy_introduction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `User's Acknowledgement of This Policy`
+  String get privacy_policy_acknowledgment_title {
+    return Intl.message(
+      'User\'s Acknowledgement of This Policy',
+      name: 'privacy_policy_acknowledgment_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `By using the services or registering, downloading, or entering the websites and/or the apps, you acknowledge that you are or have had the opportunity to become aware of this policy, including the processing (including collecting, using, disclosing, retaining, or disposing) of your information.\n\nThe information Auan holds about you may be held and processed on computer and/or paper files. If you provide Auan with any information regarding another person, it is your responsibility to make them aware of this policy.\n\nIf you have any questions or comments regarding privacy issues, please contact us at legal@swvl.com.`
+  String get privacy_policy_acknowledgment_content {
+    return Intl.message(
+      'By using the services or registering, downloading, or entering the websites and/or the apps, you acknowledge that you are or have had the opportunity to become aware of this policy, including the processing (including collecting, using, disclosing, retaining, or disposing) of your information.\n\nThe information Auan holds about you may be held and processed on computer and/or paper files. If you provide Auan with any information regarding another person, it is your responsibility to make them aware of this policy.\n\nIf you have any questions or comments regarding privacy issues, please contact us at legal@swvl.com.',
+      name: 'privacy_policy_acknowledgment_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Types of Information We Collect`
+  String get privacy_policy_types_info_title {
+    return Intl.message(
+      'Types of Information We Collect',
+      name: 'privacy_policy_types_info_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Auan collects both "Personal Information" and "Anonymous Information" about you:\n\n• Personal Information: Information that can be used to identify you, such as your full name, email address, phone number, payment method, password, mailing address, IP address, profile picture, location, as well as information that is linked to such information.\n\n• Anonymous Information: Information that we cannot use to identify you and is not linked to information that can be used to do so. It includes passively collected information about your activities on the websites or apps, such as use and usage data.\n\nWe also passively collect certain information from your devices, such as your IP address, screen resolution information, geographic location, Wi-Fi information, browser information, unique device identifier (UDID) and/or your mobile operating system.`
+  String get privacy_policy_types_info_content {
+    return Intl.message(
+      'Auan collects both "Personal Information" and "Anonymous Information" about you:\n\n• Personal Information: Information that can be used to identify you, such as your full name, email address, phone number, payment method, password, mailing address, IP address, profile picture, location, as well as information that is linked to such information.\n\n• Anonymous Information: Information that we cannot use to identify you and is not linked to information that can be used to do so. It includes passively collected information about your activities on the websites or apps, such as use and usage data.\n\nWe also passively collect certain information from your devices, such as your IP address, screen resolution information, geographic location, Wi-Fi information, browser information, unique device identifier (UDID) and/or your mobile operating system.',
+      name: 'privacy_policy_types_info_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Voluntarily Submitted Information`
+  String get privacy_policy_voluntary_info_title {
+    return Intl.message(
+      'Voluntarily Submitted Information',
+      name: 'privacy_policy_voluntary_info_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We collect information that you provide to us during your use of the Services:\n\n• Personal information during registration: full name, email address, phone number, payment method, billing information, profile picture, and profile information\n• Communications with us or with captains (emails, in-app messages, photos, text messages, written instructions)\n• User preference information: marketing preferences, communication preferences, home address, work address, favorites, and survey responses\n• Information provided to customer support via email, phone, apps, SMS, social media messaging, or other channels\n• Posts on forums or message boards, including Auan's social media pages\n• Data provided in promotions, competitions, feedback forms, or service-related issues\n\nNote: Some information is mandatory to create an account and use our Services.`
+  String get privacy_policy_voluntary_info_content {
+    return Intl.message(
+      'We collect information that you provide to us during your use of the Services:\n\n• Personal information during registration: full name, email address, phone number, payment method, billing information, profile picture, and profile information\n• Communications with us or with captains (emails, in-app messages, photos, text messages, written instructions)\n• User preference information: marketing preferences, communication preferences, home address, work address, favorites, and survey responses\n• Information provided to customer support via email, phone, apps, SMS, social media messaging, or other channels\n• Posts on forums or message boards, including Auan\'s social media pages\n• Data provided in promotions, competitions, feedback forms, or service-related issues\n\nNote: Some information is mandatory to create an account and use our Services.',
+      name: 'privacy_policy_voluntary_info_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Information Collected Through Service Use`
+  String get privacy_policy_service_use_title {
+    return Intl.message(
+      'Information Collected Through Service Use',
+      name: 'privacy_policy_service_use_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `• Geolocation Data: If you access the apps through a mobile device, we may collect GPS coordinates of your trip (including pickup and drop-off data and route information) or similar location information.\n\n• Contacts: We may access your calendar or contacts with your permission.\n\n• Transaction Data: We collect information created during your interactions with services, including:\n  - Date and time of orders\n  - Captain acceptance and arrival\n  - Service completion details\n  - Distance traveled\n  - Amount charged (base fee, tip, additional fees)\n  - Promotional code usage`
+  String get privacy_policy_service_use_content {
+    return Intl.message(
+      '• Geolocation Data: If you access the apps through a mobile device, we may collect GPS coordinates of your trip (including pickup and drop-off data and route information) or similar location information.\n\n• Contacts: We may access your calendar or contacts with your permission.\n\n• Transaction Data: We collect information created during your interactions with services, including:\n  - Date and time of orders\n  - Captain acceptance and arrival\n  - Service completion details\n  - Distance traveled\n  - Amount charged (base fee, tip, additional fees)\n  - Promotional code usage',
+      name: 'privacy_policy_service_use_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Information Provided by Others`
+  String get privacy_policy_others_info_title {
+    return Intl.message(
+      'Information Provided by Others',
+      name: 'privacy_policy_others_info_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `• We collect information that passengers provide about captains, and vice versa, including ratings, complaints, and postings on forums or message boards\n• Auan may receive information about you from affiliated websites or services\n• We work with third parties (business partners, subcontractors, payment processors, advertising networks, analytics providers, search information providers, and credit reference agencies) and may receive information about you from them\n• Where third parties collect information about you and share it with us, you should refer to their separately maintained privacy policies`
+  String get privacy_policy_others_info_content {
+    return Intl.message(
+      '• We collect information that passengers provide about captains, and vice versa, including ratings, complaints, and postings on forums or message boards\n• Auan may receive information about you from affiliated websites or services\n• We work with third parties (business partners, subcontractors, payment processors, advertising networks, analytics providers, search information providers, and credit reference agencies) and may receive information about you from them\n• Where third parties collect information about you and share it with us, you should refer to their separately maintained privacy policies',
+      name: 'privacy_policy_others_info_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cookies and Web Technologies`
+  String get privacy_policy_cookies_title {
+    return Intl.message(
+      'Cookies and Web Technologies',
+      name: 'privacy_policy_cookies_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The websites use cookies and related technologies for:\n• Site functionality\n• Analytics\n• Advertising\n\nThe use of these technologies can involve the processing of personal data. For more information about how we use cookies and related technologies, and your choices regarding cookies, please refer to our Cookies Notice.`
+  String get privacy_policy_cookies_content {
+    return Intl.message(
+      'The websites use cookies and related technologies for:\n• Site functionality\n• Analytics\n• Advertising\n\nThe use of these technologies can involve the processing of personal data. For more information about how we use cookies and related technologies, and your choices regarding cookies, please refer to our Cookies Notice.',
+      name: 'privacy_policy_cookies_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Security of Your Information`
+  String get privacy_policy_security_title {
+    return Intl.message(
+      'Security of Your Information',
+      name: 'privacy_policy_security_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Auan has implemented administrative, physical, and electronic measures designed to protect your information from unauthorized access, modification, and unavailability.\n\nWe will comply with applicable law in the event of any breach of security, confidentiality, or integrity of your Personal Data and, where appropriate or required by law, notify you via email, text, or website posting in the most expedient time possible.\n\nAlthough guaranteed security does not exist either on or off the Internet, we make commercially reasonable efforts to ensure the collection and security of information are consistent with this Policy and all applicable laws and regulations.`
+  String get privacy_policy_security_content {
+    return Intl.message(
+      'Auan has implemented administrative, physical, and electronic measures designed to protect your information from unauthorized access, modification, and unavailability.\n\nWe will comply with applicable law in the event of any breach of security, confidentiality, or integrity of your Personal Data and, where appropriate or required by law, notify you via email, text, or website posting in the most expedient time possible.\n\nAlthough guaranteed security does not exist either on or off the Internet, we make commercially reasonable efforts to ensure the collection and security of information are consistent with this Policy and all applicable laws and regulations.',
+      name: 'privacy_policy_security_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location of Your Information`
+  String get privacy_policy_location_title {
+    return Intl.message(
+      'Location of Your Information',
+      name: 'privacy_policy_location_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your Personal Information may be disclosed to other Auan entities and third parties (including service providers) in jurisdictions including, but not limited to: British Virgin Islands, Egypt, Kenya, Pakistan, and United Arab Emirates.\n\nThe data that Auan collects from you may be transferred to and stored in a country that is not considered to offer an adequate level of protection under your local laws. It may also be processed by staff operating outside of your country of residence.\n\nBy submitting your Personal Information, you acknowledge and, where necessary under local laws, agree to this transfer, storage, or processing.`
+  String get privacy_policy_location_content {
+    return Intl.message(
+      'Your Personal Information may be disclosed to other Auan entities and third parties (including service providers) in jurisdictions including, but not limited to: British Virgin Islands, Egypt, Kenya, Pakistan, and United Arab Emirates.\n\nThe data that Auan collects from you may be transferred to and stored in a country that is not considered to offer an adequate level of protection under your local laws. It may also be processed by staff operating outside of your country of residence.\n\nBy submitting your Personal Information, you acknowledge and, where necessary under local laws, agree to this transfer, storage, or processing.',
+      name: 'privacy_policy_location_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contact Us`
+  String get privacy_policy_contact_title {
+    return Intl.message(
+      'Contact Us',
+      name: 'privacy_policy_contact_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `If you have any questions or comments regarding privacy issues, please contact us:`
+  String get privacy_policy_contact_content {
+    return Intl.message(
+      'If you have any questions or comments regarding privacy issues, please contact us:',
+      name: 'privacy_policy_contact_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `umssthasystem@gmail.com`
+  String get privacy_policy_contact_email {
+    return Intl.message(
+      'umssthasystem@gmail.com',
+      name: 'privacy_policy_contact_email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Welcome, {userName}`
+  String home_user_welcome(Object userName) {
+    return Intl.message(
+      'Welcome, $userName',
+      name: 'home_user_welcome',
+      desc: 'Welcome message with user name',
+      args: [userName],
+    );
+  }
+
+  /// `Add new card`
+  String get add_new_card_title {
+    return Intl.message(
+      'Add new card',
+      name: 'add_new_card_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Card number`
+  String get add_new_card_number_hint {
+    return Intl.message(
+      'Card number',
+      name: 'add_new_card_number_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter card number`
+  String get add_new_card_number_required {
+    return Intl.message(
+      'Enter card number',
+      name: 'add_new_card_number_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invalid card number length`
+  String get add_new_card_number_invalid_length {
+    return Intl.message(
+      'Invalid card number length',
+      name: 'add_new_card_number_invalid_length',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Full name`
+  String get add_new_card_full_name_hint {
+    return Intl.message(
+      'Full name',
+      name: 'add_new_card_full_name_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter full name`
+  String get add_new_card_full_name_required {
+    return Intl.message(
+      'Enter full name',
+      name: 'add_new_card_full_name_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invalid name format`
+  String get add_new_card_full_name_invalid_format {
+    return Intl.message(
+      'Invalid name format',
+      name: 'add_new_card_full_name_invalid_format',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `MM/YY`
+  String get add_new_card_expiry_hint {
+    return Intl.message(
+      'MM/YY',
+      name: 'add_new_card_expiry_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter expiry date`
+  String get add_new_card_expiry_required {
+    return Intl.message(
+      'Please enter expiry date',
+      name: 'add_new_card_expiry_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter 4 digits (MMYY)`
+  String get add_new_card_expiry_invalid_digits {
+    return Intl.message(
+      'Enter 4 digits (MMYY)',
+      name: 'add_new_card_expiry_invalid_digits',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invalid month`
+  String get add_new_card_expiry_invalid_month {
+    return Intl.message(
+      'Invalid month',
+      name: 'add_new_card_expiry_invalid_month',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Card expired`
+  String get add_new_card_expiry_expired {
+    return Intl.message(
+      'Card expired',
+      name: 'add_new_card_expiry_expired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `CVV`
+  String get add_new_card_cvv_hint {
+    return Intl.message(
+      'CVV',
+      name: 'add_new_card_cvv_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter CVV`
+  String get add_new_card_cvv_required {
+    return Intl.message(
+      'Please enter CVV',
+      name: 'add_new_card_cvv_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `CVV must be 3 digits`
+  String get add_new_card_cvv_invalid {
+    return Intl.message(
+      'CVV must be 3 digits',
+      name: 'add_new_card_cvv_invalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add card`
+  String get add_new_card_add_button {
+    return Intl.message(
+      'Add card',
+      name: 'add_new_card_add_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Success Add Card`
+  String get add_new_card_success_message {
+    return Intl.message(
+      'Success Add Card',
+      name: 'add_new_card_success_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `CARDHOLDER`
+  String get add_new_card_cardholder_default {
+    return Intl.message(
+      'CARDHOLDER',
+      name: 'add_new_card_cardholder_default',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `VALID\nTHRU`
+  String get add_new_card_valid_thru_label {
+    return Intl.message(
+      'VALID\nTHRU',
+      name: 'add_new_card_valid_thru_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Authorized Signature`
+  String get add_new_card_authorized_signature {
+    return Intl.message(
+      'Authorized Signature',
+      name: 'add_new_card_authorized_signature',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `http://www.Aoun.com`
+  String get add_new_card_website_url {
+    return Intl.message(
+      'http://www.Aoun.com',
+      name: 'add_new_card_website_url',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No results found for the entered location.`
+  String get search_trip_no_results_found {
+    return Intl.message(
+      'No results found for the entered location.',
+      name: 'search_trip_no_results_found',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Suggested trips based on your location`
+  String get search_trip_suggested_trips_title {
+    return Intl.message(
+      'Suggested trips based on your location',
+      name: 'search_trip_suggested_trips_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We're still gathering recommendations for you. Stay tuned!`
+  String get search_trip_gathering_recommendations {
+    return Intl.message(
+      'We\'re still gathering recommendations for you. Stay tuned!',
+      name: 'search_trip_gathering_recommendations',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There are no active passengers at the moment.`
+  String get search_trip_no_active_passengers {
+    return Intl.message(
+      'There are no active passengers at the moment.',
+      name: 'search_trip_no_active_passengers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You've been set as active for this destination.`
+  String get search_trip_active_destination_success {
+    return Intl.message(
+      'You\'ve been set as active for this destination.',
+      name: 'search_trip_active_destination_success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Completed Booking`
+  String get trip_details_completed_booking {
+    return Intl.message(
+      'Completed Booking',
+      name: 'trip_details_completed_booking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Complete Payment`
+  String get payment_complete_payment_title {
+    return Intl.message(
+      'Complete Payment',
+      name: 'payment_complete_payment_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You will now be redirected to complete the payment.\nA confirmation email has also been sent.`
+  String get payment_complete_payment_message {
+    return Intl.message(
+      'You will now be redirected to complete the payment.\nA confirmation email has also been sent.',
+      name: 'payment_complete_payment_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Payment Success`
+  String get payment_success_title {
+    return Intl.message(
+      'Payment Success',
+      name: 'payment_success_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pay`
+  String get payment_pay_amount {
+    return Intl.message('Pay', name: 'payment_pay_amount', desc: '', args: []);
+  }
+
+  /// `It looks like you haven't added a card yet. Add one now to continue.`
+  String get payment_no_card_added {
+    return Intl.message(
+      'It looks like you haven\'t added a card yet. Add one now to continue.',
+      name: 'payment_no_card_added',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Booking history`
+  String get user_history_booking_title {
+    return Intl.message(
+      'Booking history',
+      name: 'user_history_booking_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There are no history trip at the moment.`
+  String get user_history_booking_no_history {
+    return Intl.message(
+      'There are no history trip at the moment.',
+      name: 'user_history_booking_no_history',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `From: `
+  String get user_history_booking_from_label {
+    return Intl.message(
+      'From: ',
+      name: 'user_history_booking_from_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To: `
+  String get user_history_booking_to_label {
+    return Intl.message(
+      'To: ',
+      name: 'user_history_booking_to_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Status: `
+  String get user_history_booking_status_label {
+    return Intl.message(
+      'Status: ',
+      name: 'user_history_booking_status_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total seats: `
+  String get user_history_booking_total_seats_label {
+    return Intl.message(
+      'Total seats: ',
+      name: 'user_history_booking_total_seats_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Transaction`
+  String get user_transactions_title {
+    return Intl.message(
+      'Transaction',
+      name: 'user_transactions_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You don't have any transactions yet.`
+  String get user_transactions_no_transactions {
+    return Intl.message(
+      'You don\'t have any transactions yet.',
+      name: 'user_transactions_no_transactions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Planned`
+  String get trip_status_planned {
+    return Intl.message(
+      'Planned',
+      name: 'trip_status_planned',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Active`
+  String get trip_status_active {
+    return Intl.message(
+      'Active',
+      name: 'trip_status_active',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Completed`
+  String get trip_status_completed {
+    return Intl.message(
+      'Completed',
+      name: 'trip_status_completed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Canceled`
+  String get trip_status_canceled {
+    return Intl.message(
+      'Canceled',
+      name: 'trip_status_canceled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unknown`
+  String get trip_status_unknown {
+    return Intl.message(
+      'Unknown',
+      name: 'trip_status_unknown',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There are no active passengers at the moment.`
+  String get home_driver_no_active_passengers {
+    return Intl.message(
+      'There are no active passengers at the moment.',
+      name: 'home_driver_no_active_passengers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Active passengers: `
+  String get home_driver_active_passengers_label {
+    return Intl.message(
+      'Active passengers: ',
+      name: 'home_driver_active_passengers_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `From: `
+  String get home_driver_from_label {
+    return Intl.message(
+      'From: ',
+      name: 'home_driver_from_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To: `
+  String get home_driver_to_label {
+    return Intl.message(
+      'To: ',
+      name: 'home_driver_to_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wallet and earnings`
+  String get driver_wallet_earnings_title {
+    return Intl.message(
+      'Wallet and earnings',
+      name: 'driver_wallet_earnings_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Balance Your`
+  String get driver_wallet_earnings_balance {
+    return Intl.message(
+      'Balance Your',
+      name: 'driver_wallet_earnings_balance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Withdrawal`
+  String get driver_wallet_earnings_withdrawal {
+    return Intl.message(
+      'Withdrawal',
+      name: 'driver_wallet_earnings_withdrawal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Last Transaction`
+  String get driver_wallet_earnings_last_transaction {
+    return Intl.message(
+      'Last Transaction',
+      name: 'driver_wallet_earnings_last_transaction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You don't have any transactions yet.`
+  String get driver_wallet_earnings_no_transactions {
+    return Intl.message(
+      'You don\'t have any transactions yet.',
+      name: 'driver_wallet_earnings_no_transactions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Card number`
+  String get driver_wallet_earnings_card_number {
+    return Intl.message(
+      'Card number',
+      name: 'driver_wallet_earnings_card_number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter the card number`
+  String get driver_wallet_earnings_card_number_required {
+    return Intl.message(
+      'Please enter the card number',
+      name: 'driver_wallet_earnings_card_number_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Card number must be 16 digits`
+  String get driver_wallet_earnings_card_number_length {
+    return Intl.message(
+      'Card number must be 16 digits',
+      name: 'driver_wallet_earnings_card_number_length',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Only numbers are allowed`
+  String get driver_wallet_earnings_card_number_digits {
+    return Intl.message(
+      'Only numbers are allowed',
+      name: 'driver_wallet_earnings_card_number_digits',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Withdrawal Request (Wednesdays only)`
+  String get driver_wallet_earnings_withdrawal_request {
+    return Intl.message(
+      'Withdrawal Request (Wednesdays only)',
+      name: 'driver_wallet_earnings_withdrawal_request',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter the amount`
+  String get driver_wallet_earnings_amount_required {
+    return Intl.message(
+      'Please enter the amount',
+      name: 'driver_wallet_earnings_amount_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amount must be greater than 0`
+  String get driver_wallet_earnings_amount_min {
+    return Intl.message(
+      'Amount must be greater than 0',
+      name: 'driver_wallet_earnings_amount_min',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amount exceeds your available balance`
+  String get driver_wallet_earnings_amount_exceeds {
+    return Intl.message(
+      'Amount exceeds your available balance',
+      name: 'driver_wallet_earnings_amount_exceeds',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter the amount to withdraw`
+  String get driver_wallet_earnings_amount_hint {
+    return Intl.message(
+      'Enter the amount to withdraw',
+      name: 'driver_wallet_earnings_amount_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Withdrawal is only allowed on Wednesdays.`
+  String get driver_wallet_earnings_withdrawal_wednesday_only {
+    return Intl.message(
+      'Withdrawal is only allowed on Wednesdays.',
+      name: 'driver_wallet_earnings_withdrawal_wednesday_only',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Withdraw`
+  String get driver_wallet_earnings_withdraw {
+    return Intl.message(
+      'Withdraw',
+      name: 'driver_wallet_earnings_withdraw',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Success`
+  String get driver_wallet_earnings_withdrawal_success_title {
+    return Intl.message(
+      'Success',
+      name: 'driver_wallet_earnings_withdrawal_success_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your withdrawal has been completed successfully.`
+  String get driver_wallet_earnings_withdrawal_success_message {
+    return Intl.message(
+      'Your withdrawal has been completed successfully.',
+      name: 'driver_wallet_earnings_withdrawal_success_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `History trips`
+  String get driver_history_trips_title {
+    return Intl.message(
+      'History trips',
+      name: 'driver_history_trips_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There are no history trip at the moment.`
+  String get driver_history_trips_no_history {
+    return Intl.message(
+      'There are no history trip at the moment.',
+      name: 'driver_history_trips_no_history',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sales`
+  String get home_driver_chart_sales {
+    return Intl.message(
+      'Sales',
+      name: 'home_driver_chart_sales',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Monday`
+  String get home_driver_monday {
+    return Intl.message(
+      'Monday',
+      name: 'home_driver_monday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tuesday`
+  String get home_driver_tuesday {
+    return Intl.message(
+      'Tuesday',
+      name: 'home_driver_tuesday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wednesday`
+  String get home_driver_wednesday {
+    return Intl.message(
+      'Wednesday',
+      name: 'home_driver_wednesday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Thursday`
+  String get home_driver_thursday {
+    return Intl.message(
+      'Thursday',
+      name: 'home_driver_thursday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Friday`
+  String get home_driver_friday {
+    return Intl.message(
+      'Friday',
+      name: 'home_driver_friday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Saturday`
+  String get home_driver_saturday {
+    return Intl.message(
+      'Saturday',
+      name: 'home_driver_saturday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sunday`
+  String get home_driver_sunday {
+    return Intl.message(
+      'Sunday',
+      name: 'home_driver_sunday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bookings Passengers`
+  String get created_trip_bookings_passengers {
+    return Intl.message(
+      'Bookings Passengers',
+      name: 'created_trip_bookings_passengers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `from`
+  String get created_trip_from {
+    return Intl.message('from', name: 'created_trip_from', desc: '', args: []);
+  }
+
+  /// `Status`
+  String get created_trip_status {
+    return Intl.message(
+      'Status',
+      name: 'created_trip_status',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Planned`
+  String get created_trip_status_planned {
+    return Intl.message(
+      'Planned',
+      name: 'created_trip_status_planned',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Active`
+  String get created_trip_status_active {
+    return Intl.message(
+      'Active',
+      name: 'created_trip_status_active',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Completed`
+  String get created_trip_status_completed {
+    return Intl.message(
+      'Completed',
+      name: 'created_trip_status_completed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Canceled`
+  String get created_trip_status_canceled {
+    return Intl.message(
+      'Canceled',
+      name: 'created_trip_status_canceled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unknown`
+  String get created_trip_status_unknown {
+    return Intl.message(
+      'Unknown',
+      name: 'created_trip_status_unknown',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You can cancel the trip anytime up to 1 hour before the departure time.\nCanceling after that may affect your integrity score.`
+  String get created_trip_cancel_info {
+    return Intl.message(
+      'You can cancel the trip anytime up to 1 hour before the departure time.\nCanceling after that may affect your integrity score.',
+      name: 'created_trip_cancel_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel trip`
+  String get created_trip_canceled_trip {
+    return Intl.message(
+      'Cancel trip',
+      name: 'created_trip_canceled_trip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Finish trip`
+  String get created_trip_finish_trip {
+    return Intl.message(
+      'Finish trip',
+      name: 'created_trip_finish_trip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm Cancellation`
+  String get created_trip_confirm_cancel_title {
+    return Intl.message(
+      'Confirm Cancellation',
+      name: 'created_trip_confirm_cancel_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to cancel this trip?`
+  String get created_trip_confirm_cancel_content {
+    return Intl.message(
+      'Are you sure you want to cancel this trip?',
+      name: 'created_trip_confirm_cancel_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm cancel`
+  String get created_trip_confirm_cancel_button {
+    return Intl.message(
+      'Confirm cancel',
+      name: 'created_trip_confirm_cancel_button',
       desc: '',
       args: [],
     );

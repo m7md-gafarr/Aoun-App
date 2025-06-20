@@ -1,6 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:aoun_app/core/app_color/app_color_dark.dart';
 import 'package:aoun_app/core/app_images/app_images.dart';
+import 'package:aoun_app/core/constant/constant.dart';
 import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/core/utils/map/google_map.dart';
 import 'package:aoun_app/data/model/map%20models/route_model/route_model.dart';
@@ -146,7 +147,7 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
                             children: [
                               _buildCircle(Theme.of(context).primaryColor),
                               SizedBox(
-                                width: 0, /////////////////////////
+                                width: 0,
                                 height: 80.h,
                                 child: CustomPaint(
                                   painter: DottedGradientLinePainter(
@@ -178,7 +179,15 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
                               width: 280.w,
                               child: Text(
                                 "${widget.tripModel!.fromLocation!.fullAddress}",
-                                style: Theme.of(context).textTheme.titleSmall,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall!
+                                    .copyWith(
+                                      fontFamily: isArabicText(widget.tripModel!
+                                              .fromLocation!.fullAddress!)
+                                          ? fontArabic
+                                          : fontEnglish,
+                                    ),
                               ),
                             ),
                             SizedBox(height: 42.h),
@@ -190,7 +199,15 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
                               width: 280.w,
                               child: Text(
                                 "${widget.tripModel!.toLocation!.fullAddress}",
-                                style: Theme.of(context).textTheme.titleSmall,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall!
+                                    .copyWith(
+                                      fontFamily: isArabicText(widget.tripModel!
+                                              .toLocation!.fullAddress!)
+                                          ? fontArabic
+                                          : fontEnglish,
+                                    ),
                               ),
                             ),
                           ],
@@ -274,7 +291,7 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
                     ),
                   )
                 : Text(
-                    "Completed Booking",
+                    S.of(context).trip_details_completed_booking,
                     style: Theme.of(context).textTheme.titleSmall!.copyWith(
                           color: AppColorDark.errorColor,
                           fontWeight: FontWeight.bold,
@@ -299,7 +316,12 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
                   const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
               child: Text(
                 "${widget.tripModel!.additionalInfo!.startingPoint}",
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontFamily: isArabicText(
+                              widget.tripModel!.additionalInfo!.startingPoint!)
+                          ? fontArabic
+                          : fontEnglish,
+                    ),
               ),
             ),
             Text(
@@ -368,7 +390,9 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
       child: Text(
         "• $note",
-        style: Theme.of(context).textTheme.bodyMedium,
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              fontFamily: isArabicText(note) ? fontArabic : fontEnglish,
+            ),
       ),
     );
   }

@@ -8,9 +8,9 @@ import 'package:aoun_app/presentation/driver/profile/view/driver_profile_screen.
 import 'package:aoun_app/presentation/driver/safety/view/driver_safety_screen.dart';
 import 'package:aoun_app/presentation/driver/setting/view/driver_setting_screen.dart';
 import 'package:aoun_app/presentation/driver/wallet%20and%20earings/view/wallet_and_earnings_screen.dart';
-import 'package:aoun_app/presentation/info_pages/contact_us_page.dart';
-import 'package:aoun_app/presentation/info_pages/privacy_policy_page.dart';
-import 'package:aoun_app/presentation/info_pages/terms_conditions_page.dart';
+import 'package:aoun_app/presentation/info_pages/view/contact_us_page.dart';
+import 'package:aoun_app/presentation/info_pages/view/privacy_policy_page.dart';
+import 'package:aoun_app/presentation/info_pages/view/terms_conditions_page.dart';
 
 import 'package:aoun_app/presentation/introduction/select_type_screen.dart';
 import 'package:aoun_app/presentation/auth/views/confirm_password_screen.dart';
@@ -21,12 +21,12 @@ import 'package:aoun_app/presentation/driver/home/view/home_driver_screen.dart';
 import 'package:aoun_app/presentation/auth/views/driver_introduction_screen.dart';
 import 'package:aoun_app/presentation/auth/views/driver_register_screen.dart';
 import 'package:aoun_app/presentation/user/history%20booking/view/user_history_booking.dart';
-import 'package:aoun_app/presentation/user/home/view/screen/home_screen.dart';
 import 'package:aoun_app/presentation/introduction/introduction_screen.dart';
 import 'package:aoun_app/presentation/auth/views/login_screen.dart';
 import 'package:aoun_app/presentation/auth/views/otp_screen.dart';
 import 'package:aoun_app/presentation/splash/splash_screen.dart';
 import 'package:animations/animations.dart';
+import 'package:aoun_app/presentation/user/home/view/screen/home_screen_user.dart';
 import 'package:aoun_app/presentation/user/notification/view/user_notification_screen.dart';
 import 'package:aoun_app/presentation/user/profile/view/user_edit_profile_screen.dart';
 import 'package:aoun_app/presentation/user/profile/view/user_profile_screen.dart';
@@ -200,10 +200,21 @@ class AppRouter {
             builder: (context) => const AddNewCardScreen());
 
       //  Profile route
+
       case AppRoutesName.userProfileScreenRoute:
-        return MaterialPageRoute(
+        return PageRouteBuilder(
           settings: settings,
-          builder: (context) => UserProfileScreen(),
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              const UserProfileScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return SharedAxisTransition(
+              animation: animation,
+              secondaryAnimation: secondaryAnimation,
+              transitionType: SharedAxisTransitionType.horizontal,
+              fillColor: Theme.of(context).scaffoldBackgroundColor,
+              child: child,
+            );
+          },
         );
       case AppRoutesName.userEditProfileScreenRoute:
         return MaterialPageRoute(

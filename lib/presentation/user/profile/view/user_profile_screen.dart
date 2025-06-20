@@ -72,7 +72,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             style: Theme.of(context)
                                 .textTheme
                                 .titleMedium!
-                                .copyWith(fontSize: 20.sp),
+                                .copyWith(
+                                  fontFamily:
+                                      isArabicText(state.userModel.userName!)
+                                          ? fontArabic
+                                          : fontEnglish,
+                                  fontSize: 20.sp,
+                                ),
                           ),
                           SizedBox(height: 10.h),
                           const SizedBox(height: 10),
@@ -90,7 +96,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               );
                             },
                             style: ElevatedButton.styleFrom(
-                                fixedSize: Size(210.w, double.infinity)),
+                                fixedSize: Size(220.w, double.infinity)),
                             child:
                                 Text(S.of(context).driver_profile_edit_button),
                           ),
@@ -195,6 +201,89 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     focusColor: Colors.transparent,
                     hoverColor: Colors.transparent,
                     splashColor: Colors.transparent,
+                    onTap: () async {
+                      Navigator.pushNamed(
+                          context, AppRoutesName.driverSafetyScreenRoute);
+                    },
+                    child: Text(
+                      S.of(context).home_driver_drawer_safety,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall!
+                          .copyWith(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: isRTL(context)
+                      ? Alignment.centerRight
+                      : Alignment.centerLeft,
+                  child: InkWell(
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    onTap: () async {
+                      Navigator.pushNamed(
+                          context, AppRoutesName.driverHelpFeedbackScreenRoute);
+                    },
+                    child: Text(
+                      S.of(context).home_driver_drawer_help,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall!
+                          .copyWith(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                DividerWidget(),
+                ListTile(
+                  contentPadding: EdgeInsets.all(0),
+                  title: Text(S.of(context).driver_settings_theme,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall!
+                          .copyWith(fontWeight: FontWeight.bold)),
+                  trailing: InkWell(
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    onTap: () => _showThemeBottomSheet(context, themeProvider),
+                    child: Consumer<ThemeProvider>(
+                      builder: (context, value, child) => Text(
+                          S.of(context).user_profile_theme_light,
+                          style: Theme.of(context).textTheme.titleSmall),
+                    ),
+                  ),
+                ),
+                ListTile(
+                  contentPadding: EdgeInsets.all(0),
+                  title: Text(S.of(context).driver_settings_language,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall!
+                          .copyWith(fontWeight: FontWeight.bold)),
+                  trailing: InkWell(
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    onTap: () =>
+                        _showLanguageBottomSheet(context, langProvider),
+                    child: Consumer<LanguageProvider>(
+                      builder: (context, value, child) => Text(
+                          currentLang.toUpperCase(),
+                          style: Theme.of(context).textTheme.titleSmall),
+                    ),
+                  ),
+                ),
+                DividerWidget(),
+                Align(
+                  alignment: isRTL(context)
+                      ? Alignment.centerRight
+                      : Alignment.centerLeft,
+                  child: InkWell(
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    splashColor: Colors.transparent,
                     onTap: () => Navigator.pushNamed(
                         context, AppRoutesName.contactUsScreenRoute),
                     child: Text(S.of(context).driver_settings_contact_us,
@@ -255,46 +344,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             .textTheme
                             .titleSmall!
                             .copyWith(fontWeight: FontWeight.bold)),
-                  ),
-                ),
-                DividerWidget(),
-                ListTile(
-                  contentPadding: EdgeInsets.all(0),
-                  title: Text(S.of(context).driver_settings_theme,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleSmall!
-                          .copyWith(fontWeight: FontWeight.bold)),
-                  trailing: InkWell(
-                    focusColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    onTap: () => _showThemeBottomSheet(context, themeProvider),
-                    child: Consumer<ThemeProvider>(
-                      builder: (context, value, child) => Text(
-                          S.of(context).user_profile_theme_light,
-                          style: Theme.of(context).textTheme.titleSmall),
-                    ),
-                  ),
-                ),
-                ListTile(
-                  contentPadding: EdgeInsets.all(0),
-                  title: Text(S.of(context).driver_settings_language,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleSmall!
-                          .copyWith(fontWeight: FontWeight.bold)),
-                  trailing: InkWell(
-                    focusColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    onTap: () =>
-                        _showLanguageBottomSheet(context, langProvider),
-                    child: Consumer<LanguageProvider>(
-                      builder: (context, value, child) => Text(
-                          currentLang.toUpperCase(),
-                          style: Theme.of(context).textTheme.titleSmall),
-                    ),
                   ),
                 ),
                 DividerWidget(),
@@ -384,7 +433,15 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 Iconsax.language_circle,
                 color: Theme.of(context).primaryColor,
               ),
-              title: Text(S.of(context).driver_settings_language_english),
+              title: Text(
+                S.of(context).driver_settings_language_english,
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      fontFamily: isArabicText(
+                              S.of(context).driver_settings_language_english)
+                          ? fontArabic
+                          : fontEnglish,
+                    ),
+              ),
               onTap: () {
                 provider.changeLanguage("en");
                 Navigator.pop(context);
@@ -395,7 +452,15 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 Iconsax.language_circle,
                 color: Theme.of(context).primaryColor,
               ),
-              title: Text(S.of(context).driver_settings_language_arabic),
+              title: Text(
+                S.of(context).driver_settings_language_arabic,
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      fontFamily: isArabicText(
+                              S.of(context).driver_settings_language_arabic)
+                          ? fontArabic
+                          : fontEnglish,
+                    ),
+              ),
               onTap: () {
                 provider.changeLanguage("ar");
                 Navigator.pop(context);

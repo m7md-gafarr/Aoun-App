@@ -1,4 +1,5 @@
 import 'package:aoun_app/core/app_images/app_images.dart';
+import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/driver/history%20trips/view_model/driver_trips_history/driver_trips_history_cubit.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart';
 import 'package:aoun_app/presentation/widgets/common/empty_data.dart';
@@ -27,7 +28,7 @@ class _DriverHistoryTripsScreenState extends State<DriverHistoryTripsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppbarWidget(
-        title: "History trips",
+        title: S.of(context).driver_history_trips_title,
       ),
       body: BlocBuilder<DriverTripsHistoryCubit, DriverTripsHistoryState>(
         builder: (context, state) {
@@ -43,7 +44,7 @@ class _DriverHistoryTripsScreenState extends State<DriverHistoryTripsScreen> {
                           ),
                           EmptyDataWidget(
                             image: Assets.imageEmptyImageEmptyHistorydata,
-                            text: "There are no history trip at the moment.",
+                            text: S.of(context).driver_history_trips_no_history,
                           ),
                         ],
                       ),

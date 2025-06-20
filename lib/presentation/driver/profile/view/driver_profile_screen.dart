@@ -115,7 +115,7 @@ class _DriverProfileScreenState extends State<DriverProfileScreen>
                               ]);
                         },
                         style: ElevatedButton.styleFrom(
-                            fixedSize: Size(210.w, double.infinity)),
+                            fixedSize: Size(220.w, double.infinity)),
                         child: Text(S.of(context).driver_profile_edit_button),
                       ),
                       SizedBox(height: 10.h),
