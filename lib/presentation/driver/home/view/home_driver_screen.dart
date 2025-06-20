@@ -24,7 +24,7 @@ class HomeDriverScreen extends StatefulWidget {
 
   @override
   State<HomeDriverScreen> createState() => _HomeDriverScreenState();
-}
+  }
 
 class _HomeDriverScreenState extends State<HomeDriverScreen> {
   @override
