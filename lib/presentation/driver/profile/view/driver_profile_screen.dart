@@ -28,14 +28,11 @@ class _DriverProfileScreenState extends State<DriverProfileScreen>
       length: 2,
       vsync: this,
     );
-
+    Future.microtask(() {
+      final cubit = context.read<GetDriverDataCubit>();
+      cubit.getDriverData(context);
+    });
     super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    context.read<GetDriverDataCubit>().getDriverData(context);
-    super.didChangeDependencies();
   }
 
   @override
@@ -46,7 +43,7 @@ class _DriverProfileScreenState extends State<DriverProfileScreen>
       ),
       body: BlocBuilder<GetDriverDataCubit, GetDriverDataState>(
         builder: (context, state) {
-          if (state is GetDriverDataSucess && state.driverdata != null) {
+          if (state is GetDriverDataSucess && state.driverdata.data != null) {
             return NestedScrollView(
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.vertical,
@@ -56,12 +53,15 @@ class _DriverProfileScreenState extends State<DriverProfileScreen>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(height: 10.h),
-                      CircleAvatar(
-                        maxRadius: 45.w,
-                        backgroundColor:
-                            Theme.of(context).colorScheme.primaryContainer,
-                        backgroundImage: NetworkImage(
-                            "https://studentpathapitest.runasp.net/${state.driverdata.data!.nationalIdBackPath!.replaceAll(r'\\', '/')}"),
+                      ClipOval(
+                        child: Image.network(
+                          "https://studentpathapitest.runasp.net/${state.driverdata.data!.imgUrl}",
+                          width: 80.w,
+                          height: 80.w,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) =>
+                              Icon(Icons.error),
+                        ),
                       ),
                       SizedBox(height: 10.h),
                       Text(

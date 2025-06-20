@@ -332,6 +332,16 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                     if (value == null || value.isEmpty) {
                       return S.of(context).create_trip_price_validation;
                     }
+
+                    final num? price = num.tryParse(value);
+                    if (price == null) {
+                      return S.of(context).create_trip_price_not_valid;
+                    }
+
+                    if (price < 50) {
+                      return S.of(context).create_trip_price_min_validation;
+                    }
+
                     return null;
                   },
                   decoration: InputDecoration(
@@ -431,57 +441,72 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                 SizedBox(height: 15.h),
                 ElevatedButton(
                   onPressed: () async {
-                    if (fromLocation != null || toLocation != null) {
-                      if (keyForm.currentState!.validate()) {
-                        keyForm.currentState!.save();
+                    var getTripCreated = context
+                        .read<DriverCreateTripOrNotCubit>()
+                        .getTripCreated;
+                    if (!getTripCreated) {
+                      if ((fromLocation != null || toLocation != null)) {
+                        if (keyForm.currentState!.validate()) {
+                          keyForm.currentState!.save();
 
-                        Map<String, bool> amenities =
-                            context.read<AmenitiesCubit>().getAmenities();
-                        final trip = CreateTripModel(
-                          fromLocation: formLocatiomModel,
-                          toLocation: toLocatiomModel,
-                          departureTime:
-                              selectedDepartureTime?.toUtc().toIso8601String(),
-                          availableSeats:
-                              int.parse(availableSeatsController.text.trim()),
-                          pricePerSeat: int.parse(priceController.text.trim()),
-                          driverNotes: driverNotesController.text,
-                          hasWiFi: amenities['hasWiFi'],
-                          hasPhoneCharger: amenities['hasPhoneCharger'],
-                          hasAirConditioning: amenities['hasAirConditioning'],
-                          hasChildSeat: amenities['hasChildSeat'],
-                          hasFreeWater: amenities['hasFreeWater'],
-                          hasMusic: amenities['hasMusic'],
-                          estimatedDistance:
-                              tripRoute!.routes![0].distanceMeters,
-                          estimatedDuration: convertSecondsToTimeSpan(
-                              tripRoute!.routes![0].duration!),
+                          Map<String, bool> amenities =
+                              context.read<AmenitiesCubit>().getAmenities();
+                          final trip = CreateTripModel(
+                            fromLocation: formLocatiomModel,
+                            toLocation: toLocatiomModel,
+                            departureTime: selectedDepartureTime
+                                ?.toUtc()
+                                .toIso8601String(),
+                            availableSeats:
+                                int.parse(availableSeatsController.text.trim()),
+                            pricePerSeat:
+                                int.parse(priceController.text.trim()),
+                            driverNotes: driverNotesController.text,
+                            hasWiFi: amenities['hasWiFi'],
+                            hasPhoneCharger: amenities['hasPhoneCharger'],
+                            hasAirConditioning: amenities['hasAirConditioning'],
+                            hasChildSeat: amenities['hasChildSeat'],
+                            hasFreeWater: amenities['hasFreeWater'],
+                            hasMusic: amenities['hasMusic'],
+                            estimatedDistance:
+                                tripRoute!.routes![0].distanceMeters,
+                            estimatedDuration: convertSecondsToTimeSpan(
+                                tripRoute!.routes![0].duration!),
+                          );
+
+                          context
+                              .read<CreateTripCubit>()
+                              .greateTrip(trip, context);
+                        }
+                      } else {
+                        SnackbarHelper.showError(
+                          context,
+                          title: S.of(context).create_trip_distance_error,
                         );
-
-                        context
-                            .read<CreateTripCubit>()
-                            .greateTrip(trip, context);
                       }
                     } else {
-                      SnackbarHelper.showError(
-                        context,
-                        title: S.of(context).create_trip_distance_error,
+                      DialogHelper(context).showErroeDialog(
+                        message: S.of(context).already_created_trip_error,
                       );
                     }
                   },
                   child: BlocConsumer<CreateTripCubit, CreateTripState>(
                     listener: (context, state) async {
                       if (state is CreateTripFailure) {
-                        DialogHelper(context)
-                            .showErroeDialog(message: state.errorMessage);
+                        if (state.errorMessage ==
+                            "Departure time must be in the future") {
+                          DialogHelper(context).showErroeDialog(
+                            message: S.of(context).departure_time_in_future,
+                          );
+                        }
                       } else if (state is CreateTripSuccess) {
-                        Navigator.pop(context);
                         context
                             .read<DriverCreateTripOrNotCubit>()
-                            .driverCreateTripOrNot();
+                            .driverCreateTripOrNot(context);
                         context
                             .read<DriverTripsHistoryCubit>()
                             .getDriverTrips(forceRefresh: true);
+                        Navigator.pop(context);
                       }
                     },
                     builder: (context, state) {

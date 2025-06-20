@@ -20,7 +20,7 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'ar';
 
-  static String m0(year) => "أدخل سنة صالحة بين 2000 و .";
+  static String m0(year) => "أدخل سنة صالحة بين 2000 و ${year}.";
 
   static String m1(userName) => "مرحبًا، ${userName}";
 
@@ -98,6 +98,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "age_validation": MessageLookupByLibrary.simpleMessage(
       "يجب أن يكون العمر 18 سنوات على الأقل",
+    ),
+    "already_created_trip_error": MessageLookupByLibrary.simpleMessage(
+      "لديك رحلة نشطة حالياً، يجب إلغاء الرحلة الحالية قبل إنشاء رحلة جديدة.",
     ),
     "already_have_account": MessageLookupByLibrary.simpleMessage(
       "هل لديك حساب بالفعل؟",
@@ -191,7 +194,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "create_trip_departure_time_validation":
         MessageLookupByLibrary.simpleMessage("الرجاء اختيار الوقت"),
     "create_trip_distance_error": MessageLookupByLibrary.simpleMessage(
-      "يجب اختيار المسافة",
+      "يجب اختيار الوجهة",
     ),
     "create_trip_driver_notes_hint": MessageLookupByLibrary.simpleMessage(
       "اكتب ملاحظاتك إذا كان لديك أي.",
@@ -212,6 +215,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "create_trip_price_hint": MessageLookupByLibrary.simpleMessage(
       "سعر المقعد",
+    ),
+    "create_trip_price_min_validation": MessageLookupByLibrary.simpleMessage(
+      "يجب ألا يقل السعر عن 50",
+    ),
+    "create_trip_price_not_valid": MessageLookupByLibrary.simpleMessage(
+      "السعر غير صالح",
     ),
     "create_trip_price_validation": MessageLookupByLibrary.simpleMessage(
       "الرجاء إدخال السعر",
@@ -254,6 +263,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "غير معروف",
     ),
     "date_of_birth": MessageLookupByLibrary.simpleMessage("تاريخ الميلاد"),
+    "departure_time_in_future": MessageLookupByLibrary.simpleMessage(
+      "يجب أن يكون وقت المغادرة في المستقبل.",
+    ),
     "did_not_receive_code": MessageLookupByLibrary.simpleMessage(
       "لم تستلم الكود؟",
     ),
@@ -304,6 +316,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "driver_profile_seats": MessageLookupByLibrary.simpleMessage("عدد المقاعد"),
     "driver_profile_title": MessageLookupByLibrary.simpleMessage(
       "الملف الشخصي",
+    ),
+    "driver_profile_update_success": MessageLookupByLibrary.simpleMessage(
+      "تم تعديل ملفك بنجاح.",
     ),
     "driver_profile_vehicle_brand": MessageLookupByLibrary.simpleMessage(
       "ماركة المركبة",
@@ -516,6 +531,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "driver_register_sign_in": MessageLookupByLibrary.simpleMessage(
       "تسجيل الدخول",
+    ),
+    "driver_register_success_message": MessageLookupByLibrary.simpleMessage(
+      "تم تسجيل حسابك بنجاح وهو الآن قيد المراجعة.\nقد تستغرق عملية المراجعة من 5 إلى 10 ساعات.\nشكرًا لصبرك!",
     ),
     "driver_register_title": MessageLookupByLibrary.simpleMessage(
       "إنشاء حساب سائق",

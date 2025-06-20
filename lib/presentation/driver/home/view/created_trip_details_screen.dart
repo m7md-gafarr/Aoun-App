@@ -301,7 +301,7 @@ class _CreateTripScreenState extends State<CreatedTripDetailsScreen> {
                                           context
                                               .read<
                                                   DriverCreateTripOrNotCubit>()
-                                              .driverCreateTripOrNot();
+                                              .driverCreateTripOrNot(context);
                                           context
                                               .read<DriverTripsHistoryCubit>()
                                               .getDriverTrips(
@@ -353,7 +353,7 @@ class _CreateTripScreenState extends State<CreatedTripDetailsScreen> {
                           if (state is CompleteTripSuccess) {
                             context
                                 .read<DriverCreateTripOrNotCubit>()
-                                .driverCreateTripOrNot();
+                                .driverCreateTripOrNot(context);
                             context.read<DriverDashboardCubit>().getDashboard();
                             context
                                 .read<DriverTripsHistoryCubit>()

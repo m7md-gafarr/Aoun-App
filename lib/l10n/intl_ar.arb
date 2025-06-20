@@ -152,7 +152,7 @@
   "create_trip_driver_notes_validation": "الرجاء إدخال ملاحظتك",
   "create_trip_amenities_title": "المرافق",
   "create_trip_confirm_button": "تأكيد نشر الرحلة",
-  "create_trip_distance_error": "يجب اختيار المسافة",
+  "create_trip_distance_error": "يجب اختيار الوجهة",
   "create_trip_wifi": "واي فاي",
   "create_trip_phone_charger": "شاحن الهاتف",
   "create_trip_air_conditioning": "تكييف الهواء",
@@ -254,7 +254,13 @@
   "driver_register_model_required": "يرجى إدخال طراز المركبة.",
   "driver_register_color_required": "يرجى إدخال لون المركبة.",
   "driver_register_year_required": "يرجى إدخال سنة الإنتاج.",
-  "driver_register_year_range": "أدخل سنة صالحة بين 2000 و .",
+  "driver_register_year_range": "أدخل سنة صالحة بين 2000 و {year}.",
+  "@driver_register_year_range": {
+    "description": "رسالة خطأ لسنة التسجيل",
+    "placeholders": {
+      "year": {}
+    }
+  },
   "driver_register_plate_required": "يرجى إدخال رقم اللوحة",
   "driver_register_plate_length": "يجب ألا يتجاوز رقم اللوحة 7 أحرف.",
   "driver_register_plate_format": "يجب أن يبدأ رقم اللوحة بأحرف متبوعة بأرقام.",
@@ -541,5 +547,11 @@
   "created_trip_finish_trip": "إنهاء الرحلة",
   "created_trip_confirm_cancel_title": "تأكيد الإلغاء",
   "created_trip_confirm_cancel_content": "هل أنت متأكد أنك تريد إلغاء هذه الرحلة؟",
-  "created_trip_confirm_cancel_button": "تأكيد الإلغاء"
+  "created_trip_confirm_cancel_button": "تأكيد الإلغاء",
+  "create_trip_price_not_valid": "السعر غير صالح",
+  "create_trip_price_min_validation": "يجب ألا يقل السعر عن 50",
+  "already_created_trip_error": "لديك رحلة نشطة حالياً، يجب إلغاء الرحلة الحالية قبل إنشاء رحلة جديدة.",
+  "departure_time_in_future": "يجب أن يكون وقت المغادرة في المستقبل.",
+  "driver_profile_update_success": "تم تعديل ملفك بنجاح.",
+  "driver_register_success_message": "تم تسجيل حسابك بنجاح وهو الآن قيد المراجعة.\nقد تستغرق عملية المراجعة من 5 إلى 10 ساعات.\nشكرًا لصبرك!"
 }

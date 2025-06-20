@@ -152,7 +152,7 @@
   "create_trip_driver_notes_validation": "Please enter your note",
   "create_trip_amenities_title": "Amenities",
   "create_trip_confirm_button": "Confirm publish trip",
-  "create_trip_distance_error": "Must select distance",
+  "create_trip_distance_error": "Destination must be selected",
   "create_trip_wifi": "Wi-Fi",
   "create_trip_phone_charger": "Phone Charger",
   "create_trip_air_conditioning": "Air Conditioning",
@@ -255,6 +255,12 @@
   "driver_register_color_required": "Please enter the vehicle color.",
   "driver_register_year_required": "Please enter the production year.",
   "driver_register_year_range": "Enter a valid year between 2000 and {year}.",
+  "@driver_register_year_range": {
+    "description": "رسالة خطأ لسنة التسجيل",
+    "placeholders": {
+      "year": {}
+    }
+  },
   "driver_register_plate_required": "Please enter license number",
   "driver_register_plate_length": "The license number should not exceed 7 characters.",
   "driver_register_plate_format": "The license number must start with letters followed by digits.",
@@ -541,5 +547,11 @@
   "created_trip_finish_trip": "Finish trip",
   "created_trip_confirm_cancel_title": "Confirm Cancellation",
   "created_trip_confirm_cancel_content": "Are you sure you want to cancel this trip?",
-  "created_trip_confirm_cancel_button": "Confirm cancel"
+  "created_trip_confirm_cancel_button": "Confirm cancel",
+  "create_trip_price_not_valid": "Invalid price",
+  "create_trip_price_min_validation": "Price must be at least 50",
+  "already_created_trip_error": "You currently have an active trip. Please cancel the current trip before creating a new one.",
+  "departure_time_in_future": "Departure time must be in the future.",
+  "driver_profile_update_success": "Your profile has been updated successfully.",
+  "driver_register_success_message": "Your account has been successfully registered and is now under review.\nThe review process may take between 5 to 10 hours.\nThank you for your patience!"
 }

@@ -95,6 +95,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "age_validation": MessageLookupByLibrary.simpleMessage(
       "Age must be at least 18 years old",
     ),
+    "already_created_trip_error": MessageLookupByLibrary.simpleMessage(
+      "You currently have an active trip. Please cancel the current trip before creating a new one.",
+    ),
     "already_have_account": MessageLookupByLibrary.simpleMessage(
       "Already have an account? ",
     ),
@@ -187,7 +190,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "create_trip_departure_time_validation":
         MessageLookupByLibrary.simpleMessage("Please select time"),
     "create_trip_distance_error": MessageLookupByLibrary.simpleMessage(
-      "Must select distance",
+      "Destination must be selected",
     ),
     "create_trip_driver_notes_hint": MessageLookupByLibrary.simpleMessage(
       "Write your notes if you have any.",
@@ -210,6 +213,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "create_trip_price_hint": MessageLookupByLibrary.simpleMessage(
       "Price of Seat",
+    ),
+    "create_trip_price_min_validation": MessageLookupByLibrary.simpleMessage(
+      "Price must be at least 50",
+    ),
+    "create_trip_price_not_valid": MessageLookupByLibrary.simpleMessage(
+      "Invalid price",
     ),
     "create_trip_price_validation": MessageLookupByLibrary.simpleMessage(
       "Please enter the price",
@@ -256,6 +265,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Unknown",
     ),
     "date_of_birth": MessageLookupByLibrary.simpleMessage("Date of birth"),
+    "departure_time_in_future": MessageLookupByLibrary.simpleMessage(
+      "Departure time must be in the future.",
+    ),
     "did_not_receive_code": MessageLookupByLibrary.simpleMessage(
       "Didn\'t receive the code?",
     ),
@@ -309,6 +321,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Number of Seats",
     ),
     "driver_profile_title": MessageLookupByLibrary.simpleMessage("Profile"),
+    "driver_profile_update_success": MessageLookupByLibrary.simpleMessage(
+      "Your profile has been updated successfully.",
+    ),
     "driver_profile_vehicle_brand": MessageLookupByLibrary.simpleMessage(
       "Vehicle Brand",
     ),
@@ -520,6 +535,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Please enter number of seats.",
     ),
     "driver_register_sign_in": MessageLookupByLibrary.simpleMessage("Sign In"),
+    "driver_register_success_message": MessageLookupByLibrary.simpleMessage(
+      "Your account has been successfully registered and is now under review.\nThe review process may take between 5 to 10 hours.\nThank you for your patience!",
+    ),
     "driver_register_title": MessageLookupByLibrary.simpleMessage(
       "Create Driver account",
     ),

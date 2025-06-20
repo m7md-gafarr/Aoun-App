@@ -30,7 +30,7 @@ class CreateTripCubit extends Cubit<CreateTripState> {
         emit(CreateTripSuccess(response.data!['message']));
       } else {
         String error = response.errors;
-
+        print(error);
         emit(CreateTripFailure(error));
       }
     } on DioException catch (e) {

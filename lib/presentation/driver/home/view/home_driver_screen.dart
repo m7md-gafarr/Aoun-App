@@ -37,7 +37,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
     context.read<LocationProvider>().startListening(context);
     context.read<ActiveTripRequestsCubit>().getActiveTripRequests();
     context.read<GetDriverDataCubit>().getDriverData(context);
-    context.read<DriverCreateTripOrNotCubit>().driverCreateTripOrNot();
+    context.read<DriverCreateTripOrNotCubit>().driverCreateTripOrNot(context);
     context.read<DriverDashboardCubit>().getDashboard();
 
     super.didChangeDependencies();
@@ -69,15 +69,18 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                   if (state is GetDriverDataSucess &&
                       state.driverdata != null) {
                     return SizedBox(
-                      height: 100.h,
+                      height: 115.h,
                       child: Column(
                         children: [
-                          CircleAvatar(
-                            minRadius: 35.w,
-                            backgroundColor:
-                                Theme.of(context).colorScheme.primaryContainer,
-                            backgroundImage: NetworkImage(
-                                "https://studentpathapitest.runasp.net/${state.driverdata.data!.nationalIdFrontPath!.replaceAll(r'\\', '/')}"),
+                          ClipOval(
+                            child: Image.network(
+                              "https://studentpathapitest.runasp.net/${state.driverdata.data!.imgUrl!.replaceAll(r'\\', '/')}",
+                              width: 70.w,
+                              height: 70.w,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Icon(Icons.error),
+                            ),
                           ),
                           SizedBox(height: 7.h),
                           Text(
@@ -315,7 +318,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                                       state.dashboardModel.weeklyStats!.sunday!
                                           .toDouble(),
                                     ].reduce((a, b) => a > b ? a : b) +
-                                    5,
+                                    4,
                                 interval: [
                                       state.dashboardModel.weeklyStats!.monday!
                                           .toDouble(),

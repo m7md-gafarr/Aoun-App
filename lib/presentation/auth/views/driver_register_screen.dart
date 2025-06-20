@@ -204,7 +204,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
             ),
             SizedBox(width: 10.w),
             SizedBox(
-              width: 120.w,
+              width: 160.w,
               child: ElevatedButton(
                 onPressed: () {
                   switch (_currentPage - 1) {

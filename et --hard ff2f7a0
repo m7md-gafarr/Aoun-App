@@ -1,0 +1,36 @@
+[33mfa9a9ae[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m HEAD@{0}: commit: handel some error and localization
+[33me50ff45[m HEAD@{1}: commit: final commit
+[33m0dbf77f[m HEAD@{2}: commit: add theme provider and update withdraw
+[33mff2f7a0[m HEAD@{3}: commit: general improvements and UI adjustments
+[33mc325241[m HEAD@{4}: commit: fix active trip request
+[33m0223e6a[m HEAD@{5}: commit: update TripLocationModel in all app
+[33med1b688[m HEAD@{6}: commit: search trip : fixed error and add shimmer effect
+[33m87855f6[m HEAD@{7}: commit: auth : update routing and edit date textfeild
+[33maefd1f1[m HEAD@{8}: commit: intro : update select type screen
+[33m9e7e2d8[m HEAD@{9}: commit: Update .gitattributes to hide C files from Linguist
+[33m6cb788f[m HEAD@{10}: commit: add .gitattributes
+[33m55b9163[m HEAD@{11}: commit: Update Api handler and add active trip requsets state, modeland featch data
+[33mad64e63[m HEAD@{12}: commit: Refactor SelectRouteOnMapScreen to use BLoC pattern and improve state management
+[33mf6827e4[m HEAD@{13}: commit: update Api key for service map and test screen route
+[33m8ac30ad[m HEAD@{14}: commit: Add UUID for places detail and autocomplete request
+[33m11b93cb[m HEAD@{15}: commit: create deiver edit profile screen
+[33mc34d7b0[m HEAD@{16}: commit: create driver profile screen and update maker when map moveing
+[33m08a8ba3[m HEAD@{17}: commit: create sselect route map scrren , connected with create trip screen , update login funcation, and update places model
+[33m8bfb78d[m HEAD@{18}: commit: Updated model file paths and routes across the project for better structure and consistency and add all instructions in register driver
+[33m7985eff[m HEAD@{19}: commit: Refactor registration method, split login/signup logic, integrate driver signup, and add role check in login
+[33mc7b451b[m HEAD@{20}: commit: Stop tracking .env file
+[33m02bdb5a[m HEAD@{21}: commit: add api response handler and update api helper
+[33mcdc0bbd[m HEAD@{22}: commit: Add Hive and finish debit card store
+[33m03e16d6[m HEAD@{23}: commit: Update the flow and separate the user from the driver
+[33mde5b02e[m HEAD@{24}: checkout: moving from master to master
+[33mde5b02e[m HEAD@{25}: checkout: moving from master to master
+[33mde5b02e[m HEAD@{26}: commit: Add driver register and home screen
+[33m5c69c73[m HEAD@{27}: commit: finish ui trip detail , payment and add card
+[33m49f5d01[m HEAD@{28}: commit: Add screen trip details and update register get location
+[33mc099b94[m HEAD@{29}: commit: Add home screen , transport and other update such api key map
+[33me8c062e[m HEAD@{30}: commit: add home screen , transport screen and other updates (add api key map)
+[33m7a95f1f[m HEAD@{31}: commit: update register screen and localization validation
+[33mad4afe4[m HEAD@{32}: commit: Finish part of auth from ui and integration with api
+[33m07fed5f[m HEAD@{33}: commit: add login cubit and Shared Preferences services for login and intro screen
+[33ma09ea37[m HEAD@{34}: commit: Add Api helper , model for auth , state for check internet
+[33m9b4b44e[m HEAD@{35}: commit (initial): first commit

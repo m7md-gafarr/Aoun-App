@@ -23,18 +23,22 @@ class GetDriverDataCubit extends Cubit<GetDriverDataState> {
 
     try {
       emit(GetDriverDataInitial());
+
       ApiResponse<Map<String, dynamic>> response =
           await DriverRepository().getDriverInformation();
+
       if (response.success) {
         final driver = DriverModel.fromJson(response.data!);
         _cachedDriver = driver;
+
         emit(GetDriverDataSucess(driver));
       } else {
         String error = response.errors;
 
         if (error == "Driver not found") {
           emit(GetDriverDataError(error.toString()));
-          SharedPreferencesService().logout();
+          await SharedPreferencesService().logout();
+
           Navigator.pushNamedAndRemoveUntil(
             context,
             AppRoutesName.selectTypeScreenRoute,

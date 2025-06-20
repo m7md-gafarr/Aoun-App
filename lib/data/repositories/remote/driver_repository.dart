@@ -53,7 +53,7 @@ class DriverRepository {
       if (driverModel.data!.imgUrl != null) {
         body.files.add(
           MapEntry(
-            "PersonalPhoto",
+            "ImgUrlFile",
             await MultipartFile.fromFile(
               driverModel.data!.imgUrl!,
               filename: "personal_picture.jpg",

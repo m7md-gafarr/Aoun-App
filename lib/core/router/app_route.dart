@@ -11,7 +11,6 @@ import 'package:aoun_app/presentation/driver/wallet%20and%20earings/view/wallet_
 import 'package:aoun_app/presentation/info_pages/view/contact_us_page.dart';
 import 'package:aoun_app/presentation/info_pages/view/privacy_policy_page.dart';
 import 'package:aoun_app/presentation/info_pages/view/terms_conditions_page.dart';
-
 import 'package:aoun_app/presentation/introduction/select_type_screen.dart';
 import 'package:aoun_app/presentation/auth/views/confirm_password_screen.dart';
 import 'package:aoun_app/presentation/auth/views/user_register_screen.dart';

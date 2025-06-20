@@ -205,8 +205,8 @@ class _DriverEditProfileState extends State<DriverEditProfile> {
                     listener: (context, state) {
                       if (state is DriverEditProfileDataSuccess) {
                         DialogHelper(context).showSuccessDialog(
-                          message: "Updated Successfully",
                           title: "",
+                          message: S.of(context).driver_profile_update_success,
                           actions: [
                             TextButton(
                                 onPressed: () {

@@ -1465,10 +1465,10 @@ class S {
     );
   }
 
-  /// `Must select distance`
+  /// `Destination must be selected`
   String get create_trip_distance_error {
     return Intl.message(
-      'Must select distance',
+      'Destination must be selected',
       name: 'create_trip_distance_error',
       desc: '',
       args: [],
@@ -2470,7 +2470,7 @@ class S {
     return Intl.message(
       'Enter a valid year between 2000 and $year.',
       name: 'driver_register_year_range',
-      desc: '',
+      desc: 'رسالة خطأ لسنة التسجيل',
       args: [year],
     );
   }
@@ -5096,6 +5096,66 @@ class S {
     return Intl.message(
       'Confirm cancel',
       name: 'created_trip_confirm_cancel_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invalid price`
+  String get create_trip_price_not_valid {
+    return Intl.message(
+      'Invalid price',
+      name: 'create_trip_price_not_valid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Price must be at least 50`
+  String get create_trip_price_min_validation {
+    return Intl.message(
+      'Price must be at least 50',
+      name: 'create_trip_price_min_validation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You currently have an active trip. Please cancel the current trip before creating a new one.`
+  String get already_created_trip_error {
+    return Intl.message(
+      'You currently have an active trip. Please cancel the current trip before creating a new one.',
+      name: 'already_created_trip_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Departure time must be in the future.`
+  String get departure_time_in_future {
+    return Intl.message(
+      'Departure time must be in the future.',
+      name: 'departure_time_in_future',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your profile has been updated successfully.`
+  String get driver_profile_update_success {
+    return Intl.message(
+      'Your profile has been updated successfully.',
+      name: 'driver_profile_update_success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your account has been successfully registered and is now under review.\nThe review process may take between 5 to 10 hours.\nThank you for your patience!`
+  String get driver_register_success_message {
+    return Intl.message(
+      'Your account has been successfully registered and is now under review.\nThe review process may take between 5 to 10 hours.\nThank you for your patience!',
+      name: 'driver_register_success_message',
       desc: '',
       args: [],
     );
