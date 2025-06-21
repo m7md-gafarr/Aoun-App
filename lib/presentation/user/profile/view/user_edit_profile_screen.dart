@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/core/utils/dialog/dialog_helper.dart';
 import 'package:aoun_app/core/utils/validation_utils.dart';
-import 'package:aoun_app/data/model/user%20models/user_model/user_model.dart';
+import 'package:aoun_app/data/model/user_models/user_model/user_model.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/driver/profile/view_model/get_driver_data/get_driver_data_cubit.dart';
 import 'package:aoun_app/presentation/user/profile/view_model/get_user_info/get_user_info_cubit.dart';

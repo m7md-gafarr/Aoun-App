@@ -1,7 +1,7 @@
 import 'dart:developer';
 
-import 'package:aoun_app/data/model/trip%20models/booking_trip/booking_request_trip/booking_request_trip_model/booking_request_trip_model.dart';
-import 'package:aoun_app/data/model/trip%20models/booking_trip/booking_response_trip_model.dart';
+import 'package:aoun_app/data/model/trip_models/booking_trip/booking_request_trip/booking_request_trip_model/booking_request_trip_model.dart';
+import 'package:aoun_app/data/model/trip_models/booking_trip/booking_response_trip_model.dart';
 import 'package:aoun_app/data/repositories/remote/api_response_handler.dart';
 import 'package:aoun_app/data/repositories/remote/trip_repository.dart';
 import 'package:bloc/bloc.dart';

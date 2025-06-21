@@ -4,12 +4,12 @@ import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/core/utils/dialog/dialog_helper.dart';
 import 'package:aoun_app/core/utils/location/location_Provider.dart';
 import 'package:aoun_app/core/utils/map/google_map.dart';
-import 'package:aoun_app/data/model/trip%20models/active_trip_requests/active_trip_requests.dart';
-import 'package:aoun_app/data/model/trip%20models/trip_location_model.dart';
-import 'package:aoun_app/data/model/trip%20models/trip_model/trip_model.dart';
+import 'package:aoun_app/data/model/trip_models/active_trip_requests/active_trip_requests.dart';
+import 'package:aoun_app/data/model/trip_models/trip_location_model.dart';
+import 'package:aoun_app/data/model/trip_models/trip_model/trip_model.dart';
 import 'package:aoun_app/generated/l10n.dart';
-import 'package:aoun_app/presentation/driver/home/view_model/textfeild%20search%20location/textfeild_search_location_cubit.dart';
-import 'package:aoun_app/presentation/driver/home/view_model/active%20trip%20request/active_trip_requests_cubit.dart';
+import 'package:aoun_app/presentation/driver/home/view_model/textfeild_search_location/textfeild_search_location_cubit.dart';
+import 'package:aoun_app/presentation/driver/home/view_model/active_trip_request/active_trip_requests_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/create_request_trip/create_request_trip_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/recommendation_trip/recommendation_trip_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/search_trip/search_trip_cubit.dart';
@@ -430,8 +430,9 @@ class _SearchTripScreenState extends State<SearchTripScreen> {
                                               is CreateRequestTripSuccess) {
                                             DialogHelper(context)
                                                 .showSuccessDialog(
-                                              message:
-                                                  S.of(context).search_trip_active_destination_success,
+                                              message: S
+                                                  .of(context)
+                                                  .search_trip_active_destination_success,
                                               title: S
                                                   .of(context)
                                                   .confirmed_successfully,

@@ -1,5 +1,5 @@
 import 'package:aoun_app/core/utils/extract_user_info_from_token.dart';
-import 'package:aoun_app/data/model/user%20models/user_model/user_model.dart';
+import 'package:aoun_app/data/model/user_models/user_model/user_model.dart';
 import 'package:aoun_app/data/repositories/local/shared_pref.dart';
 import 'package:aoun_app/data/repositories/remote/api_helper.dart';
 import 'package:aoun_app/data/repositories/remote/api_response_handler.dart';

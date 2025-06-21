@@ -1,5 +1,5 @@
 import 'package:aoun_app/data/model/driver_models/driver_craeted_trip/driver_trip_created/booking.dart';
-import 'package:aoun_app/data/model/trip%20models/trip_location_model.dart';
+import 'package:aoun_app/data/model/trip_models/trip_location_model.dart';
 
 import 'additional_info.dart';
 import 'basic_info.dart';

@@ -1,4 +1,4 @@
-import 'package:aoun_app/data/model/user%20models/user_transactaion/user_transaction_response_model/user_transaction_response_model.dart';
+import 'package:aoun_app/data/model/user_models/user_transactaion/user_transaction_response_model/user_transaction_response_model.dart';
 import 'package:aoun_app/data/repositories/remote/api_response_handler.dart';
 import 'package:aoun_app/data/repositories/remote/user_repository.dart';
 import 'package:bloc/bloc.dart';

@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:aoun_app/data/model/trip%20models/active_trip_requests/active_trip_requests.dart';
+import 'package:aoun_app/data/model/trip_models/active_trip_requests/active_trip_requests.dart';
 import 'package:aoun_app/data/repositories/remote/api_response_handler.dart';
 import 'package:aoun_app/data/repositories/remote/trip_repository.dart';
 import 'package:bloc/bloc.dart';

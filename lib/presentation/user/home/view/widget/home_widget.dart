@@ -1,6 +1,6 @@
 import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/core/constant/constant.dart';
-import 'package:aoun_app/data/model/trip%20models/trip_model/trip_model.dart';
+import 'package:aoun_app/data/model/trip_models/trip_model/trip_model.dart';
 import 'package:aoun_app/presentation/widgets/common/primary_trip_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

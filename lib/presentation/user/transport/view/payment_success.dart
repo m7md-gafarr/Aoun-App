@@ -1,6 +1,6 @@
 import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/core/constant/constant.dart';
-import 'package:aoun_app/data/model/trip%20models/booking_trip/booking_response_trip_model.dart';
+import 'package:aoun_app/data/model/trip_models/booking_trip/booking_response_trip_model.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

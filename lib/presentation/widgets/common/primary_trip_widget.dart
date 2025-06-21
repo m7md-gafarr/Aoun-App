@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 import 'package:animations/animations.dart';
 import 'package:aoun_app/core/constant/constant.dart';
-import 'package:aoun_app/data/model/trip%20models/trip_model/trip_model.dart';
+import 'package:aoun_app/data/model/trip_models/trip_model/trip_model.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/user/transport/view/trip_details_screen.dart';
 import 'package:flutter/material.dart';

@@ -1,5 +1,5 @@
 import 'package:aoun_app/core/utils/check_connection/check_connection_cubit.dart';
-import 'package:aoun_app/data/model/trip%20models/greate_trip_model/greate_trip_model.dart';
+import 'package:aoun_app/data/model/trip_models/greate_trip_model/greate_trip_model.dart';
 import 'package:aoun_app/data/repositories/remote/api_response_handler.dart';
 import 'package:aoun_app/data/repositories/remote/trip_repository.dart';
 import 'package:aoun_app/generated/l10n.dart';

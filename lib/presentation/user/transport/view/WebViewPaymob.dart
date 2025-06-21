@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:aoun_app/core/utils/dialog/dialog_helper.dart';
-import 'package:aoun_app/data/model/trip%20models/booking_trip/booking_response_trip_model.dart';
+import 'package:aoun_app/data/model/trip_models/booking_trip/booking_response_trip_model.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/user/transport/view/payment_success.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart';

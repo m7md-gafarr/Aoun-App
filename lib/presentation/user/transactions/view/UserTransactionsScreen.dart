@@ -1,5 +1,5 @@
 import 'package:aoun_app/core/app_images/app_images.dart';
-import 'package:aoun_app/data/model/user%20models/user_transactaion/user_transaction_response_model/user_transaction_response_model.dart';
+import 'package:aoun_app/data/model/user_models/user_transactaion/user_transaction_response_model/user_transaction_response_model.dart';
 import 'package:aoun_app/generated/l10n.dart';
 
 import 'package:aoun_app/presentation/user/transactions/view_model/transactions/transactions_cubit.dart';

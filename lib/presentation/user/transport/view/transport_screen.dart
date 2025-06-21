@@ -1,7 +1,7 @@
 import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/core/router/route_name.dart';
 import 'package:aoun_app/core/utils/location/location_Provider.dart';
-import 'package:aoun_app/data/model/payment%20models/debit_card_model/debit_card_model.dart';
+import 'package:aoun_app/data/model/payment_models/debit_card_model/debit_card_model.dart';
 import 'package:aoun_app/data/repositories/local/hive.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/get_trips/get_trips_cubit.dart';

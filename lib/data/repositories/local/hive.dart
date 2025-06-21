@@ -1,4 +1,4 @@
-import 'package:aoun_app/data/model/payment%20models/debit_card_model/debit_card_model.dart';
+import 'package:aoun_app/data/model/payment_models/debit_card_model/debit_card_model.dart';
 import 'package:hive/hive.dart';
 
 /// HiveService manages local storage operations for debit card data using Hive.

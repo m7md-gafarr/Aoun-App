@@ -1,7 +1,7 @@
 import 'package:aoun_app/core/app_images/app_images.dart';
-import 'package:aoun_app/data/model/user%20models/user_booking/user_response_bookings_model/user_response_bookings_model.dart';
+import 'package:aoun_app/data/model/user_models/user_booking/user_response_bookings_model/user_response_bookings_model.dart';
 import 'package:aoun_app/generated/l10n.dart';
-import 'package:aoun_app/presentation/user/history%20booking/view_model/user_booking_history/user_booking_history_cubit.dart';
+import 'package:aoun_app/presentation/user/history_booking/view_model/user_booking_history/user_booking_history_cubit.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart';
 import 'package:aoun_app/presentation/widgets/common/empty_data.dart';
 import 'package:aoun_app/presentation/widgets/shimmer/trip_shimmer_widget.dart';

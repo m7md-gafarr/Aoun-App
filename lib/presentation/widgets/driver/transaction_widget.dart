@@ -1,4 +1,4 @@
-import 'package:aoun_app/data/model/payment%20models/transaction_model/datum.dart';
+import 'package:aoun_app/data/model/payment_models/transaction_model/datum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';

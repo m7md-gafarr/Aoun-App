@@ -2,7 +2,7 @@ import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/core/constant/constant.dart';
 import 'package:aoun_app/core/utils/location/location_utils.dart';
 import 'package:aoun_app/core/utils/map/google_map.dart';
-import 'package:aoun_app/data/model/trip%20models/trip_location_model.dart';
+import 'package:aoun_app/data/model/trip_models/trip_location_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';

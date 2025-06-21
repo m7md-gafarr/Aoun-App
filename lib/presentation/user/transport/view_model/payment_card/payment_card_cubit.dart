@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:aoun_app/core/utils/check_connection/check_connection_cubit.dart';
-import 'package:aoun_app/data/model/payment%20models/debit_card_model/payment_card_response_model.dart';
+import 'package:aoun_app/data/model/payment_models/debit_card_model/payment_card_response_model.dart';
 import 'package:aoun_app/data/repositories/remote/api_response_handler.dart';
 import 'package:aoun_app/data/repositories/remote/payment_repository.dart';
 import 'package:aoun_app/generated/l10n.dart';

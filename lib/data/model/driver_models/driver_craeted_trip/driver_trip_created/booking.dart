@@ -1,5 +1,5 @@
 import 'package:aoun_app/data/model/driver_models/driver_craeted_trip/driver_trip_created/payment_info.dart';
-import 'package:aoun_app/data/model/trip%20models/booking_trip/booking_request_trip/booking_request_trip_model/meeting_point.dart';
+import 'package:aoun_app/data/model/trip_models/booking_trip/booking_request_trip/booking_request_trip_model/meeting_point.dart';
 
 class BookingModel {
   int? bookingId;

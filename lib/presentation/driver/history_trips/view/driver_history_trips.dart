@@ -1,6 +1,6 @@
 import 'package:aoun_app/core/app_images/app_images.dart';
 import 'package:aoun_app/generated/l10n.dart';
-import 'package:aoun_app/presentation/driver/history%20trips/view_model/driver_trips_history/driver_trips_history_cubit.dart';
+import 'package:aoun_app/presentation/driver/history_trips/view_model/driver_trips_history/driver_trips_history_cubit.dart';
 import 'package:aoun_app/presentation/widgets/common/appBar_widget.dart';
 import 'package:aoun_app/presentation/widgets/common/empty_data.dart';
 import 'package:aoun_app/presentation/widgets/common/primary_trip_history_widget.dart';

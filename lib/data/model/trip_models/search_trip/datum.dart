@@ -1,4 +1,4 @@
-import 'package:aoun_app/data/model/trip%20models/trip_location_model.dart';
+import 'package:aoun_app/data/model/trip_models/trip_location_model.dart';
 
 class Datum {
   int? id;

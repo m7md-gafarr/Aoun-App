@@ -1,5 +1,5 @@
 import 'package:aoun_app/core/utils/dialog/dialog_helper.dart';
-import 'package:aoun_app/data/model/payment%20models/debit_card_model/debit_card_model.dart';
+import 'package:aoun_app/data/model/payment_models/debit_card_model/debit_card_model.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/add_new_debit_card/add_new_debit_card_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/view_debit_card/view_all_debit_card_cubit.dart';
