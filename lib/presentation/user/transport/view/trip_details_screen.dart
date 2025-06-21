@@ -407,8 +407,15 @@ class _TripDetailsScreenState extends State<TripDetailsScreen>
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                CircleAvatar(
-                  maxRadius: 33.h,
+                ClipOval(
+                  child: Image.network(
+                    "https://studentpathapitest.runasp.net/${widget.tripModel!.driverInfo!.personalPhotoPath!.replaceAll(r'\\', '/')}",
+                    width: 70.w,
+                    height: 70.w,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) =>
+                        Icon(Icons.error),
+                  ),
                 ),
                 SizedBox(width: 20.w),
                 Text(

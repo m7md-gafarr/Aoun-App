@@ -68,6 +68,7 @@ void main() async {
   runApp(
     MultiBlocProvider(
       providers: [
+        BlocProvider(create: (context) => CheckConnectionCubit()),
         BlocProvider(create: (context) => LoginCubit(CheckConnectionCubit())),
         BlocProvider(
             create: (context) =>

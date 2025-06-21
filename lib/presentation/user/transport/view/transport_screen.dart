@@ -5,23 +5,20 @@ import 'package:aoun_app/data/model/payment%20models/debit_card_model/debit_card
 import 'package:aoun_app/data/repositories/local/hive.dart';
 import 'package:aoun_app/generated/l10n.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/get_trips/get_trips_cubit.dart';
-import 'package:aoun_app/presentation/user/transport/view_model/recommendation_trip/recommendation_trip_cubit.dart';
 import 'package:aoun_app/presentation/user/transport/view_model/view_debit_card/view_all_debit_card_cubit.dart';
 import 'package:aoun_app/presentation/widgets/common/empty_data.dart';
 import 'package:aoun_app/presentation/widgets/shimmer/trip_shimmer_widget.dart';
 import 'package:aoun_app/presentation/widgets/user/empty_debit_card.dart';
 import 'package:aoun_app/presentation/widgets/common/primary_trip_widget.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:iconsax/iconsax.dart';
-
 import 'package:aoun_app/core/constant/constant.dart';
 import 'package:aoun_app/presentation/widgets/user/debit_card.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class TransportScreen extends StatefulWidget {
   const TransportScreen({super.key});
@@ -31,18 +28,18 @@ class TransportScreen extends StatefulWidget {
 }
 
 class _TransportScreenState extends State<TransportScreen> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) {
-        if (mounted) {
-          context.read<GetTripsCubit>().getTrips(includePast: false);
-          context.read<ViewAllDebitCardCubit>().fetchDebitcard();
-        }
-      },
-    );
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   WidgetsBinding.instance.addPostFrameCallback(
+  //     (_) {
+  //       if (mounted) {
+  //         context.read<GetTripsCubit>().getTrips(includePast: false);
+  //         context.read<ViewAllDebitCardCubit>().fetchDebitcard();
+  //       }
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -72,8 +69,15 @@ class _TransportScreenState extends State<TransportScreen> {
                 sliver: SliverToBoxAdapter(
                   child: SizedBox(
                     height: 160.h,
-                    child: Center(
-                      child: CircularProgressIndicator(),
+                    child: Shimmer.fromColors(
+                      baseColor: Theme.of(context).colorScheme.primaryContainer,
+                      highlightColor: Theme.of(context).scaffoldBackgroundColor,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(7.r))),
+                      ),
                     ),
                   ),
                 ),
