@@ -229,9 +229,13 @@ class _TransportScreenState extends State<TransportScreen> {
           children: [
             Icon(icon, size: 22.w),
             const SizedBox(width: 5),
-            Text(
-              text,
-              style: Theme.of(context).textTheme.labelMedium,
+            SizedBox(
+              width: 220.w,
+              child: Text(
+                text,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.labelMedium,
+              ),
             ),
           ],
         ),
