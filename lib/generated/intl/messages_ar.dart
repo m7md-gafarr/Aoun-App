@@ -904,6 +904,28 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_internet_connection": MessageLookupByLibrary.simpleMessage(
       "لا يوجد اتصال بالإنترنت",
     ),
+    "no_internet_retry": MessageLookupByLibrary.simpleMessage("إعادة المحاولة"),
+    "no_internet_subtitle": MessageLookupByLibrary.simpleMessage(
+      "يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى",
+    ),
+    "no_internet_tip_airplane": MessageLookupByLibrary.simpleMessage(
+      "تأكد من إيقاف وضع الطيران",
+    ),
+    "no_internet_tip_signal": MessageLookupByLibrary.simpleMessage(
+      "حاول الانتقال إلى منطقة بإشارة أفضل",
+    ),
+    "no_internet_tip_wifi": MessageLookupByLibrary.simpleMessage(
+      "تحقق من اتصال الواي فاي أو بيانات الهاتف المحمول",
+    ),
+    "no_internet_title": MessageLookupByLibrary.simpleMessage(
+      "لا يوجد اتصال بالإنترنت",
+    ),
+    "no_internet_troubleshooting_tips": MessageLookupByLibrary.simpleMessage(
+      "نصائح استكشاف الأخطاء",
+    ),
+    "no_internet_try_again": MessageLookupByLibrary.simpleMessage(
+      "حاول مرة أخرى",
+    ),
     "ok_AlertDialogt": MessageLookupByLibrary.simpleMessage("حسنا"),
     "otp_verification_expired": MessageLookupByLibrary.simpleMessage(
       "انتهت صلاحية التحقق برمز OTP يرجى طلب رمز جديد.",

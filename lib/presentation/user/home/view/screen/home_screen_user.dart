@@ -61,7 +61,8 @@ class _HomeScreenState extends State<HomeUserScreen> {
           },
           child: BlocBuilder<CheckConnectionCubit, CheckConnectionState>(
             builder: (context, state) {
-              if (state is CheckConnectionHasInternet) {
+              if (state is CheckConnectionHasInternet ||
+                  state is CheckConnectionLoading) {
                 return NestedScrollView(
                   headerSliverBuilder: (context, innerBoxIsScrolled) {
                     return [

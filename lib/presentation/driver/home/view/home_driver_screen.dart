@@ -57,7 +57,8 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
       ),
       drawer: BlocBuilder<CheckConnectionCubit, CheckConnectionState>(
         builder: (context, state) {
-          if (state is CheckConnectionHasInternet) {
+          if (state is CheckConnectionHasInternet ||
+              state is CheckConnectionLoading) {
             return Container(
               width: MediaQuery.of(context).size.width / 1.6,
               decoration: BoxDecoration(
@@ -318,7 +319,8 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
         },
         child: BlocBuilder<CheckConnectionCubit, CheckConnectionState>(
           builder: (context, state) {
-            if (state is CheckConnectionHasInternet) {
+            if (state is CheckConnectionHasInternet ||
+                state is CheckConnectionLoading) {
               return SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(

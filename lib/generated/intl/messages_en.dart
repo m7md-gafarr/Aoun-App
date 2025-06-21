@@ -917,6 +917,26 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_internet_connection": MessageLookupByLibrary.simpleMessage(
       "No internet connection",
     ),
+    "no_internet_retry": MessageLookupByLibrary.simpleMessage("Retry"),
+    "no_internet_subtitle": MessageLookupByLibrary.simpleMessage(
+      "Please check your internet connection and try again.",
+    ),
+    "no_internet_tip_airplane": MessageLookupByLibrary.simpleMessage(
+      "Make sure airplane mode is turned off",
+    ),
+    "no_internet_tip_signal": MessageLookupByLibrary.simpleMessage(
+      "Try moving to an area with better signal",
+    ),
+    "no_internet_tip_wifi": MessageLookupByLibrary.simpleMessage(
+      "Check your WiFi or mobile data connection",
+    ),
+    "no_internet_title": MessageLookupByLibrary.simpleMessage(
+      "No Internet Connection",
+    ),
+    "no_internet_troubleshooting_tips": MessageLookupByLibrary.simpleMessage(
+      "Troubleshooting Tips",
+    ),
+    "no_internet_try_again": MessageLookupByLibrary.simpleMessage("Try Again"),
     "ok_AlertDialogt": MessageLookupByLibrary.simpleMessage("Ok"),
     "otp_verification_expired": MessageLookupByLibrary.simpleMessage(
       "OTP verification expired Please request a new OTP.",

@@ -1,4 +1,5 @@
 import 'package:aoun_app/core/app_color/app_color_light.dart';
+import 'package:aoun_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
@@ -46,7 +47,7 @@ class NoInternetScreen extends StatelessWidget {
               SizedBox(height: 32.h),
 
               Text(
-                title ?? "No Internet Connection",
+                title ?? S.of(context).no_internet_title,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: AppColorLight.errorColor,
@@ -57,8 +58,7 @@ class NoInternetScreen extends StatelessWidget {
               SizedBox(height: 16.h),
 
               Text(
-                subtitle ??
-                    "Please check your internet connection and try again.",
+                subtitle ?? S.of(context).no_internet_subtitle,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: Theme.of(context)
                           .colorScheme
@@ -82,7 +82,7 @@ class NoInternetScreen extends StatelessWidget {
                       size: 20.sp,
                     ),
                     label: Text(
-                      "Try Again",
+                      S.of(context).no_internet_try_again,
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w600,
@@ -127,7 +127,7 @@ class NoInternetScreen extends StatelessWidget {
                         ),
                         SizedBox(width: 8.w),
                         Text(
-                          "Troubleshooting Tips",
+                          S.of(context).no_internet_troubleshooting_tips,
                           style:
                               Theme.of(context).textTheme.titleSmall?.copyWith(
                                     fontWeight: FontWeight.w600,
@@ -139,17 +139,17 @@ class NoInternetScreen extends StatelessWidget {
                     SizedBox(height: 12.h),
                     _buildTip(
                       context,
-                      "Check your WiFi or mobile data connection",
+                      S.of(context).no_internet_tip_wifi,
                     ),
                     SizedBox(height: 8.h),
                     _buildTip(
                       context,
-                      "Make sure airplane mode is turned off",
+                      S.of(context).no_internet_tip_airplane,
                     ),
                     SizedBox(height: 8.h),
                     _buildTip(
                       context,
-                      "Try moving to an area with better signal",
+                      S.of(context).no_internet_tip_signal,
                     ),
                   ],
                 ),
@@ -214,7 +214,7 @@ class SimpleNoInternetScreen extends StatelessWidget {
               ),
               SizedBox(height: 24.h),
               Text(
-                "No Internet Connection",
+                S.of(context).no_internet_title,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -222,7 +222,7 @@ class SimpleNoInternetScreen extends StatelessWidget {
               ),
               SizedBox(height: 16.h),
               Text(
-                "Please check your connection and try again",
+                S.of(context).no_internet_subtitle,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: Theme.of(context)
                           .colorScheme
@@ -236,7 +236,7 @@ class SimpleNoInternetScreen extends StatelessWidget {
                 ElevatedButton.icon(
                   onPressed: onRetry,
                   icon: Icon(Iconsax.refresh_2),
-                  label: Text("Retry"),
+                  label: Text(S.of(context).no_internet_retry),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).primaryColor,
                     foregroundColor: Colors.white,

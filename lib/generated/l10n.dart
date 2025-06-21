@@ -5160,6 +5160,81 @@ class S {
       args: [],
     );
   }
+
+  /// `No Internet Connection`
+  String get no_internet_title {
+    return Intl.message(
+      'No Internet Connection',
+      name: 'no_internet_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please check your internet connection and try again.`
+  String get no_internet_subtitle {
+    return Intl.message(
+      'Please check your internet connection and try again.',
+      name: 'no_internet_subtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Try Again`
+  String get no_internet_try_again {
+    return Intl.message(
+      'Try Again',
+      name: 'no_internet_try_again',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Troubleshooting Tips`
+  String get no_internet_troubleshooting_tips {
+    return Intl.message(
+      'Troubleshooting Tips',
+      name: 'no_internet_troubleshooting_tips',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check your WiFi or mobile data connection`
+  String get no_internet_tip_wifi {
+    return Intl.message(
+      'Check your WiFi or mobile data connection',
+      name: 'no_internet_tip_wifi',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Make sure airplane mode is turned off`
+  String get no_internet_tip_airplane {
+    return Intl.message(
+      'Make sure airplane mode is turned off',
+      name: 'no_internet_tip_airplane',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Try moving to an area with better signal`
+  String get no_internet_tip_signal {
+    return Intl.message(
+      'Try moving to an area with better signal',
+      name: 'no_internet_tip_signal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Retry`
+  String get no_internet_retry {
+    return Intl.message('Retry', name: 'no_internet_retry', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -8,7 +8,7 @@ part 'check_connection_state.dart';
 class CheckConnectionCubit extends Cubit<CheckConnectionState> {
   final Connectivity _connectivity = Connectivity();
 
-  CheckConnectionCubit() : super(CheckConnectionInitial()) {
+  CheckConnectionCubit() : super(CheckConnectionLoading()) {
     checkInitialConnectivity();
     monitorConnectivityChanges();
   }

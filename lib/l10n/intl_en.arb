@@ -553,5 +553,13 @@
   "already_created_trip_error": "You currently have an active trip. Please cancel the current trip before creating a new one.",
   "departure_time_in_future": "Departure time must be in the future.",
   "driver_profile_update_success": "Your profile has been updated successfully.",
-  "driver_register_success_message": "Your account has been successfully registered and is now under review.\nThe review process may take between 5 to 10 hours.\nThank you for your patience!"
+  "driver_register_success_message": "Your account has been successfully registered and is now under review.\nThe review process may take between 5 to 10 hours.\nThank you for your patience!",
+  "no_internet_title": "No Internet Connection",
+  "no_internet_subtitle": "Please check your internet connection and try again.",
+  "no_internet_try_again": "Try Again",
+  "no_internet_troubleshooting_tips": "Troubleshooting Tips",
+  "no_internet_tip_wifi": "Check your WiFi or mobile data connection",
+  "no_internet_tip_airplane": "Make sure airplane mode is turned off",
+  "no_internet_tip_signal": "Try moving to an area with better signal",
+  "no_internet_retry": "Retry"
 }

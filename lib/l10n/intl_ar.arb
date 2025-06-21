@@ -553,5 +553,13 @@
   "already_created_trip_error": "لديك رحلة نشطة حالياً، يجب إلغاء الرحلة الحالية قبل إنشاء رحلة جديدة.",
   "departure_time_in_future": "يجب أن يكون وقت المغادرة في المستقبل.",
   "driver_profile_update_success": "تم تعديل ملفك بنجاح.",
-  "driver_register_success_message": "تم تسجيل حسابك بنجاح وهو الآن قيد المراجعة.\nقد تستغرق عملية المراجعة من 5 إلى 10 ساعات.\nشكرًا لصبرك!"
+  "driver_register_success_message": "تم تسجيل حسابك بنجاح وهو الآن قيد المراجعة.\nقد تستغرق عملية المراجعة من 5 إلى 10 ساعات.\nشكرًا لصبرك!",
+  "no_internet_title": "لا يوجد اتصال بالإنترنت",
+  "no_internet_subtitle": "يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى",
+  "no_internet_try_again": "حاول مرة أخرى",
+  "no_internet_troubleshooting_tips": "نصائح استكشاف الأخطاء",
+  "no_internet_tip_wifi": "تحقق من اتصال الواي فاي أو بيانات الهاتف المحمول",
+  "no_internet_tip_airplane": "تأكد من إيقاف وضع الطيران",
+  "no_internet_tip_signal": "حاول الانتقال إلى منطقة بإشارة أفضل",
+  "no_internet_retry": "إعادة المحاولة"
 }
