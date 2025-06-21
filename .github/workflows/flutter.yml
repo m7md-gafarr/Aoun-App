@@ -28,6 +28,9 @@ jobs:
         with:
           flutter-version: "3.32.2" # Use the required Flutter version
 
+      - name: Create .env File
+        run: echo "${{ secrets.ENV_FILE }}" > .env
+
       - name: Install Dependencies
         run: flutter pub get
 
