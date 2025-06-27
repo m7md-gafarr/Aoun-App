@@ -181,7 +181,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **Email**: m7md.gafarr@gmail.com
 - **GitHub Issues**: [Create an Issue](https://github.com/m7md-gafarr/Aoun-App/issues)
-- **Documentation**: [Wiki](https://github.com/m7md-gafarr/Aoun-App/wiki)
+- **Project Documentation**: [Aoun-Documentation.pdf](./docs/Aoun-Documentation.pdf)
 
 ---
 
