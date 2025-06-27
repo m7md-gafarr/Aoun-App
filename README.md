@@ -1,3 +1,5 @@
+![Aoun App](./assets/banner.jpg)
+
 # 🚗 Aoun App - Ride Sharing Made Simple 📱
 
 **Aoun App** is a cross-platform ride-sharing and transportation mobile application built with **Flutter**, designed specifically for university students and local commuters. The app connects drivers offering rides with passengers seeking affordable, convenient travel options within local communities.  
