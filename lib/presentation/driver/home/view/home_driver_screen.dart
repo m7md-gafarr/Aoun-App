@@ -32,17 +32,17 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
   @override
   void initState() {
     super.initState();
-  }
+    final hasInternet = context.read<CheckConnectionCubit>().state
+        is CheckConnectionHasInternet;
 
-  // @override
-  // void didChangeDependencies() {
-  //   context.read<LocationProvider>().startListening(context);
-  //   context.read<ActiveTripRequestsCubit>().getActiveTripRequests();
-  //   context.read<GetDriverDataCubit>().getDriverData(context);
-  //   context.read<DriverCreateTripOrNotCubit>().driverCreateTripOrNot(context);
-  //   context.read<DriverDashboardCubit>().getDashboard();
-  //   super.didChangeDependencies();
-  // }
+    if (hasInternet) {
+      context.read<LocationProvider>().startListening(context);
+      context.read<ActiveTripRequestsCubit>().getActiveTripRequests();
+      context.read<GetDriverDataCubit>().getDriverData(context);
+      context.read<DriverCreateTripOrNotCubit>().driverCreateTripOrNot(context);
+      context.read<DriverDashboardCubit>().getDashboard();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -305,43 +305,243 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
         },
       ),
       drawerEdgeDragWidth: MediaQuery.of(context).size.width / 3,
-      body: BlocListener<CheckConnectionCubit, CheckConnectionState>(
-        listener: (context, state) {
-          if (state is CheckConnectionHasInternet) {
-            context.read<LocationProvider>().startListening(context);
-            context.read<ActiveTripRequestsCubit>().getActiveTripRequests();
-            context.read<GetDriverDataCubit>().getDriverData(context);
-            context
-                .read<DriverCreateTripOrNotCubit>()
-                .driverCreateTripOrNot(context);
-            context.read<DriverDashboardCubit>().getDashboard();
-          }
-        },
-        child: BlocBuilder<CheckConnectionCubit, CheckConnectionState>(
-          builder: (context, state) {
-            if (state is CheckConnectionHasInternet ||
-                state is CheckConnectionLoading) {
-              return SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 13.0,
-                  ),
-                  child: Column(
-                    children: [
-                      BlocBuilder<DriverDashboardCubit, DriverDashboardState>(
-                        builder: (context, state) {
-                          if (state is DriverDashboardSuccess) {
-                            return Builder(builder: (context) {
-                              return Column(
+      body: BlocBuilder<CheckConnectionCubit, CheckConnectionState>(
+        builder: (context, state) {
+          if (state is CheckConnectionHasInternet ||
+              state is CheckConnectionLoading) {
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 13.0,
+                ),
+                child: Column(
+                  children: [
+                    BlocBuilder<DriverDashboardCubit, DriverDashboardState>(
+                      builder: (context, state) {
+                        if (state is DriverDashboardSuccess) {
+                          return Builder(builder: (context) {
+                            return Column(
+                              children: [
+                                Container(
+                                  height: 70.h,
+                                  width: MediaQuery.of(context).size.width,
+                                  padding: EdgeInsets.all(7.r),
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .primaryContainer,
+                                    borderRadius: BorderRadius.circular(12.r),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        S.of(context).home_driver_balance_title,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelSmall!
+                                            .copyWith(
+                                              fontSize: 14.sp,
+                                            ),
+                                      ),
+                                      SizedBox(height: 5.h),
+                                      Text(
+                                        "\$ ${state.dashboardModel.balance!.toStringAsFixed(1)}",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleSmall
+                                            ?.copyWith(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18.sp,
+                                            ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: 10.h),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    _InfoCard(
+                                      title: S
+                                          .of(context)
+                                          .home_driver_earnings_summary,
+                                      value:
+                                          "\$ ${state.dashboardModel.earningsSummary!.toStringAsFixed(1)}",
+                                    ),
+                                    _InfoCard(
+                                      title: S
+                                          .of(context)
+                                          .home_driver_completed_trips,
+                                      value: S.of(context).trip(state
+                                          .dashboardModel.completedTripsCount!),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 10.h),
+                                SizedBox(
+                                  height: 200.h,
+                                  child: SfCartesianChart(
+                                    enableAxisAnimation: true,
+                                    primaryXAxis: CategoryAxis(
+                                      axisLine: AxisLine(width: 0),
+                                      majorGridLines: MajorGridLines(width: 0),
+                                      majorTickLines: MajorTickLines(width: 0),
+                                      maximumLabels: 7,
+                                      labelRotation: -45,
+                                      labelIntersectAction:
+                                          AxisLabelIntersectAction.rotate45,
+                                      labelPlacement:
+                                          LabelPlacement.betweenTicks,
+                                      labelStyle: TextStyle(
+                                        fontSize: 12.sp,
+                                        color: Theme.of(context)
+                                            .secondaryHeaderColor,
+                                      ),
+                                    ),
+                                    primaryYAxis: NumericAxis(
+                                      minimum: 0,
+                                      maximum: [
+                                            state.dashboardModel.weeklyStats!
+                                                .monday!
+                                                .toDouble(),
+                                            state.dashboardModel.weeklyStats!
+                                                .tuesday!
+                                                .toDouble(),
+                                            state.dashboardModel.weeklyStats!
+                                                .wednesday!
+                                                .toDouble(),
+                                            state.dashboardModel.weeklyStats!
+                                                .thursday!
+                                                .toDouble(),
+                                            state.dashboardModel.weeklyStats!
+                                                .friday!
+                                                .toDouble(),
+                                            state.dashboardModel.weeklyStats!
+                                                .saturday!
+                                                .toDouble(),
+                                            state.dashboardModel.weeklyStats!
+                                                .sunday!
+                                                .toDouble(),
+                                          ].reduce((a, b) => a > b ? a : b) +
+                                          4,
+                                      interval: [
+                                            state.dashboardModel.weeklyStats!
+                                                .monday!
+                                                .toDouble(),
+                                            state.dashboardModel.weeklyStats!
+                                                .tuesday!
+                                                .toDouble(),
+                                            state.dashboardModel.weeklyStats!
+                                                .wednesday!
+                                                .toDouble(),
+                                            state.dashboardModel.weeklyStats!
+                                                .thursday!
+                                                .toDouble(),
+                                            state.dashboardModel.weeklyStats!
+                                                .friday!
+                                                .toDouble(),
+                                            state.dashboardModel.weeklyStats!
+                                                .saturday!
+                                                .toDouble(),
+                                            state.dashboardModel.weeklyStats!
+                                                .sunday!
+                                                .toDouble(),
+                                          ].reduce((a, b) => a < b ? a : b) +
+                                          1,
+                                      axisLine: AxisLine(width: 0),
+                                      majorGridLines: MajorGridLines(
+                                          color: Colors.grey.shade300),
+                                      majorTickLines: MajorTickLines(width: 0),
+                                      labelStyle: TextStyle(
+                                        fontSize: 12.sp,
+                                        color: Theme.of(context)
+                                            .secondaryHeaderColor,
+                                      ),
+                                    ),
+                                    tooltipBehavior:
+                                        TooltipBehavior(enable: true),
+                                    series: <CartesianSeries<_SalesData,
+                                        String>>[
+                                      ColumnSeries<_SalesData, String>(
+                                        width: 0.2,
+                                        dataSource: [
+                                          _SalesData(
+                                              S.of(context).home_driver_monday,
+                                              state.dashboardModel.weeklyStats!
+                                                  .monday!),
+                                          _SalesData(
+                                              S.of(context).home_driver_tuesday,
+                                              state.dashboardModel.weeklyStats!
+                                                  .tuesday!),
+                                          _SalesData(
+                                              S
+                                                  .of(context)
+                                                  .home_driver_wednesday,
+                                              state.dashboardModel.weeklyStats!
+                                                  .wednesday!),
+                                          _SalesData(
+                                              S
+                                                  .of(context)
+                                                  .home_driver_thursday,
+                                              state.dashboardModel.weeklyStats!
+                                                  .thursday!),
+                                          _SalesData(
+                                              S.of(context).home_driver_friday,
+                                              state.dashboardModel.weeklyStats!
+                                                  .friday!),
+                                          _SalesData(
+                                              S
+                                                  .of(context)
+                                                  .home_driver_saturday,
+                                              state.dashboardModel.weeklyStats!
+                                                  .saturday!),
+                                          _SalesData(
+                                              S.of(context).home_driver_sunday,
+                                              state.dashboardModel.weeklyStats!
+                                                  .sunday!),
+                                        ],
+                                        xValueMapper: (_SalesData sales, _) =>
+                                            sales.year,
+                                        yValueMapper: (_SalesData sales, _) =>
+                                            sales.sales,
+                                        name: S
+                                            .of(context)
+                                            .home_driver_chart_sales,
+                                        color: Theme.of(context).primaryColor,
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(5),
+                                          topRight: Radius.circular(5),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            );
+                          });
+                        } else {
+                          return Shimmer.fromColors(
+                            baseColor:
+                                Theme.of(context).colorScheme.primaryContainer,
+                            highlightColor:
+                                Theme.of(context).scaffoldBackgroundColor,
+                            enabled: true,
+                            child: Container(
+                              height: 360.h,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(7.r),
+                              ),
+                              child: Column(
                                 children: [
                                   Container(
                                     height: 70.h,
                                     width: MediaQuery.of(context).size.width,
                                     padding: EdgeInsets.all(7.r),
                                     decoration: BoxDecoration(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primaryContainer,
                                       borderRadius: BorderRadius.circular(12.r),
                                     ),
                                     child: Column(
@@ -350,27 +550,27 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        Text(
-                                          S
-                                              .of(context)
-                                              .home_driver_balance_title,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .labelSmall!
-                                              .copyWith(
-                                                fontSize: 14.sp,
-                                              ),
+                                        Container(
+                                          height: 15.h,
+                                          width: 100.w,
+                                          padding: EdgeInsets.all(7.r),
+                                          decoration: BoxDecoration(
+                                              color: Theme.of(context)
+                                                  .scaffoldBackgroundColor,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(5.r))),
                                         ),
                                         SizedBox(height: 5.h),
-                                        Text(
-                                          "\$ ${state.dashboardModel.balance!.toStringAsFixed(1)}",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleSmall
-                                              ?.copyWith(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 18.sp,
-                                              ),
+                                        Container(
+                                          height: 15.h,
+                                          width: 200.w,
+                                          padding: EdgeInsets.all(7.r),
+                                          decoration: BoxDecoration(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primaryContainer,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(5.r))),
                                         ),
                                       ],
                                     ),
@@ -380,20 +580,99 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      _InfoCard(
-                                        title: S
-                                            .of(context)
-                                            .home_driver_earnings_summary,
-                                        value:
-                                            "\$ ${state.dashboardModel.earningsSummary!.toStringAsFixed(1)}",
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                    2 -
+                                                20,
+                                        height: 65.h,
+                                        padding: EdgeInsets.all(7.r),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(12.r),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              height: 15.h,
+                                              width: 80.w,
+                                              padding: EdgeInsets.all(7.r),
+                                              decoration: BoxDecoration(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .primaryContainer,
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              5.r))),
+                                            ),
+                                            SizedBox(height: 5.h),
+                                            Container(
+                                              height: 15.h,
+                                              width: 130.w,
+                                              padding: EdgeInsets.all(7.r),
+                                              decoration: BoxDecoration(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .primaryContainer,
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              5.r))),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                      _InfoCard(
-                                        title: S
-                                            .of(context)
-                                            .home_driver_completed_trips,
-                                        value: S.of(context).trip(state
-                                            .dashboardModel
-                                            .completedTripsCount!),
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                    2 -
+                                                20,
+                                        height: 65.h,
+                                        padding: EdgeInsets.all(7.r),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(12.r),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              height: 15.h,
+                                              width: 80.w,
+                                              padding: EdgeInsets.all(7.r),
+                                              decoration: BoxDecoration(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .primaryContainer,
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              5.r))),
+                                            ),
+                                            SizedBox(height: 5.h),
+                                            Container(
+                                              height: 15.h,
+                                              width: 130.w,
+                                              padding: EdgeInsets.all(7.r),
+                                              decoration: BoxDecoration(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .primaryContainer,
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              5.r))),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -408,136 +687,32 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                                             MajorGridLines(width: 0),
                                         majorTickLines:
                                             MajorTickLines(width: 0),
-                                        maximumLabels: 7,
-                                        labelRotation: -45,
-                                        labelIntersectAction:
-                                            AxisLabelIntersectAction.rotate45,
-                                        labelPlacement:
-                                            LabelPlacement.betweenTicks,
-                                        labelStyle: TextStyle(
-                                          fontSize: 12.sp,
-                                          color: Theme.of(context)
-                                              .secondaryHeaderColor,
-                                        ),
                                       ),
                                       primaryYAxis: NumericAxis(
                                         minimum: 0,
-                                        maximum: [
-                                              state.dashboardModel.weeklyStats!
-                                                  .monday!
-                                                  .toDouble(),
-                                              state.dashboardModel.weeklyStats!
-                                                  .tuesday!
-                                                  .toDouble(),
-                                              state.dashboardModel.weeklyStats!
-                                                  .wednesday!
-                                                  .toDouble(),
-                                              state.dashboardModel.weeklyStats!
-                                                  .thursday!
-                                                  .toDouble(),
-                                              state.dashboardModel.weeklyStats!
-                                                  .friday!
-                                                  .toDouble(),
-                                              state.dashboardModel.weeklyStats!
-                                                  .saturday!
-                                                  .toDouble(),
-                                              state.dashboardModel.weeklyStats!
-                                                  .sunday!
-                                                  .toDouble(),
-                                            ].reduce((a, b) => a > b ? a : b) +
-                                            4,
-                                        interval: [
-                                              state.dashboardModel.weeklyStats!
-                                                  .monday!
-                                                  .toDouble(),
-                                              state.dashboardModel.weeklyStats!
-                                                  .tuesday!
-                                                  .toDouble(),
-                                              state.dashboardModel.weeklyStats!
-                                                  .wednesday!
-                                                  .toDouble(),
-                                              state.dashboardModel.weeklyStats!
-                                                  .thursday!
-                                                  .toDouble(),
-                                              state.dashboardModel.weeklyStats!
-                                                  .friday!
-                                                  .toDouble(),
-                                              state.dashboardModel.weeklyStats!
-                                                  .saturday!
-                                                  .toDouble(),
-                                              state.dashboardModel.weeklyStats!
-                                                  .sunday!
-                                                  .toDouble(),
-                                            ].reduce((a, b) => a < b ? a : b) +
-                                            1,
+                                        maximum: 50,
+                                        interval: 7,
                                         axisLine: AxisLine(width: 0),
-                                        majorGridLines: MajorGridLines(
-                                            color: Colors.grey.shade300),
                                         majorTickLines:
                                             MajorTickLines(width: 0),
-                                        labelStyle: TextStyle(
-                                          fontSize: 12.sp,
-                                          color: Theme.of(context)
-                                              .secondaryHeaderColor,
-                                        ),
                                       ),
-                                      tooltipBehavior:
-                                          TooltipBehavior(enable: true),
                                       series: <CartesianSeries<_SalesData,
                                           String>>[
                                         ColumnSeries<_SalesData, String>(
                                           width: 0.2,
                                           dataSource: [
-                                            _SalesData(
-                                                S
-                                                    .of(context)
-                                                    .home_driver_monday,
-                                                state.dashboardModel
-                                                    .weeklyStats!.monday!),
-                                            _SalesData(
-                                                S
-                                                    .of(context)
-                                                    .home_driver_tuesday,
-                                                state.dashboardModel
-                                                    .weeklyStats!.tuesday!),
-                                            _SalesData(
-                                                S
-                                                    .of(context)
-                                                    .home_driver_wednesday,
-                                                state.dashboardModel
-                                                    .weeklyStats!.wednesday!),
-                                            _SalesData(
-                                                S
-                                                    .of(context)
-                                                    .home_driver_thursday,
-                                                state.dashboardModel
-                                                    .weeklyStats!.thursday!),
-                                            _SalesData(
-                                                S
-                                                    .of(context)
-                                                    .home_driver_friday,
-                                                state.dashboardModel
-                                                    .weeklyStats!.friday!),
-                                            _SalesData(
-                                                S
-                                                    .of(context)
-                                                    .home_driver_saturday,
-                                                state.dashboardModel
-                                                    .weeklyStats!.saturday!),
-                                            _SalesData(
-                                                S
-                                                    .of(context)
-                                                    .home_driver_sunday,
-                                                state.dashboardModel
-                                                    .weeklyStats!.sunday!),
+                                            _SalesData('Monday', 35),
+                                            _SalesData('Tuesday', 28),
+                                            _SalesData('Wednesday', 34),
+                                            _SalesData('Thursday', 32),
+                                            _SalesData('Friday', 40),
+                                            _SalesData('Saturday', 40),
+                                            _SalesData('Sunday', 40),
                                           ],
                                           xValueMapper: (_SalesData sales, _) =>
                                               sales.year,
                                           yValueMapper: (_SalesData sales, _) =>
                                               sales.sales,
-                                          name: S
-                                              .of(context)
-                                              .home_driver_chart_sales,
                                           color: Theme.of(context).primaryColor,
                                           borderRadius: BorderRadius.only(
                                             topLeft: Radius.circular(5),
@@ -548,486 +723,272 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                                     ),
                                   ),
                                 ],
-                              );
-                            });
-                          } else {
-                            return Shimmer.fromColors(
-                              baseColor: Theme.of(context)
-                                  .colorScheme
-                                  .primaryContainer,
-                              highlightColor:
-                                  Theme.of(context).scaffoldBackgroundColor,
-                              enabled: true,
-                              child: Container(
-                                height: 360.h,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(7.r),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      height: 70.h,
-                                      width: MediaQuery.of(context).size.width,
-                                      padding: EdgeInsets.all(7.r),
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(12.r),
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                    SizedBox(height: 20.h),
+                    BlocBuilder<DriverCreateTripOrNotCubit,
+                        DriverCreateTripOrNotState>(
+                      builder: (context, state) {
+                        if (state is DriverCreateTripOrNotSuccess) {
+                          return InkWell(
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () => Navigator.pushNamed(
+                              context,
+                              AppRoutesName.createdTripDetailsScreenRoute,
+                              arguments: state.trip,
+                            ),
+                            child: SizedBox(
+                              height: 40.h,
+                              width: MediaQuery.of(context).size.width,
+                              child: CarouselSlider(
+                                items: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Column(
+                                        children: [
+                                          _CreatedTripDetailRow(
+                                            iconRotation: math.pi / 4,
+                                            label:
+                                                "${S.of(context).home_driver_trip_from}${state.trip.fromLocation!.displayName}",
+                                          ),
+                                          _CreatedTripDetailRow(
+                                            iconRotation: -3 * math.pi / 4,
+                                            label:
+                                                "${S.of(context).home_driver_trip_to}${state.trip.toLocation!.displayName}",
+                                          ),
+                                        ],
                                       ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      _CreatedTripDetailRow(
+                                        icon: Iconsax.money,
+                                        label:
+                                            "${S.of(context).home_driver_trip_price}${state.trip.pricePerSeat.toString()}",
+                                      ),
+                                      _CreatedTripDetailRow(
+                                        icon: Iconsax.user,
+                                        label:
+                                            "${S.of(context).home_driver_trip_seats}${state.trip.basicInfo?.availableSeats.toString()}",
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      _CreatedTripDetailRow(
+                                        icon: Iconsax.timer,
+                                        label:
+                                            "${S.of(context).home_driver_trip_departure}${state.trip.basicInfo?.formattedDepartureTime}",
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                                options: CarouselOptions(
+                                  height: 120,
+                                  autoPlay: true,
+                                  autoPlayInterval: Duration(seconds: 3),
+                                  autoPlayAnimationDuration:
+                                      Duration(milliseconds: 600),
+                                  autoPlayCurve: Curves.linear,
+                                  enableInfiniteScroll: true,
+                                  pauseAutoPlayOnTouch: false,
+                                  pauseAutoPlayOnManualNavigate: false,
+                                  viewportFraction: 1.0,
+                                ),
+                              ),
+                            ),
+                          );
+                        } else if (state is DriverCreateTripOrNotLoading) {
+                          return Shimmer.fromColors(
+                            baseColor:
+                                Theme.of(context).colorScheme.primaryContainer,
+                            highlightColor:
+                                Theme.of(context).scaffoldBackgroundColor,
+                            enabled: true,
+                            child: SizedBox(
+                              height: 40.h,
+                              width: MediaQuery.of(context).size.width,
+                              child: CarouselSlider(
+                                items: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Column(
                                         children: [
                                           Container(
-                                            height: 15.h,
                                             width: 100.w,
-                                            padding: EdgeInsets.all(7.r),
+                                            height: 14.h,
                                             decoration: BoxDecoration(
-                                                color: Theme.of(context)
-                                                    .scaffoldBackgroundColor,
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(5.r))),
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primaryContainer,
+                                              borderRadius:
+                                                  BorderRadius.circular(4.r),
+                                            ),
                                           ),
                                           SizedBox(height: 5.h),
                                           Container(
-                                            height: 15.h,
-                                            width: 200.w,
-                                            padding: EdgeInsets.all(7.r),
+                                            width: 150.w,
+                                            height: 14.h,
                                             decoration: BoxDecoration(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primaryContainer,
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(5.r))),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(height: 10.h),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  2 -
-                                              20,
-                                          height: 65.h,
-                                          padding: EdgeInsets.all(7.r),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(12.r),
-                                          ),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Container(
-                                                height: 15.h,
-                                                width: 80.w,
-                                                padding: EdgeInsets.all(7.r),
-                                                decoration: BoxDecoration(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .primaryContainer,
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                5.r))),
-                                              ),
-                                              SizedBox(height: 5.h),
-                                              Container(
-                                                height: 15.h,
-                                                width: 130.w,
-                                                padding: EdgeInsets.all(7.r),
-                                                decoration: BoxDecoration(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .primaryContainer,
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                5.r))),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Container(
-                                          width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  2 -
-                                              20,
-                                          height: 65.h,
-                                          padding: EdgeInsets.all(7.r),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(12.r),
-                                          ),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Container(
-                                                height: 15.h,
-                                                width: 80.w,
-                                                padding: EdgeInsets.all(7.r),
-                                                decoration: BoxDecoration(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .primaryContainer,
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                5.r))),
-                                              ),
-                                              SizedBox(height: 5.h),
-                                              Container(
-                                                height: 15.h,
-                                                width: 130.w,
-                                                padding: EdgeInsets.all(7.r),
-                                                decoration: BoxDecoration(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .primaryContainer,
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                5.r))),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(height: 10.h),
-                                    SizedBox(
-                                      height: 200.h,
-                                      child: SfCartesianChart(
-                                        enableAxisAnimation: true,
-                                        primaryXAxis: CategoryAxis(
-                                          axisLine: AxisLine(width: 0),
-                                          majorGridLines:
-                                              MajorGridLines(width: 0),
-                                          majorTickLines:
-                                              MajorTickLines(width: 0),
-                                        ),
-                                        primaryYAxis: NumericAxis(
-                                          minimum: 0,
-                                          maximum: 50,
-                                          interval: 7,
-                                          axisLine: AxisLine(width: 0),
-                                          majorTickLines:
-                                              MajorTickLines(width: 0),
-                                        ),
-                                        series: <CartesianSeries<_SalesData,
-                                            String>>[
-                                          ColumnSeries<_SalesData, String>(
-                                            width: 0.2,
-                                            dataSource: [
-                                              _SalesData('Monday', 35),
-                                              _SalesData('Tuesday', 28),
-                                              _SalesData('Wednesday', 34),
-                                              _SalesData('Thursday', 32),
-                                              _SalesData('Friday', 40),
-                                              _SalesData('Saturday', 40),
-                                              _SalesData('Sunday', 40),
-                                            ],
-                                            xValueMapper:
-                                                (_SalesData sales, _) =>
-                                                    sales.year,
-                                            yValueMapper:
-                                                (_SalesData sales, _) =>
-                                                    sales.sales,
-                                            color:
-                                                Theme.of(context).primaryColor,
-                                            borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(5),
-                                              topRight: Radius.circular(5),
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primaryContainer,
+                                              borderRadius:
+                                                  BorderRadius.circular(4.r),
                                             ),
-                                          )
+                                          ),
                                         ],
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Container(
+                                        width: 100.w,
+                                        height: 14.h,
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primaryContainer,
+                                          borderRadius:
+                                              BorderRadius.circular(4.r),
+                                        ),
+                                      ),
+                                      Container(
+                                        width: 100.w,
+                                        height: 14.h,
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primaryContainer,
+                                          borderRadius:
+                                              BorderRadius.circular(4.r),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Container(
+                                        width: 100.w,
+                                        height: 14.h,
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primaryContainer,
+                                          borderRadius:
+                                              BorderRadius.circular(4.r),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                                options: CarouselOptions(
+                                  height: 120,
+                                  autoPlay: true,
+                                  autoPlayInterval: Duration(seconds: 3),
+                                  autoPlayAnimationDuration:
+                                      Duration(milliseconds: 600),
+                                  autoPlayCurve: Curves.linear,
+                                  enableInfiniteScroll: true,
+                                  pauseAutoPlayOnTouch: false,
+                                  pauseAutoPlayOnManualNavigate: false,
+                                  viewportFraction: 1.0,
                                 ),
                               ),
-                            );
-                          }
-                        },
-                      ),
-                      SizedBox(height: 20.h),
-                      BlocBuilder<DriverCreateTripOrNotCubit,
-                          DriverCreateTripOrNotState>(
-                        builder: (context, state) {
-                          if (state is DriverCreateTripOrNotSuccess) {
-                            return InkWell(
-                              focusColor: Colors.transparent,
-                              hoverColor: Colors.transparent,
-                              splashColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onTap: () => Navigator.pushNamed(
+                            ),
+                          );
+                        } else {
+                          return ElevatedButton(
+                            onPressed: () {
+                              Navigator.pushNamed(
                                 context,
-                                AppRoutesName.createdTripDetailsScreenRoute,
-                                arguments: state.trip,
-                              ),
-                              child: SizedBox(
-                                height: 40.h,
-                                width: MediaQuery.of(context).size.width,
-                                child: CarouselSlider(
-                                  items: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Column(
-                                          children: [
-                                            _CreatedTripDetailRow(
-                                              iconRotation: math.pi / 4,
-                                              label:
-                                                  "${S.of(context).home_driver_trip_from}${state.trip.fromLocation!.displayName}",
-                                            ),
-                                            _CreatedTripDetailRow(
-                                              iconRotation: -3 * math.pi / 4,
-                                              label:
-                                                  "${S.of(context).home_driver_trip_to}${state.trip.toLocation!.displayName}",
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        _CreatedTripDetailRow(
-                                          icon: Iconsax.money,
-                                          label:
-                                              "${S.of(context).home_driver_trip_price}${state.trip.pricePerSeat.toString()}",
-                                        ),
-                                        _CreatedTripDetailRow(
-                                          icon: Iconsax.user,
-                                          label:
-                                              "${S.of(context).home_driver_trip_seats}${state.trip.basicInfo?.availableSeats.toString()}",
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        _CreatedTripDetailRow(
-                                          icon: Iconsax.timer,
-                                          label:
-                                              "${S.of(context).home_driver_trip_departure}${state.trip.basicInfo?.formattedDepartureTime}",
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                  options: CarouselOptions(
-                                    height: 120,
-                                    autoPlay: true,
-                                    autoPlayInterval: Duration(seconds: 3),
-                                    autoPlayAnimationDuration:
-                                        Duration(milliseconds: 600),
-                                    autoPlayCurve: Curves.linear,
-                                    enableInfiniteScroll: true,
-                                    pauseAutoPlayOnTouch: false,
-                                    pauseAutoPlayOnManualNavigate: false,
-                                    viewportFraction: 1.0,
+                                AppRoutesName.driverCreateTripScreenRoute,
+                              );
+                            },
+                            child: Text(S.of(context).home_driver_create_trip),
+                          );
+                        }
+                      },
+                    ),
+                    SizedBox(height: 20.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          S.of(context).home_driver_recent_orders,
+                          style:
+                              Theme.of(context).textTheme.titleSmall!.copyWith(
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                ),
-                              ),
-                            );
-                          } else if (state is DriverCreateTripOrNotLoading) {
-                            return Shimmer.fromColors(
-                              baseColor: Theme.of(context)
-                                  .colorScheme
-                                  .primaryContainer,
-                              highlightColor:
-                                  Theme.of(context).scaffoldBackgroundColor,
-                              enabled: true,
-                              child: SizedBox(
-                                height: 40.h,
-                                width: MediaQuery.of(context).size.width,
-                                child: CarouselSlider(
-                                  items: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Column(
-                                          children: [
-                                            Container(
-                                              width: 100.w,
-                                              height: 14.h,
-                                              decoration: BoxDecoration(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primaryContainer,
-                                                borderRadius:
-                                                    BorderRadius.circular(4.r),
-                                              ),
-                                            ),
-                                            SizedBox(height: 5.h),
-                                            Container(
-                                              width: 150.w,
-                                              height: 14.h,
-                                              decoration: BoxDecoration(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primaryContainer,
-                                                borderRadius:
-                                                    BorderRadius.circular(4.r),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                        ),
+                      ],
+                    ),
+                    BlocBuilder<ActiveTripRequestsCubit,
+                        ActiveTripRequestsState>(
+                      builder: (context, state) {
+                        if (state is ActiveTripRequestsSuccess) {
+                          return state.tripList.isEmpty
+                              ? EmptyDataWidget(
+                                  image: Assets
+                                      .imageEmptyImageEmptyActivePassenger,
+                                  text: S
+                                      .of(context)
+                                      .home_driver_no_active_passengers,
+                                )
+                              : ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount: state.tripList.length,
+                                  itemBuilder: (context, index) {
+                                    return _recentOrderWidget(
+                                      context,
+                                      state.tripList[index],
+                                      [
+                                        state.tripList[index].fromLocation,
+                                        state.tripList[index].toLocation,
                                       ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Container(
-                                          width: 100.w,
-                                          height: 14.h,
-                                          decoration: BoxDecoration(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primaryContainer,
-                                            borderRadius:
-                                                BorderRadius.circular(4.r),
-                                          ),
-                                        ),
-                                        Container(
-                                          width: 100.w,
-                                          height: 14.h,
-                                          decoration: BoxDecoration(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primaryContainer,
-                                            borderRadius:
-                                                BorderRadius.circular(4.r),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Container(
-                                          width: 100.w,
-                                          height: 14.h,
-                                          decoration: BoxDecoration(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primaryContainer,
-                                            borderRadius:
-                                                BorderRadius.circular(4.r),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                  options: CarouselOptions(
-                                    height: 120,
-                                    autoPlay: true,
-                                    autoPlayInterval: Duration(seconds: 3),
-                                    autoPlayAnimationDuration:
-                                        Duration(milliseconds: 600),
-                                    autoPlayCurve: Curves.linear,
-                                    enableInfiniteScroll: true,
-                                    pauseAutoPlayOnTouch: false,
-                                    pauseAutoPlayOnManualNavigate: false,
-                                    viewportFraction: 1.0,
-                                  ),
-                                ),
-                              ),
-                            );
-                          } else {
-                            return ElevatedButton(
-                              onPressed: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  AppRoutesName.driverCreateTripScreenRoute,
+                                    );
+                                  },
                                 );
-                              },
-                              child:
-                                  Text(S.of(context).home_driver_create_trip),
-                            );
-                          }
-                        },
-                      ),
-                      SizedBox(height: 20.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            S.of(context).home_driver_recent_orders,
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall!
-                                .copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                          ),
-                        ],
-                      ),
-                      BlocBuilder<ActiveTripRequestsCubit,
-                          ActiveTripRequestsState>(
-                        builder: (context, state) {
-                          if (state is ActiveTripRequestsSuccess) {
-                            return state.tripList.isEmpty
-                                ? EmptyDataWidget(
-                                    image: Assets
-                                        .imageEmptyImageEmptyActivePassenger,
-                                    text: S
-                                        .of(context)
-                                        .home_driver_no_active_passengers,
-                                  )
-                                : ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemCount: state.tripList.length,
-                                    itemBuilder: (context, index) {
-                                      return _recentOrderWidget(
-                                        context,
-                                        state.tripList[index],
-                                        [
-                                          state.tripList[index].fromLocation,
-                                          state.tripList[index].toLocation,
-                                        ],
-                                      );
-                                    },
-                                  );
-                          } else {
-                            return ListView.builder(
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) =>
-                                  TripShimmerWidget(),
-                              itemCount: 5,
-                            );
-                          }
-                        },
-                      )
-                    ],
-                  ),
+                        } else {
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) =>
+                                TripShimmerWidget(),
+                            itemCount: 5,
+                          );
+                        }
+                      },
+                    )
+                  ],
                 ),
-              );
-            } else {
-              return NoInternetScreen();
-            }
-          },
-        ),
+              ),
+            );
+          } else {
+            return NoInternetScreen();
+          }
+        },
       ),
     );
   }

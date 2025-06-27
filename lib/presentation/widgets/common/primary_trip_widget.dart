@@ -1,5 +1,4 @@
 import 'dart:math' as math;
-import 'package:animations/animations.dart';
 import 'package:aoun_app/core/constant/constant.dart';
 import 'package:aoun_app/data/model/trip_models/trip_model/trip_model.dart';
 import 'package:aoun_app/generated/l10n.dart';
@@ -13,15 +12,17 @@ class TripWidget extends StatelessWidget {
   TripModel trip;
   @override
   Widget build(BuildContext context) {
-    return OpenContainer(
-      closedElevation: 0,
-      openElevation: 0,
-      closedColor: Theme.of(context).scaffoldBackgroundColor,
-      transitionType: ContainerTransitionType.fadeThrough,
-      openBuilder: (context, action) => TripDetailsScreen(
-        tripModel: trip,
-      ),
-      closedBuilder: (context, action) => Padding(
+    return InkWell(
+      focusColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TripDetailsScreen(tripModel: trip),
+          )),
+      child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 7),
         child: Container(
           height: 80.h,

@@ -1002,7 +1002,7 @@ class _RegisterDriverScreenState extends State<DriverRegisterScreen> {
                   if (year == null ||
                       year < 2000 ||
                       year > DateTime.now().year) {
-                    return "${S.of(context).driver_register_year_range} ${DateTime.now().year}.";
+                    return "${S.of(context).driver_register_year_range(DateTime.now().year)}.";
                   }
                   return null;
                 },

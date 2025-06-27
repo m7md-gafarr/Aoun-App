@@ -26,17 +26,23 @@ class HomeUserScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeUserScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  @override
+  void initState() {
+    super.initState();
 
-  // @override
-  // void didChangeDependencies() async {
-  //   context.read<RecommendationTripCubit>().getTrips(context);
-  //   context.read<LocationProvider>().startListening(context);
-  //   context
-  //       .read<GetUserInfoCubit>()
-  //       .getUserInformation(context, forceRefresh: true);
-  //context.read<ViewAllDebitCardCubit>().fetchDebitcard();
-  //   super.didChangeDependencies();
-  // }
+    final currentState = context.read<CheckConnectionCubit>().state;
+    final hasInternet = currentState is CheckConnectionHasInternet;
+
+    if (hasInternet) {
+      context.read<RecommendationTripCubit>().getTrips(context);
+      context.read<LocationProvider>().startListening(context);
+      context
+          .read<GetUserInfoCubit>()
+          .getUserInformation(context, forceRefresh: true);
+      context.read<GetTripsCubit>().getTrips(includePast: false);
+      context.read<ViewAllDebitCardCubit>().fetchDebitcard();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,42 +53,93 @@ class _HomeScreenState extends State<HomeUserScreen> {
       },
       child: Scaffold(
         key: _scaffoldKey,
-        body: BlocListener<CheckConnectionCubit, CheckConnectionState>(
-          listener: (context, state) {
-            if (state is CheckConnectionHasInternet) {
-              context.read<RecommendationTripCubit>().getTrips(context);
-              context.read<LocationProvider>().startListening(context);
-              context
-                  .read<GetUserInfoCubit>()
-                  .getUserInformation(context, forceRefresh: true);
-              context.read<GetTripsCubit>().getTrips(includePast: false);
-              context.read<ViewAllDebitCardCubit>().fetchDebitcard();
-            }
-          },
-          child: BlocBuilder<CheckConnectionCubit, CheckConnectionState>(
-            builder: (context, state) {
-              if (state is CheckConnectionHasInternet ||
-                  state is CheckConnectionLoading) {
-                return NestedScrollView(
-                  headerSliverBuilder: (context, innerBoxIsScrolled) {
-                    return [
-                      SliverAppBar(
-                        automaticallyImplyLeading: false,
-                        pinned: false,
-                        snap: true,
-                        floating: true,
-                        stretch: true,
-                        actions: [
-                          SizedBox(width: 13.w),
-                          BlocBuilder<GetUserInfoCubit, GetUserInfoState>(
+        body: BlocBuilder<CheckConnectionCubit, CheckConnectionState>(
+          builder: (context, state) {
+            if (state is CheckConnectionHasInternet ||
+                state is CheckConnectionLoading) {
+              return NestedScrollView(
+                headerSliverBuilder: (context, innerBoxIsScrolled) {
+                  return [
+                    SliverAppBar(
+                      automaticallyImplyLeading: false,
+                      pinned: false,
+                      snap: true,
+                      floating: true,
+                      stretch: true,
+                      actions: [
+                        SizedBox(width: 13.w),
+                        BlocBuilder<GetUserInfoCubit, GetUserInfoState>(
+                          builder: (context, state) {
+                            if (state is GetUserInfoInitialSuccess) {
+                              final user = state.userModel;
+                              return Text(
+                                S.of(context).home_user_welcome(user.userName!),
+                                style: Theme.of(context).textTheme.titleSmall,
+                              );
+                            } else {
+                              return Shimmer.fromColors(
+                                baseColor: Theme.of(context)
+                                    .colorScheme
+                                    .primaryContainer,
+                                highlightColor:
+                                    Theme.of(context).scaffoldBackgroundColor,
+                                enabled: true,
+                                child: Container(
+                                  width: 150.w,
+                                  height: 16.w,
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .primaryContainer,
+                                    borderRadius: BorderRadius.circular(4.r),
+                                  ),
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                        Spacer(
+                          flex: 1,
+                        ),
+                        InkWell(
+                          focusColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onTap: () {
+                            print(Localizations.localeOf(context)
+                                .languageCode
+                                .toString());
+                          },
+                          child: Icon(
+                            Iconsax.notification,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                        SizedBox(width: 13.w),
+                        InkWell(
+                          focusColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onTap: () => Navigator.pushNamed(
+                              context, AppRoutesName.userProfileScreenRoute),
+                          child:
+                              BlocBuilder<GetUserInfoCubit, GetUserInfoState>(
                             builder: (context, state) {
                               if (state is GetUserInfoInitialSuccess) {
-                                final user = state.userModel;
-                                return Text(
-                                  S
-                                      .of(context)
-                                      .home_user_welcome(user.userName!),
-                                  style: Theme.of(context).textTheme.titleSmall,
+                                final userModel = state.userModel;
+                                return CircleAvatar(
+                                  maxRadius: 13.w,
+                                  backgroundImage: userModel.imgUrl != null &&
+                                          userModel.imgUrl!.isNotEmpty &&
+                                          !userModel.imgUrl!
+                                              .toLowerCase()
+                                              .endsWith("null")
+                                      ? NetworkImage(
+                                          "https://studentpathapitest.runasp.net/${userModel!.imgUrl!.replaceAll(r'\\', '/')}")
+                                      : const AssetImage(Assets.imageUser)
+                                          as ImageProvider,
                                 );
                               } else {
                                 return Shimmer.fromColors(
@@ -93,127 +150,60 @@ class _HomeScreenState extends State<HomeUserScreen> {
                                       Theme.of(context).scaffoldBackgroundColor,
                                   enabled: true,
                                   child: Container(
-                                    width: 150.w,
-                                    height: 16.w,
+                                    width: 35.w,
+                                    height: 35.w,
                                     decoration: BoxDecoration(
                                       color: Theme.of(context)
                                           .colorScheme
                                           .primaryContainer,
-                                      borderRadius: BorderRadius.circular(4.r),
+                                      borderRadius: BorderRadius.circular(50.r),
                                     ),
                                   ),
                                 );
                               }
                             },
                           ),
-                          Spacer(
-                            flex: 1,
-                          ),
-                          InkWell(
-                            focusColor: Colors.transparent,
-                            hoverColor: Colors.transparent,
-                            splashColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onTap: () {
-                              print(Localizations.localeOf(context)
-                                  .languageCode
-                                  .toString());
-                            },
-                            child: Icon(
-                              Iconsax.notification,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                          ),
-                          SizedBox(width: 13.w),
-                          InkWell(
-                            focusColor: Colors.transparent,
-                            hoverColor: Colors.transparent,
-                            splashColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onTap: () => Navigator.pushNamed(
-                                context, AppRoutesName.userProfileScreenRoute),
-                            child:
-                                BlocBuilder<GetUserInfoCubit, GetUserInfoState>(
-                              builder: (context, state) {
-                                if (state is GetUserInfoInitialSuccess) {
-                                  final userModel = state.userModel;
-                                  return CircleAvatar(
-                                    maxRadius: 13.w,
-                                    backgroundImage: userModel.imgUrl != null &&
-                                            userModel.imgUrl!.isNotEmpty &&
-                                            !userModel.imgUrl!
-                                                .toLowerCase()
-                                                .endsWith("null")
-                                        ? NetworkImage(
-                                            "https://studentpathapitest.runasp.net/${userModel!.imgUrl!.replaceAll(r'\\', '/')}")
-                                        : const AssetImage(Assets.imageUser)
-                                            as ImageProvider,
-                                  );
-                                } else {
-                                  return Shimmer.fromColors(
-                                    baseColor: Theme.of(context)
-                                        .colorScheme
-                                        .primaryContainer,
-                                    highlightColor: Theme.of(context)
-                                        .scaffoldBackgroundColor,
-                                    enabled: true,
-                                    child: Container(
-                                      width: 35.w,
-                                      height: 35.w,
-                                      decoration: BoxDecoration(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primaryContainer,
-                                        borderRadius:
-                                            BorderRadius.circular(50.r),
-                                      ),
-                                    ),
-                                  );
-                                }
-                              },
-                            ),
-                          ),
-                          SizedBox(width: 13.w),
-                        ],
-                      )
-                    ];
-                  },
-                  body: TransportScreen(),
-                );
-              } else {
-                return NestedScrollView(
-                  headerSliverBuilder: (context, innerBoxIsScrolled) {
-                    return [
-                      SliverAppBar(
-                        automaticallyImplyLeading: false,
-                        pinned: false,
-                        snap: true,
-                        floating: true,
-                        stretch: true,
-                        actions: [
-                          SizedBox(width: 13.w),
-                          Text(
-                            S.of(context).home_user_welcome("Gest"),
-                            style: Theme.of(context).textTheme.titleSmall,
-                          ),
-                          Spacer(
-                            flex: 1,
-                          ),
-                          CircleAvatar(
-                            maxRadius: 13.w,
-                            backgroundImage: const AssetImage(Assets.imageUser)
-                                as ImageProvider,
-                          ),
-                          SizedBox(width: 13.w),
-                        ],
-                      )
-                    ];
-                  },
-                  body: NoInternetScreen(),
-                );
-              }
-            },
-          ),
+                        ),
+                        SizedBox(width: 13.w),
+                      ],
+                    )
+                  ];
+                },
+                body: TransportScreen(),
+              );
+            } else {
+              return NestedScrollView(
+                headerSliverBuilder: (context, innerBoxIsScrolled) {
+                  return [
+                    SliverAppBar(
+                      automaticallyImplyLeading: false,
+                      pinned: false,
+                      snap: true,
+                      floating: true,
+                      stretch: true,
+                      actions: [
+                        SizedBox(width: 13.w),
+                        Text(
+                          S.of(context).home_user_welcome("Gest"),
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+                        Spacer(
+                          flex: 1,
+                        ),
+                        CircleAvatar(
+                          maxRadius: 13.w,
+                          backgroundImage: const AssetImage(Assets.imageUser)
+                              as ImageProvider,
+                        ),
+                        SizedBox(width: 13.w),
+                      ],
+                    )
+                  ];
+                },
+                body: NoInternetScreen(),
+              );
+            }
+          },
         ),
       ),
     );

@@ -230,7 +230,7 @@ class _TransportScreenState extends State<TransportScreen> {
             Icon(icon, size: 22.w),
             const SizedBox(width: 5),
             SizedBox(
-              width: 220.w,
+              width: 207.w,
               child: Text(
                 text,
                 overflow: TextOverflow.ellipsis,
