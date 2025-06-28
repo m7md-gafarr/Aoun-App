@@ -1,39 +1,39 @@
 ![Aoun App](./assets/banner.jpg)
 
-# 🚗 Aoun App - Ride Sharing Made Simple 📱
+# Aoun App - Ride Sharing Made Simple 
 
 **Aoun App** is a cross-platform ride-sharing and transportation mobile application built with **Flutter**, designed specifically for university students and local commuters. The app connects drivers offering rides with passengers seeking affordable, convenient travel options within local communities.  
 
 ---
 
-## ✨ Features
+##  Features
 
-### 🔐 Authentication System
+###  Authentication System
 - **OTP-based verification** for secure login and password reset
 - **Dual-role registration** with separate flows for drivers and passengers
 - **Session management** with persistent authentication using local storage
 - **Password recovery** with email verification 
 
-### 🚙 Driver Features
+###  Driver Features
 - **Trip Creation & Management** - Create trips with route selection and location-based planning
 - **Booking Management** - Accept/decline passenger requests and track trip status
 - **Vehicle Information** - Manage vehicle details, registration, and documentation
 - **Earnings & Wallet** - Track earnings, view transaction history, and manage withdrawals
 - **Dashboard Analytics** - View trip statistics and performance metrics 
-### 🧑‍🎓 Passenger Features
+###  Passenger Features
 - **Trip Discovery** - Search for available trips based on location and schedule
 - **Booking System** - Request trips and manage reservations
 - **Payment Integration** - Stripe-powered card payments and wallet functionality
 - **Trip History** - View past bookings and transaction records
 - **Real-time Tracking** - Track trip progress and driver location 
 
-### 🗺️ Location & Maps
+###  Location & Maps
 - **Google Maps Integration** - Real-time location tracking and route visualization
 - **GPS Services** - Accurate positioning and location-based services
 - **Route Planning** - Optimized route calculation and navigation
 - **Address Autocomplete** - Smart location search and suggestions 
 
-### 💳 Payment System
+###  Payment System
 - **Stripe Integration** - Secure payment processing
 - **Multiple Payment Methods** - Credit/debit cards and wallet balance
 - **Transaction History** - Detailed payment records and receipts
@@ -41,7 +41,7 @@
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 - Flutter SDK (3.5.4 or higher)
@@ -84,7 +84,7 @@
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 | Category | Technology | Purpose |
 |----------|------------|---------|
@@ -101,7 +101,7 @@
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 lib/
@@ -121,7 +121,7 @@ lib/
 └── main.dart                      # Application entry point
 ```
 
-## 🤝 Contributing
+##  Contributing
 
 We welcome contributions! Please follow these guidelines:
 
@@ -150,7 +150,7 @@ We welcome contributions! Please follow these guidelines:
 
 ---
 
-## 📱 Screenshots
+##  Screenshots
 
 | Feature | Screenshot |
 |---------|------------|
@@ -161,7 +161,7 @@ We welcome contributions! Please follow these guidelines:
 
 ---
 
-## 🌐 Internationalization
+##  Internationalization
 
 The app supports multiple languages:
 
@@ -173,13 +173,13 @@ Language is automatically detected based on the device's settings, with an optio
 
 ---
 
-## 📄 License
+##  License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 📞 Support & Contact
+##  Support & Contact
 
 - **Email**: m7md.gafarr@gmail.com
 - **GitHub Issues**: [Create an Issue](https://github.com/m7md-gafarr/Aoun-App/issues)
@@ -187,7 +187,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - **Flutter Team** - For the amazing framework
 - **Google Maps** - For location services
@@ -197,7 +197,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 📊 Project Status
+##  Project Status
 
 ![Build Status](https://github.com/m7md-gafarr/Aoun-App/workflows/Flutter%20CI/CD/badge.svg)
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
